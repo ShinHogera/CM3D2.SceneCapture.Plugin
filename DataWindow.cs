@@ -23,6 +23,8 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
+                Directory.CreateDirectory(PRESET_DIR);
+
                 this.savePanes = new List<SavePane>();
 
                 this.saveButton = new CustomButton();
@@ -144,8 +146,6 @@ namespace CM3D2.SceneCapture.Plugin
         private void SaveEnv( object sender, EventArgs args )
         {
             try {
-                Directory.CreateDirectory(PRESET_DIR);
-
                 string name = nameTextField.Value;
                 if (name == string.Empty)
                     return;
