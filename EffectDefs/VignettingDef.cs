@@ -56,7 +56,6 @@ namespace CM3D2.SceneCapture.Plugin
         {
             if (Instances.needEffectWindowReload == true)
             {
-                Debug.Log("NOW! " + (vignettingPane.IsEnabled) + " " + (vignettingEffect.enabled));
                 vignettingPane.IsEnabled = vignettingEffect.enabled;
 
             }

@@ -139,7 +139,6 @@ namespace CM3D2.SceneCapture.Plugin
                 SavePane pane = new SavePane( this.FontSize, Path.GetFileNameWithoutExtension(f.Name) );
                 this.savePanes.Add( pane );
                 this.ChildControls.Add( pane );
-                Debug.Log("Add pane " + f.FullName);
             }
         }
 

@@ -452,7 +452,6 @@ namespace CM3D2.SceneCapture.Plugin
             configEffectKey = configEffectKey.ToLower();
             configEnvironmentKey = configEnvironmentKey.ToLower();
             configDataKey = configDataKey.ToLower();
-            Debug.Log("changekey " + configEffectKey + " " + configEnvironmentKey + " " + configDataKey);
         }
 
         /// <summary>設定ファイルから string データを読む</summary>

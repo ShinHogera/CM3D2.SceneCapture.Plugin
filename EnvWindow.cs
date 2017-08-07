@@ -25,6 +25,7 @@ namespace CM3D2.SceneCapture.Plugin
             try
             {
                 this.allBackgrounds = new Dictionary<string, string>();
+                this.allBackgrounds.Add("", "");
                 foreach( var kvp in ConstantValues.Background )
                     this.allBackgrounds.Add(kvp.Key, kvp.Value);
                 string[] bgFiles = GameUty.FileSystem.GetList("bg", AFileSystemBase.ListType.AllFile)
@@ -110,18 +111,18 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void ShowPane()
         {
-            this.addLightButton.Left = this.Left + ControlBase.FixedMargin;
-            this.addLightButton.Top = this.Top + ControlBase.FixedMargin;
-            this.addLightButton.Width = this.Width / 2 - ControlBase.FixedMargin / 4;
-            this.addLightButton.Height = this.ControlHeight;
-            this.addLightButton.OnGUI();
+            this.backgroundBox.Left = this.Left + ControlBase.FixedMargin;
+            this.backgroundBox.Top = this.Top + ControlBase.FixedMargin;
+            this.backgroundBox.Width = this.Width / 2 - ControlBase.FixedMargin / 4;
+            this.backgroundBox.Height = this.ControlHeight;
+            this.backgroundBox.OnGUI();
 
-            GUIUtil.AddGUICheckbox( this, this.bgButton, this.addLightButton );
-            GUIUtil.AddGUICheckbox( this, this.backgroundBox, this.bgButton );
-            GUIUtil.AddGUICheckbox( this, this.modelBox, this.backgroundBox );
-            GUIUtil.AddGUICheckbox( this, this.addModelButton, this.modelBox );
+            // GUIUtil.AddGUICheckbox( this, this.bgButton, this.addLightButton );
+            GUIUtil.AddGUICheckbox( this, this.addLightButton, this.backgroundBox );
+            // GUIUtil.AddGUICheckbox( this, this.modelBox, this.backgroundBox );
+            // GUIUtil.AddGUICheckbox( this, this.addModelButton, this.modelBox );
 
-            ControlBase prev = this.addModelButton;
+            ControlBase prev = this.addLightButton;
             foreach( LightPane pane in this.lightPanes )
             {
                 GUIUtil.AddGUICheckbox( this, pane, prev );

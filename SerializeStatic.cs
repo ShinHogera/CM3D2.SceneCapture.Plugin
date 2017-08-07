@@ -189,7 +189,6 @@ namespace CM3D2.SceneCapture.Plugin
                 }
                 else
                 {
-                    Debug.Log(def.ToString());
                     if(typeof(BloomDef) == enabled_effect)
                     {
                         Debug.Log("Enabling bloom!");

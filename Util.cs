@@ -18,7 +18,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         internal static AssetBundle LoadAssetBundle(string name) {
             string path = SHADER_DIR + @"\"+ name + ".unity3d";
-            Debug.Log("loading " + path);
             byte[] bytes = File.ReadAllBytes(path);
             return AssetBundle.LoadFromMemory(bytes);
         }
