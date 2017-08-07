@@ -1467,9 +1467,7 @@ namespace CM3D2.SceneCapture.Plugin
                     GlobalColorPicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y), this.FontSize * 15, this.FontSize, this._value,
                                           (x) =>
                             {
-                                this._value = x;
-                                this._colorTex.SetPixel(0, 0, x);
-                                this._colorTex.Apply();
+                                this.Value = x;
                                 this.ColorChanged(this, new EventArgs());
                             });
                 }
@@ -1489,8 +1487,11 @@ namespace CM3D2.SceneCapture.Plugin
             }
 
             set
+
             {
                 this._value = value;
+                this._colorTex.SetPixel(0, 0, value);
+                this._colorTex.Apply();
             }
         }
 

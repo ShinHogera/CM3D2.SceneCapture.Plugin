@@ -222,6 +222,23 @@ namespace CM3D2.SceneCapture.Plugin
             this.Height = GUIUtil.GetHeightForParent(this);
         }
 
+        public void UpdateFromLight()
+        {
+            this.lightTypeComboBox.SelectedIndex = (int)light.type;
+            this.lightEnableToggle.Value = light.enabled;
+            this.lightDragToggle.Value = false;
+            this.lightRotationXSlider.Value = light.transform.eulerAngles.x;
+            this.lightRotationYSlider.Value = light.transform.eulerAngles.y;
+            this.lightRotationZSlider.Value = light.transform.eulerAngles.z;
+            this.lightRangeSlider.Value = light.range;
+            this.spotLightAngleSlider.Value = light.spotAngle;
+            this.lightColorPicker.Value = light.color;
+            this.shadowsBox.SelectedIndex = (int)light.shadows;
+            this.shadowStrengthSlider.Value = light.shadowStrength;
+            this.shadowBiasSlider.Value = light.shadowBias;
+            this.shadowNormalBiasSlider.Value = light.shadowNormalBias;
+        }
+
         private void SwitchLightType( object sender, EventArgs args)
         {
             LightType type = ( LightType )Enum.Parse( typeof( LightType ), this.lightTypeComboBox.SelectedItem );
