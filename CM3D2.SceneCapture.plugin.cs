@@ -111,7 +111,7 @@ namespace CM3D2.SceneCapture.Plugin
                 if(true)
                 {
                     // F10押下
-                    if( Input.GetKeyDown( KeyCode.Z ) )
+                    if( Input.GetKeyDown( configEffectKey ) )
                     {
                         if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Effect )
                         {
@@ -123,7 +123,7 @@ namespace CM3D2.SceneCapture.Plugin
                         }
                     }
                     // F11押下
-                    else if( Input.GetKeyDown( KeyCode.X ) )
+                    else if( Input.GetKeyDown( configEnvironmentKey ) )
                     {
                         if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Environment )
                         {
@@ -135,7 +135,7 @@ namespace CM3D2.SceneCapture.Plugin
                         }
                     }
                     // C押下
-                    else if( Input.GetKeyDown( KeyCode.C ) )
+                    else if( Input.GetKeyDown( configDataKey ) )
                     {
                         if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Data )
                         {
@@ -452,6 +452,7 @@ namespace CM3D2.SceneCapture.Plugin
             configEffectKey = configEffectKey.ToLower();
             configEnvironmentKey = configEnvironmentKey.ToLower();
             configDataKey = configDataKey.ToLower();
+            Debug.Log("changekey " + configEffectKey + " " + configEnvironmentKey + " " + configDataKey);
         }
 
         /// <summary>設定ファイルから string データを読む</summary>
