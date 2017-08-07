@@ -45,11 +45,6 @@ namespace CM3D2.SceneCapture.Plugin
                 this.addLightButton.Click += AddLightButtonPressed;
                 this.ChildControls.Add( this.addLightButton );
 
-                this.addModelButton = new CustomButton();
-                this.addModelButton.Text = "Add Model";
-                this.addModelButton.Click += AddModelButtonPressed;
-                this.ChildControls.Add( this.addModelButton );
-
                 this.bgButton = new CustomButton();
                 this.bgButton.Text = "bg";
                 this.bgButton.Click += BGButtonPressed;
@@ -61,12 +56,6 @@ namespace CM3D2.SceneCapture.Plugin
                 this.backgroundBox.SelectedIndex = 0;
                 this.backgroundBox.SelectedIndexChanged += this.ChangeBackground;
                 this.ChildControls.Add( this.backgroundBox );
-
-                this.modelBox = new CustomComboBox( this.allModels.ToArray() );
-                this.modelBox.FontSize = this.FontSize;
-                this.modelBox.Text = "Model Type";
-                this.modelBox.SelectedIndex = 0;
-                this.ChildControls.Add( this.modelBox );
 
                 this.addedLightInstance = new Dictionary<String, GameObject>();
                 this.addedModelInstance = new Dictionary<string, GameObject>();
@@ -117,8 +106,8 @@ namespace CM3D2.SceneCapture.Plugin
             this.backgroundBox.Height = this.ControlHeight;
             this.backgroundBox.OnGUI();
 
-            // GUIUtil.AddGUICheckbox( this, this.bgButton, this.addLightButton );
-            GUIUtil.AddGUICheckbox( this, this.addLightButton, this.backgroundBox );
+            GUIUtil.AddGUICheckbox( this, this.bgButton, this.backgroundBox );
+            GUIUtil.AddGUICheckbox( this, this.addLightButton, this.bgButton );
             // GUIUtil.AddGUICheckbox( this, this.modelBox, this.backgroundBox );
             // GUIUtil.AddGUICheckbox( this, this.addModelButton, this.modelBox );
 
@@ -149,24 +138,10 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
-        private void AddModelButtonPressed( object sender, EventArgs args )
+        private void AddModel( string modelName )
         {
-            string modelName = this.modelBox.SelectedItem;
-            AFileBase file = GameUty.FileOpen(modelName);
-            Debug.Log("size " + file.GetSize());
-
-            if( !file.IsValid() || file.GetSize() == 0 )
-            {
-                string name = modelName.Replace(@"model\", "");
-                Debug.Log("try " + name);
-                file = GameUty.FileOpen(name);
-                if( file.GetSize() == 0 || !file.IsValid() )
-                {
-                    Debug.LogError("File not valid");
-                    return;
-                }
-            }
-            GameObject model = LoadMesh(file.ReadAll());
+            GameObject model = AssetLoader.LoadMesh(modelName);
+            Debug.Log("Load model " + modelName);
             model.AddComponent<GizmoRenderTarget>().Visible = true;
             model.GetComponent<GizmoRenderTarget>().eRotate = false;
             model.GetComponent<GizmoRenderTarget>().eAxis = true;
@@ -222,31 +197,57 @@ namespace CM3D2.SceneCapture.Plugin
 
         private void BGButtonPressed( object sender, EventArgs args )
         {
-            if (GameMain.Instance.CharacterMgr.GetMaidCount() > 0)
+            if(!GlobalItemPicker.MenusAreSet())
             {
-                foreach(TBodySkin skin in GameMain.Instance.CharacterMgr.GetMaid(0).body0.goSlot){
-                    Debug.Log(skin.m_strModelFileName);
-                    AFileBase file = GameUty.FileOpen(skin.m_strModelFileName);
-                    if(file.IsValid()) {
-                        Debug.Log(file.GetSize());
+                string[] menuFiles = GameUty.FileSystem.GetList("menu", AFileSystemBase.ListType.AllFile)
+                    .Where(f => f.EndsWith("menu")).ToArray();
+                List<MenuInfo> menus = new List<MenuInfo>();
+                // foreach(string menu in menuFiles)
+                for(int i = 0; i < 100; i++)
+                {
+                    try {
+                        MenuInfo mi = AssetLoader.LoadMenu(menuFiles[i]);
+
+                        menus.Add(mi);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log( e );
                     }
                 }
+                GlobalItemPicker.SetMenus(menus);
             }
+
+            GlobalItemPicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y),
+                                 this.FontSize * 24,
+                                 this.FontSize,
+                                 this.AddModel);
+
+            // if (GameMain.Instance.CharacterMgr.GetMaidCount() > 0)
+            // {
+            //     foreach(TBodySkin skin in GameMain.Instance.CharacterMgr.GetMaid(0).body0.goSlot){
+            //         Debug.Log(skin.m_strModelFileName);
+            //         AFileBase file = GameUty.FileOpen(skin.m_strModelFileName);
+            //         if(file.IsValid()) {
+            //             Debug.Log(file.GetSize());
+            //         }
+            //     }
+            // }
             // foreach(var a in )
             // {
             //     var open = GameUty.FileOpen(a);
             //     Debug.Log(a + " " + open.GetSize());
             // }
 
-            foreach (Transform child in GameMain.Instance.BgMgr.current_bg_object.transform) {
-                GameObject o = child.gameObject;
-                Debug.Log(o);
-                MeshFilter mes = o.GetComponent<MeshFilter>();
-                if(mes != null) {
-                    Debug.Log("GET");
-                    o.AddComponent<MeshCollider>().sharedMesh = mes.sharedMesh;
-                }
-            }
+            // foreach (Transform child in GameMain.Instance.BgMgr.current_bg_object.transform) {
+            //     GameObject o = child.gameObject;
+            //     Debug.Log(o);
+            //     MeshFilter mes = o.GetComponent<MeshFilter>();
+            //     if(mes != null) {
+            //         Debug.Log("GET");
+            //         o.AddComponent<MeshCollider>().sharedMesh = mes.sharedMesh;
+            //     }
+            // }
 
 
             // foreach (var t in GameUty.BgFiles)
@@ -469,349 +470,10 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
-        public static GameObject LoadMesh(byte[] data) {
-            using (BinaryReader r = new BinaryReader(new MemoryStream(data)) )
-            {
-                int layer = 0;
-                // TBodySkin.OriVert oriVert = bodyskin.m_OriVert;
-                GameObject gameObject1 = UnityEngine.Object.Instantiate(Resources.Load("seed")) as GameObject;
-                gameObject1.layer = layer;
-                GameObject gameObject2 = (GameObject) null;
-                Hashtable hashtable = new Hashtable();
-
-                string str1 = r.ReadString();
-                Debug.Log("str1 " + str1);
-                if (str1 != "CM3D2_MESH") {
-                    return null;
-                }
-                r.ReadInt32();
-                string str2 = r.ReadString();
-                Debug.Log("str2 " + str2);
-                string str3 = r.ReadString();
-                Debug.Log("str3 " + str3);
-                int num = r.ReadInt32();
-                List<GameObject> gameObjectList = new List<GameObject>();
-                for (int index = 0; index < num; ++index)
-                {
-                    GameObject gameObject3 = UnityEngine.Object.Instantiate(Resources.Load("seed")) as GameObject;
-                    gameObject3.layer = layer;
-                    gameObject3.name = r.ReadString();
-                    Debug.Log("name " + gameObject3.name);
-                    gameObjectList.Add(gameObject3);
-                    if (gameObject3.name == str3)
-                        gameObject2 = gameObject3;
-                    hashtable[(object) gameObject3.name] = (object) gameObject3;
-                    if ((int) r.ReadByte() != 0)
-                    {
-                        GameObject gameObject4 = UnityEngine.Object.Instantiate(Resources.Load("seed")) as GameObject;
-                        gameObject4.name = gameObject3.name + "_SCL_";
-                        gameObject4.transform.parent = gameObject3.transform;
-                        hashtable[(object) (gameObject3.name + "&_SCL_")] = (object) gameObject4;
-                    }
-                }
-                for (int index1 = 0; index1 < num; ++index1)
-                {
-                    int index2 = r.ReadInt32();
-                    gameObjectList[index1].transform.parent = index2 < 0 ? gameObject1.transform : gameObjectList[index2].transform;
-                }
-                for (int index = 0; index < num; ++index)
-                {
-                    Transform transform = gameObjectList[index].transform;
-                    float x1 = r.ReadSingle();
-                    float y1 = r.ReadSingle();
-                    float z1 = r.ReadSingle();
-                    transform.localPosition = new Vector3(x1, y1, z1);
-                    float x2 = r.ReadSingle();
-                    float y2 = r.ReadSingle();
-                    float z2 = r.ReadSingle();
-                    float w = r.ReadSingle();
-                    transform.localRotation = new Quaternion(x2, y2, z2, w);
-                }
-                int length1 = r.ReadInt32();
-                int length2 = r.ReadInt32();
-                int length3 = r.ReadInt32();
-                // oriVert.VCount = length1;
-                // oriVert.nSubMeshCount = length2;
-                gameObject2.AddComponent(typeof (SkinnedMeshRenderer));
-                gameObject1.AddComponent(typeof (Animation));
-                SkinnedMeshRenderer component = gameObject2.GetComponent<Renderer>() as SkinnedMeshRenderer;
-                component.updateWhenOffscreen = true;
-
-                // if (!bodyskin.body.boMAN)
-                // {
-                //     if (slotname == "head")
-                //         component.castShadows = false;
-                //     if (bodyskin.Category == "chikubi")
-                //         component.castShadows = false;
-                //     if (bodyskin.Category.IndexOf("seieki_") == 0)
-                //         component.castShadows = false;
-                // }
-
-                // NOTE
-                // bodyskin.listDEL.Add((UnityEngine.Object) gameObject2);
-                Transform[] transformArray = new Transform[length3];
-                for (int index = 0; index < length3; ++index)
-                {
-                    string str4 = r.ReadString();
-                    Debug.Log("str4 " + str4);
-                    if (!hashtable.ContainsKey((object) str4))
-                    {
-                        Debug.LogError((object) ("nullbone= " + str4));
-                    }
-                    else
-                    {
-                        GameObject gameObject3 = !hashtable.ContainsKey((object) (str4 + "&_SCL_")) ? (GameObject) hashtable[(object) str4] : (GameObject) hashtable[(object) (str4 + "&_SCL_")];
-                        transformArray[index] = gameObject3.transform;
-                    }
-                }
-                component.bones = transformArray;
-                Mesh mesh1 = new Mesh();
-                component.sharedMesh = mesh1;
-                Mesh mesh2 = mesh1;
-                // bodyskin.listDEL.Add((UnityEngine.Object) mesh2);
-                Matrix4x4[] matrix4x4Array = new Matrix4x4[length3];
-                for (int index1 = 0; index1 < length3; ++index1)
-                {
-                    for (int index2 = 0; index2 < 16; ++index2)
-                        matrix4x4Array[index1][index2] = r.ReadSingle();
-                }
-                mesh2.bindposes = matrix4x4Array;
-                Vector3[] vector3Array1 = new Vector3[length1];
-                Vector3[] vector3Array2 = new Vector3[length1];
-                Vector2[] vector2Array = new Vector2[length1];
-                BoneWeight[] boneWeightArray = new BoneWeight[length1];
-                for (int index = 0; index < length1; ++index)
-                {
-                    float new_x1 = r.ReadSingle();
-                    float new_y1 = r.ReadSingle();
-                    float new_z1 = r.ReadSingle();
-                    vector3Array1[index].Set(new_x1, new_y1, new_z1);
-                    float new_x2 = r.ReadSingle();
-                    float new_y2 = r.ReadSingle();
-                    float new_z2 = r.ReadSingle();
-                    vector3Array2[index].Set(new_x2, new_y2, new_z2);
-                    float new_x3 = r.ReadSingle();
-                    float new_y3 = r.ReadSingle();
-                    vector2Array[index].Set(new_x3, new_y3);
-                }
-                mesh2.vertices = vector3Array1;
-                mesh2.normals = vector3Array2;
-                mesh2.uv = vector2Array;
-                // oriVert.vOriVert = vector3Array1;
-                // oriVert.vOriNorm = vector3Array2;
-                int length4 = r.ReadInt32();
-                if (length4 > 0)
-                {
-                    Vector4[] vector4Array = new Vector4[length4];
-                    for (int index = 0; index < length4; ++index)
-                    {
-                        float x = r.ReadSingle();
-                        float y = r.ReadSingle();
-                        float z = r.ReadSingle();
-                        float w = r.ReadSingle();
-                        vector4Array[index] = new Vector4(x, y, z, w);
-                    }
-                    mesh2.tangents = vector4Array;
-                }
-                for (int index = 0; index < length1; ++index)
-                {
-                    boneWeightArray[index].boneIndex0 = (int) r.ReadUInt16();
-                    boneWeightArray[index].boneIndex1 = (int) r.ReadUInt16();
-                    boneWeightArray[index].boneIndex2 = (int) r.ReadUInt16();
-                    boneWeightArray[index].boneIndex3 = (int) r.ReadUInt16();
-                    boneWeightArray[index].weight0 = r.ReadSingle();
-                    boneWeightArray[index].weight1 = r.ReadSingle();
-                    boneWeightArray[index].weight2 = r.ReadSingle();
-                    boneWeightArray[index].weight3 = r.ReadSingle();
-                }
-                mesh2.boneWeights = boneWeightArray;
-                mesh2.subMeshCount = length2;
-                // oriVert.bwWeight = boneWeightArray;
-                // oriVert.nSubMeshCount = length2;
-                // oriVert.nSubMeshOriTri = new int[length2][];
-                for (int submesh = 0; submesh < length2; ++submesh)
-                {
-                    int length5 = r.ReadInt32();
-                    int[] triangles = new int[length5];
-                    for (int index = 0; index < length5; ++index)
-                        triangles[index] = (int) r.ReadUInt16();
-                    // oriVert.nSubMeshOriTri[submesh] = triangles;
-                    mesh2.SetTriangles(triangles, submesh);
-                }
-                int length6 = r.ReadInt32();
-                Material[] materialArray = new Material[length6];
-                for (int index = 0; index < length6; ++index)
-                {
-                    Material material = ReadMaterial(r, null);
-                    materialArray[index] = material;
-                }
-                Debug.Log("reach");
-                component.materials = materialArray;
-                r.Close();
-                return gameObject1;
-                while (true)
-                {
-                    string str4;
-                    do
-                    {
-                        str4 = r.ReadString();
-                        Debug.Log("str4 " + str4);
-                        if (str4 == "end")
-                            goto label_68;
-                    }
-                    while (!(str4 == "morph"));
-                }
-            label_68:
-                r.Close();
-                return gameObject1;
-            }
-        }
-
-
-        public static Material ReadMaterial(BinaryReader r, Material existmat)
-        {
-            Debug.Log("ReadMaterial");
-            string str1 = r.ReadString();
-            Debug.Log(str1);
-            string str2 = r.ReadString();
-            Debug.Log(str2);
-            string path = "DefMaterial/" + r.ReadString();
-            Debug.Log(path);
-            Material material = existmat;
-            if ((UnityEngine.Object) existmat == (UnityEngine.Object) null)
-            {
-                Material original = Resources.Load(path, typeof (Material)) as Material;
-                if ((UnityEngine.Object) original == (UnityEngine.Object) null)
-                    NDebug.Assert("DefMaterialが見つかりません。" + path);
-                material = UnityEngine.Object.Instantiate<Material>(original);
-            }
-            material.name = str1;
-            int hashCode = material.name.GetHashCode();
-            // if (ImportCM.m_hashPriorityMaterials != null && ImportCM.m_hashPriorityMaterials.ContainsKey(hashCode))
-            // {
-            //   KeyValuePair<string, float> priorityMaterial = ImportCM.m_hashPriorityMaterials[hashCode];
-            //   if (priorityMaterial.Key == material.name)
-            //   {
-            //     material.SetFloat("_SetManualRenderQueue", priorityMaterial.Value);
-            //     material.renderQueue = (int) priorityMaterial.Value;
-            //   }
-            // }
-            while (true)
-            {
-                string str3;
-                string propertyName;
-                string str4;
-                do
-                {
-                    str3 = r.ReadString();
-                    Debug.Log("str3 " + str3);
-                    if (!(str3 == "end"))
-                    {
-                        propertyName = r.ReadString();
-                        Debug.Log("propertyName " + propertyName);
-                        if (str3 == "tex")
-                        {
-                            str4 = r.ReadString();
-                            Debug.Log("str4 " + str4);
-                            if (str4 == "null")
-                                material.SetTexture(propertyName, (Texture) null);
-                            else if (str4 == "tex2d")
-                            {
-                                string str5 = r.ReadString();
-                                Debug.Log("str5 " + str5);
-                                r.ReadString();
-                                Texture2D texture = ImportCM.CreateTexture(str5 + ".tex");
-                                texture.name = str5;
-                                texture.wrapMode = TextureWrapMode.Clamp;
-                                material.SetTexture(propertyName, (Texture) texture);
-                                // if (bodyskin != null)
-                                //   bodyskin.listDEL.Add((UnityEngine.Object) texture);
-                                Vector2 offset;
-                                offset.x = r.ReadSingle();
-                                offset.y = r.ReadSingle();
-                                material.SetTextureOffset(propertyName, offset);
-                                Debug.Log("offset " + offset);
-                                Vector2 scale;
-                                scale.x = r.ReadSingle();
-                                scale.y = r.ReadSingle();
-                                material.SetTextureScale(propertyName, scale);
-                                Debug.Log("scale " + scale);
-                            }
-                        }
-                        else
-                            goto label_36;
-                    }
-                    else
-                        goto label_43;
-                }
-                while (!(str4 == "texRT"));
-                r.ReadString();
-                r.ReadString();
-                continue;
-            label_36:
-                if (str3 == "col")
-                {
-                    Color color;
-                    color.r = r.ReadSingle();
-                    color.g = r.ReadSingle();
-                    color.b = r.ReadSingle();
-                    color.a = r.ReadSingle();
-                    material.SetColor(propertyName, color);
-                }
-                else if (str3 == "vec")
-                {
-                    Vector4 vector;
-                    vector.x = r.ReadSingle();
-                    vector.y = r.ReadSingle();
-                    vector.z = r.ReadSingle();
-                    vector.w = r.ReadSingle();
-                    material.SetVector(propertyName, vector);
-                }
-                else if (str3 == "f")
-                {
-                    float num = r.ReadSingle();
-                    material.SetFloat(propertyName, num);
-                }
-                else
-                    Debug.LogError((object) ("マテリアルが読み込めません。不正なマテリアルプロパティ型です " + str3));
-            }
-        label_43:
-            return material;
-        }
-
-        public static void LoadMoprhData2(BinaryReader r)
-        {
-            string str = r.ReadString();
-            // int count = this.BlendDatas.Count;
-            // this.hash[(object) str] = (object) count;
-            // BlendData blendData = new BlendData();
-            // blendData.name = str;
-            int length = r.ReadInt32();
-            // blendData.vert = new Vector3[length];
-            // blendData.norm = new Vector3[length];
-            // blendData.v_index = new int[length];
-            for (int index = 0; index < length; ++index)
-            {
-                // blendData.v_index[index] = (int) r.ReadUInt16();
-                // blendData.vert[index].x = r.ReadSingle();
-                // blendData.vert[index].y = r.ReadSingle();
-                // blendData.vert[index].z = r.ReadSingle();
-                // blendData.norm[index].x = r.ReadSingle();
-                // blendData.norm[index].y = r.ReadSingle();
-                // blendData.norm[index].z = r.ReadSingle();
-            }
-            // ++this.MorphCount;
-            // this.BlendDatas.Add(blendData);
-            // this.BlendValues = new float[this.MorphCount + 1];
-            // this.BlendValuesCHK = new float[this.MorphCount + 1];
-        }
-
         #region Fields
         private CustomButton addLightButton = null;
-        private CustomButton addModelButton = null;
         private CustomButton bgButton = null;
         private CustomComboBox backgroundBox = null;
-        private CustomComboBox modelBox = null;
         private List<LightPane> lightPanes = null;
         private int lightsAdded = 0;
         private int modelsAdded = 0;

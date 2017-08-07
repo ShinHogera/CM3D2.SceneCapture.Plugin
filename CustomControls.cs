@@ -140,6 +140,14 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
+        public void SetFromRect(Rect rect)
+        {
+            this.Left = rect.x;
+            this.Top = rect.y;
+            this.Width = rect.width;
+            this.Height = rect.height;
+        }
+
 
         /// <summary>起動処理</summary>
         virtual public void Awake() { }
@@ -1646,5 +1654,70 @@ namespace CM3D2.SceneCapture.Plugin
         }
 
         public EventHandler ValueChanged = delegate { };
+    }
+
+    internal class CustomTextureButton : ControlBase
+    {
+        public CustomTextureButton( Texture2D tex )
+        {
+            try
+            {
+                this.Texture = tex;
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
+        override public void OnGUI() {
+                Rect buttonRect = new Rect( this.Left, this.Top, this.Width, this.Height );
+
+                // スタイル
+                GUIStyle buttonStyle = new GUIStyle( "button" );
+                buttonStyle.alignment = TextAnchor.MiddleCenter;
+                buttonStyle.fontSize = this.FixedFontSize;
+
+                if( this.Enabled == false )
+                {
+                    buttonStyle.normal.background = buttonStyle.onNormal.background =
+                        buttonStyle.hover.background = buttonStyle.onHover.background =
+                        buttonStyle.active.background = buttonStyle.onActive.background =
+                        buttonStyle.focused.background = buttonStyle.onFocused.background = new Texture2D( 2, 2 );
+
+                    buttonStyle.normal.textColor = buttonStyle.onNormal.textColor =
+                        buttonStyle.hover.textColor = buttonStyle.onHover.textColor =
+                        buttonStyle.active.textColor = buttonStyle.onActive.textColor =
+                        buttonStyle.focused.textColor = buttonStyle.onFocused.textColor = Color.gray;
+                }
+
+                // ボタン表示
+                if( GUI.Button( buttonRect, this.Text, buttonStyle ) )
+                {
+                    if( this.Enabled )
+                    {
+                        // クリックイベント送信
+                        this.Click( this, new EventArgs() );
+                    }
+                }
+
+                GUI.DrawTexture( buttonRect, this._texture );
+        }
+
+        private Texture2D _texture = null;
+        public Texture2D Texture
+        {
+            get
+            {
+                return this.Texture;
+            }
+
+            set
+            {
+                this._texture = value;
+            }
+        }
+
+        public EventHandler Click = delegate { };
     }
 }

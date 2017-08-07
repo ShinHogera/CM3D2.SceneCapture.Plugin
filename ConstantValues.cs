@@ -291,6 +291,52 @@ namespace CM3D2.SceneCapture.Plugin
             { "バスタオル",          new KeyValuePair<String, String>( "kousoku_lower",  "KousokuL_BathTowel_I_.menu" ) },
         };
 
+        public static readonly Dictionary<String, MPN> PropParts = new Dictionary<String, MPN>()
+  {
+      { "顔", MPN.head },
+      { "眉", MPN.mayu },
+      { "目", MPN.eye },
+      { "目ハイライト", MPN.eye_hi },
+      { "ほくろ", MPN.hokuro },
+      { "唇", MPN.lip },
+      { "歯", MPN.accha },
+      { "前髪", MPN.hairf },
+      { "後髪", MPN.hairr },
+      { "横髪", MPN.hairs },
+      { "エクステ髪", MPN.hairt },
+      { "アホ毛", MPN.hairaho },
+      { "帽子", MPN.acchat },
+      { "ヘッドドレス", MPN.headset },
+      { "トップス", MPN.wear },
+      { "ボトムス", MPN.skirt },
+      { "ワンピース", MPN.onepiece },
+      { "水着", MPN.mizugi },
+      { "ブラジャー", MPN.bra },
+      { "パンツ", MPN.panz },
+      { "靴下", MPN.stkg },
+      { "靴", MPN.shoes },
+      { "前髪 a", MPN.acckami },
+      { "メガネ", MPN.megane },
+      { "アイマスク", MPN.acchead },
+      { "鼻", MPN.acchana },
+      { "耳", MPN.accmimi },
+      { "手袋", MPN.glove },
+      { "ネックレス", MPN.acckubi },
+      { "チョーカー", MPN.acckubiwa },
+      { "リボン", MPN.acckamisub },
+      { "乳首 acc", MPN.accnip },
+      { "腕", MPN.accude },
+      { "へそ", MPN.accheso },
+      { "足首", MPN.accashi },
+      { "背中", MPN.accsenaka },
+      { "しっぽ", MPN.accshippo },
+      { "前穴", MPN.accxxx },
+      { "肌", MPN.skin },
+      { "乳首 type", MPN.chikubi },
+      { "タトゥー", MPN.acctatoo },
+      { "アンダーヘア", MPN.underhair }
+  };
+
         /// <summary>表情</summary>
         public static readonly List<String> Face = new List<String>()
         {

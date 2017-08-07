@@ -103,6 +103,7 @@ namespace CM3D2.SceneCapture.Plugin
             public void GuiFunc(int winId)
             {
                 int iTmp = -1;
+                Debug.Log("Show box " + rectItem);
                 iTmp = GUI.SelectionGrid(rectItem, -1, sItems, 1, gsSelectionGrid);
                 if (iTmp >= 0)
                 {
