@@ -201,14 +201,19 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 string[] menuFiles = GameUty.FileSystem.GetList("menu", AFileSystemBase.ListType.AllFile)
                     .Where(f => f.EndsWith("menu")).ToArray();
-                List<MenuInfo> menus = new List<MenuInfo>();
+                Dictionary<MPN, List<MenuInfo>> menus = new Dictionary<MPN, List<MenuInfo>>();
                 // foreach(string menu in menuFiles)
-                for(int i = 0; i < 100; i++)
+                foreach(string menu in menuFiles)
                 {
                     try {
-                        MenuInfo mi = AssetLoader.LoadMenu(menuFiles[i]);
+                        MenuInfo mi = AssetLoader.LoadMenu(menu);
 
-                        menus.Add(mi);
+                        List<MenuInfo> existing;
+                        if (!menus.TryGetValue(mi.partCategory, out existing)) {
+                            existing = new List<MenuInfo>();
+                            menus[mi.partCategory] = existing;
+                        }
+                        existing.Add(mi);
                     }
                     catch (Exception e)
                     {
@@ -219,8 +224,8 @@ namespace CM3D2.SceneCapture.Plugin
             }
 
             GlobalItemPicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y),
-                                 this.FontSize * 24,
-                                 this.FontSize,
+                                 this.FontSize * 36,
+                                 this.FontSize + 3,
                                  this.AddModel);
 
             // if (GameMain.Instance.CharacterMgr.GetMaidCount() > 0)
@@ -422,7 +427,6 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 lights.Add(new LightInfo(pane.LightValue));
             }
-            Debug.Log("lights set: " + this.lightPanes.Count);
             Instances.SetLights(lights);
         }
 

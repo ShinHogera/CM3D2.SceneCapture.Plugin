@@ -37,7 +37,7 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
-        public static void SetMenus(List<MenuInfo> menus)
+        public static void SetMenus(Dictionary<MPN, List<MenuInfo>> menus)
         {
             itemPicker.Menus = menus;
         }
@@ -82,8 +82,8 @@ namespace CM3D2.SceneCapture.Plugin
 
             private List<CustomTextureButton> buttons = null;
             private CustomComboBox categoryBox = null;
-            private List<MenuInfo> _menus;
-            public List<MenuInfo> Menus {
+            private Dictionary<MPN, List<MenuInfo>> _menus;
+            public Dictionary<MPN, List<MenuInfo>> Menus {
                 get
                 {
                     return this._menus;
@@ -104,7 +104,7 @@ namespace CM3D2.SceneCapture.Plugin
                 this.categoryBox.SelectedIndex = 0;
                 this.categoryBox.SelectedIndexChanged += this.ChangeCategory;
 
-                Menus = new List<MenuInfo>();
+                Menus = new Dictionary<MPN, List<MenuInfo>>();
             }
 
             public void ChangeCategory( object sender, EventArgs args )
@@ -117,7 +117,11 @@ namespace CM3D2.SceneCapture.Plugin
             public void UpdateMenus(MPN category)
             {
                 buttons.Clear();
-                foreach(MenuInfo menu in Menus)
+                List<MenuInfo> existing;
+                if(!Menus.TryGetValue(category, out existing))
+                    return;
+
+                foreach(MenuInfo menu in existing)
                 {
                     if(menu != null)
                     {

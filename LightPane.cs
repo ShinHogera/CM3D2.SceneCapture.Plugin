@@ -156,8 +156,10 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void Update()
         {
-            if( !this.isDrag )
+            if( !this.isDrag ) {
+                this.dragManager.SetTransform(this.light.transform);
                 return;
+            }
 
             this.dragManager.Drag();
             Vector3 newPos = new Vector3(this.dragManager.goDrag.transform.position.x,

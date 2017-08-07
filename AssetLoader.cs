@@ -168,7 +168,6 @@ namespace CM3D2.SceneCapture.Plugin
 
             long num1 = (long) binaryReader.ReadInt32();
 
-            string iconTextureName = (string) null;
             string sss = string.Empty;
             string str2 = string.Empty;
             string empty1 = string.Empty;

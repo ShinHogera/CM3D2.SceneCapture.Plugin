@@ -287,11 +287,11 @@ namespace CM3D2.SceneCapture.Plugin
                         UICamera.InputEnable = isEnableControl;
                     }
                 }
-                else
-                {
-                    GameMain.Instance.MainCamera.SetControl( true );
-                    UICamera.InputEnable = true;
-                }
+                // else
+                // {
+                //     GameMain.Instance.MainCamera.SetControl( true );
+                //     UICamera.InputEnable = true;
+                // }
             }
             catch( Exception e )
             {

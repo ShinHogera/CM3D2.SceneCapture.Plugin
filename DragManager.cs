@@ -39,29 +39,35 @@ namespace CM3D2.SceneCapture.Plugin
 
         public bool Drag()
         {
-            if (goDrag == null)
-                return false;
+            return false;
+            // if (goDrag == null)
+            //     return false;
 
-            if (!canDrag)
-                return false;
+            // if (!canDrag)
+            //     return false;
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                inDrag = ChkObjectAndMouseOffsset();
-            }
-            if (Input.GetMouseButtonUp(0))
-            {
-                inDrag = false;
-            }
-            if (inDrag)
-            {
-                Vector3 currentScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, v3Screen.z);
-                Vector3 currentPosition = Camera.main.ScreenToWorldPoint(currentScreenPoint) + v3Offset;
+            // if (Input.GetMouseButtonDown(0))
+            // {
+            //     inDrag = ChkObjectAndMouseOffsset();
+            // }
+            // if (Input.GetMouseButtonUp(0))
+            // {
+            //     inDrag = false;
+            // }
+            // if (inDrag)
+            // {
+            //     Vector3 currentScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, v3Screen.z);
+            //     Vector3 currentPosition = Camera.main.ScreenToWorldPoint(currentScreenPoint) + v3Offset;
 
-                goDrag.transform.position = currentPosition;
-            }
+            //     goDrag.transform.position = currentPosition;
+            // }
 
-            return inDrag;
+            // return inDrag;
+        }
+
+        public void SetTransform(Transform trans)
+        {
+            this.goDrag.transform.position = trans.position;
         }
 
         private bool ChkObjectAndMouseOffsset()
@@ -82,8 +88,16 @@ namespace CM3D2.SceneCapture.Plugin
                 return;
 
             canDrag = true;
-            goDrag.transform.localScale = new Vector3(0.04f, 0.04f, 0.04f);
             goDrag.GetComponent<Renderer>().material.color = new Color32(255, 192, 192, 192);
+
+            if(goDrag.GetComponent<GizmoRenderTarget>() == null)
+                goDrag.AddComponent<GizmoRenderTarget>();
+
+            goDrag.GetComponent<GizmoRenderTarget>().Visible = true;
+            goDrag.GetComponent<GizmoRenderTarget>().eRotate = false;
+            goDrag.GetComponent<GizmoRenderTarget>().eAxis = true;
+            goDrag.GetComponent<GizmoRenderTarget>().target_trans = this.goDrag.transform;
+            goDrag.transform.localScale = new Vector3(0.04f, 0.04f, 0.04f);
         }
 
         public void StopDrag()
@@ -94,6 +108,9 @@ namespace CM3D2.SceneCapture.Plugin
             canDrag = false;
             goDrag.transform.localScale = Vector3.zero;
             goDrag.GetComponent<Renderer>().material.color = new Color32(255, 192, 192, 0);
+
+            if(goDrag.GetComponent<GizmoRenderTarget>() != null)
+                UnityEngine.Object.Destroy(goDrag.GetComponent<GizmoRenderTarget>());
         }
 
         public void DeleteObject()
