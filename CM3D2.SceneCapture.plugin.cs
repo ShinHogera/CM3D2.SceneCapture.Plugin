@@ -89,6 +89,17 @@ namespace CM3D2.SceneCapture.Plugin
             // 初期化
             // モーション情報初期化
 
+            if(this.envView != null) {
+                // // メイドエディット画面または夜伽画面から、メイドエディット画面、夜伽画面以外に遷移した場合
+                if(( this.sceneNo == ConstantValues.Scene.SceneEdit || this.sceneNo == ConstantValues.Scene.SceneYotogi || this.sceneNo == ConstantValues.Scene.ScenePhoto  ) &&
+                   ( sceneLevel != ConstantValues.Scene.SceneEdit && sceneLevel != ConstantValues.Scene.SceneYotogi && sceneLevel != ConstantValues.Scene.ScenePhoto ) )
+                {
+                    // 追加した光源を削除
+                    this.envView.ClearLights(false);
+                    this.envView.ClearModels();
+                }
+            }
+
             this.sceneNo = sceneLevel;
         }
 
@@ -322,15 +333,6 @@ namespace CM3D2.SceneCapture.Plugin
                 this.envView = new EnvWindow( fontSize );
 
                 this.dataView = new DataWindow( fontSize );
-
-                // // メイドエディット画面または夜伽画面から、メイドエディット画面、夜伽画面以外に遷移した場合
-                if( this.sceneNo == ConstantValues.Scene.SceneEdit || this.sceneNo == ConstantValues.Scene.SceneYotogi || this.sceneNo == ConstantValues.Scene.ScenePhoto  ) // &&
-                    // ( sceneLevel != ConstantValues.Scene.SceneEdit && sceneLevel != ConstantValues.Scene.SceneYotogi && sceneLevel != ConstantValues.Scene.ScenePhoto ) )
-                {
-                    // 追加した光源を削除
-                    this.envView.ClearLights(false);
-                    this.envView.ClearModels();
-                }
             }
             catch( Exception e )
             {

@@ -346,7 +346,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public void SetModelInstances()
         {
-            Debug.Log("Set Model Instances");
             List<ModelInfo> models = new List<ModelInfo>();
             foreach(ModelPane pane in this.modelPanes)
             {
@@ -354,12 +353,12 @@ namespace CM3D2.SceneCapture.Plugin
                 models.Add(new ModelInfo(this.addedModelInstance[ pane.Name ].Key,
                                          this.addedModelInstance[ pane.Name ].Value));
             }
-            Debug.Log("End");
             Instances.SetModels(models);
         }
 
         public void ClearModels()
         {
+            Debug.Log("Clear models");
             try
             {
                 // 光源一覧クリア
@@ -377,6 +376,7 @@ namespace CM3D2.SceneCapture.Plugin
                 }
 
                 // 追加光源オブジェクトクリア
+                this.modelPanes.Clear();
                 this.addedModelInstance.Clear();
                 this.SetModelInstances();
             }
