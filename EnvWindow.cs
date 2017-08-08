@@ -25,18 +25,18 @@ namespace CM3D2.SceneCapture.Plugin
             try
             {
                 this.addLightButton = new CustomButton();
-                this.addLightButton.Text = "Add Light";
+                this.addLightButton.Text = Instances.isJapanese ? "ライト追加" : "Add Light";
                 this.addLightButton.Click += AddLightButtonPressed;
                 this.ChildControls.Add( this.addLightButton );
 
                 this.bgButton = new CustomButton();
-                this.bgButton.Text = "Add Model";
+                this.bgButton.Text = Instances.isJapanese ? "モデルついか" : "Add Model";
                 this.bgButton.Click += BGButtonPressed;
                 this.ChildControls.Add( this.bgButton );
 
                 this.backgroundBox = new CustomComboBox( new string[0] );
                 this.backgroundBox.FontSize = this.FontSize;
-                this.backgroundBox.Text = "Background";
+                this.backgroundBox.Text = Instances.isJapanese ? "背景" : "Background";
                 this.backgroundBox.SelectedIndex = 0;
                 this.backgroundBox.SelectedIndexChanged += this.ChangeBackground;
                 this.ChildControls.Add( this.backgroundBox );
@@ -188,10 +188,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         private void AddModelPane( GameObject model, string modelFileName )
         {
-            string modelName = "Model " + (this.modelsAdded + 1);
+            string modelString = Instances.isJapanese ? "モデル" : "Model"
+            string modelName = modelString + " " + (this.modelsAdded + 1);
             while(this.addedModelInstance.ContainsKey(modelName)) {
                 this.modelsAdded++;
-                modelName = "Model " + (this.modelsAdded + 1);
+                modelName = modelString + " " + (this.modelsAdded + 1);
             }
 
             this.addedModelInstance.Add(modelName, new KeyValuePair<GameObject, String>(model, modelFileName));
@@ -325,15 +326,12 @@ namespace CM3D2.SceneCapture.Plugin
 
         public void SetModelInstances()
         {
-            Debug.Log("Set Model Instances");
             List<ModelInfo> models = new List<ModelInfo>();
             foreach(ModelPane pane in this.modelPanes)
             {
-                Debug.Log("mod " + this.addedModelInstance[ pane.Name ].Value);
                 models.Add(new ModelInfo(this.addedModelInstance[ pane.Name ].Key,
                                          this.addedModelInstance[ pane.Name ].Value));
             }
-            Debug.Log("End");
             Instances.SetModels(models);
         }
 

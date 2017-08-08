@@ -22,12 +22,12 @@ namespace CM3D2.SceneCapture.Plugin
         override public void SetupPane()
         {
             this.modeBox = new CustomComboBox( AA_MODES );
-            this.modeBox.Text = "Technique";
+            this.modeBox.Text = Instances.isJapanese ? "アルゴリズム" : "Technique";
             this.modeBox.SelectedIndex = (int)AntialiasingDef.antialiasingEffect.mode;
             this.ChildControls.Add( this.modeBox );
 
             this.dlaaSharpCheckbox = new CustomToggleButton( false, "toggle" );
-            this.dlaaSharpCheckbox.Text = "Sharp";
+            this.dlaaSharpCheckbox.Text = Instances.isJapanese ? "鋭い" : "Sharp";
             this.ChildControls.Add( this.dlaaSharpCheckbox );
 
             this.showGeneratedNormalsCheckbox = new CustomToggleButton( false, "toggle" );

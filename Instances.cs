@@ -19,6 +19,7 @@ namespace CM3D2.SceneCapture.Plugin
         public static bool needMiscReload { get; set; }
         public static bool needEffectWindowReload { get; set; }
         public static string background { get; set; }
+        public static bool isJapanese { get; set; }
 
         public Instances()
         {
@@ -29,6 +30,7 @@ namespace CM3D2.SceneCapture.Plugin
             needModelReload = false;
             needEffectWindowReload = false;
             background = ConstantValues.Background.Keys.First();
+            isJapanese = true;
 
             new ColorCorrectionCurvesDef();
             new SepiaDef();

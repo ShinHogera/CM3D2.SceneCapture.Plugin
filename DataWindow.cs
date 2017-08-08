@@ -28,12 +28,12 @@ namespace CM3D2.SceneCapture.Plugin
                 this.savePanes = new List<SavePane>();
 
                 this.saveButton = new CustomButton();
-                this.saveButton.Text = "Save";
+                this.saveButton.Text = Instances.isJapanese ? "セーブ" : "Save";
                 this.saveButton.Click += SaveEnv;
                 this.ChildControls.Add( this.saveButton );
 
                 this.nameTextField = new CustomTextField();
-                this.nameTextField.Text = "Name";
+                this.nameTextField.Text = Instances.isJapanese ? "名前" : "Name";
                 this.ChildControls.Add( this.nameTextField );
 
                 this.wasPresetLoaded = false;
@@ -90,12 +90,13 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void ShowPane()
         {
-            this.nameTextField.Left = this.Left + ControlBase.FixedMargin;
-            this.nameTextField.Top = this.Top + ControlBase.FixedMargin;
-            this.nameTextField.Width = this.Width - ControlBase.FixedMargin / 4;
-            this.nameTextField.Height = this.ControlHeight;
-            this.nameTextField.OnGUI();
+            this.languageButton.Left = this.Left + ControlBase.FixedMargin;
+            this.languageButton.Top = this.Top + ControlBase.FixedMargin;
+            this.languageButton.Width = this.Width - ControlBase.FixedMargin / 4;
+            this.languageButton.Height = this.ControlHeight;
+            this.languageButton.OnGUI();
 
+            GUIUtil.AddGUICheckbox( this, this.nameTextField, this.languageButton );
             GUIUtil.AddGUICheckbox( this, this.saveButton, this.nameTextField );
 
             ControlBase prev = this.saveButton;
@@ -202,6 +203,7 @@ namespace CM3D2.SceneCapture.Plugin
         public bool wasPresetLoaded { get; set; }
 
         private CustomButton saveButton = null;
+        private CustomButton languageButton = null;
         private CustomTextField nameTextField = null;
 
         private List<SavePane> savePanes = null;
