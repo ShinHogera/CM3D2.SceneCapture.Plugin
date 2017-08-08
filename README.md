@@ -21,3 +21,4 @@ These are the default keybindings, but they can be edited in the `UnityInjector/
 
 ## Bugs
 - The `Threshold` parameter of the Bloom effect isn't preserved for some reason. Adjusting it after loading will allow you to set it to the saved value.
+- Sometimes a bunch of exceptions are printed out in the log on loading a preset and the preset won't load entirely. Loading the preset again should make it work.
