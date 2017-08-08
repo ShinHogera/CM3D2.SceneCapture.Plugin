@@ -1066,7 +1066,7 @@ namespace CM3D2.SceneCapture.Plugin
             this._style = "button";
 
             this.BackgroundColor = Color.white;
-            this.TextColor = Color.grey;
+            this.TextColor = Color.white;
         }
 
         public CustomToggleButton( bool value, string style )
@@ -1075,7 +1075,7 @@ namespace CM3D2.SceneCapture.Plugin
             this._style = style;
 
             this.BackgroundColor = Color.white;
-            this.TextColor = Color.grey;
+            this.TextColor = Color.white;
         }
 
         ///-------------------------------------------------------------------------
@@ -1422,7 +1422,14 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
+                this.TextColor = new Color(255, 255, 255, 255);
                 this.BackgroundColor = Color.clear;
+
+                // スタイル
+                labelStyle = new GUIStyle( "label" );
+                labelStyle.alignment = TextAnchor.MiddleLeft;
+                labelStyle.normal.textColor = this.TextColor;
+                labelStyle.fontSize = this.FixedFontSize;
             }
             catch( Exception e )
             {
@@ -1439,9 +1446,6 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 Rect labelRect = new Rect( this.Left, this.Top, this.Width, this.Height );
 
-                // スタイル
-                GUIStyle labelStyle = new GUIStyle( "label" );
-                labelStyle.alignment = TextAnchor.MiddleLeft;
                 labelStyle.normal.textColor = this.TextColor;
                 labelStyle.fontSize = this.FixedFontSize;
 
@@ -1453,6 +1457,8 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
         #endregion
+
+        private GUIStyle labelStyle = null;
     }
     #endregion
 

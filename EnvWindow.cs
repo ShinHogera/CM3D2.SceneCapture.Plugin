@@ -189,6 +189,14 @@ namespace CM3D2.SceneCapture.Plugin
         private void AddModel(String modelFileName)
         {
             GameObject model = this.LoadModel(modelFileName);
+
+            // Spawn in front of camera
+            GizmoRenderTarget gizmo = model.GetComponent<GizmoRenderTarget>();
+            if(gizmo != null)
+            {
+                gizmo.transform.position = GameMain.Instance.MainCamera.camera.transform.forward * 2 + GameMain.Instance.MainCamera.camera.transform.position;
+            }
+
             this.AddModelPane(model, modelFileName);
         }
 
