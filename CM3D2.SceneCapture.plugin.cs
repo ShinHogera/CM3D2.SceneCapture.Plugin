@@ -88,7 +88,6 @@ namespace CM3D2.SceneCapture.Plugin
             // {
             // 初期化
             // モーション情報初期化
-            this.initialized = false;
 
             this.sceneNo = sceneLevel;
         }
@@ -329,8 +328,8 @@ namespace CM3D2.SceneCapture.Plugin
                     // ( sceneLevel != ConstantValues.Scene.SceneEdit && sceneLevel != ConstantValues.Scene.SceneYotogi && sceneLevel != ConstantValues.Scene.ScenePhoto ) )
                 {
                     // 追加した光源を削除
-                    // this.envView.ClearLights(false);
-                    // this.envView.ClearModels();
+                    this.envView.ClearLights(false);
+                    this.envView.ClearModels();
                 }
             }
             catch( Exception e )

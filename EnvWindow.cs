@@ -30,7 +30,7 @@ namespace CM3D2.SceneCapture.Plugin
                 this.ChildControls.Add( this.addLightButton );
 
                 this.bgButton = new CustomButton();
-                this.bgButton.Text = "bg";
+                this.bgButton.Text = "Add Model";
                 this.bgButton.Click += BGButtonPressed;
                 this.ChildControls.Add( this.bgButton );
 

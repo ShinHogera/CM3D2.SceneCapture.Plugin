@@ -240,6 +240,10 @@ namespace CM3D2.SceneCapture.Plugin
                 GUI.EndScrollView();
 
                 float fHeight = rectItem.y + rectItem.height + fMargin;
+                if (fHeight > Screen.height * 0.7f) {
+                    fHeight = Screen.height * 0.7f;
+                }
+
                 if (rect.height != fHeight)
                 {
                     Rect rectTmp = new Rect(rect.x, rect.y - fHeight, rect.width, fHeight);

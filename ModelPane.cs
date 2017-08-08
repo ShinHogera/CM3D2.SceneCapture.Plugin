@@ -40,13 +40,13 @@ namespace CM3D2.SceneCapture.Plugin
 
             this.gizmoRotateToggle = new CustomToggleButton( false );
             this.gizmoRotateToggle.FontSize = this.FontSize;
-            this.gizmoRotateToggle.Text = "Rot";
+            this.gizmoRotateToggle.Text = "Rotation";
             this.gizmoRotateToggle.CheckedChanged += this.ToggleRotate;
             this.ChildControls.Add( this.gizmoRotateToggle );
 
             this.gizmoScaleToggle = new CustomToggleButton( false );
             this.gizmoScaleToggle.FontSize = this.FontSize;
-            this.gizmoScaleToggle.Text = "Scl";
+            this.gizmoScaleToggle.Text = "Scale";
             this.gizmoScaleToggle.CheckedChanged += this.ToggleScale;
             this.ChildControls.Add( this.gizmoScaleToggle );
 
