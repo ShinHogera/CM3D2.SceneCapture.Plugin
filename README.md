@@ -1,5 +1,7 @@
 # CM3D2.SceneCapture.Plugin
-This plugin allows you to configure camera effects and lighting, and to save entire presets for both.
+This plugin allows you to configure camera effects, maid equipment objects and lighting, and to save entire presets for all of them.
+
+![Screenshot](https://github.com/ShinHogera/CM3D2.SceneCapture.Plugin/raw/master/screenshot.png)
 
 ## Installation
 * Place `CM3D2.SceneCapture.Plugin.dll` into your `UnityInjector` directory.
