@@ -54,6 +54,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(AntialiasingPane antialiasingPane)
         {
+            if(antialiasingEffect == null)
+            {
+                antialiasingEffect = Util.GetComponentVar<AntialiasingAsPostEffect, AntialiasingDef>(antialiasingEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 antialiasingPane.IsEnabled = antialiasingEffect.enabled;
             else

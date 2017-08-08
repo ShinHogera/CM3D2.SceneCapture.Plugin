@@ -209,7 +209,8 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 // 機能有効の場合
                 // if( this.Enable )
-                if(true)
+
+                if( GizmoRender.UIVisible )
                 {
                     // 補助キーの押下有無確認
                     bool isCtrl = Input.GetKey( KeyCode.LeftControl ) || Input.GetKey( KeyCode.RightControl );
@@ -326,6 +327,7 @@ namespace CM3D2.SceneCapture.Plugin
                 {
                     // 追加した光源を削除
                     this.envView.ClearLights(false);
+                    this.envView.ClearModels();
                 }
             }
             catch( Exception e )

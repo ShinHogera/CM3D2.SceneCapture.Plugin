@@ -4,8 +4,7 @@ namespace CM3D2.SceneCapture.Plugin
     {
         private static GrayscaleEffect grayscaleEffect;
 
-        static GrayscaleDef()
-        {
+        static GrayscaleDef() {
             if(grayscaleEffect == null)
             {
                 grayscaleEffect = Util.GetComponentVar<GrayscaleEffect, GrayscaleEffect>(grayscaleEffect);
@@ -14,6 +13,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(GrayscalePane grayscalePane)
         {
+            if(grayscaleEffect == null)
+            {
+                grayscaleEffect = Util.GetComponentVar<GrayscaleEffect, GrayscaleEffect>(grayscaleEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 grayscalePane.IsEnabled = grayscaleEffect.enabled;
             else

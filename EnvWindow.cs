@@ -24,22 +24,6 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
-                this.allBackgrounds = new Dictionary<string, string>();
-                this.allBackgrounds.Add("", "");
-                foreach( var kvp in ConstantValues.Background )
-                    this.allBackgrounds.Add(kvp.Key, kvp.Value);
-                string[] bgFiles = GameUty.FileSystem.GetList("bg", AFileSystemBase.ListType.AllFile)
-                    .Where(f => f.EndsWith("bg")).ToArray();
-
-                foreach( var bg in bgFiles ) {
-                    string name = bg.Remove(0, 3);
-                    name = Path.GetFileNameWithoutExtension(name);
-                    this.allBackgrounds.Add(name, name);
-                }
-
-                this.allModels = GameUty.FileSystem.GetList("model", AFileSystemBase.ListType.AllFile)
-                    .Where(f => f.EndsWith("model")).ToList();
-
                 this.addLightButton = new CustomButton();
                 this.addLightButton.Text = "Add Light";
                 this.addLightButton.Click += AddLightButtonPressed;
@@ -58,8 +42,9 @@ namespace CM3D2.SceneCapture.Plugin
                 this.ChildControls.Add( this.backgroundBox );
 
                 this.addedLightInstance = new Dictionary<String, GameObject>();
-                this.addedModelInstance = new Dictionary<string, GameObject>();
+                this.addedModelInstance = new Dictionary<string, KeyValuePair<GameObject, string>>();
                 this.lightPanes = new List<LightPane>();
+                this.modelPanes = new List<ModelPane>();
 
                 InitMainLight();
 
@@ -67,6 +52,8 @@ namespace CM3D2.SceneCapture.Plugin
                 {
                     this.SetLightInstances();
                 }
+
+                this.SetModelInstances();
             }
             catch( Exception e )
             {
@@ -89,8 +76,30 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
+                if(!addedBackgrounds)
+                {
+                    this.allBackgrounds = new Dictionary<string, string>();
+                    this.allBackgrounds.Add("", "");
+                    foreach( var kvp in ConstantValues.Background )
+                        this.allBackgrounds.Add(kvp.Key, kvp.Value);
+                    string[] bgFiles = GameUty.FileSystem.GetList("bg", AFileSystemBase.ListType.AllFile)
+                        .Where(f => f.EndsWith("bg")).ToArray();
+
+                    foreach( var bg in bgFiles ) {
+                        string name = bg.Remove(0, 3);
+                        name = Path.GetFileNameWithoutExtension(name);
+                        this.allBackgrounds.Add(name, name);
+                    }
+                    addedBackgrounds = true;
+                }
+
                 this.UpdateChildControls();
                 this.CheckForLightUpdates();
+                this.CheckForModelUpdates();
+                this.CheckForMiscUpdates();
+
+                // FIXME: doesn't work.
+                // this.CheckModelGizmoClick();
             }
             catch( Exception e )
             {
@@ -107,11 +116,19 @@ namespace CM3D2.SceneCapture.Plugin
             this.backgroundBox.OnGUI();
 
             GUIUtil.AddGUICheckbox( this, this.bgButton, this.backgroundBox );
-            GUIUtil.AddGUICheckbox( this, this.addLightButton, this.bgButton );
+
+            ControlBase prev = this.bgButton;
+            foreach( ModelPane pane in this.modelPanes )
+            {
+                GUIUtil.AddGUICheckbox( this, pane, prev );
+                prev = pane;
+            }
+
+            GUIUtil.AddGUICheckbox( this, this.addLightButton, prev );
             // GUIUtil.AddGUICheckbox( this, this.modelBox, this.backgroundBox );
             // GUIUtil.AddGUICheckbox( this, this.addModelButton, this.modelBox );
 
-            ControlBase prev = this.addLightButton;
+            prev = this.addLightButton;
             foreach( LightPane pane in this.lightPanes )
             {
                 GUIUtil.AddGUICheckbox( this, pane, prev );
@@ -123,34 +140,38 @@ namespace CM3D2.SceneCapture.Plugin
 
         private void ChangeBackground( object sender, EventArgs args )
         {
-            if( String.IsNullOrEmpty( this.backgroundBox.SelectedItem ) == false )
+            string bg = this.backgroundBox.SelectedItem;
+            if( String.IsNullOrEmpty( bg ) == false )
             {
-                if( this.allBackgrounds.ContainsKey( this.backgroundBox.SelectedItem ) )
+                if( this.allBackgrounds.ContainsKey( bg ) )
                 {
-                    if( this.backgroundBox.SelectedItem == "非表示") {
+                    if( bg == "非表示") {
                         GameMain.Instance.BgMgr.DeleteBg();
                     }
                     else
                     {
-                        GameMain.Instance.BgMgr.ChangeBg( this.allBackgrounds[ this.backgroundBox.SelectedItem ] );
+                        GameMain.Instance.BgMgr.ChangeBg( this.allBackgrounds[ bg ] );
                     }
+                    Instances.background = bg;
                 }
             }
         }
 
-        private void AddModel( string modelName )
+        private void AddGizmo( GameObject target )
         {
-            GameObject model = AssetLoader.LoadMesh(modelName);
-            Debug.Log("Load model " + modelName);
-            model.AddComponent<GizmoRenderTarget>().Visible = true;
-            model.GetComponent<GizmoRenderTarget>().eRotate = false;
-            model.GetComponent<GizmoRenderTarget>().eAxis = true;
+            target.AddComponent<GizmoRenderTarget>().Visible = false;
+            target.GetComponent<GizmoRenderTarget>().eRotate = false;
+            target.GetComponent<GizmoRenderTarget>().eAxis = false;
+            target.GetComponent<GizmoRenderTarget>().eScal = false;
+        }
 
-            // NOTE
-            // public void Load(GameObject srcbody, GameObject body1, string bonename, string filename, string slotname, string AttachSlot, int layer)
-            // public void AddItem(string slotname, string filename, string AttachSlot = "", string AttachName = "")
-            // ClickCallback in SceneEdit
-            // ProcItem(MaidProp mp)
+        private void AddModel(String modelFileName)
+        {
+            GameObject model = AssetLoader.LoadMesh(modelFileName);
+            model.name = MODEL_TAG;
+            Debug.Log("Load model " + modelFileName);
+
+            this.AddGizmo( model );
 
             // model.AddComponent<Cloth>().enabled = true;
             // model.GetComponent<Cloth>().useGravity = true;
@@ -159,10 +180,24 @@ namespace CM3D2.SceneCapture.Plugin
             // this.Collidify(model);
 
             model.transform.localScale = new Vector3(1,1,1);
-            model.transform.position = new Vector3(0, 1.5f, -1f);
+            model.transform.position = new Vector3(0, 0, 0);
 
-            this.addedModelInstance.Add(this.modelsAdded.ToString(), model);
-            this.modelsAdded++;
+            this.AddModelPane(model, modelFileName);
+        }
+
+        private void AddModelPane( GameObject model, string modelFileName )
+        {
+            string modelName = "Model " + (this.modelsAdded + 1);
+            while(this.addedModelInstance.ContainsKey(modelName)) {
+                this.modelsAdded++;
+                modelName = "Model " + (this.modelsAdded + 1);
+            }
+
+            this.addedModelInstance.Add(modelName, new KeyValuePair<GameObject, String>(model, modelFileName));
+            ModelPane pane = new ModelPane(this.FontSize, modelName);
+            this.modelPanes.Add( pane );
+            this.ChildControls.Add( pane );
+            this.SetModelInstances();
         }
 
         private void AddLightButtonPressed( object sender, EventArgs args )
@@ -176,6 +211,195 @@ namespace CM3D2.SceneCapture.Plugin
             foreach(Component c in o.GetComponents<Component>())
             {
                 Debug.Log(c);
+            }
+        }
+
+        private void CheckForModelUpdates()
+        {
+            if ( Instances.needModelReload )
+            {
+                List<ModelInfo> modelInfos = Instances.GetModels();
+
+                this.ClearModels();
+                this.modelPanes.Clear();
+                for(int i = 0; i < modelInfos.Count; i++)
+                {
+                    GameObject model;
+                    ModelInfo modelInfo = modelInfos[i];
+                    AddModel(modelInfo.modelName);
+                    string paneName = this.modelPanes[i].Name;
+
+                    model = this.addedModelInstance[paneName].Key;
+                    modelInfo.UpdateModel(model);
+                }
+                this.SetModelInstances();
+                Instances.needModelReload = false;
+            }
+            else
+            {
+                bool changed = false;
+                for (int i = this.modelPanes.Count - 1; i >= 0; i--)
+                {
+                    ModelPane pane = this.modelPanes[i];
+
+                    GameObject model = this.addedModelInstance[ this.modelPanes[i].Name ].Key;
+                    GizmoRenderTarget gizmo = model.GetComponent<GizmoRenderTarget>();
+                    if(gizmo != null)
+                        pane.UpdateCache( model.transform );
+
+                    if( pane.IsDeleteRequested )
+                    {
+                        this.modelPanes.RemoveAt(i);
+                        this.ChildControls.Remove( pane );
+                        GameObject.Destroy( this.addedModelInstance[ pane.Name ].Key );
+                        this.addedModelInstance.Remove( pane.Name );
+                        changed = true;
+                    }
+                    else if( pane.wasChanged )
+                    {
+                        changed = true;
+                        pane.wasChanged = false;
+
+                        UpdateModelPane(ref pane);
+
+                    }
+                }
+
+                if( changed )
+                {
+                    this.SetModelInstances();
+                }
+            }
+        }
+
+        private void UpdateModelPane( ref ModelPane pane )
+        {
+            GameObject model = this.addedModelInstance[pane.Name].Key;
+            if( model == null )
+                return;
+
+            GizmoRenderTarget gizmo = model.GetComponent<GizmoRenderTarget>();
+            if( gizmo == null )
+            {
+                Debug.Log("Gizmo null! " + pane.Name);
+                return;
+            }
+            Debug.Log("before " +gizmo.eAxis.ToString() + " " + gizmo.eRotate.ToString() + " " + gizmo.eScal.ToString());
+
+            if( pane.WantsTogglePan != gizmo.eAxis ) {
+                gizmo.eAxis = pane.WantsTogglePan;
+                gizmo.eRotate = false;
+                gizmo.eScal = false;
+            }
+            if( pane.WantsToggleRotate != gizmo.eRotate ) {
+                gizmo.eAxis = false;
+                gizmo.eRotate = pane.WantsToggleRotate;
+                gizmo.eScal = false;
+            }
+            if( pane.WantsToggleScale != gizmo.eScal ) {
+                gizmo.eAxis = false;
+                gizmo.eRotate = false;
+                gizmo.eScal = pane.WantsToggleScale;
+            }
+            if( pane.wantsResetPan ) {
+                gizmo.transform.position = new Vector3(0, 0, 0);
+                pane.wantsResetPan = false;
+            }
+            if( pane.wantsResetRotation ) {
+                gizmo.transform.rotation = new Quaternion(0, 0, 0, 1);
+                pane.wantsResetRotation = false;
+            }
+            if( pane.wantsResetScale ) {
+                gizmo.transform.localScale = new Vector3(1, 1, 1);
+                pane.wantsResetScale = false;
+            }
+
+            Debug.Log("after " +gizmo.eAxis.ToString() + " " + gizmo.eRotate.ToString() + " " + gizmo.eScal.ToString());
+
+            if (!gizmo.eAxis && !gizmo.eRotate && !gizmo.eScal)
+                gizmo.Visible = false;
+            else
+                gizmo.Visible = true;
+        }
+
+        public void SetModelInstances()
+        {
+            Debug.Log("Set Model Instances");
+            List<ModelInfo> models = new List<ModelInfo>();
+            foreach(ModelPane pane in this.modelPanes)
+            {
+                Debug.Log("mod " + this.addedModelInstance[ pane.Name ].Value);
+                models.Add(new ModelInfo(this.addedModelInstance[ pane.Name ].Key,
+                                         this.addedModelInstance[ pane.Name ].Value));
+            }
+            Debug.Log("End");
+            Instances.SetModels(models);
+        }
+
+        public void ClearModels()
+        {
+            try
+            {
+                // 光源一覧クリア
+                ModelPane[] panes = this.modelPanes.ToArray();
+                foreach( ModelPane pane in panes )
+                {
+                    this.ChildControls.Remove( pane );
+                    this.modelPanes.Remove( pane );
+                }
+
+                // 追加した光源を破棄
+                foreach( var obj in this.addedModelInstance.Values )
+                {
+                    GameObject.Destroy( obj.Key );
+                }
+
+                // 追加光源オブジェクトクリア
+                this.addedModelInstance.Clear();
+                this.SetModelInstances();
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
+        private void CheckModelGizmoClick()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("Left down");
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit = new RaycastHit();
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 31))
+                {
+                    GameObject target = hit.collider.gameObject;
+                    Debug.Log("Hit " + target.name);
+                    if (target.name == MODEL_TAG)
+                    {
+                        Debug.Log ("It's working!");
+                        this.ReselectModels(target);
+                    }
+                }
+            }
+        }
+
+        private void ReselectModels(GameObject target)
+        {
+            foreach(var kvp in this.addedModelInstance.Values)
+            {
+                GameObject model = kvp.Key;
+                if( model == target )
+                {
+                    if(model.GetComponent<GizmoRenderTarget>() == null)
+                    {
+                        // this.AddGizmo( model );
+                    }
+                }
+                else if(model.GetComponent<GizmoRenderTarget>() != null)
+                {
+                    UnityEngine.Object.Destroy(model.GetComponent<GizmoRenderTarget>());
+                }
             }
         }
 
@@ -307,11 +531,13 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
-                Debug.Log("Addlight");
                 if( this.lightPanes.Count < ConstantValues.MaxLightCount )
                 {
                     String lightName = ConstantValues.AddLightName + this.lightsAdded;
-                    this.lightsAdded++;
+                    while(this.addedLightInstance.ContainsKey(lightName)) {
+                        this.lightsAdded++;
+                        lightName = ConstantValues.AddLightName + this.lightsAdded;
+                    }
 
                     // 光源追加し、選択中の設定をコピー
                     GameObject newObject = new GameObject( "Light" );
@@ -474,17 +700,31 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
+        private void CheckForMiscUpdates()
+        {
+            if( Instances.needMiscReload )
+            {
+                Instances.needMiscReload = false;
+                this.backgroundBox.SelectedItem = Instances.background;
+            }
+        }
+
         #region Fields
+        public const string MODEL_TAG = "CM3D2.SceneCapture.Model";
         private CustomButton addLightButton = null;
         private CustomButton bgButton = null;
         private CustomComboBox backgroundBox = null;
+        private bool addedBackgrounds = false;
+
         private List<LightPane> lightPanes = null;
+        private List<ModelPane> modelPanes = null;
+
         private int lightsAdded = 0;
         private int modelsAdded = 0;
         private Dictionary<String, GameObject> addedLightInstance = null;
+        private Dictionary<string, KeyValuePair<GameObject, string>> addedModelInstance = null;
+
         private Dictionary<string, string> allBackgrounds = null;
-        private List<string> allModels = null;
-        private Dictionary<string, GameObject> addedModelInstance = null;
         #endregion
     }
 
@@ -541,6 +781,59 @@ namespace CM3D2.SceneCapture.Plugin
         public Vector3 position;
 
         public Vector3 eulerAngles;
+    }
+
+    public class ModelInfo
+    {
+        public ModelInfo() { }
+
+        public ModelInfo( GameObject obj, string modelName )
+        {
+            this.modelName = modelName;
+
+            GizmoRenderTarget gizmo = obj.GetComponent<GizmoRenderTarget>();
+
+            if(gizmo == null) {
+                Debug.Log("null gizmo: " + modelName);
+                this.position = Vector3.zero;
+                this.rotation = Quaternion.identity;
+                this.localScale = new Vector3(1, 1, 1);
+            }
+            else
+            {
+                this.position = gizmo.transform.position;
+                this.rotation = gizmo.transform.rotation;
+                this.localScale = gizmo.transform.localScale;
+            }
+        }
+
+        public void UpdateModel( GameObject obj )
+        {
+            if( obj.GetComponent<GizmoRenderTarget>() == null)
+                obj.AddComponent<GizmoRenderTarget>();
+
+            GizmoRenderTarget gizmo = obj.GetComponent<GizmoRenderTarget>();
+
+            gizmo.transform.position = this.position;
+            gizmo.transform.rotation = this.rotation;
+            gizmo.transform.localScale = this.localScale;
+        }
+
+        public GameObject Load()
+        {
+            GameObject model = AssetLoader.LoadMesh(this.modelName);
+            model.name = EnvWindow.MODEL_TAG;
+            this.UpdateModel( model );
+            return model;
+        }
+
+        public string modelName;
+
+        public Vector3 position;
+
+        public Quaternion rotation;
+
+        public Vector3 localScale;
     }
     #endregion
 }

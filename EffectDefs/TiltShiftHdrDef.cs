@@ -30,6 +30,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 tiltShiftHdrEffect = Util.GetComponentVar<TiltShiftHdr, TiltShiftHdrDef>(tiltShiftHdrEffect);
             }
+
             mode = TiltShiftHdr.TiltShiftMode.TiltShiftMode;
             quality = TiltShiftHdr.TiltShiftQuality.Normal;
             blurArea = 1f;
@@ -48,6 +49,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(TiltShiftHdrPane tiltShiftHdrPane)
         {
+            if(tiltShiftHdrEffect == null)
+            {
+                tiltShiftHdrEffect = Util.GetComponentVar<TiltShiftHdr, TiltShiftHdrDef>(tiltShiftHdrEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 tiltShiftHdrPane.IsEnabled = tiltShiftHdrEffect.enabled;
             else

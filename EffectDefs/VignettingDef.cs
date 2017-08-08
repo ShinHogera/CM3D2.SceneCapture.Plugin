@@ -30,6 +30,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 vignettingEffect = Util.GetComponentVar<Vignetting, VignettingDef>(vignettingEffect);
             }
+
             mode = Vignetting.AberrationMode.Simple;
             intensity = 0f;
             blur = 0.82f;
@@ -54,15 +55,15 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(VignettingPane vignettingPane)
         {
-            if (Instances.needEffectWindowReload == true)
+            if(vignettingEffect == null)
             {
-                vignettingPane.IsEnabled = vignettingEffect.enabled;
+                vignettingEffect = Util.GetComponentVar<Vignetting, VignettingDef>(vignettingEffect);
+            }
 
-            }
+            if (Instances.needEffectWindowReload == true)
+                vignettingPane.IsEnabled = vignettingEffect.enabled;
             else
-            {
                 vignettingEffect.enabled = vignettingPane.IsEnabled;
-            }
 
             vignettingEffect.mode = vignettingPane.ModeValue;
             vignettingEffect.intensity = vignettingPane.IntensityValue;

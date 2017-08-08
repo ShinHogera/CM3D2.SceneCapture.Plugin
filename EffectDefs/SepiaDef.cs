@@ -4,8 +4,7 @@ namespace CM3D2.SceneCapture.Plugin
     {
         private static SepiaToneEffect sepiaEffect;
 
-        static SepiaDef()
-        {
+        static SepiaDef() {
             if(sepiaEffect == null)
             {
                 sepiaEffect = Util.GetComponentVar<SepiaToneEffect, SepiaToneEffect>(sepiaEffect);
@@ -14,6 +13,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(SepiaPane sepiaPane)
         {
+            if(sepiaEffect == null)
+            {
+                sepiaEffect = Util.GetComponentVar<SepiaToneEffect, SepiaToneEffect>(sepiaEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 sepiaPane.IsEnabled = sepiaEffect.enabled;
             else
@@ -27,7 +31,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void OnLoad()
         {
-                
+
         }
     }
 }

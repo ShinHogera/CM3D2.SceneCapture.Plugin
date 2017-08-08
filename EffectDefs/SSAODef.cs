@@ -26,6 +26,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 ssaoEffect = Util.GetComponentVar<AmbientObscurance, SSAODef>(ssaoEffect);
             }
+
             intensity = 0.5f;
             radius = 0.2f;
             blurIterations = 1;
@@ -44,6 +45,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(SSAOPane ssaoPane)
         {
+            if(ssaoEffect == null)
+            {
+                ssaoEffect = Util.GetComponentVar<AmbientObscurance, SSAODef>(ssaoEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 ssaoPane.IsEnabled = ssaoEffect.enabled;
             else

@@ -34,6 +34,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 noiseAndGrainEffect = Util.GetComponentVar<NoiseAndGrain, NoiseAndGrainDef>(noiseAndGrainEffect);
             }
+
             dx11Grain = false;
             monochrome = false;
             monochromeTiling = 64f;
@@ -71,6 +72,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(NoiseAndGrainPane noiseAndGrainPane)
         {
+            if(noiseAndGrainEffect == null)
+            {
+                noiseAndGrainEffect = Util.GetComponentVar<NoiseAndGrain, NoiseAndGrainDef>(noiseAndGrainEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 noiseAndGrainPane.IsEnabled = noiseAndGrainEffect.enabled;
             else

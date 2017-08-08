@@ -37,34 +37,6 @@ namespace CM3D2.SceneCapture.Plugin
             DeleteObject();
         }
 
-        public bool Drag()
-        {
-            return false;
-            // if (goDrag == null)
-            //     return false;
-
-            // if (!canDrag)
-            //     return false;
-
-            // if (Input.GetMouseButtonDown(0))
-            // {
-            //     inDrag = ChkObjectAndMouseOffsset();
-            // }
-            // if (Input.GetMouseButtonUp(0))
-            // {
-            //     inDrag = false;
-            // }
-            // if (inDrag)
-            // {
-            //     Vector3 currentScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, v3Screen.z);
-            //     Vector3 currentPosition = Camera.main.ScreenToWorldPoint(currentScreenPoint) + v3Offset;
-
-            //     goDrag.transform.position = currentPosition;
-            // }
-
-            // return inDrag;
-        }
-
         public void SetTransform(Transform trans)
         {
             this.goDrag.transform.position = trans.position;

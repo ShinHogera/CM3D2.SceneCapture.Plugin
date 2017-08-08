@@ -45,7 +45,7 @@ namespace CM3D2.SceneCapture.Plugin
                     {
                         texture = ImportCM.CreateTexture(textureName);
                     }
-                    catch 
+                    catch
                     {
                         try
                         {

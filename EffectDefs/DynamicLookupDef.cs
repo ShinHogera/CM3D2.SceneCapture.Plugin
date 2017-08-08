@@ -30,6 +30,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 dynamicLookupEffect = Util.GetComponentVar<DynamicLookup, DynamicLookupDef>(dynamicLookupEffect);
             }
+
             white = new Color(1f, 1f, 1f);
             black = new Color(0f, 0f, 0f);
             red = new Color(1f, 0f, 0f);
@@ -56,6 +57,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(DynamicLookupPane dynamicLookupPane)
         {
+            if(dynamicLookupEffect == null)
+            {
+                dynamicLookupEffect = Util.GetComponentVar<DynamicLookup, DynamicLookupDef>(dynamicLookupEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 dynamicLookupPane.IsEnabled = dynamicLookupEffect.enabled;
             else

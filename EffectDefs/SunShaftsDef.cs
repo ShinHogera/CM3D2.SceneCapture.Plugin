@@ -41,6 +41,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 sunShaftsEffect = Util.GetComponentVar<SunShafts, SunShaftsDef>(sunShaftsEffect);
             }
+
             useDepthTexture = false;
             resolution = SunShaftsResolution.Normal;
             screenBlendMode = ShaftsScreenBlendMode.Screen;
@@ -86,6 +87,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(SunShaftsPane sunShaftsPane)
         {
+            if(sunShaftsEffect == null)
+            {
+                sunShaftsEffect = Util.GetComponentVar<SunShafts, SunShaftsDef>(sunShaftsEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 sunShaftsPane.IsEnabled = sunShaftsEffect.enabled;
             else
@@ -165,8 +171,6 @@ namespace CM3D2.SceneCapture.Plugin
         {
             if (!SunShaftsDef.isDrag)
                 return;
-
-            drag.Drag();
         }
     }
 }

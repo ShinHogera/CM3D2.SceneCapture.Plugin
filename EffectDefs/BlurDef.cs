@@ -27,6 +27,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 blurEffect = Util.GetComponentVar<Blur, BlurDef>(blurEffect);
             }
+
             //blurType = Blur.BlurType.StandardGauss;
             downsample = 1;
             blurSize = 3f;
@@ -35,6 +36,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void InitMemberByInstance(Blur blur)
         {
+            if(blurEffect == null)
+            {
+                blurEffect = Util.GetComponentVar<Blur, BlurDef>(blurEffect);
+            }
+
             blurIterations = blur.blurIterations;
             blurSize = blur.blurSize;
             downsample = blur.downsample;

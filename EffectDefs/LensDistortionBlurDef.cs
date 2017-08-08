@@ -26,6 +26,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 lensDistortionBlurEffect = Util.GetComponentVar<LensDistortionBlur, LensDistortionBlurDef>(lensDistortionBlurEffect);
             }
+
             quality = LensDistortionBlur.QualityPreset.Medium;
             samples = 10;
             distortion = 0.2f;
@@ -44,6 +45,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(LensDistortionBlurPane lensDistortionBlurPane)
         {
+            if(lensDistortionBlurEffect == null)
+            {
+                lensDistortionBlurEffect = Util.GetComponentVar<LensDistortionBlur, LensDistortionBlurDef>(lensDistortionBlurEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 lensDistortionBlurPane.IsEnabled = lensDistortionBlurEffect.enabled;
             else

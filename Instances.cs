@@ -14,13 +14,20 @@ namespace CM3D2.SceneCapture.Plugin
     internal class Instances {
         private static List<LightInfo> lights = null;
         public static bool needLightReload { get; set; }
+        private static List<ModelInfo> models = null;
+        public static bool needModelReload { get; set; }
+        public static bool needMiscReload { get; set; }
         public static bool needEffectWindowReload { get; set; }
+        public static string background { get; set; }
 
         public static void Create()
         {
             lights = new List<LightInfo>();
             needLightReload = false;
+            models = new List<ModelInfo>();
+            needModelReload = false;
             needEffectWindowReload = false;
+            background = ConstantValues.Background.Keys.First();
         }
 
         public static void SetLights(List<LightInfo> lights)
@@ -28,14 +35,34 @@ namespace CM3D2.SceneCapture.Plugin
             Instances.lights = lights;
         }
 
+        public static void SetModels(List<ModelInfo> models)
+        {
+            Instances.models = models;
+        }
+
         public static List<LightInfo> GetLights()
         {
             return Instances.lights;
         }
 
+        public static List<ModelInfo> GetModels()
+        {
+            return Instances.models;
+        }
+
         public static void ClearLights()
         {
             Instances.lights.Clear();
+        }
+
+        public static void ClearModels()
+        {
+            Instances.models.Clear();
+        }
+
+        public static void ClearMisc()
+        {
+            Instances.background = ConstantValues.Background.Keys.First();
         }
 
         public static XElement SaveEffects()
@@ -96,19 +123,52 @@ namespace CM3D2.SceneCapture.Plugin
             return xml;
         }
 
+        public static XElement SaveModels()
+        {
+            var xml = new XElement("Models");
+            Debug.Log(models == null);
+            foreach(ModelInfo model in models)
+            {
+                Debug.Log(model.position);
+                Debug.Log(model.rotation);
+                Debug.Log(model.localScale);
+                Debug.Log(model.modelName);
+                var elem = new XElement("Model",
+                                        new XElement("Position", Util.ConvertVector3ToString(model.position)),
+                                        new XElement("Rotation", Util.ConvertQuaternionToString(model.rotation)),
+                                        new XElement("LocalScale", Util.ConvertVector3ToString(model.localScale)),
+                                        new XElement("ModelName", model.modelName));
+                xml.Add(elem);
+            }
+            return xml;
+        }
+
+        public static XElement SaveMisc()
+        {
+            var xml = new XElement("Misc",
+                                        new XElement("Background", background));
+            return xml;
+        }
 
         public static XDocument Save()
         {
             return new XDocument(new XElement("Preset",
                                               SaveEffects(),
-                                              SaveLights()));
+                                              SaveLights(),
+                                              SaveModels(),
+                                              SaveMisc()));
         }
 
         private static void LoadEffects(XDocument xml)
         {
             try
             {
+                Instances.needEffectWindowReload = true;
                 XElement effects = xml.Element("Preset").Element("Effects");
+
+                if(effects == null)
+                    return;
+
                 SerializeStatic.LoadDef(effects, typeof(AntialiasingDef), typeof(AntialiasingAsPostEffect));
                 SerializeStatic.LoadDef(effects, typeof(BloomDef), typeof(Bloom));
                 SerializeStatic.LoadDef(effects, typeof(BlurDef), typeof(Blur));
@@ -138,7 +198,6 @@ namespace CM3D2.SceneCapture.Plugin
                 SerializeStatic.LoadDef(effects, typeof(BokehDef), typeof(Bokeh));
                 // SerializeStatic.LoadDef(effects, typeof(FeedbackDef), typeof(Feedback));
                 SerializeStatic.LoadDef(effects, typeof(ObscuranceDef), typeof(Obscurance));
-                Instances.needEffectWindowReload = true;
             }
             catch (Exception e)
             {
@@ -150,17 +209,20 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
+                Instances.needLightReload = true;
                 Instances.ClearLights();
                 XElement lightsElem = xml.Element("Preset").Element("Lights");
+
+                if(lightsElem == null)
+                    return;
+
                 List<LightInfo> lightsList = new List<LightInfo>();
+
                 foreach(XElement light in lightsElem.Elements())
                 {
-                    Debug.Log(light == null);
-                    Debug.Log(light.ToString());
                     lightsList.Add(Instances.LoadLight(light));
                 }
                 Instances.SetLights(lightsList);
-                Instances.needLightReload = true;
             }
             catch (Exception e)
             {
@@ -208,11 +270,88 @@ namespace CM3D2.SceneCapture.Plugin
             return null;
         }
 
+        private static void LoadModels(XDocument xml)
+        {
+            try
+            {
+                Instances.needModelReload = true;
+
+                Instances.ClearModels();
+                XElement modelsElem = xml.Element("Preset").Element("Models");
+
+                if(modelsElem == null)
+                    return;
+
+                List<ModelInfo> modelsList = new List<ModelInfo>();
+                foreach(XElement model in modelsElem.Elements())
+                {
+                    Debug.Log(model == null);
+                    Debug.Log(model.ToString());
+                    modelsList.Add(Instances.LoadModel(model));
+                }
+                Instances.SetModels(modelsList);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError( e );
+            }
+        }
+
+        private static ModelInfo LoadModel(XElement singleModel)
+        {
+            try
+            {
+                ModelInfo model = new ModelInfo();
+                Vector3 v3Out;
+                Quaternion qOut;
+
+                v3Out = Util.ConvertStringToVector3(singleModel.Element("Position").Value.ToString());
+                model.position = v3Out;
+
+                qOut = Util.ConvertStringToQuaternion(singleModel.Element("Rotation").Value.ToString());
+                model.rotation = qOut;
+
+                v3Out = Util.ConvertStringToVector3(singleModel.Element("LocalScale").Value.ToString());
+                model.localScale = v3Out;
+
+                model.modelName = singleModel.Element("ModelName").Value.ToString();
+
+                return model;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError( e );
+            }
+            return null;
+        }
+
+        private static void LoadMisc(XDocument xml)
+        {
+            try
+            {
+                Instances.needMiscReload = true;
+
+                Instances.ClearMisc();
+                XElement miscElem = xml.Element("Preset").Element("Misc");
+
+                if(miscElem == null)
+                    return;
+
+                Instances.background = miscElem.Element("Background").Value.ToString();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError( e );
+            }
+        }
+
         public static void Load(string filename)
         {
             XDocument xml = XDocument.Load(filename);
             Instances.LoadEffects(xml);
             Instances.LoadLights(xml);
+            Instances.LoadModels(xml);
+            Instances.LoadMisc(xml);
         }
     }
 }

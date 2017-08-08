@@ -91,7 +91,6 @@ namespace CM3D2.SceneCapture.Plugin
                 set
                 {
                     this._menus = value;
-                    ChangeCategory( this, new EventArgs() );
                 }
             }
 
@@ -233,7 +232,7 @@ namespace CM3D2.SceneCapture.Plugin
                     button.OnGUI();
 
                     j += 1;
-                    if(j == 4) {
+                    if(j == 5) {
                         j = 0;
                         rectItem.y += iFontSize * 5f;
                     }
@@ -260,6 +259,23 @@ namespace CM3D2.SceneCapture.Plugin
                 guiScrollHeight = rectItem.y + rectItem.height;
 
                 GUI.DragWindow();
+
+                {
+                    Vector2 mousePos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+
+                    bool enableGameGui = true;
+                    bool m = Input.GetAxis("Mouse ScrollWheel") != 0;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        m |= Input.GetMouseButtonDown(i);
+                    }
+                    if (m)
+                    {
+                        enableGameGui = !rect.Contains(mousePos);
+                    }
+                    GameMain.Instance.MainCamera.SetControl(enableGameGui);
+                    UICamera.InputEnable = enableGameGui;
+                }
 
                 // Vector2 screenSize = new Vector2(Screen.width, Screen.height);
                 // if (guiScrollHeight > screenSize.y * 0.7f)

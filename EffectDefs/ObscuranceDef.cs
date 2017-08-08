@@ -28,6 +28,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 obscuranceEffect = Util.GetComponentVar<Obscurance, ObscuranceDef>(obscuranceEffect);
             }
+
             intensity = 1;
             radius = 0.3f;
             sampleCount = Obscurance.SampleCount.Medium;
@@ -50,6 +51,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(ObscurancePane obscurancePane)
         {
+            if(obscuranceEffect == null)
+            {
+                obscuranceEffect = Util.GetComponentVar<Obscurance, ObscuranceDef>(obscuranceEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 obscurancePane.IsEnabled = obscuranceEffect.enabled;
             else

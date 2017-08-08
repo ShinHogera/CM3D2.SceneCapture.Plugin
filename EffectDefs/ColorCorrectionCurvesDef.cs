@@ -38,6 +38,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 colorCurvesEffect = Util.GetComponentVar<ColorCorrectionCurves, ColorCorrectionCurvesDef>(colorCurvesEffect);
             }
+
             mode = ColorCorrectionMode.Simple;
             selectiveCc = false;
             saturation = 1f;
@@ -101,6 +102,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(ColorCorrectionCurvesPane colorCorrectionCurvesPane)
         {
+            if(colorCurvesEffect == null)
+            {
+                colorCurvesEffect = Util.GetComponentVar<ColorCorrectionCurves, ColorCorrectionCurvesDef>(colorCurvesEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 colorCorrectionCurvesPane.IsEnabled = colorCurvesEffect.enabled;
             else

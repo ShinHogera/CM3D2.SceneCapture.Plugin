@@ -209,6 +209,29 @@ namespace CM3D2.SceneCapture.Plugin
             return Vector3.zero;
         }
 
+        public static string ConvertQuaternionToString(Quaternion q)
+        {
+            return q[0] + "," + q[1] + "," + q[2] + "," + q[3];
+        }
+
+        public static Quaternion ConvertStringToQuaternion(string s)
+        {
+            string[] sSplit = s.Split(',');
+            if (sSplit.Length == 4)
+            {
+                float[] fTmps = new float[4];
+                bool bFailure = false;
+                for (int x = 0; x < 4; x++)
+                {
+                    if (!float.TryParse(sSplit[x], out fTmps[x]))
+                        bFailure = true;
+                }
+                if (!bFailure)
+                    return new Quaternion(fTmps[0], fTmps[1], fTmps[2], fTmps[3]);
+            }
+            return Quaternion.identity;
+        }
+
         public static string ConvertColor32ToString(Color32 color)
         {
             return color.r + "," + color.g + "," + color.b + "," + color.a;

@@ -24,6 +24,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 technicolorEffect = Util.GetComponentVar<Technicolor, TechnicolorDef>(technicolorEffect);
             }
+
             exposure = 4f;
 	    balance = new Vector3(0.25f, 0.25f, 0.25f);
             amount = 0.5f;
@@ -38,6 +39,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(TechnicolorPane technicolorPane)
         {
+            if(technicolorEffect == null)
+            {
+                technicolorEffect = Util.GetComponentVar<Technicolor, TechnicolorDef>(technicolorEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 technicolorPane.IsEnabled = technicolorEffect.enabled;
             else

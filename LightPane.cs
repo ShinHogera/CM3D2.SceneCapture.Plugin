@@ -161,7 +161,6 @@ namespace CM3D2.SceneCapture.Plugin
                 return;
             }
 
-            this.dragManager.Drag();
             Vector3 newPos = new Vector3(this.dragManager.goDrag.transform.position.x,
                                          this.dragManager.goDrag.transform.position.y,
                                          this.dragManager.goDrag.transform.position.z);
@@ -411,7 +410,6 @@ namespace CM3D2.SceneCapture.Plugin
         private static readonly string[] LIGHT_SHADOWS = new string[] { "None", "Hard", "Soft" };
 
         private Light light = null;
-        private LightInfo lightSetting = null;
         private DragManager dragManager = null;
         private bool isDrag;
         private bool deleteRequested;

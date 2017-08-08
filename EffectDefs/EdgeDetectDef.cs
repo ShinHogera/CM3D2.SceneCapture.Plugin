@@ -54,6 +54,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(EdgeDetectPane edgeDetectPane)
         {
+            if(edgeDetectEffect == null)
+            {
+                edgeDetectEffect = Util.GetComponentVar<EdgeDetectEffectNormals, EdgeDetectDef>(edgeDetectEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 edgeDetectPane.IsEnabled = edgeDetectEffect.enabled;
             else

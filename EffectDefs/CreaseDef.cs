@@ -24,6 +24,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 creaseEffect = Util.GetComponentVar<Crease, CreaseDef>(creaseEffect);
             }
+
             intensity = 0.5f;
             softness = 1;
             spread = 1f;
@@ -39,6 +40,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(CreasePane creasePane)
         {
+            if(creaseEffect == null)
+            {
+                creaseEffect = Util.GetComponentVar<Crease, CreaseDef>(creaseEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 creasePane.IsEnabled = creaseEffect.enabled;
             else

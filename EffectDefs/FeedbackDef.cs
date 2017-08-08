@@ -27,6 +27,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 feedbackEffect = Util.GetComponentVar<Feedback, FeedbackDef>(feedbackEffect);
             }
+
             color = Color.white;
             offsetX = 0f;
             offsetY = 0f;
@@ -47,6 +48,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(FeedbackPane feedbackPane)
         {
+            if(feedbackEffect == null)
+            {
+                feedbackEffect = Util.GetComponentVar<Feedback, FeedbackDef>(feedbackEffect);
+            }
+
             if (Instances.needEffectWindowReload == true)
                 feedbackPane.IsEnabled = feedbackEffect.enabled;
             else
