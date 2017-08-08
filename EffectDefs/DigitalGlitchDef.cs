@@ -33,11 +33,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(DigitalGlitchPane digitalGlitchPane)
         {
-            if(digitalGlitchEffect == null)
-            {
-                digitalGlitchEffect = Util.GetComponentVar<DigitalGlitch, DigitalGlitchDef>(digitalGlitchEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 digitalGlitchPane.IsEnabled = digitalGlitchEffect.enabled;
             else

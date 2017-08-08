@@ -42,11 +42,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(HueFocusPane hueFocusPane)
         {
-            if(hueFocusEffect == null)
-            {
-                hueFocusEffect = Util.GetComponentVar<HueFocus, HueFocusDef>(hueFocusEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 hueFocusPane.IsEnabled = hueFocusEffect.enabled;
             else

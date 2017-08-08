@@ -57,11 +57,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(DynamicLookupPane dynamicLookupPane)
         {
-            if(dynamicLookupEffect == null)
-            {
-                dynamicLookupEffect = Util.GetComponentVar<DynamicLookup, DynamicLookupDef>(dynamicLookupEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 dynamicLookupPane.IsEnabled = dynamicLookupEffect.enabled;
             else

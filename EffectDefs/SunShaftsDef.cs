@@ -87,11 +87,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(SunShaftsPane sunShaftsPane)
         {
-            if(sunShaftsEffect == null)
-            {
-                sunShaftsEffect = Util.GetComponentVar<SunShafts, SunShaftsDef>(sunShaftsEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 sunShaftsPane.IsEnabled = sunShaftsEffect.enabled;
             else

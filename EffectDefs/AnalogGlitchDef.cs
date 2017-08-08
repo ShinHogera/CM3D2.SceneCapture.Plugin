@@ -42,11 +42,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(AnalogGlitchPane analogGlitchPane)
         {
-            if(analogGlitchEffect == null)
-            {
-                analogGlitchEffect = Util.GetComponentVar<AnalogGlitch, AnalogGlitchDef>(analogGlitchEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 analogGlitchPane.IsEnabled = analogGlitchEffect.enabled;
             else

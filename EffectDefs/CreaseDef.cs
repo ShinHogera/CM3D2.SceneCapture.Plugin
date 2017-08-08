@@ -40,11 +40,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(CreasePane creasePane)
         {
-            if(creaseEffect == null)
-            {
-                creaseEffect = Util.GetComponentVar<Crease, CreaseDef>(creaseEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 creasePane.IsEnabled = creaseEffect.enabled;
             else

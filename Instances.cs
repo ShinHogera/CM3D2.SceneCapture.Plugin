@@ -20,14 +20,43 @@ namespace CM3D2.SceneCapture.Plugin
         public static bool needEffectWindowReload { get; set; }
         public static string background { get; set; }
 
-        public static void Create()
+        public Instances()
         {
+            Debug.Log("new instances");
             lights = new List<LightInfo>();
             needLightReload = false;
             models = new List<ModelInfo>();
             needModelReload = false;
             needEffectWindowReload = false;
             background = ConstantValues.Background.Keys.First();
+
+            new ColorCorrectionCurvesDef();
+            new SepiaDef();
+            new GrayscaleDef();
+            new ContrastDef();
+            new EdgeDetectDef();
+            new CreaseDef();
+            new AntialiasingDef();
+            new NoiseAndGrainDef();
+            new BlurDef();
+            new DepthOfFieldDef();
+            new MotionBlurDef();
+            new BloomDef();
+            new GlobalFogDef();
+            new TiltShiftHdrDef();
+            new FisheyeDef();
+            new VignettingDef();
+            new SunShaftsDef();
+            new LensDistortionBlurDef();
+            new LetterboxDef();
+            new HueFocusDef();
+            new ChannelSwapDef();
+            new TechnicolorDef();
+            new DynamicLookupDef();
+            new AnalogGlitchDef();
+            new DigitalGlitchDef();
+            new BokehDef();
+            new ObscuranceDef();
         }
 
         public static void SetLights(List<LightInfo> lights)
@@ -146,7 +175,7 @@ namespace CM3D2.SceneCapture.Plugin
         public static XElement SaveMisc()
         {
             var xml = new XElement("Misc",
-                                        new XElement("Background", background));
+                                   new XElement("Background", background));
             return xml;
         }
 

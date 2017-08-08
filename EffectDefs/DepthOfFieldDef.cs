@@ -102,11 +102,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(DepthOfFieldPane depthOfFieldPane)
         {
-            if(depthOfFieldEffect == null)
-            {
-                depthOfFieldEffect = Util.GetComponentVar<DepthOfFieldScatter, DepthOfFieldDef>(depthOfFieldEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 depthOfFieldPane.IsEnabled = depthOfFieldEffect.enabled;
             else

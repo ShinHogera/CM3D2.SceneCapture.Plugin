@@ -36,11 +36,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(FisheyePane fisheyePane)
         {
-            if(fisheyeEffect == null)
-            {
-                fisheyeEffect = Util.GetComponentVar<Fisheye, FisheyeDef>(fisheyeEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 fisheyePane.IsEnabled = fisheyeEffect.enabled;
             else

@@ -51,11 +51,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(ObscurancePane obscurancePane)
         {
-            if(obscuranceEffect == null)
-            {
-                obscuranceEffect = Util.GetComponentVar<Obscurance, ObscuranceDef>(obscuranceEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 obscurancePane.IsEnabled = obscuranceEffect.enabled;
             else

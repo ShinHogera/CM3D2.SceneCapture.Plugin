@@ -26,6 +26,8 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
+                new Instances();
+
                 this.colorCorrectionCurvesPane = new ColorCorrectionCurvesPane( this.FontSize );
                 this.ChildControls.Add( this.colorCorrectionCurvesPane );
 

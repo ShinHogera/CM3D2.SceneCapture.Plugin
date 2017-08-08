@@ -39,11 +39,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(ChannelSwapPane channelSwapPane)
         {
-            if(channelSwapEffect == null)
-            {
-                channelSwapEffect = Util.GetComponentVar<ChannelSwapper, ChannelSwapDef>(channelSwapEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 channelSwapPane.IsEnabled = channelSwapEffect.enabled;
             else

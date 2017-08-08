@@ -55,11 +55,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(VignettingPane vignettingPane)
         {
-            if(vignettingEffect == null)
-            {
-                vignettingEffect = Util.GetComponentVar<Vignetting, VignettingDef>(vignettingEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 vignettingPane.IsEnabled = vignettingEffect.enabled;
             else

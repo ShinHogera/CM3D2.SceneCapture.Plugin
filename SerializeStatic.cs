@@ -176,11 +176,11 @@ namespace CM3D2.SceneCapture.Plugin
                     // Effect was not enabled in the preset. Disable it.
                     if(typeof(Bloom) == enabled_effect)
                     {
-                        Debug.Log("Resetting bloom!");
+                        // Debug.Log("Resetting bloom!");
                         enabledProperty.SetValue(null, false, null);
-                        MethodInfo mi = effectDefType.GetMethod("Reset");
-                        if (mi != null)
-                            mi.Invoke(null, null);
+                        // MethodInfo mi = effectDefType.GetMethod("Reset");
+                        // if (mi != null)
+                        //     mi.Invoke(null, null);
                     }
                     else
                     {

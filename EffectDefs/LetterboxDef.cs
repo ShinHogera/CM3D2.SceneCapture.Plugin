@@ -39,11 +39,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(LetterboxPane letterboxPane)
         {
-            if(letterboxEffect == null)
-            {
-                letterboxEffect = Util.GetComponentVar<Letterbox, LetterboxDef>(letterboxEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 letterboxPane.IsEnabled = letterboxEffect.enabled;
             else

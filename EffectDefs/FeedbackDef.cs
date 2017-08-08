@@ -48,11 +48,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(FeedbackPane feedbackPane)
         {
-            if(feedbackEffect == null)
-            {
-                feedbackEffect = Util.GetComponentVar<Feedback, FeedbackDef>(feedbackEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 feedbackPane.IsEnabled = feedbackEffect.enabled;
             else

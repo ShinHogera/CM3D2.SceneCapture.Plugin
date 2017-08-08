@@ -34,7 +34,7 @@ namespace CM3D2.SceneCapture.Plugin
                 this.bgButton.Click += BGButtonPressed;
                 this.ChildControls.Add( this.bgButton );
 
-                this.backgroundBox = new CustomComboBox( this.allBackgrounds.Keys.ToArray() );
+                this.backgroundBox = new CustomComboBox( new string[0] );
                 this.backgroundBox.FontSize = this.FontSize;
                 this.backgroundBox.Text = "Background";
                 this.backgroundBox.SelectedIndex = 0;
@@ -90,6 +90,7 @@ namespace CM3D2.SceneCapture.Plugin
                         name = Path.GetFileNameWithoutExtension(name);
                         this.allBackgrounds.Add(name, name);
                     }
+                    this.backgroundBox.SetItems(this.allBackgrounds.Keys.ToList());
                     addedBackgrounds = true;
                 }
 

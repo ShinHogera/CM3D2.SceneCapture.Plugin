@@ -59,11 +59,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(BokehPane bokehPane)
         {
-            if(bokehEffect == null)
-            {
-                bokehEffect = Util.GetComponentVar<Bokeh, BokehDef>(bokehEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 bokehPane.IsEnabled = bokehEffect.enabled;
             else

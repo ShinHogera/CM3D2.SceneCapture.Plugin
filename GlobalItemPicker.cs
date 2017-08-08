@@ -260,22 +260,22 @@ namespace CM3D2.SceneCapture.Plugin
 
                 GUI.DragWindow();
 
-                {
-                    Vector2 mousePos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+                // {
+                //     Vector2 mousePos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
 
-                    bool enableGameGui = true;
-                    bool m = Input.GetAxis("Mouse ScrollWheel") != 0;
-                    for (int i = 0; i < 3; i++)
-                    {
-                        m |= Input.GetMouseButtonDown(i);
-                    }
-                    if (m)
-                    {
-                        enableGameGui = !rect.Contains(mousePos);
-                    }
-                    GameMain.Instance.MainCamera.SetControl(enableGameGui);
-                    UICamera.InputEnable = enableGameGui;
-                }
+                //     bool enableGameGui = true;
+                //     bool m = Input.GetAxis("Mouse ScrollWheel") != 0;
+                //     for (int i = 0; i < 3; i++)
+                //     {
+                //         m |= Input.GetMouseButtonDown(i);
+                //     }
+                //     if (m)
+                //     {
+                //         enableGameGui = !rect.Contains(mousePos);
+                //     }
+                //     GameMain.Instance.MainCamera.SetControl(enableGameGui);
+                //     UICamera.InputEnable = enableGameGui;
+                // }
 
                 // Vector2 screenSize = new Vector2(Screen.width, Screen.height);
                 // if (guiScrollHeight > screenSize.y * 0.7f)

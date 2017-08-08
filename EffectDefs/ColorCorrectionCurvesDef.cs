@@ -102,11 +102,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(ColorCorrectionCurvesPane colorCorrectionCurvesPane)
         {
-            if(colorCurvesEffect == null)
-            {
-                colorCurvesEffect = Util.GetComponentVar<ColorCorrectionCurves, ColorCorrectionCurvesDef>(colorCurvesEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 colorCorrectionCurvesPane.IsEnabled = colorCurvesEffect.enabled;
             else

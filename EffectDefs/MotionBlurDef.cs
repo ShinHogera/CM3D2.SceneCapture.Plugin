@@ -36,11 +36,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(MotionBlurPane motionBlurPane)
         {
-            if(motionBlurEffect == null)
-            {
-                motionBlurEffect = Util.GetComponentVar<MotionBlur, MotionBlurDef>(motionBlurEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 motionBlurPane.IsEnabled = motionBlurEffect.enabled;
             else

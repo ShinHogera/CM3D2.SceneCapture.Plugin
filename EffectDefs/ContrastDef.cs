@@ -39,11 +39,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Update(ContrastPane contrastPane)
         {
-            if(contrastEffect == null)
-            {
-                contrastEffect = Util.GetComponentVar<ContrastEnhance, ContrastDef>(contrastEffect);
-            }
-
             if (Instances.needEffectWindowReload == true)
                 contrastPane.IsEnabled = contrastEffect.enabled;
             else

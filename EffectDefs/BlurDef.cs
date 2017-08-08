@@ -36,11 +36,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void InitMemberByInstance(Blur blur)
         {
-            if(blurEffect == null)
-            {
-                blurEffect = Util.GetComponentVar<Blur, BlurDef>(blurEffect);
-            }
-
             blurIterations = blur.blurIterations;
             blurSize = blur.blurSize;
             downsample = blur.downsample;

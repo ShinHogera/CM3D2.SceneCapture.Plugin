@@ -668,6 +668,18 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
+        public void SetItems(List<String> itemList)
+        {
+            try
+            {
+                this._items = itemList.Select( x => new GUIContent( x ) ).ToList();
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
         ///-------------------------------------------------------------------------
         /// <summary>ドロップダウンリストのGUI処理</summary>
         /// <param name="windowID">ウィンドウID</param>
