@@ -22,6 +22,7 @@ namespace CM3D2.SceneCapture.Plugin
         {
             this.edgeDetectModeBox = new CustomComboBox( EDGEDETECT_MODES );
             this.edgeDetectModeBox.SelectedIndex = (int)EdgeDetectDef.edgeDetectEffect.mode;
+            this.edgeDetectModeBox.Text = "Mode";
             this.ChildControls.Add( this.edgeDetectModeBox );
 
             this.sensitivityNormalsSlider = new CustomSlider( EdgeDetectDef.edgeDetectEffect.sensitivityNormals, 0f, 10f, 1 );
@@ -83,7 +84,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void Reset()
         {
-            
+
         }
 
         #region Properties

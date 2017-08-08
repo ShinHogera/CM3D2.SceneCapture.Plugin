@@ -315,7 +315,7 @@ namespace CM3D2.SceneCapture.Plugin
       { "パンツ", MPN.panz },
       { "靴下", MPN.stkg },
       { "靴", MPN.shoes },
-      { "前髪 a", MPN.acckami },
+      { "前髪アクセ", MPN.acckami },
       { "メガネ", MPN.megane },
       { "アイマスク", MPN.acchead },
       { "鼻", MPN.acchana },
@@ -324,7 +324,7 @@ namespace CM3D2.SceneCapture.Plugin
       { "ネックレス", MPN.acckubi },
       { "チョーカー", MPN.acckubiwa },
       { "リボン", MPN.acckamisub },
-      { "乳首 acc", MPN.accnip },
+      { "乳首アクセ", MPN.accnip },
       { "腕", MPN.accude },
       { "へそ", MPN.accheso },
       { "足首", MPN.accashi },
@@ -332,7 +332,7 @@ namespace CM3D2.SceneCapture.Plugin
       { "しっぽ", MPN.accshippo },
       { "前穴", MPN.accxxx },
       { "肌", MPN.skin },
-      { "乳首 type", MPN.chikubi },
+      { "乳首", MPN.chikubi },
       { "タトゥー", MPN.acctatoo },
       { "アンダーヘア", MPN.underhair }
   };

@@ -112,7 +112,7 @@ namespace CM3D2.SceneCapture.Plugin
         {
             this.backgroundBox.Left = this.Left + ControlBase.FixedMargin;
             this.backgroundBox.Top = this.Top + ControlBase.FixedMargin;
-            this.backgroundBox.Width = this.Width / 2 - ControlBase.FixedMargin / 4;
+            this.backgroundBox.Width = this.Width - ControlBase.FixedMargin / 4;
             this.backgroundBox.Height = this.ControlHeight;
             this.backgroundBox.OnGUI();
 
@@ -166,7 +166,7 @@ namespace CM3D2.SceneCapture.Plugin
             target.GetComponent<GizmoRenderTarget>().eScal = false;
         }
 
-        private void AddModel(String modelFileName)
+        private GameObject LoadModel(String modelFileName)
         {
             GameObject model = AssetLoader.LoadMesh(modelFileName);
             model.name = MODEL_TAG;
@@ -183,6 +183,12 @@ namespace CM3D2.SceneCapture.Plugin
             model.transform.localScale = new Vector3(1,1,1);
             model.transform.position = new Vector3(0, 0, 0);
 
+            return model;
+        }
+
+        private void AddModel(String modelFileName)
+        {
+            GameObject model = this.LoadModel(modelFileName);
             this.AddModelPane(model, modelFileName);
         }
 
@@ -285,7 +291,6 @@ namespace CM3D2.SceneCapture.Plugin
                 Debug.Log("Gizmo null! " + pane.Name);
                 return;
             }
-            Debug.Log("before " +gizmo.eAxis.ToString() + " " + gizmo.eRotate.ToString() + " " + gizmo.eScal.ToString());
 
             if( pane.WantsTogglePan != gizmo.eAxis ) {
                 gizmo.eAxis = pane.WantsTogglePan;
@@ -314,13 +319,29 @@ namespace CM3D2.SceneCapture.Plugin
                 gizmo.transform.localScale = new Vector3(1, 1, 1);
                 pane.wantsResetScale = false;
             }
-
-            Debug.Log("after " +gizmo.eAxis.ToString() + " " + gizmo.eRotate.ToString() + " " + gizmo.eScal.ToString());
+            if( pane.wantsCopy )
+            {
+                this.CopyModel( pane );
+                pane.wantsCopy = false;
+            }
 
             if (!gizmo.eAxis && !gizmo.eRotate && !gizmo.eScal)
                 gizmo.Visible = false;
             else
                 gizmo.Visible = true;
+        }
+
+        private void CopyModel( ModelPane pane )
+        {
+            GameObject toCopy = this.addedModelInstance[ pane.Name ].Key;
+            string modelName = this.addedModelInstance[ pane.Name ].Value;
+            GameObject model = this.LoadModel(modelName);
+            model.transform.position = toCopy.transform.position;
+            model.transform.rotation = toCopy.transform.rotation;
+            model.transform.localScale = toCopy.transform.localScale;
+
+            this.AddModelPane( model, modelName );
+            this.SetModelInstances();
         }
 
         public void SetModelInstances()

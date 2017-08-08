@@ -42,7 +42,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.ChildControls.Add( this.downsamplingCheckbox );
 
             this.occlusionSourceBox = new CustomComboBox( OBSCURANCE_OCCLUSIONSOURCE );
-            this.occlusionSourceBox.Text = "SAMPLECOUNT";
+            this.occlusionSourceBox.Text = "Occlusion Source";
             this.occlusionSourceBox.SelectedIndex = (int)ObscuranceDef.obscuranceEffect.occlusionSource;
             this.ChildControls.Add( this.occlusionSourceBox );
 

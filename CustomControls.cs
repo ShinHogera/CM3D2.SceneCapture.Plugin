@@ -579,6 +579,10 @@ namespace CM3D2.SceneCapture.Plugin
                     this.comboListStyle.hover.textColor = this.comboListStyle.onHover.textColor =
                     this.comboListStyle.active.textColor = this.comboListStyle.onActive.textColor =
                     this.comboListStyle.focused.textColor = this.comboListStyle.onFocused.textColor = Color.white;
+
+                this.labelStyle = new GUIStyle( "label" );
+                labelStyle.alignment = TextAnchor.MiddleLeft;
+                labelStyle.fontSize = this.FixedFontSize;
             }
             catch( Exception e )
             {
@@ -613,8 +617,11 @@ namespace CM3D2.SceneCapture.Plugin
                     this.comboBoxButton = new GUIContent( String.Empty );
                 }
 
+                Rect labelRect = new Rect( this.Left, this.Top, this.Width / 3, this.Height );
+                GUI.Label( labelRect, this.Text, this.labelStyle );
+
                 // ボタン
-                Rect comboBoxRect = new Rect( this.Left, this.Top, this.Width, this.Height );
+                Rect comboBoxRect = new Rect( this.Left + this.Width / 3, this.Top, (this.Width / 3) * 2, this.Height );
                 if( GUI.Button( comboBoxRect, this.comboBoxButton, this.comboButtonStyle ) )
                 {
                     if( this._items != null )
@@ -634,7 +641,7 @@ namespace CM3D2.SceneCapture.Plugin
                     float itemHeight = comboListStyle.CalcHeight( this.comboBoxButton, 1.0f ) * ( this._items.Count );
                     float windowHeight = maxDropDownListHeight < itemHeight ? maxDropDownListHeight : itemHeight;
 
-                    this.dropDownListRect = new Rect( this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y + this.ScreenPos.height, this.Width, windowHeight );
+                    this.dropDownListRect = new Rect( comboBoxRect.x + this.ScreenPos.x, this.Top + this.ScreenPos.y + this.ScreenPos.height, comboBoxRect.width, windowHeight );
                     // this.dropDownListRect = new Rect( this.Left, this.Top + this.Height, this.Width, windowHeight );
 
                     // ウィンドウ表示
@@ -644,7 +651,7 @@ namespace CM3D2.SceneCapture.Plugin
                     // グリッド表示
                     // The '36' is from the scrollable pane's item size times 2
                     // Need to replace later.
-                    Rect listRect = new Rect( this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y + 36, this.dropDownListRect.width, this.dropDownListRect.height );
+                    Rect listRect = new Rect( this.dropDownListRect.x, this.Top + this.ScreenPos.y + 36, this.dropDownListRect.width, this.dropDownListRect.height );
 
                     GUIContent[] contents = new GUIContent[ this._items.Count ];
                     this._items.CopyTo( contents );
@@ -955,6 +962,8 @@ namespace CM3D2.SceneCapture.Plugin
 
         // コンボリストスタイル
         private GUIStyle comboListStyle = null;
+
+        private GUIStyle labelStyle = null;
 
         /// <summary>スクロール位置</summary>
         private Vector2 scrollViewVector = Vector2.zero;

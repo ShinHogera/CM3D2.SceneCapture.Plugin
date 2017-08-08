@@ -73,6 +73,12 @@ namespace CM3D2.SceneCapture.Plugin
             this.modelDeleteButton.Text = "X";
             this.modelDeleteButton.Click += this.DeleteModel;
             this.ChildControls.Add( this.modelDeleteButton );
+
+            this.modelCopyButton = new CustomButton();
+            this.modelCopyButton.FontSize = this.FontSize;
+            this.modelCopyButton.Text = "Copy";
+            this.modelCopyButton.Click += this.CopyModel;
+            this.ChildControls.Add( this.modelCopyButton );
         }
 
         override public void OnGUI()
@@ -102,6 +108,12 @@ namespace CM3D2.SceneCapture.Plugin
             this.gizmoScaleToggle.Width = (this.Width / 5) - ControlBase.FixedMargin / 4;
             this.gizmoScaleToggle.Height = this.ControlHeight;
             this.gizmoScaleToggle.OnGUI();
+
+            this.modelCopyButton.Left = this.gizmoScaleToggle.Left + this.gizmoScaleToggle.Width;
+            this.modelCopyButton.Top = this.Top + ControlBase.FixedMargin;
+            this.modelCopyButton.Width = (this.Width / 10) - ControlBase.FixedMargin / 4;
+            this.modelCopyButton.Height = this.ControlHeight;
+            this.modelCopyButton.OnGUI();
 
             this.resetPanButton.Left = this.modelNameLabel.Left + this.modelNameLabel.Width;
             this.resetPanButton.Top = this.Top + ControlBase.FixedMargin + this.ControlHeight;
@@ -184,6 +196,12 @@ namespace CM3D2.SceneCapture.Plugin
             this.wasChanged = true;
         }
 
+        private void CopyModel( object sender, EventArgs args )
+        {
+            this.wantsCopy = true;
+            this.wasChanged = true;
+        }
+
         private void DeleteModel( object sender, EventArgs args )
         {
             this.deleteRequested = true;
@@ -198,7 +216,6 @@ namespace CM3D2.SceneCapture.Plugin
                 this.cachedRotation = transform.rotation;
                 this.cachedLocalScale = transform.localScale;
             }
-
         }
 
         #region Properties
@@ -290,9 +307,11 @@ namespace CM3D2.SceneCapture.Plugin
         public bool wantsResetPan { get; set; }
         public bool wantsResetRotation { get; set; }
         public bool wantsResetScale { get; set; }
+        public bool wantsCopy { get; set; }
 
         private CustomLabel modelNameLabel = null;
         private CustomButton modelDeleteButton = null;
+        private CustomButton modelCopyButton = null;
         private CustomToggleButton gizmoPanToggle = null;
         private CustomToggleButton gizmoRotateToggle = null;
         private CustomToggleButton gizmoScaleToggle = null;
