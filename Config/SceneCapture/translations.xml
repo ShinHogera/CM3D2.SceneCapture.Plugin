@@ -1,0 +1,137 @@
+<Translations>
+  <Translation language="English">
+      <AnalogGlitch>
+          <scanLineJitter>Scan Line Jitter</scanLineJitter>
+          <verticalJump>Vertical Jump</verticalJump>
+          <horizontalShake>Horizontal Shake</horizontalShake>
+          <colorDrift>Color Drift</colorDrift>
+      </AnalogGlitch>
+      <Antialiasing>
+        <mode>Technique</mode>
+        <dlaaSharp>Sharp</dlaaSharp>
+        <showGeneratedNormals>Show Generated Normals</showGeneratedNormals>
+        <blurRadius>Blur Radius</blurRadius>
+        <edgeSharpness>Edge Sharpness</edgeSharpness>
+        <edgeThreshold>Edge Threshold</edgeThreshold>
+        <edgeThresholdMin>Edge Threshold Min</edgeThresholdMin>
+        <offsetScale>Offset Scale</offsetScale>
+      </Antialiasing>
+      <Bloom>
+        <hdr>HDR</hdr>
+        <screenBlendMode>Blend</screenBlendMode>
+        <tweakMode>Mode</tweakMode>
+        <quality>Complex</quality>
+        <bloomIntensity>Intensity</bloomIntensity>
+        <bloomThreshold>Threshold</bloomThreshold>
+        <bloomBlurIterations>Blur Iterations</bloomBlurIterations>
+        <sepBlurSpread>Blur Spread</sepBlurSpread>
+        <bloomThresholdColor>Threshold Color</bloomThresholdColor>
+        <lensflareMode>Lensflare Mode</lensflareMode>
+        <lensflareIntensity>Lensflare Intensity</lensflareIntensity>
+        <lensFlareSaturation>Lensflare Saturation</lensFlareSaturation>
+        <lensflareThreshold>Lensflare Threshold</lensflareThreshold>
+        <flareRotation>Lensflare Rotation</flareRotation>
+        <blurWidth>Blur Width</blurWidth>
+        <hollyStretchWidth>Hollywood Blur Stretch Width</hollyStretchWidth>
+        <hollywoodFlareBlurIterations>Hollywood Blur Iterations</hollywoodFlareBlurIterations>
+        <flareColorA>Flare Color A</flareColorA>
+        <flareColorB>Flare Color B</flareColorB>
+        <flareColorC>Flare Color C</flareColorC>
+        <flareColorD>Flare Color D</flareColorD>
+      </Bloom>
+      <Blur>
+        <blurIterations>Iterations</blurIterations>
+        <blurSize>Size</blurSize>
+        <downsample>Downsample</downsample>
+      </Blur>
+      <Bokeh>
+        <focusDistance>FocusDistance</focusDistance>
+        <fNumber>f Number</fNumber>
+        <kernelSize>Kernel Size</kernelSize>
+        <useCameraFov>Use Camera FOV</useCameraFov>
+        <focalLength>Focal Length</focalLength>
+        <visualize>Visualize</visualize>
+      </Bokeh>
+      <ChannelSwap>
+        <redSource>Red Source</redSource>
+        <greenSource>Green Source</greenSource>
+        <blueSource>Blue Source</blueSource>
+      </ChannelSwap>
+      <ColorCorrectionCurves>
+        <mode>Advanced</mode>
+        <saturation>Saturation</saturation>
+        <redChannel>Red Channel</redChannel>
+        <greenChannel>Green Channel</greenChannel>
+        <blueChannel>Blue Channel</blueChannel>
+        <depthRedChannel>Red Channel Depth</depthRedChannel>
+        <depthGreenChannel>Green Channel Depth</depthGreenChannel>
+        <depthBlueChannel>Blue Channel Depth</depthBlueChannel>
+        <zCurve>Z Curve</zCurve>
+        <selectiveCc>Selective Color Correction</selectiveCc>
+      </ColorCorrectionCurves>
+      <Contrast>
+        <intensity>Intensity</intensity>
+        <threshold>Threshold</threshold>
+        <blurSpread>Blur Spread</blurSpread>
+      </Contrast>
+      <Crease>
+        <intensity>Intensity</intensity>
+        <softness>Softness</softness>
+        <spread>Spread</spread>
+      </Crease>
+      <DepthOfField>
+        <visualizeFocus>Visualize Focus</visualizeFocus>
+        <focalLength>Focal Length</focalLength>
+        <focalSize>Focal Size</focalSize>
+        <aperture>Aperature</aperture>
+        <blurType>DX11 Blur</blurType>
+        <blurSampleCount>Blur Sample Count</blurSampleCount>
+        <maxBlurSize>Max Blur Size</maxBlurSize>
+        <highResolution>High Resolution</highResolution>
+        <nearBlur>Near Blur</nearBlur>
+        <foregroundOverlap>Foreground Overlap</foregroundOverlap>
+        <dx11BokehScale>Bokeh Scale</dx11BokehScale>
+        <dx11BokehIntensity>Bokeh Intensity</dx11BokehIntensity>
+        <dx11BokehThreshhold>Bokeh Threshhold</dx11BokehThreshhold>
+        <dx11SpawnHeuristic>Spawn Heuristic</dx11SpawnHeuristic>
+      </DepthOfField>
+      <DigitalGlitch>
+        <intensity>Intensity</intensity>
+      </DigitalGlitch>
+      <DynamicLookup>
+        <white>White</white>
+        <black>Black</black>
+        <red>Red</red>
+        <green>Green</green>
+        <blue>Blue</blue>
+        <yellow>Yellow</yellow>
+        <magenta>Magenta</magenta>
+        <cyan>Cyan</cyan>
+        <amount>Amount</amount>
+      </DynamicLookup>
+      <EdgeDetect>
+        <edgeDetectMode>Mode</edgeDetectMode>
+        <sensitivityNormals>Sensitivity Normals</sensitivityNormals>
+        <edgeExp>Edges Exponent</edgeExp>
+        <sensitivityDepth>Sensitivity Depth</sensitivityDepth>
+        <lumThreshold>Luminance Threshold</lumThreshold>
+        <sampleDist>Sample Distance</sampleDist>
+        <edgesOnly>Edges Only</edgesOnly>
+        <edgesOnlyBgColor>Edges Only Background</edgesOnlyBgColor>
+      </EdgeDetect>
+
+      <UI>
+        <transformFromMaid>Focal Transform</transformFromMaid>
+        <reloadMaids>Reload</reloadMaids>
+      </UI>
+  </Translation>
+
+  <Translation language="日本語">
+      <AnalogGlitch>
+          <scanLineJitter>Scan Line Jitter</scanLineJitter>
+          <verticalJump>Vertical Jump</verticalJump>
+          <horizontalShake>Horizontal Shake</horizontalShake>
+          <colorDrift>Color Drift</colorDrift>
+      </AnalogGlitch>
+  </Translation>
+</Translations>
