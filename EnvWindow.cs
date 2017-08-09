@@ -15,6 +15,11 @@ using UnityInjector.Attributes;
 
 namespace CM3D2.SceneCapture.Plugin
 {
+ public static class Vector3Ext {
+ public static Vector3 reciprocal(this Vector3 input){
+ return new Vector3(1f/input.x,1f/input.y,1f/input.z);
+     }
+ } 
     internal class EnvWindow : ScrollablePane
     {
         public EnvWindow( int fontSize ) : base ( fontSize ) {
@@ -33,6 +38,11 @@ namespace CM3D2.SceneCapture.Plugin
                 this.bgButton.Text = "Add Model";
                 this.bgButton.Click += BGButtonPressed;
                 this.ChildControls.Add( this.bgButton );
+
+                this.doItButton = new CustomButton();
+                this.doItButton.Text = "Do It";
+                this.doItButton.Click += DoItButtonPressed;
+                this.ChildControls.Add( this.doItButton );
 
                 this.allBackgrounds = new Dictionary<string, string>();
                 this.allBackgrounds.Add("", "");
@@ -104,8 +114,9 @@ namespace CM3D2.SceneCapture.Plugin
             this.backgroundBox.OnGUI();
 
             GUIUtil.AddGUICheckbox( this, this.bgButton, this.backgroundBox );
+            GUIUtil.AddGUICheckbox( this, this.doItButton, this.bgButton );
 
-            ControlBase prev = this.bgButton;
+            ControlBase prev = this.doItButton;
             foreach( ModelPane pane in this.modelPanes )
             {
                 GUIUtil.AddGUICheckbox( this, pane, prev );
@@ -184,8 +195,6 @@ namespace CM3D2.SceneCapture.Plugin
 
             // model.AddComponent<Cloth>().enabled = true;
             // model.GetComponent<Cloth>().useGravity = true;
-            // model.AddComponent<Rigidbody>().useGravity = true;
-            // model.GetComponent<Rigidbody>().isKinematic = true;
             // this.Collidify(model);
 
             model.transform.localScale = new Vector3(1,1,1);
@@ -197,6 +206,25 @@ namespace CM3D2.SceneCapture.Plugin
         private void AddModel( String modelFileName, String modelIconName )
         {
             GameObject model = this.LoadModel(modelFileName);
+            model.AddComponent<Rigidbody>().useGravity = true;
+            model.GetComponent<Rigidbody>().isKinematic = false;
+            // this.Collidify(model);
+
+
+                foreach(var t in model.GetComponentsInChildren<Transform>())
+                {
+                    Renderer renderer = t.gameObject.GetComponent<Renderer>();
+                    if(renderer != null)
+                    {
+                        Debug.Log("GET");
+                        BoxCollider box = t.gameObject.AddComponent<BoxCollider> ();
+                        // box.center = new Vector3 (0, renderer.bounds.size.y * model.transform.localScale.reciprocal().y * 0.5f,0);
+                        // box.size = Vector3.Scale(renderer.bounds.size,model.transform.localScale.reciprocal());
+                        // box.isTrigger = true;
+                        // t.gameObject.AddComponent<Rigidbody>();
+                    }
+                }
+
 
             // Spawn in front of camera
             GizmoRenderTarget gizmo = model.GetComponent<GizmoRenderTarget>();
@@ -262,8 +290,14 @@ namespace CM3D2.SceneCapture.Plugin
 
                     GameObject model = this.addedModelInstance[ this.modelPanes[i].Name ].Key;
                     GizmoRenderTarget gizmo = model.GetComponent<GizmoRenderTarget>();
-                    if(gizmo != null)
+                    if(gizmo != null) {
                         pane.UpdateCache( model.transform );
+                        Rigidbody rb = model.GetComponent<Rigidbody>();
+                        if(rb != null)
+                        {
+                            rb.isKinematic = gizmo.Visible;
+                        }
+                    }
 
                     if( pane.IsDeleteRequested )
                     {
@@ -447,6 +481,48 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
+        private void DoItButtonPressed( object sender, EventArgs args )
+        {
+                if(!cubeSet) {
+                    GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    cube.transform.localScale = new Vector3(5, 5, 5);
+                    cube.transform.position = new Vector3(0, -2, 0);
+                    // cube.AddComponent<Rigidbody>().useGravity = false;
+                    // cube.GetComponent<Rigidbody>().isKinematic = false;
+                    Renderer r = cube.GetComponent<Renderer>();
+                    cube.AddComponent<BoxCollider>();
+                    cubeSet = true;
+                }
+                // cube.AddComponent<BoxCollider>().center = new Vector3(0, r.bounds.size.y * cube.transform.localScale.reciprocal().y * 0.5f, 0);
+                // cube.GetComponent<BoxCollider>().size = Vector3.Scale(r.bounds.size, cube.transform.localScale.reciprocal());
+            if (GameMain.Instance.CharacterMgr.GetMaidCount() > 0)
+            {
+                Maid maid = GameMain.Instance.CharacterMgr.GetMaid(0);
+                GameObject maidObject = maid.gameObject;
+                List<CapsuleCollider> capsuleColliderList = MaidColliderCollect.AddColliderCollect(maid).AddCollider(MaidColliderCollect.ColliderType.Touch);
+                // maidObject.AddComponent<BoxCollider>().size = new Vector3(0.1f, 0.1f, 0.5f);
+                // maidObject.AddComponent<Rigidbody>().useGravity = false;
+
+                var allChildren = maidObject.GetComponentsInChildren<Transform>();
+                Debug.Log("Maid!");
+                foreach(Transform child in allChildren) {
+                    if(child.gameObject.GetComponent<Rigidbody>() == null) {
+                        if(child.gameObject.name.Contains("Arm") || child.gameObject.name.Contains(" Foot")) {
+                            child.gameObject.AddComponent<Rigidbody>().useGravity = true;
+                            child.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                            child.gameObject.AddComponent<BoxCollider>().size = new Vector3(0.02f, 0.02f, 0.02f);
+                            child.gameObject.GetComponent<BoxCollider>().isTrigger = false;
+                        }
+                    }
+
+                    if(child.gameObject.GetComponent<Animation>() != null) {
+                        child.gameObject.GetComponent<Animation>().Stop();
+                    child.gameObject.GetComponent<Animation>().enabled = false;
+                    }
+                }
+            }
+        }
+
         private void BGButtonPressed( object sender, EventArgs args )
         {
             if(!GlobalItemPicker.MenusAreSet())
@@ -527,19 +603,6 @@ namespace CM3D2.SceneCapture.Plugin
 
             // bg.transform.localScale = new Vector3(1,1,1);
             // bg.transform.position = new Vector3(0, 1.5f, -1f);
-
-            // // foreach (Component componentsInChild in bg.GetComponentsInChildren<Transform>(true))
-            // // {
-            // //     Renderer component = componentsInChild.GetComponent<Renderer>();
-            // //     if (component != null && component.materials != null)
-            // //     {
-            // //         foreach (Material material in component.materials)
-            // //         {
-            // //             material.color = new Color32(255, 192, 192, 192);
-            // //             material.mainTexture = texture;
-            // //         }
-            // //     }
-            // // }
         }
 
         private void AddLight()
@@ -570,17 +633,17 @@ namespace CM3D2.SceneCapture.Plugin
                             newLight.intensity = currentLight.intensity;
                             newLight.range = currentLight.range;
                             newLight.color = new Color( currentLight.color.r,
-                                                                               currentLight.color.g,
-                                                                               currentLight.color.b,
-                                                                               currentLight.color.a );
+                                                        currentLight.color.g,
+                                                        currentLight.color.b,
+                                                        currentLight.color.a );
                             newLight.spotAngle = currentLight.spotAngle;
                             newLight.transform.rotation = new Quaternion( currentLight.transform.rotation.x,
-                                                                                                 currentLight.transform.rotation.y,
-                                                                                                 currentLight.transform.rotation.z,
-                                                                                                 currentLight.transform.rotation.w );
+                                                                          currentLight.transform.rotation.y,
+                                                                          currentLight.transform.rotation.z,
+                                                                          currentLight.transform.rotation.w );
                             newLight.transform.position = new Vector3( currentLight.transform.position.x,
-                                                                                              currentLight.transform.position.y,
-                                                                                              currentLight.transform.position.z );
+                                                                       currentLight.transform.position.y,
+                                                                       currentLight.transform.position.z );
                             newLight.shadows = currentLight.shadows;
                             newLight.shadowStrength = currentLight.shadowStrength;
                             newLight.shadowBias = currentLight.shadowBias;
@@ -764,6 +827,7 @@ namespace CM3D2.SceneCapture.Plugin
         public const string MODEL_TAG = "CM3D2.SceneCapture.Model";
         private CustomButton addLightButton = null;
         private CustomButton bgButton = null;
+        private CustomButton doItButton = null;
         private CustomComboBox backgroundBox = null;
         private bool addedBackgrounds = false;
 
@@ -773,6 +837,7 @@ namespace CM3D2.SceneCapture.Plugin
         private int lightsAdded = 0;
         private int modelsAdded = 0;
         private Dictionary<String, GameObject> addedLightInstance = null;
+        private bool cubeSet = false;
 
         // <modelName, modelIconName
         private Dictionary<string, KeyValuePair<GameObject, KeyValuePair<string, string>>> addedModelInstance = null;
