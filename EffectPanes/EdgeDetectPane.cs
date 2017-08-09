@@ -22,35 +22,35 @@ namespace CM3D2.SceneCapture.Plugin
         {
             this.edgeDetectModeBox = new CustomComboBox( EDGEDETECT_MODES );
             this.edgeDetectModeBox.SelectedIndex = (int)EdgeDetectDef.edgeDetectEffect.mode;
-            this.edgeDetectModeBox.Text = "Mode";
+            this.edgeDetectModeBox.Text = Translation.GetText("EdgeDetect", "edgeDetectMode");
             this.ChildControls.Add( this.edgeDetectModeBox );
 
             this.sensitivityNormalsSlider = new CustomSlider( EdgeDetectDef.edgeDetectEffect.sensitivityNormals, 0f, 10f, 1 );
-            this.sensitivityNormalsSlider.Text = "Sensitivity Normals";
+            this.sensitivityNormalsSlider.Text = Translation.GetText("EdgeDetect", "sensitivityNormals");
             this.ChildControls.Add( this.sensitivityNormalsSlider );
 
             this.edgeExpSlider = new CustomSlider( EdgeDetectDef.edgeDetectEffect.edgeExp, 0f, 1f, 1 );
-            this.edgeExpSlider.Text = "Edges Exponent";
+            this.edgeExpSlider.Text = Translation.GetText("EdgeDetect", "edgeExp");
             this.ChildControls.Add( this.edgeExpSlider );
 
             this.sensitivityDepthSlider = new CustomSlider( EdgeDetectDef.edgeDetectEffect.sensitivityDepth, 0f, 10f, 1 );
-            this.sensitivityDepthSlider.Text = "Sensitivity Depth";
+            this.sensitivityDepthSlider.Text = Translation.GetText("EdgeDetect", "sensitivityDepth");
             this.ChildControls.Add( this.sensitivityDepthSlider );
 
             this.lumThresholdSlider = new CustomSlider( EdgeDetectDef.edgeDetectEffect.lumThreshhold, 0f, 4f, 1 );
-            this.lumThresholdSlider.Text = "Luminance Threshold";
+            this.lumThresholdSlider.Text = Translation.GetText("EdgeDetect", "lumThreshold");
             this.ChildControls.Add( this.lumThresholdSlider );
 
             this.sampleDistSlider = new CustomSlider( EdgeDetectDef.edgeDetectEffect.sampleDist, 0f, 10f, 1 );
-            this.sampleDistSlider.Text = "Sample Distance";
+            this.sampleDistSlider.Text = Translation.GetText("EdgeDetect", "sampleDist");
             this.ChildControls.Add( this.sampleDistSlider );
 
             this.edgesOnlySlider = new CustomSlider( EdgeDetectDef.edgeDetectEffect.edgesOnly, 0f, 1f, 1 );
-            this.edgesOnlySlider.Text = "Edges Only";
+            this.edgesOnlySlider.Text = Translation.GetText("EdgeDetect", "edgesOnly");
             this.ChildControls.Add( this.edgesOnlySlider );
 
             this.edgesOnlyBgColorPicker = new CustomColorPicker( EdgeDetectDef.edgeDetectEffect.edgesOnlyBgColor );
-            this.edgesOnlyBgColorPicker.Text = "Edges Only Background";
+            this.edgesOnlyBgColorPicker.Text = Translation.GetText("EdgeDetect", "edgesOnlyBgColor");
             this.edgesOnlyBgColorPicker.IsRGBA = false;
             this.ChildControls.Add( this.edgesOnlyBgColorPicker );
         }

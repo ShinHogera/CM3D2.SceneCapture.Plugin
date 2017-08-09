@@ -26,82 +26,86 @@ namespace CM3D2.SceneCapture.Plugin
             }
 
             this.hdrBox = new CustomComboBox( BLOOM_HDRMODE );
-            this.hdrBox.Text = "HDR";
+            this.hdrBox.Text = Translation.GetText("Bloom", "hdr");
             this.hdrBox.SelectedIndex = (int)BloomDef.bloomEffect.hdr;
             this.ChildControls.Add( this.hdrBox );
 
             this.screenBlendModeBox = new CustomComboBox( BLOOM_SCREENBLENDMODE );
-            this.screenBlendModeBox.Text = "Blend";
+            this.screenBlendModeBox.Text = Translation.GetText("Bloom", "screenBlendMode");
             this.screenBlendModeBox.SelectedIndex = (int)BloomDef.bloomEffect.screenBlendMode;
             this.ChildControls.Add( this.screenBlendModeBox );
 
             this.tweakModeBox = new CustomComboBox( BLOOM_TWEAKMODE );
-            this.tweakModeBox.Text = "Mode";
+            this.tweakModeBox.Text = Translation.GetText("Bloom", "tweakMode");
             this.tweakModeBox.SelectedIndex = (int)BloomDef.bloomEffect.tweakMode;
             this.ChildControls.Add( this.tweakModeBox );
 
             this.qualityCheckbox = new CustomToggleButton( false, "toggle" );
-            this.qualityCheckbox.Text = "Complex";
+            this.qualityCheckbox.Text = Translation.GetText("Bloom", "quality");
             this.ChildControls.Add( this.qualityCheckbox );
 
             this.bloomIntensitySlider = new CustomSlider( GameMain.Instance.CMSystem.BloomValue, 0f, 100f, 1 );
-            this.bloomIntensitySlider.Text = "Intensity";
+            this.bloomIntensitySlider.Text = Translation.GetText("Bloom", "bloomIntensity");
             this.ChildControls.Add( this.bloomIntensitySlider  );
             this.bloomThreshholdSlider = new CustomSlider( BloomDef.bloomEffect.bloomThreshhold, 0f, 1f, 1 );
-            this.bloomThreshholdSlider.Text = "Threshold";
+            this.bloomThreshholdSlider.Text = Translation.GetText("Bloom", "bloomThreshhold");
             this.ChildControls.Add( this.bloomThreshholdSlider  );
             this.bloomBlurIterationsSlider = new CustomSlider( BloomDef.bloomEffect.bloomBlurIterations, 1f, 10f, 1 );
-            this.bloomBlurIterationsSlider.Text = "Blur Iterations";
+            this.bloomBlurIterationsSlider.Text = Translation.GetText("Bloom", "bloomBlurIterations");
             this.ChildControls.Add( this.bloomBlurIterationsSlider  );
 
             this.sepBlurSpreadSlider = new CustomSlider( BloomDef.bloomEffect.sepBlurSpread, 0f, 10f, 1 );
-            this.sepBlurSpreadSlider.Text = "Spread";
+            this.sepBlurSpreadSlider.Text = Translation.GetText("Bloom", "sepBlurSpread");
             this.ChildControls.Add( this.sepBlurSpreadSlider  );
 
             this.bloomThreshholdColorPicker = new CustomColorPicker( BloomDef.bloomEffect.bloomThreshholdColor );
-            this.bloomThreshholdColorPicker.Text = "Threshold Color";
+            this.bloomThreshholdColorPicker.Text = Translation.GetText("Bloom", "bloomThresholdColor");
             this.bloomThreshholdColorPicker.IsRGBA = false;
 
             this.ChildControls.Add( this.bloomThreshholdColorPicker  );
 
             this.lensflareModeBox = new CustomComboBox( BLOOM_LENSFLARESTYLE );
-            this.lensflareModeBox.Text = "Lensflare Mode";
+            this.lensflareModeBox.Text = Translation.GetText("Bloom", "lensflareMode");
             this.lensflareModeBox.SelectedIndex = (int)BloomDef.bloomEffect.lensflareMode;
             this.ChildControls.Add( this.lensflareModeBox );
 
             this.lensflareIntensitySlider = new CustomSlider( BloomDef.bloomEffect.lensflareIntensity, 0f, 10f, 1 );
-            this.lensflareIntensitySlider.Text = "Lensflare Intensity";
+            this.lensflareIntensitySlider.Text = Translation.GetText("Bloom", "lensflareIntensity");
             this.ChildControls.Add( this.lensflareIntensitySlider  );
             this.lensFlareSaturationSlider = new CustomSlider( BloomDef.bloomEffect.lensFlareSaturation, 0f, 1f, 1 );
-            this.lensFlareSaturationSlider.Text = "Lensflare Saturation";
+            this.lensFlareSaturationSlider.Text = Translation.GetText("Bloom", "lensFlareSaturation");
             this.ChildControls.Add( this.lensFlareSaturationSlider  );
             this.lensflareThreshholdSlider = new CustomSlider( BloomDef.bloomEffect.lensflareThreshhold, 0f, 1f, 1 );
-            this.lensflareThreshholdSlider.Text = "Lensflare Threshold";
+            this.lensflareThreshholdSlider.Text = Translation.GetText("Bloom", "lensflareThreshold");
             this.ChildControls.Add( this.lensflareThreshholdSlider  );
 
             this.flareRotationSlider = new CustomSlider( BloomDef.bloomEffect.flareRotation, 0f, 50f, 1 );
-            this.flareRotationSlider.Text = "Lensflare Rotation";
+            this.flareRotationSlider.Text = Translation.GetText("Bloom", "flareRotation");
             this.ChildControls.Add( this.flareRotationSlider  );
 
             this.blurWidthSlider = new CustomSlider( BloomDef.bloomEffect.blurWidth, 0f, 50f, 1 );
-            this.blurWidthSlider.Text = "Blur Width";
+            this.blurWidthSlider.Text = Translation.GetText("Bloom", "blurWidth");
             this.ChildControls.Add( this.blurWidthSlider  );
 
             this.hollyStretchWidthSlider = new CustomSlider( BloomDef.bloomEffect.hollyStretchWidth, 0f, 10f, 1 );
-            this.hollyStretchWidthSlider.Text = "Hollywood Stretch Width";
+            this.hollyStretchWidthSlider.Text = Translation.GetText("Bloom", "hollyStretchWidth");
             this.ChildControls.Add( this.hollyStretchWidthSlider  );
             this.hollywoodFlareBlurIterationsSlider = new CustomSlider( BloomDef.bloomEffect.hollywoodFlareBlurIterations, 0f, 10f, 1 );
-            this.hollywoodFlareBlurIterationsSlider.Text = "Hollywood Blur Iterations";
+            this.hollywoodFlareBlurIterationsSlider.Text = Translation.GetText("Bloom", "hollywoodFlareBlurIterations");
             this.ChildControls.Add( this.hollywoodFlareBlurIterationsSlider  );
 
             this.flareColorAPicker = new CustomColorPicker( BloomDef.bloomEffect.flareColorA );
-            this.ChildControls.Add( this.flareColorAPicker  );
+            this.flareColorAPicker.Text = Translation.GetText("Bloom", "flareColorA");
+            this.ChildControls.Add( this.flareColorAPicker );
             this.flareColorBPicker = new CustomColorPicker( BloomDef.bloomEffect.flareColorB );
-            this.ChildControls.Add( this.flareColorBPicker  );
+            this.flareColorBPicker.Text = Translation.GetText("Bloom", "flareColorB");
+            this.ChildControls.Add( this.flareColorBPicker );
             this.flareColorCPicker = new CustomColorPicker( BloomDef.bloomEffect.flareColorC );
-            this.ChildControls.Add( this.flareColorCPicker  );
+            this.flareColorCPicker.Text = Translation.GetText("Bloom", "flareColorC");
+            this.ChildControls.Add( this.flareColorCPicker );
             this.flareColorDPicker = new CustomColorPicker( BloomDef.bloomEffect.flareColorD );
-            this.ChildControls.Add( this.flareColorDPicker  );
+            this.flareColorDPicker.Text = Translation.GetText("Bloom", "flareColorD");
+            this.ChildControls.Add( this.flareColorDPicker );
         }
 
         override public void Update()
@@ -112,7 +116,6 @@ namespace CM3D2.SceneCapture.Plugin
                 {
                     if( this.IsEnabled != BloomDef.enable )
                     {
-                        Debug.Log("Bloom " + (this.IsEnabled) + " " + (BloomDef.enable));
                         if (this.IsEnabled)
                         {
                             // BloomDef.BackUp();

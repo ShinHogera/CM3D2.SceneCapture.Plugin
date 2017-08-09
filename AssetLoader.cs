@@ -145,8 +145,7 @@ namespace CM3D2.SceneCapture.Plugin
                 file = GameUty.FileOpen(name);
                 if( file.GetSize() == 0 || !file.IsValid() )
                 {
-                    Debug.LogError("File not valid");
-                    return null;
+                    throw new FileNotFoundException(name);
                 }
             }
 
@@ -243,9 +242,9 @@ namespace CM3D2.SceneCapture.Plugin
             }
             catch
             {
-                UnityEngine.Debug.LogError("Failed to load menu " + Path.GetFileName(path));
+                UnityEngine.Debug.LogError("Failed to parse menu file " + Path.GetFileName(path));
                 // UnityEngine.Debug.LogError(("Exception " + Path.GetFileName(path) + " 現在処理中だった行 = " + sss + " 以前の行 = " + str2 + "   " + ex.Message + "StackTrace：\n" + ex.StackTrace));
-                // throw ex;
+                throw;
             }
         label_61:
 

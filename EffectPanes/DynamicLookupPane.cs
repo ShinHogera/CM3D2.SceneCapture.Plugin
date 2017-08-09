@@ -21,47 +21,47 @@ namespace CM3D2.SceneCapture.Plugin
         override public void SetupPane()
         {
             this.whitePicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.white );
-            this.whitePicker.Text = "White";
+            this.whitePicker.Text = Translation.GetText("DynamicLookup",  "White");
             this.whitePicker.IsRGBA = false;
             this.ChildControls.Add( this.whitePicker );
 
             this.blackPicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.black );
-            this.blackPicker.Text = "Black";
+            this.blackPicker.Text = Translation.GetText("DynamicLookup",  "Black");
             this.blackPicker.IsRGBA = false;
             this.ChildControls.Add( this.blackPicker );
 
             this.redPicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.red );
-            this.redPicker.Text = "Red";
+            this.redPicker.Text = Translation.GetText("DynamicLookup",  "Red");
             this.redPicker.IsRGBA = false;
             this.ChildControls.Add( this.redPicker );
 
             this.greenPicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.green );
-            this.greenPicker.Text = "Green";
+            this.greenPicker.Text = Translation.GetText("DynamicLookup",  "Green");
             this.greenPicker.IsRGBA = false;
             this.ChildControls.Add( this.greenPicker );
 
             this.bluePicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.blue );
-            this.bluePicker.Text = "Blue";
+            this.bluePicker.Text = Translation.GetText("DynamicLookup",  "Blue");
             this.bluePicker.IsRGBA = false;
             this.ChildControls.Add( this.bluePicker );
 
             this.yellowPicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.yellow );
-            this.yellowPicker.Text = "Yellow";
+            this.yellowPicker.Text = Translation.GetText("DynamicLookup",  "Yellow");
             this.yellowPicker.IsRGBA = false;
             this.ChildControls.Add( this.yellowPicker );
 
             this.magentaPicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.magenta );
-            this.magentaPicker.Text = "Magenta";
+            this.magentaPicker.Text = Translation.GetText("DynamicLookup",  "Magenta");
             this.magentaPicker.IsRGBA = false;
             this.ChildControls.Add( this.magentaPicker );
 
             this.cyanPicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.cyan );
-            this.cyanPicker.Text = "Cyan";
+            this.cyanPicker.Text = Translation.GetText("DynamicLookup",  "Cyan");
             this.cyanPicker.IsRGBA = false;
             this.ChildControls.Add( this.cyanPicker );
 
             this.amountSlider = new CustomSlider( DynamicLookupDef.dynamicLookupEffect.amount, 0f, 1f, 1 );
-            this.amountSlider.Text = "Amount";
+            this.amountSlider.Text = Translation.GetText("DynamicLookup",  "Amount");
             this.ChildControls.Add( this.amountSlider );
         }
 

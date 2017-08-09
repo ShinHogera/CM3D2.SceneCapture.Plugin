@@ -1269,6 +1269,7 @@ namespace CM3D2.SceneCapture.Plugin
         public CustomSlider( float value, float min, float max, int dec )
         {
             this._value = value;
+            this.fieldValue = value.ToString();
             this._min = min;
             this._max = max;
             this._decimal = dec;
@@ -1283,15 +1284,14 @@ namespace CM3D2.SceneCapture.Plugin
             try
             {
                 Rect sliderRect;
+                GUIStyle labelStyle = new GUIStyle( "label" );
+                labelStyle.alignment = TextAnchor.MiddleLeft;
+                labelStyle.normal.textColor = this.TextColor;
+                labelStyle.fontSize = this.FixedFontSize;
                 if( this.Text != string.Empty )
                 {
                     Rect labelRect = new Rect( this.Left, this.Top, this.Width, this.Height - this.FontSize - ControlBase.FixedMargin );
-                    sliderRect = new Rect( this.Left, this.Top + this.Height - this.FontSize - ControlBase.FixedMargin, this.Width, this.FontSize + ControlBase.FixedMargin );
-
-                    GUIStyle labelStyle = new GUIStyle( "label" );
-                    labelStyle.alignment = TextAnchor.MiddleLeft;
-                    labelStyle.normal.textColor = this.TextColor;
-                    labelStyle.fontSize = this.FixedFontSize;
+                    sliderRect = new Rect( this.Left, this.Top + this.Height - this.FontSize - ControlBase.FixedMargin, 5 * (this. Width / 6), this.FontSize + ControlBase.FixedMargin );
 
                     GUI.Label(labelRect, this.Text, labelStyle);
                 }
@@ -1312,6 +1312,23 @@ namespace CM3D2.SceneCapture.Plugin
                 {
                     String format = "{0:f" + this._decimal.ToString() + "}";
                     this.Value = ( float )Convert.ToDouble( String.Format( format, retVal ) );
+                    this.fieldValue = this._value.ToString();
+                }
+
+                GUIStyle fieldStyle = new GUIStyle("textarea");
+                fieldStyle.alignment = TextAnchor.MiddleLeft;
+                fieldStyle.fontSize = this.FixedFontSize + 2;
+
+                Rect fieldRect = new Rect( sliderRect.x + sliderRect.width + ControlBase.FixedMargin, sliderRect.y, this.Width / 6, sliderRect.height);
+                string sTmp = Util.DrawTextFieldF(fieldRect, this.fieldValue, fieldStyle);
+                if (sTmp != this.fieldValue)
+                {
+                    this.fieldValue = sTmp;
+                    float fTmp;
+                    if (float.TryParse(sTmp, out fTmp))
+                    {
+                        this.Value = fTmp;
+                    }
                 }
             }
             catch( Exception e )
@@ -1400,6 +1417,8 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
         #endregion
+
+        private string fieldValue;
 
         #region Events
                 ///-------------------------------------------------------------------------

@@ -21,16 +21,16 @@ namespace CM3D2.SceneCapture.Plugin
         override public void SetupPane()
         {
             this.scanLineJitterSlider = new CustomSlider( AnalogGlitchDef.analogGlitchEffect.scanLineJitter, 0f, 1f, 1 );
-            this.scanLineJitterSlider.Text = "Scan Line Jitter";
+            this.scanLineJitterSlider.Text = Translation.GetText("AnalogGlitch", "scanLineJitter");
             this.ChildControls.Add( this.scanLineJitterSlider );
             this.verticalJumpSlider = new CustomSlider( AnalogGlitchDef.analogGlitchEffect.verticalJump, 0f, 1f, 1 );
-            this.verticalJumpSlider.Text = "Vertical Jump";
+            this.verticalJumpSlider.Text = Translation.GetText("AnalogGlitch", "verticalJump");
             this.ChildControls.Add( this.verticalJumpSlider );
             this.horizontalShakeSlider = new CustomSlider( AnalogGlitchDef.analogGlitchEffect.horizontalShake, 0f, 1f, 1 );
-            this.horizontalShakeSlider.Text = "Horizontal Shake";
+            this.horizontalShakeSlider.Text = Translation.GetText("AnalogGlitch", "horizontalShake");
             this.ChildControls.Add( this.horizontalShakeSlider );
             this.colorDriftSlider = new CustomSlider( AnalogGlitchDef.analogGlitchEffect.colorDrift, 0f, 1f, 1 );
-            this.colorDriftSlider.Text = "Color Drift";
+            this.colorDriftSlider.Text = Translation.GetText("AnalogGlitch", "colorDrift");
             this.ChildControls.Add( this.colorDriftSlider );
         }
 

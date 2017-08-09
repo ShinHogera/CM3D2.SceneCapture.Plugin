@@ -21,15 +21,15 @@ namespace CM3D2.SceneCapture.Plugin
         override public void SetupPane()
         {
                 this.intensitySlider = new CustomSlider( CreaseDef.creaseEffect.intensity, -40f, 40f, 1 );
-                this.intensitySlider.Text = "Intensity";
+                this.intensitySlider.Text = Translation.GetText("Crease", "intensity");
                 this.ChildControls.Add( this.intensitySlider );
 
                 this.softnessSlider = new CustomSlider( CreaseDef.creaseEffect.softness, 0f, 10f, 1 );
-                this.softnessSlider.Text = "Softness";
+                this.softnessSlider.Text = Translation.GetText("Crease", "softness");
                 this.ChildControls.Add( this.softnessSlider );
 
                 this.spreadSlider = new CustomSlider( CreaseDef.creaseEffect.spread, 0f, 10f, 1 );
-                this.spreadSlider.Text = "Spread";
+                this.spreadSlider.Text = Translation.GetText("Crease", "spread");
                 this.ChildControls.Add( this.spreadSlider );
         }
 

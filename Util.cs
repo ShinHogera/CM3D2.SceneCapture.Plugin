@@ -39,8 +39,14 @@ namespace CM3D2.SceneCapture.Plugin
             sTmp = GUI.TextField(rect, sField, style);
             if (sTmp != sField)
             {
+                string sTry = String.Copy(sTmp);
+
+                // Allow the user to input decimal point at the end
+                if( sTry[sTry.Length - 1] == '.')
+                    sTry = sTry.Substring(0, (sTry.Length - 1));
+
                 float fTmp;
-                if (float.TryParse(sTmp, out fTmp))
+                if (float.TryParse(sTry, out fTmp))
                 {
                     return sTmp;
                 }

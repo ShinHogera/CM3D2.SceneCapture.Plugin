@@ -67,6 +67,7 @@ namespace CM3D2.SceneCapture.Plugin
                 // モーション情報初期化
                 ReadPluginPreferences();
                 ConstantValues.Initialize();
+                Translation.Initialize();
                 Util.LoadShaders();
             }
             catch( Exception e )

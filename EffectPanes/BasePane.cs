@@ -50,7 +50,6 @@ namespace CM3D2.SceneCapture.Plugin
             this.resetButton.Click += (o, e) => Reset();
             this.ChildControls.Add( this.resetButton );
 
-
             try
             {
                 SetupPane();

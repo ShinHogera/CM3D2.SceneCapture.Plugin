@@ -21,17 +21,17 @@ namespace CM3D2.SceneCapture.Plugin
         override public void SetupPane()
         {
                 this.redSourceBox = new CustomComboBox( CHANNELS );
-                this.redSourceBox.Text = "Red Source";
+                this.redSourceBox.Text = Translation.GetText("ChannelSwap", "redSource");
                 this.redSourceBox.SelectedIndex = 0;
                 this.ChildControls.Add( this.redSourceBox );
 
                 this.greenSourceBox = new CustomComboBox( CHANNELS );
-                this.greenSourceBox.Text = "Green Source";
+                this.greenSourceBox.Text = Translation.GetText("ChannelSwap", "greenSource");
                 this.greenSourceBox.SelectedIndex = 1;
                 this.ChildControls.Add( this.greenSourceBox );
 
                 this.blueSourceBox = new CustomComboBox( CHANNELS );
-                this.blueSourceBox.Text = "Blue Source";
+                this.blueSourceBox.Text = Translation.GetText("ChannelSwap", "blueSource");
                 this.blueSourceBox.SelectedIndex = 2;
                 this.ChildControls.Add( this.blueSourceBox );
         }

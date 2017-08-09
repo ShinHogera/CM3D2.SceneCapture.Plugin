@@ -21,37 +21,37 @@ namespace CM3D2.SceneCapture.Plugin
         override public void SetupPane()
         {
             this.modeCheckbox = new CustomToggleButton( false, "toggle" );
-            this.modeCheckbox.Text = "Advanced";
+            this.modeCheckbox.Text = Translation.GetText("ColorCorrectionCurves", "mode");
             this.ChildControls.Add( this.modeCheckbox );
 
             this.saturationSlider = new CustomSlider( ColorCorrectionCurvesDef.colorCurvesEffect.saturation, 0f, 10f, 1 );
-            this.saturationSlider.Text = "Saturation";
+            this.saturationSlider.Text = Translation.GetText("ColorCorrectionCurves", "saturation");
             this.ChildControls.Add( this.saturationSlider );
             this.redChannelCurve = new CustomCurve( ColorCorrectionCurvesDef.colorCurvesEffect.redChannel );
-            this.redChannelCurve.Text = "Red Channel";
+            this.redChannelCurve.Text = Translation.GetText("ColorCorrectionCurves", "redChannel");
             this.ChildControls.Add( this.redChannelCurve );
             this.greenChannelCurve = new CustomCurve( ColorCorrectionCurvesDef.colorCurvesEffect.greenChannel );
-            this.greenChannelCurve.Text = "Green Channel";
+            this.greenChannelCurve.Text = Translation.GetText("ColorCorrectionCurves", "greenChannel");
             this.ChildControls.Add( this.greenChannelCurve );
             this.blueChannelCurve = new CustomCurve( ColorCorrectionCurvesDef.colorCurvesEffect.blueChannel );
-            this.blueChannelCurve.Text = "Blue Channel";
+            this.blueChannelCurve.Text = Translation.GetText("ColorCorrectionCurves", "blueChannel");
             this.ChildControls.Add( this.blueChannelCurve );
 
             this.depthRedChannelCurve = new CustomCurve( ColorCorrectionCurvesDef.colorCurvesEffect.depthRedChannel );
-            this.depthRedChannelCurve.Text = "Red Channel Depth";
+            this.depthRedChannelCurve.Text = Translation.GetText("ColorCorrectionCurves", "depthRedChannel");
             this.ChildControls.Add( this.depthRedChannelCurve );
             this.depthGreenChannelCurve = new CustomCurve( ColorCorrectionCurvesDef.colorCurvesEffect.depthGreenChannel );
-            this.depthGreenChannelCurve.Text = "Green Channel Depth";
+            this.depthGreenChannelCurve.Text = Translation.GetText("ColorCorrectionCurves", "depthGreenChannel");
             this.ChildControls.Add( this.depthGreenChannelCurve );
             this.depthBlueChannelCurve = new CustomCurve( ColorCorrectionCurvesDef.colorCurvesEffect.depthBlueChannel );
-            this.depthBlueChannelCurve.Text = "Blue Channel Depth";
+            this.depthBlueChannelCurve.Text = Translation.GetText("ColorCorrectionCurves", "depthBlueChannel");
             this.ChildControls.Add( this.depthBlueChannelCurve );
             this.zCurveCurve = new CustomCurve( ColorCorrectionCurvesDef.colorCurvesEffect.zCurve );
-            this.zCurveCurve.Text = "Z Curve";
+            this.zCurveCurve.Text = Translation.GetText("ColorCorrectionCurves", "zCurve");
             this.ChildControls.Add( this.zCurveCurve );
 
             this.selectiveCcCheckbox = new CustomToggleButton( ColorCorrectionCurvesDef.colorCurvesEffect.selectiveCc, "toggle" );
-            this.selectiveCcCheckbox.Text = "Selective Color Correction";
+            this.selectiveCcCheckbox.Text = Translation.GetText("ColorCorrectionCurves", "selectiveCc");
             this.ChildControls.Add( this.selectiveCcCheckbox );
 
             this.selectiveFromColorPicker = new CustomColorPicker( ColorCorrectionCurvesDef.selectiveFromColor );
