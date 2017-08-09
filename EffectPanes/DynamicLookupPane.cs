@@ -22,28 +22,44 @@ namespace CM3D2.SceneCapture.Plugin
         {
             this.whitePicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.white );
             this.whitePicker.Text = "White";
+            this.whitePicker.IsRGBA = false;
             this.ChildControls.Add( this.whitePicker );
+
             this.blackPicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.black );
             this.blackPicker.Text = "Black";
+            this.blackPicker.IsRGBA = false;
             this.ChildControls.Add( this.blackPicker );
+
             this.redPicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.red );
             this.redPicker.Text = "Red";
+            this.redPicker.IsRGBA = false;
             this.ChildControls.Add( this.redPicker );
+
             this.greenPicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.green );
             this.greenPicker.Text = "Green";
+            this.greenPicker.IsRGBA = false;
             this.ChildControls.Add( this.greenPicker );
+
             this.bluePicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.blue );
             this.bluePicker.Text = "Blue";
+            this.bluePicker.IsRGBA = false;
             this.ChildControls.Add( this.bluePicker );
+
             this.yellowPicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.yellow );
             this.yellowPicker.Text = "Yellow";
+            this.yellowPicker.IsRGBA = false;
             this.ChildControls.Add( this.yellowPicker );
+
             this.magentaPicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.magenta );
             this.magentaPicker.Text = "Magenta";
+            this.magentaPicker.IsRGBA = false;
             this.ChildControls.Add( this.magentaPicker );
+
             this.cyanPicker = new CustomColorPicker( DynamicLookupDef.dynamicLookupEffect.cyan );
             this.cyanPicker.Text = "Cyan";
+            this.cyanPicker.IsRGBA = false;
             this.ChildControls.Add( this.cyanPicker );
+
             this.amountSlider = new CustomSlider( DynamicLookupDef.dynamicLookupEffect.amount, 0f, 1f, 1 );
             this.amountSlider.Text = "Amount";
             this.ChildControls.Add( this.amountSlider );

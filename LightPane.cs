@@ -140,6 +140,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.lightColorPicker.FontSize = this.FontSize;
             this.lightColorPicker.Text = "Color";
             this.lightColorPicker.ColorChanged = this.ChangeColor;
+            this.lightColorPicker.IsRGBA = false;
             this.ChildControls.Add( this.lightColorPicker );
 
             this.shadowStrengthSlider = new CustomSlider( this.light.shadowStrength, 0, 1f, 1 );

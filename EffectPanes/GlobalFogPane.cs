@@ -48,6 +48,7 @@ namespace CM3D2.SceneCapture.Plugin
 
             this.globalFogColorPicker = new CustomColorPicker( GlobalFogDef.globalFogEffect.globalFogColor );
             this.globalFogColorPicker.Text = "Color";
+            this.globalFogColorPicker.IsRGBA = false;
             this.ChildControls.Add( this.globalFogColorPicker );
 
             this.adjustHeightScaleToggle = new CustomToggleButton( GlobalFogDef.AdjustHeightScale, "button" );

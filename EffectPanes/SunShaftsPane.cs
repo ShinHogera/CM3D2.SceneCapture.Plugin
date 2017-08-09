@@ -49,6 +49,7 @@ namespace CM3D2.SceneCapture.Plugin
 
             this.sunColorPicker = new CustomColorPicker( SunShaftsDef.sunShaftsEffect.sunColor );
             this.sunColorPicker.Text = "Color";
+            this.sunColorPicker.IsRGBA = false;
             this.ChildControls.Add( this.sunColorPicker );
 
             this.maxRadiusSlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.maxRadius, 0f, 1f, 1 );

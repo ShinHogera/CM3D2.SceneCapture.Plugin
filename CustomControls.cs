@@ -1471,6 +1471,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 this.BackgroundColor = Color.clear;
                 this._value = color;
+                this.IsRGBA = true;
 
                 this._colorTex = new Texture2D(1, 1);
                 this._colorTex.SetPixel(0, 0, color);
@@ -1500,7 +1501,7 @@ namespace CM3D2.SceneCapture.Plugin
 
                 if( GUI.Button( colorRect, string.Empty, labelStyle ) )
                 {
-                    GlobalColorPicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y), this.FontSize * 15, this.FontSize, this._value,
+                    GlobalColorPicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y), this.FontSize * 15, this.FontSize, this._value, this.IsRGBA,
                                           (x) =>
                             {
                                 this.Value = x;
@@ -1530,6 +1531,8 @@ namespace CM3D2.SceneCapture.Plugin
                 this._colorTex.Apply();
             }
         }
+
+        public bool IsRGBA { get; set; }
 
         private Texture2D _colorTex;
 

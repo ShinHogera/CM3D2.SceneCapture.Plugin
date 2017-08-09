@@ -51,6 +51,7 @@ namespace CM3D2.SceneCapture.Plugin
 
             this.edgesOnlyBgColorPicker = new CustomColorPicker( EdgeDetectDef.edgeDetectEffect.edgesOnlyBgColor );
             this.edgesOnlyBgColorPicker.Text = "Edges Only Background";
+            this.edgesOnlyBgColorPicker.IsRGBA = false;
             this.ChildControls.Add( this.edgesOnlyBgColorPicker );
         }
 

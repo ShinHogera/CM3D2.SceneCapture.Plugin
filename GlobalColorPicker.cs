@@ -36,9 +36,9 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
-        public static void Set(Vector2 p, float fWidth, int iFontSize, Color32 c, Action<Color32> f)
+        public static void Set(Vector2 p, float fWidth, int iFontSize, Color32 c, bool isRGBA, Action<Color32> f)
         {
-            color.Set(p, fWidth, iFontSize, c, f);
+            color.Set(p, fWidth, iFontSize, c, isRGBA, f);
         }
 
         private static GUIStyle gsWin;
@@ -66,6 +66,8 @@ namespace CM3D2.SceneCapture.Plugin
             private byte b { get; set; }
             private byte a { get; set; }
 
+            private bool isRGBA { get; set; }
+
             public ColorWindow(int iWIndowID)
             {
                 WINDOW_ID = iWIndowID;
@@ -76,7 +78,7 @@ namespace CM3D2.SceneCapture.Plugin
             }
 
 
-            public void Set(Vector2 p, float fWidth, int iFontSize, Color32 c, Action<Color32> f)
+            public void Set(Vector2 p, float fWidth, int iFontSize, Color32 c, bool isRGBA, Action<Color32> f)
             {
                 rect = new Rect(p.x - fWidth, p.y, fWidth, 0f);
                 fRightPos = p.x + fWidth;
@@ -98,6 +100,8 @@ namespace CM3D2.SceneCapture.Plugin
                 g = c.g;
                 b = c.b;
                 a = c.a;
+
+                this.isRGBA = isRGBA;
 
                 texture.SetPixel(0, 0, c);
                 texture.Apply();
@@ -175,26 +179,29 @@ namespace CM3D2.SceneCapture.Plugin
                 rectItem.y += rectItem.height;
                 b = (byte)GUI.HorizontalSlider(rectItem, b, 0f, 255f);
 
-                rectItem.y += rectItem.height + fMargin;
-                GUI.Label(rectItem, "A: " + a.ToString(), gsLabel);
-
-                rectItem.x = rect.width - iFontSize * 4.5f;
-                rectItem.width = iFontSize * 2;
-                if (GUI.Button(rectItem, "-1", gsButton))
+                if( this.isRGBA )
                 {
-                    a = a == 0 ? a : (byte)(a - 1);
-                }
+                    rectItem.y += rectItem.height + fMargin;
+                    GUI.Label(rectItem, "A: " + a.ToString(), gsLabel);
 
-                rectItem.x += rectItem.width;
-                if (GUI.Button(rectItem, "+1", gsButton))
-                {
-                    a = a == 255 ? a : (byte)(a + 1);
-                }
+                    rectItem.x = rect.width - iFontSize * 4.5f;
+                    rectItem.width = iFontSize * 2;
+                    if (GUI.Button(rectItem, "-1", gsButton))
+                    {
+                        a = a == 0 ? a : (byte)(a - 1);
+                    }
 
-                rectItem.x = iFontSize * 0.5f;
-                rectItem.width = rect.width - iFontSize;
-                rectItem.y += rectItem.height;
-                a = (byte)GUI.HorizontalSlider(rectItem, a, 0f, 255f);
+                    rectItem.x += rectItem.width;
+                    if (GUI.Button(rectItem, "+1", gsButton))
+                    {
+                        a = a == 255 ? a : (byte)(a + 1);
+                    }
+
+                    rectItem.x = iFontSize * 0.5f;
+                    rectItem.width = rect.width - iFontSize;
+                    rectItem.y += rectItem.height;
+                    a = (byte)GUI.HorizontalSlider(rectItem, a, 0f, 255f);
+                }
 
                 float fHeight = rectItem.y + rectItem.height + fMargin;
                 if (rect.height != fHeight)

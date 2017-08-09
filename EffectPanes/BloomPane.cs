@@ -60,6 +60,8 @@ namespace CM3D2.SceneCapture.Plugin
 
             this.bloomThreshholdColorPicker = new CustomColorPicker( BloomDef.bloomEffect.bloomThreshholdColor );
             this.bloomThreshholdColorPicker.Text = "Threshold Color";
+            this.bloomThreshholdColorPicker.IsRGBA = false;
+
             this.ChildControls.Add( this.bloomThreshholdColorPicker  );
 
             this.lensflareModeBox = new CustomComboBox( BLOOM_LENSFLARESTYLE );
