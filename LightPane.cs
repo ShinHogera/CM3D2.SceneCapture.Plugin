@@ -38,6 +38,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.dragManager = new DragManager();
             this.isDrag = false;
             this.deleteRequested = false;
+            this.resetRequested = false;
             this.changingDrag = false;
 
             this.lightNameLabel = new CustomLabel();
@@ -80,6 +81,18 @@ namespace CM3D2.SceneCapture.Plugin
             this.lightRotationZSlider.FontSize = this.FontSize;
             this.lightRotationZSlider.Text = "Rotation Z";
             this.ChildControls.Add( this.lightRotationZSlider );
+
+            this.lightResetButton = new CustomButton();
+            this.lightResetButton.FontSize = this.FontSize;
+            this.lightResetButton.Text = "Reset";
+            this.lightResetButton.Click += this.ResetLight;
+            this.ChildControls.Add( this.lightResetButton );
+
+            this.lightResetPosButton = new CustomButton();
+            this.lightResetPosButton.FontSize = this.FontSize;
+            this.lightResetPosButton.Text = "Reset Pos";
+            this.lightResetPosButton.Click += this.ResetLightPos;
+            this.ChildControls.Add( this.lightResetPosButton );
 
             this.lightDeleteButton = new CustomButton();
             this.lightDeleteButton.FontSize = this.FontSize;
@@ -158,7 +171,6 @@ namespace CM3D2.SceneCapture.Plugin
         {
             if( !this.isDrag ) {
                 this.dragManager.SetTransform(this.light.transform);
-                return;
             }
 
             Vector3 newPos = new Vector3(this.dragManager.goDrag.transform.position.x,
@@ -180,17 +192,20 @@ namespace CM3D2.SceneCapture.Plugin
 
             GUIUtil.AddGUICheckbox(this, this.lightTypeComboBox );
 
-            if( this.lightTypeComboBox.SelectedItem != "Directional" )
-            {
-                GUIUtil.AddGUICheckbox(this, this.lightEnableToggle );
-            }
+            int buttonCount = this.Text != ConstantValues.MainLightName ? 5 : 3;
+
+            GUIUtil.AddGUIButtonAfter(this, this.lightResetButton, this.lightTypeComboBox, buttonCount );
+            this.lightResetButton.Height = this.ControlHeight;
+
+            GUIUtil.AddGUIButton(this, this.lightResetPosButton, this.lightResetButton, buttonCount );
+            GUIUtil.AddGUIButton(this, this.lightDragToggle, this.lightResetPosButton, buttonCount );
 
             if( this.Text != ConstantValues.MainLightName )
             {
-                GUIUtil.AddGUICheckbox(this, this.lightDeleteButton );
+                GUIUtil.AddGUIButton(this, this.lightEnableToggle, this.lightDragToggle, buttonCount );
+                GUIUtil.AddGUIButton(this, this.lightDeleteButton, this.lightEnableToggle, buttonCount );
             }
 
-            GUIUtil.AddGUICheckbox(this, this.lightDragToggle );
             GUIUtil.AddGUISlider(this, this.lightRotationXSlider );
             GUIUtil.AddGUISlider(this, this.lightRotationYSlider );
             // GUIUtil.AddGUISlider(this, this.lightRotationZSlider );
@@ -225,19 +240,27 @@ namespace CM3D2.SceneCapture.Plugin
 
         public void UpdateFromLight()
         {
-            this.lightTypeComboBox.SelectedIndex = (int)light.type;
-            this.lightEnableToggle.Value = light.enabled;
-            this.lightDragToggle.Value = false;
-            this.lightRotationXSlider.Value = light.transform.eulerAngles.x;
-            this.lightRotationYSlider.Value = light.transform.eulerAngles.y;
-            this.lightRotationZSlider.Value = light.transform.eulerAngles.z;
-            this.lightRangeSlider.Value = light.range;
-            this.spotLightAngleSlider.Value = light.spotAngle;
-            this.lightColorPicker.Value = light.color;
-            this.shadowsBox.SelectedIndex = (int)light.shadows;
-            this.shadowStrengthSlider.Value = light.shadowStrength;
-            this.shadowBiasSlider.Value = light.shadowBias;
-            this.shadowNormalBiasSlider.Value = light.shadowNormalBias;
+            // prevent rotation slider callback from firing
+            if(!this.updating) {
+                this.updating = true;
+
+                this.lightTypeComboBox.SelectedIndex = (int)light.type;
+                this.lightIntensitySlider.Value = light.intensity;
+                this.lightEnableToggle.Value = light.enabled;
+                this.lightDragToggle.Value = false;
+                this.lightRotationXSlider.Value = light.transform.eulerAngles.x;
+                this.lightRotationYSlider.Value = light.transform.eulerAngles.y;
+                this.lightRotationZSlider.Value = light.transform.eulerAngles.z;
+                this.lightRangeSlider.Value = light.range;
+                this.spotLightAngleSlider.Value = light.spotAngle;
+                this.lightColorPicker.Value = light.color;
+                this.shadowsBox.SelectedIndex = (int)light.shadows;
+                this.shadowStrengthSlider.Value = light.shadowStrength;
+                this.shadowBiasSlider.Value = light.shadowBias;
+                this.shadowNormalBiasSlider.Value = light.shadowNormalBias;
+
+                this.updating = false;
+            }
         }
 
         private void SwitchLightType( object sender, EventArgs args)
@@ -276,9 +299,24 @@ namespace CM3D2.SceneCapture.Plugin
 
         private void RotateLight( object sender, EventArgs args )
         {
-            this.light.transform.eulerAngles = new Vector3( this.lightRotationXSlider.Value,
-                                                            this.lightRotationYSlider.Value,
-                                                            this.lightRotationZSlider.Value );
+            if( !this.updating ) {
+                this.light.transform.eulerAngles = new Vector3( this.lightRotationXSlider.Value,
+                                                                this.lightRotationYSlider.Value,
+                                                                this.lightRotationZSlider.Value );
+                this.wasChanged = true;
+            }
+        }
+
+        private void ResetLight( object sender, EventArgs args )
+        {
+            this.resetRequested = true;
+        }
+
+        private void ResetLightPos( object sender, EventArgs args )
+        {
+            this.light.transform.position = new Vector3(0, 2, 0);
+            this.dragManager.SetTransform(this.light.transform);
+
             this.wasChanged = true;
         }
 
@@ -383,6 +421,10 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 return this.light;
             }
+            set
+            {
+                this.light = value;
+            }
         }
 
         public bool IsDeleteRequested
@@ -413,12 +455,16 @@ namespace CM3D2.SceneCapture.Plugin
         private DragManager dragManager = null;
         private bool isDrag;
         private bool deleteRequested;
+        public bool resetRequested { get; set; }
         private bool wasChanged;
         private bool changingDrag;
+        private bool updating = false;
 
         private CustomLabel lightNameLabel = null;
         private CustomComboBox lightTypeComboBox = null;
         private CustomToggleButton lightEnableToggle = null;
+        private CustomButton lightResetButton = null;
+        private CustomButton lightResetPosButton = null;
         private CustomButton lightDeleteButton = null;
         private CustomToggleButton lightDragToggle = null;
 
@@ -438,7 +484,6 @@ namespace CM3D2.SceneCapture.Plugin
         private CustomSlider areaLightWidthSlider = null;
         private CustomSlider areaLightHeightSlider = null;
         private CustomColorPicker lightColorPicker = null;
-        private CustomButton lightResetButton = null;
         #endregion
     }
 }

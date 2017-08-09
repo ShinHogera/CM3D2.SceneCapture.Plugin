@@ -233,8 +233,10 @@ namespace CM3D2.SceneCapture.Plugin
                     // 表示中
                     if( this.modeSelectView.SelectedMode != ConstantValues.EditMode.Disable )
                     {
-                        Vector2 point = new Vector2( Input.mousePosition.x, Screen.height - Input.mousePosition.y );
-                        Rect pluginPos = new Rect( Screen.width - Screen.width / 5, Screen.height / 15 + ControlBase.FixedMargin, Screen.width / 5 - Screen.width / 65, Screen.height - Screen.height / 5 );
+                        float windowWidth = Screen.width / 4 - ControlBase.FixedMargin * 2;
+
+                        // Vector2 point = new Vector2( Input.mousePosition.x, Screen.height - Input.mousePosition.y );
+                        Rect pluginPos = new Rect( Screen.width - windowWidth, Screen.height / 15 + ControlBase.FixedMargin, Screen.width / 5 - Screen.width / 65, Screen.height - Screen.height / 5 );
 
                         // プラグイン画面の外にある場合、かつ補助キーを押下していない場合
                         // bool isEnableControl = ( pluginPos.Contains( point ) == false && ( isCtrl == false && isShift == false && isAlt == false ) );
@@ -242,20 +244,17 @@ namespace CM3D2.SceneCapture.Plugin
                         // UICamera.InputEnable = isEnableControl;
 
                         // モード選択ウィンドウ
-                        this.modeSelectView.Left = Screen.width - Screen.width / 5;
-                        this.modeSelectView.Top = ControlBase.FixedMargin * 15;
-                        this.modeSelectView.Width = Screen.width / 5 - ControlBase.FixedMargin * 2;
                         this.modeSelectView.OnGUI();
 
                         // メイド設定中
                         if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Effect )
                         {
                             // メイド設定ウィンドウ
-                            this.effectView.rectGui.x = Screen.width - Screen.width / 5;
+                            this.effectView.rectGui.x = this.modeSelectView.Left;
                             this.effectView.rectGui.y = this.modeSelectView.Top + this.modeSelectView.Height + ControlBase.FixedMargin;
                             this.effectView.Left = 0;
                             this.effectView.Top = 0;
-                            this.effectView.Width = Screen.width / 5 - ControlBase.FixedMargin * 2;
+                            this.effectView.Width = this.modeSelectView.Width;
                             this.effectView.rectGui.width = this.effectView.Width;
                             this.effectView.OnGUI();
                         }
@@ -263,22 +262,22 @@ namespace CM3D2.SceneCapture.Plugin
                         else if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Environment )
                         {
                             // 環境設定ウィンドウ
-                            this.envView.rectGui.x = Screen.width - Screen.width / 5;
+                            this.envView.rectGui.x = this.modeSelectView.Left;
                             this.envView.rectGui.y = this.modeSelectView.Top + this.modeSelectView.Height + ControlBase.FixedMargin;
                             this.envView.Left = 0;
                             this.envView.Top = 0;
-                            this.envView.Width = Screen.width / 5 - ControlBase.FixedMargin * 2;
+                            this.envView.Width = this.modeSelectView.Width;
                             this.envView.rectGui.width = this.envView.Width;
                             this.envView.OnGUI();
                         }
                         else if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Data )
                         {
                             // 環境設定ウィンドウ
-                            this.dataView.rectGui.x = Screen.width - Screen.width / 5;
+                            this.dataView.rectGui.x = this.modeSelectView.Left;
                             this.dataView.rectGui.y = this.modeSelectView.Top + this.modeSelectView.Height + ControlBase.FixedMargin;
                             this.dataView.Left = 0;
                             this.dataView.Top = 0;
-                            this.dataView.Width = Screen.width / 5 - ControlBase.FixedMargin * 2;
+                            this.dataView.Width = this.modeSelectView.Width;
                             this.dataView.rectGui.width = this.dataView.Width;
                             this.dataView.OnGUI();
                         }
@@ -321,10 +320,14 @@ namespace CM3D2.SceneCapture.Plugin
             try
             {
                 int fontSize = 11;
+                float windowWidth = Screen.width / 4 - ControlBase.FixedMargin * 2;
 
                 // モード選択画面
                 this.modeSelectView = new ModeSelectWindow( fontSize );
                 this.modeSelectView.Text = String.Format( "{0} ver.{1}", this.GetPluginName(), this.GetPluginVersion() );
+                this.modeSelectView.Left = Screen.width - windowWidth;
+                this.modeSelectView.Top = ControlBase.FixedMargin * 15;
+                this.modeSelectView.Width = windowWidth;
 
                 // メイド設定画面
                 this.effectView = new EffectWindow( fontSize );

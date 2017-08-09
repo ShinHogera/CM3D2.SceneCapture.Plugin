@@ -70,7 +70,7 @@ namespace CM3D2.SceneCapture.Plugin
 
             this.modelDeleteButton = new CustomButton();
             this.modelDeleteButton.FontSize = this.FontSize;
-            this.modelDeleteButton.Text = "X";
+            this.modelDeleteButton.Text = "Delete";
             this.modelDeleteButton.Click += this.DeleteModel;
             this.ChildControls.Add( this.modelDeleteButton );
 
@@ -91,53 +91,19 @@ namespace CM3D2.SceneCapture.Plugin
             this.modelNameLabel.Height = this.ControlHeight;
             this.modelNameLabel.OnGUI();
 
-            this.gizmoPanToggle.Left = this.modelNameLabel.Left + this.modelNameLabel.Width;
-            this.gizmoPanToggle.Top = this.Top + ControlBase.FixedMargin;
-            this.gizmoPanToggle.Width = (this.Width / 5) - ControlBase.FixedMargin / 4;
-            this.gizmoPanToggle.Height = this.ControlHeight;
-            this.gizmoPanToggle.OnGUI();
+            GUIUtil.AddGUIButton( this, this.gizmoPanToggle, this.modelNameLabel, 5 );
+            this.gizmoPanToggle.Top -= this.ControlHeight / 2;
 
-            this.gizmoRotateToggle.Left = this.gizmoPanToggle.Left + this.gizmoPanToggle.Width;
-            this.gizmoRotateToggle.Top = this.Top + ControlBase.FixedMargin;
-            this.gizmoRotateToggle.Width = (this.Width / 5) - ControlBase.FixedMargin / 4;
-            this.gizmoRotateToggle.Height = this.ControlHeight;
-            this.gizmoRotateToggle.OnGUI();
+            GUIUtil.AddGUIButton( this, this.gizmoRotateToggle, this.gizmoPanToggle, 5 );
+            GUIUtil.AddGUIButton( this, this.gizmoScaleToggle, this.gizmoRotateToggle, 5 );
+            GUIUtil.AddGUIButton( this, this.modelCopyButton, this.gizmoScaleToggle, 8 );
 
-            this.gizmoScaleToggle.Left = this.gizmoRotateToggle.Left + this.gizmoRotateToggle.Width;
-            this.gizmoScaleToggle.Top = this.Top + ControlBase.FixedMargin;
-            this.gizmoScaleToggle.Width = (this.Width / 5) - ControlBase.FixedMargin / 4;
-            this.gizmoScaleToggle.Height = this.ControlHeight;
-            this.gizmoScaleToggle.OnGUI();
+            GUIUtil.AddGUIButton( this, this.resetPanButton, this.modelNameLabel, 5 );
+            this.resetPanButton.Top += this.ControlHeight / 2;
 
-            this.modelCopyButton.Left = this.gizmoScaleToggle.Left + this.gizmoScaleToggle.Width;
-            this.modelCopyButton.Top = this.Top + ControlBase.FixedMargin;
-            this.modelCopyButton.Width = (this.Width / 10) - ControlBase.FixedMargin / 4;
-            this.modelCopyButton.Height = this.ControlHeight;
-            this.modelCopyButton.OnGUI();
-
-            this.resetPanButton.Left = this.modelNameLabel.Left + this.modelNameLabel.Width;
-            this.resetPanButton.Top = this.Top + ControlBase.FixedMargin + this.ControlHeight;
-            this.resetPanButton.Width = (this.Width / 5) - ControlBase.FixedMargin / 4;
-            this.resetPanButton.Height = this.ControlHeight;
-            this.resetPanButton.OnGUI();
-
-            this.resetRotateButton.Left = this.resetPanButton.Left + this.resetPanButton.Width;
-            this.resetRotateButton.Top = this.Top + ControlBase.FixedMargin + this.ControlHeight;
-            this.resetRotateButton.Width = (this.Width / 5) - ControlBase.FixedMargin / 4;
-            this.resetRotateButton.Height = this.ControlHeight;
-            this.resetRotateButton.OnGUI();
-
-            this.resetScaleButton.Left = this.resetRotateButton.Left + this.resetRotateButton.Width;
-            this.resetScaleButton.Top = this.Top + ControlBase.FixedMargin + this.ControlHeight;
-            this.resetScaleButton.Width = (this.Width / 5) - ControlBase.FixedMargin / 4;
-            this.resetScaleButton.Height = this.ControlHeight;
-            this.resetScaleButton.OnGUI();
-
-            this.modelDeleteButton.Left = this.gizmoScaleToggle.Left + this.gizmoScaleToggle.Width;
-            this.modelDeleteButton.Top = this.Top + ControlBase.FixedMargin + this.ControlHeight;
-            this.modelDeleteButton.Width = (this.Width / 10) - ControlBase.FixedMargin / 4;
-            this.modelDeleteButton.Height = this.ControlHeight;
-            this.modelDeleteButton.OnGUI();
+            GUIUtil.AddGUIButton( this, this.resetRotateButton, this.resetPanButton, 5 );
+            GUIUtil.AddGUIButton( this, this.resetScaleButton, this.resetRotateButton, 5 );
+            GUIUtil.AddGUIButton( this, this.modelDeleteButton, this.gizmoScaleToggle, 8 );
 
             this.Height = GUIUtil.GetHeightForParent(this);
         }

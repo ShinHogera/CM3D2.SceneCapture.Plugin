@@ -577,25 +577,31 @@ namespace CM3D2.SceneCapture.Plugin
                         this.addedLightInstance[ lightName ] = newObject;
 
                         Light currentLight = this.lightPanes.Last().LightValue;
+                        Light newLight = newObject.GetComponent<Light>();
 
-                        if( newObject.GetComponent<Light>() != null )
+                        if( newLight != null )
                         {
-                            newObject.GetComponent<Light>().type = currentLight.type;
-                            newObject.GetComponent<Light>().intensity = currentLight.intensity;
-                            newObject.GetComponent<Light>().range = currentLight.range;
-                            newObject.GetComponent<Light>().color = new Color( currentLight.color.r,
+                            newLight.type = currentLight.type;
+                            newLight.intensity = currentLight.intensity;
+                            newLight.range = currentLight.range;
+                            newLight.color = new Color( currentLight.color.r,
                                                                                currentLight.color.g,
                                                                                currentLight.color.b,
                                                                                currentLight.color.a );
-                            newObject.GetComponent<Light>().spotAngle = currentLight.spotAngle;
-                            newObject.GetComponent<Light>().transform.rotation = new Quaternion( currentLight.transform.rotation.x,
+                            newLight.spotAngle = currentLight.spotAngle;
+                            newLight.transform.rotation = new Quaternion( currentLight.transform.rotation.x,
                                                                                                  currentLight.transform.rotation.y,
                                                                                                  currentLight.transform.rotation.z,
                                                                                                  currentLight.transform.rotation.w );
-                            newObject.GetComponent<Light>().transform.position = new Vector3( currentLight.transform.position.x,
+                            newLight.transform.position = new Vector3( currentLight.transform.position.x,
                                                                                               currentLight.transform.position.y,
                                                                                               currentLight.transform.position.z );
-                            newObject.GetComponent<Light>().enabled = true;
+                            Debug.Log("pos " + newLight.transform.position);
+                            newLight.shadows = currentLight.shadows;
+                            newLight.shadowStrength = currentLight.shadowStrength;
+                            newLight.shadowBias = currentLight.shadowBias;
+                            newLight.shadowNormalBias = currentLight.shadowNormalBias;
+                            newLight.enabled = true;
 
                             LightPane pane =  new LightPane( this.FontSize, newObject.GetComponent<Light>() );
                             pane.Text = lightName;
@@ -609,6 +615,29 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 Debug.LogError( e.ToString() );
             }
+        }
+
+        private void ResetLightPane( ref LightPane pane )
+        {
+            Light light;
+            if(pane.Text == ConstantValues.MainLightName)
+                light = GameMain.Instance.MainLight.GetComponent<Light>();
+            else
+                light = this.addedLightInstance[ pane.Text ].GetComponent<Light>();
+
+            // Taken from GameMain.Instace.MainLight default values
+            light.intensity = 0.95f;
+            light.range = 10;
+            light.color = new Color(1, 1, 1, 1);
+            light.transform.eulerAngles = new Vector3(40, 180, 18);
+            light.spotAngle = 30;
+            light.shadows = LightShadows.Soft;
+            light.shadowStrength = 0.098f;
+            light.shadowBias = 0.01f;
+            light.shadowNormalBias = 0.4f;
+            pane.LightValue = light;
+
+            pane.UpdateFromLight();
         }
 
         private void CheckForLightUpdates()
@@ -662,10 +691,18 @@ namespace CM3D2.SceneCapture.Plugin
                         this.addedLightInstance.Remove( pane.Text );
                         changed = true;
                     }
-                    else if( pane.WasChanged )
-                    {
-                        changed = true;
-                        pane.WasChanged = false;
+                    else {
+                        if( pane.resetRequested )
+                        {
+                            this.ResetLightPane( ref pane );
+                            changed = true;
+                            pane.resetRequested = false;
+                        }
+                        if( pane.WasChanged )
+                        {
+                            changed = true;
+                            pane.WasChanged = false;
+                        }
                     }
                 }
 

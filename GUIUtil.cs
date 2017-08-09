@@ -19,6 +19,36 @@ namespace CM3D2.SceneCapture.Plugin
             gsLabel.alignment = TextAnchor.MiddleLeft;
         }
 
+        public static void AddGUIButton(ControlBase parent, ControlBase elem, int rowButtonCount)
+        {
+            elem.Left = parent.Left + ControlBase.FixedMargin;
+            elem.Top = parent.Top + ControlBase.FixedMargin;
+            elem.Width = (parent.Width / rowButtonCount) - ControlBase.FixedMargin / 4;
+            elem.Height = ControlHeight(parent);
+            elem.OnGUI();
+            elem.Visible = true;
+        }
+
+        public static void AddGUIButton(ControlBase parent, ControlBase elem, ControlBase reference, int rowButtonCount )
+        {
+            elem.Left = reference.Left + reference.Width;
+            elem.Top = reference.Top;
+            elem.Width = (parent.Width / rowButtonCount) - ControlBase.FixedMargin / 4;
+            elem.Height = ControlHeight(parent);
+            elem.OnGUI();
+            elem.Visible = true;
+        }
+
+        public static void AddGUIButtonAfter(ControlBase parent, ControlBase elem, ControlBase reference, int rowButtonCount)
+        {
+            elem.Left = parent.Left + ControlBase.FixedMargin;
+            elem.Top = reference.Top + reference.Height + ControlBase.FixedMargin;
+            elem.Width = (parent.Width / rowButtonCount) - ControlBase.FixedMargin / 4;
+            elem.Height = ControlHeight(parent);
+            elem.OnGUI();
+            elem.Visible = true;
+        }
+
         public static void AddGUICheckbox(ControlBase parent, ControlBase elem)
         {
             float lastSize = parent.LastElementSize;
