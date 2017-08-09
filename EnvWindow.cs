@@ -25,12 +25,12 @@ namespace CM3D2.SceneCapture.Plugin
             try
             {
                 this.addLightButton = new CustomButton();
-                this.addLightButton.Text = "Add Light";
+                this.addLightButton.Text = Translation.GetText("UI", "addLight");
                 this.addLightButton.Click += AddLightButtonPressed;
                 this.ChildControls.Add( this.addLightButton );
 
                 this.bgButton = new CustomButton();
-                this.bgButton.Text = "Add Model";
+                this.bgButton.Text = Translation.GetText("UI", "addModel");
                 this.bgButton.Click += BGButtonPressed;
                 this.ChildControls.Add( this.bgButton );
 
@@ -41,7 +41,7 @@ namespace CM3D2.SceneCapture.Plugin
 
                 this.backgroundBox = new CustomComboBox( this.allBackgrounds.Keys.ToArray() );
                 this.backgroundBox.FontSize = this.FontSize;
-                this.backgroundBox.Text = "Background";
+                this.backgroundBox.Text = Translation.GetText("UI", "background");
                 this.backgroundBox.SelectedIndex = 0;
                 this.backgroundBox.SelectedIndexChanged += this.ChangeBackground;
                 this.ChildControls.Add( this.backgroundBox );
@@ -210,10 +210,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         private void AddModelPane( GameObject model, string modelFileName, string modelIconName )
         {
-            string modelName = "Model " + (this.modelsAdded + 1);
+            string modelString = Translation.GetText("UI", "model");
+            string modelName = modelString + " " + (this.modelsAdded + 1);
             while(this.addedModelInstance.ContainsKey(modelName)) {
                 this.modelsAdded++;
-                modelName = "Model " + (this.modelsAdded + 1);
+                modelName = modelString + " " + (this.modelsAdded + 1);
             }
 
             var names = new KeyValuePair<String, String>(modelFileName, modelIconName);
@@ -548,10 +549,11 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 if( this.lightPanes.Count < ConstantValues.MaxLightCount )
                 {
-                    String lightName = ConstantValues.AddLightName + this.lightsAdded;
+                    String lightString = Translation.GetText("UI", "light"); 
+                    String lightName = lightString + " " + this.lightsAdded;
                     while(this.addedLightInstance.ContainsKey(lightName)) {
                         this.lightsAdded++;
-                        lightName = ConstantValues.AddLightName + this.lightsAdded;
+                        lightName = lightString + " " + this.lightsAdded;
                     }
 
                     // 光源追加し、選択中の設定をコピー

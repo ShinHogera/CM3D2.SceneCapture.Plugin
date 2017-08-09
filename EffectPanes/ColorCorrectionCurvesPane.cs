@@ -16,7 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class ColorCorrectionCurvesPane : BasePane
     {
-        public ColorCorrectionCurvesPane( int fontSize ) : base( fontSize, "ColorCurves" ) {}
+        public ColorCorrectionCurvesPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "ColorCorrectionCurves") ) {}
 
         override public void SetupPane()
         {

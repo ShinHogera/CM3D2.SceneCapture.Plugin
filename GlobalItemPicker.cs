@@ -172,7 +172,7 @@ namespace CM3D2.SceneCapture.Plugin
 
             private void categoryButton(string value, Rect rectItem)
             {
-                if(GUI.Button(rectItem, value, gsButton))
+                if(GUI.Button(rectItem, Translation.GetText("Equip", value), gsButton))
                 {
                     UpdateMenus(ConstantValues.PropParts[value]);
                 }

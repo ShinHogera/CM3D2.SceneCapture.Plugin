@@ -57,19 +57,19 @@ namespace CM3D2.SceneCapture.Plugin
                 // エフェクト設定トグルボタン
                 this.effectSettingButton = new CustomToggleButton( false );
                 this.effectSettingButton.FontSize = this.FontSize;
-                this.effectSettingButton.Text = "エフェクト設定";
+                this.effectSettingButton.Text = Translation.GetText("UI", "effectSetting");
                 this.effectSettingButton.CheckedChanged += this.EffectSettingButton_CheckedChanged;
 
                 // 環境設定トグルボタン
                 this.envSettingButton = new CustomToggleButton( false );
                 this.envSettingButton.FontSize = this.FontSize;
-                this.envSettingButton.Text = "環境設定";
+                this.envSettingButton.Text = Translation.GetText("UI", "envSetting");
                 this.envSettingButton.CheckedChanged += this.EnvSettingButton_CheckedChanged;
 
                 // データ設定トグルボタン
                 this.dataSettingButton = new CustomToggleButton( false );
                 this.dataSettingButton.FontSize = this.FontSize;
-                this.dataSettingButton.Text = "データ設定";
+                this.dataSettingButton.Text = Translation.GetText("UI", "dataSetting");
                 this.dataSettingButton.CheckedChanged += this.DataSettingButton_CheckedChanged;
 
                 CustomToggleButton.SetPairButton( this.effectSettingButton, this.envSettingButton );

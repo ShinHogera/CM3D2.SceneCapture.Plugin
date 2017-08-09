@@ -50,49 +50,49 @@ namespace CM3D2.SceneCapture.Plugin
 
             this.gizmoPanToggle = new CustomToggleButton( false );
             this.gizmoPanToggle.FontSize = this.FontSize;
-            this.gizmoPanToggle.Text = "Pan";
+            this.gizmoPanToggle.Text = Translation.GetText("Model", "gizmoPan");
             this.gizmoPanToggle.CheckedChanged += this.TogglePan;
             this.ChildControls.Add( this.gizmoPanToggle );
 
             this.gizmoRotateToggle = new CustomToggleButton( false );
             this.gizmoRotateToggle.FontSize = this.FontSize;
-            this.gizmoRotateToggle.Text = "Rotation";
+            this.gizmoRotateToggle.Text = Translation.GetText("Model", "gizmoRotate");
             this.gizmoRotateToggle.CheckedChanged += this.ToggleRotate;
             this.ChildControls.Add( this.gizmoRotateToggle );
 
             this.gizmoScaleToggle = new CustomToggleButton( false );
             this.gizmoScaleToggle.FontSize = this.FontSize;
-            this.gizmoScaleToggle.Text = "Scale";
+            this.gizmoScaleToggle.Text = Translation.GetText("Model", "gizmoScale");
             this.gizmoScaleToggle.CheckedChanged += this.ToggleScale;
             this.ChildControls.Add( this.gizmoScaleToggle );
 
             this.resetPanButton = new CustomButton();
             this.resetPanButton.FontSize = this.FontSize;
-            this.resetPanButton.Text = "Reset Pan";
+            this.resetPanButton.Text = Translation.GetText("Model", "resetPan");
             this.resetPanButton.Click += this.ResetPan;
             this.ChildControls.Add( this.resetPanButton );
 
             this.resetRotateButton = new CustomButton();
             this.resetRotateButton.FontSize = this.FontSize;
-            this.resetRotateButton.Text = "Reset Rot";
+            this.resetRotateButton.Text = Translation.GetText("Model", "resetRotate");
             this.resetRotateButton.Click += this.ResetRotation;
             this.ChildControls.Add( this.resetRotateButton );
 
             this.resetScaleButton = new CustomButton();
             this.resetScaleButton.FontSize = this.FontSize;
-            this.resetScaleButton.Text = "Reset Scl";
+            this.resetScaleButton.Text = Translation.GetText("Model", "resetScale");
             this.resetScaleButton.Click += this.ResetScale;
             this.ChildControls.Add( this.resetScaleButton );
 
             this.modelDeleteButton = new CustomButton();
             this.modelDeleteButton.FontSize = this.FontSize;
-            this.modelDeleteButton.Text = "Delete";
+            this.modelDeleteButton.Text = Translation.GetText("Model", "modelDelete");
             this.modelDeleteButton.Click += this.DeleteModel;
             this.ChildControls.Add( this.modelDeleteButton );
 
             this.modelCopyButton = new CustomButton();
             this.modelCopyButton.FontSize = this.FontSize;
-            this.modelCopyButton.Text = "Copy";
+            this.modelCopyButton.Text = Translation.GetText("Model", "modelCopy");
             this.modelCopyButton.Click += this.CopyModel;
             this.ChildControls.Add( this.modelCopyButton );
         }

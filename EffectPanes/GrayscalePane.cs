@@ -16,7 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class GrayscalePane : BasePane
     {
-        public GrayscalePane( int fontSize ) : base( fontSize, "Grayscale" ) {}
+        public GrayscalePane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Grayscale" ) ) {}
 
         override public void SetupPane()
         {

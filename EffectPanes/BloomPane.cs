@@ -16,7 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class BloomPane : BasePane
     {
-        public BloomPane( int fontSize ) : base( fontSize, "Bloom" ) {}
+        public BloomPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Bloom") ) {}
 
         override public void SetupPane()
         {
@@ -59,7 +59,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.ChildControls.Add( this.sepBlurSpreadSlider  );
 
             this.bloomThreshholdColorPicker = new CustomColorPicker( BloomDef.bloomEffect.bloomThreshholdColor );
-            this.bloomThreshholdColorPicker.Text = Translation.GetText("Bloom", "bloomThresholdColor");
+            this.bloomThreshholdColorPicker.Text = Translation.GetText("Bloom", "bloomThreshholdColor");
             this.bloomThreshholdColorPicker.IsRGBA = false;
 
             this.ChildControls.Add( this.bloomThreshholdColorPicker  );

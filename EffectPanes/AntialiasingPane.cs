@@ -16,8 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class AntialiasingPane : BasePane
     {
-
-        public AntialiasingPane( int fontSize ) : base( fontSize, "Antialiasing" ) {}
+        public AntialiasingPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Antialiasing") ) {}
 
         override public void SetupPane()
         {

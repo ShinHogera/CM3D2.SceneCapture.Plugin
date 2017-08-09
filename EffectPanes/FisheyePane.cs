@@ -16,15 +16,15 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class FisheyePane : BasePane
     {
-        public FisheyePane( int fontSize ) : base( fontSize, "Fisheye" ) {}
+        public FisheyePane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Fisheye") ) {}
 
         override public void SetupPane()
         {
             this.strengthXSlider = new CustomSlider( FisheyeDef.fisheyeEffect.strengthX, 0f, 10f, 1 );
-            this.strengthXSlider.Text = "Strength X";
+            this.strengthXSlider.Text = Translation.GetText("Fisheye", "strengthX");
             this.ChildControls.Add( this.strengthXSlider );
             this.strengthYSlider = new CustomSlider( FisheyeDef.fisheyeEffect.strengthY, 0f, 10f, 1 );
-            this.strengthYSlider.Text = "Strength Y";
+            this.strengthYSlider.Text = Translation.GetText("Fisheye", "strengthY");
             this.ChildControls.Add( this.strengthYSlider );
         }
 

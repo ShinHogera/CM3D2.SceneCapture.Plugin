@@ -16,7 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class EdgeDetectPane : BasePane
     {
-        public EdgeDetectPane( int fontSize ) : base( fontSize, "Edge Detect" ) {}
+        public EdgeDetectPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "EdgeDetect") ) {}
 
         override public void SetupPane()
         {

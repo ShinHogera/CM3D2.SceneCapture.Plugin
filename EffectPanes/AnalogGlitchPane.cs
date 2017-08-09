@@ -16,7 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class AnalogGlitchPane : BasePane
     {
-        public AnalogGlitchPane( int fontSize ) : base( fontSize, "AnalogGlitch" ) {}
+        public AnalogGlitchPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "AnalogGlitch") ) {}
 
         override public void SetupPane()
         {

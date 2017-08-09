@@ -16,7 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class SepiaPane : BasePane
     {
-        public SepiaPane( int fontSize ) : base( fontSize, "Sepia" ) {}
+        public SepiaPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Sepia") ) {}
 
         override public void SetupPane()
         {

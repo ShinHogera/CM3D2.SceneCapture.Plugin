@@ -16,24 +16,24 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class HueFocusPane : BasePane
     {
-        public HueFocusPane( int fontSize ) : base( fontSize, "Hue Focus" ) {}
+        public HueFocusPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "HueFocus") ) {}
 
         override public void SetupPane()
         {
             this.hueSlider = new CustomSlider( HueFocusDef.hueFocusEffect.hue, 0f, 360f, 1 );
-            this.hueSlider.Text = "Hue";
+            this.hueSlider.Text = Translation.GetText("HueFocus", "hue");
             this.ChildControls.Add( this.hueSlider );
 
             this.rangeSlider = new CustomSlider( HueFocusDef.hueFocusEffect.range, 1f, 180f, 1 );
-            this.rangeSlider.Text = "Range";
+            this.rangeSlider.Text = Translation.GetText("HueFocus", "range");
             this.ChildControls.Add( this.rangeSlider );
 
             this.boostSlider = new CustomSlider( HueFocusDef.hueFocusEffect.boost, 0f, 1f, 1 );
-            this.boostSlider.Text = "Boost";
+            this.boostSlider.Text = Translation.GetText("HueFocus", "boost");
             this.ChildControls.Add( this.boostSlider );
 
             this.amountSlider = new CustomSlider( HueFocusDef.hueFocusEffect.amount, 0f, 1f, 1 );
-            this.amountSlider.Text = "Amount";
+            this.amountSlider.Text = Translation.GetText("HueFocus", "amount");
             this.ChildControls.Add( this.amountSlider );
         }
 

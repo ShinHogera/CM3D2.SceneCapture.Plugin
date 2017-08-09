@@ -16,7 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class BokehPane : BasePane
     {
-        public BokehPane( int fontSize ) : base( fontSize, "Bokeh" ) {}
+        public BokehPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Bokeh") ) {}
 
         override public void SetupPane()
         {

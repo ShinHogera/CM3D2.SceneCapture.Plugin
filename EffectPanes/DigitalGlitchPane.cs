@@ -16,7 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class DigitalGlitchPane : BasePane
     {
-        public DigitalGlitchPane( int fontSize ) : base( fontSize, "DigitalGlitch" ) {}
+        public DigitalGlitchPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "DigitalGlitch") ) {}
 
         override public void SetupPane()
         {

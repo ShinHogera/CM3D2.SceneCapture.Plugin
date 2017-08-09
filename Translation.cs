@@ -16,10 +16,22 @@ namespace CM3D2.SceneCapture.Plugin
         private readonly static string TRANSLATION_FILE_SYBARIS = ConstantValues.ConfigDirSybaris + @"\translations.xml";
 
         private static Dictionary<string, Dictionary<string, string>> translations;
-        private static string currentTranslation;
 
-        public static void Initialize()
+        private static string _currentTranslation;
+        public static string CurrentTranslation
         {
+            get {
+                return _currentTranslation;
+            }
+            set {
+                _currentTranslation = value;
+            }
+        }
+
+        public static void Initialize( string language )
+        {
+            CurrentTranslation = language;
+
             translations = new Dictionary<string, Dictionary<string, string>>();
             XDocument xml = XDocument.Load(TRANSLATION_FILE);
             if( xml == null )
@@ -40,16 +52,15 @@ namespace CM3D2.SceneCapture.Plugin
                     foreach( XElement field in category.Elements())
                     {
                         string key = category.Name + "_" + field.Name;
-                        Debug.Log(key + " " + field.Value.ToString());
                         dict.Add(key, field.Value.ToString());
                     }
                 }
-                string translationLanguage = translation.Attribute("language").ToString();
+                string translationLanguage = translation.Attribute("language").Value.ToString();
+                Debug.Log("LANG " + translationLanguage);
                 translations[ translationLanguage ] = dict;
 
                 IEnumerator<string> enumerator = translations.Keys.GetEnumerator();
                 enumerator.MoveNext();
-                currentTranslation = enumerator.Current;
             }
         }
 
@@ -58,26 +69,25 @@ namespace CM3D2.SceneCapture.Plugin
             return translations.Keys.ToArray();
         }
 
-        public static void SetCurrentTranslation( string translation )
+        public static bool HasTranslation( string translation )
         {
-            if( translations.ContainsKey(translation)) {
-                currentTranslation = translation;
-            }
-            else
-            {
-                Debug.LogError("Invalid translation language " + translation);
-            }
+            return translations.ContainsKey(translation);
         }
 
         public static string GetText(string category, string field)
         {
-            string key = category + "_" + field;
-            if( !translations[ currentTranslation ].ContainsKey(key) )
+            if(!translations.ContainsKey(CurrentTranslation))
             {
-                Debug.LogError("Translation " + key + " not found for language " + currentTranslation + "!");
+                Debug.LogError("Language " + CurrentTranslation + " not defined!");
+                return "ERROR";
+            }
+            string key = category + "_" + field;
+            if( !translations[ CurrentTranslation ].ContainsKey(key) )
+            {
+                Debug.LogError("Translation " + key + " not found for language " + CurrentTranslation + "!");
                 return "ERROR " + key;
             }
-            return translations[ currentTranslation ][ key ];
+            return translations[ CurrentTranslation ][ key ];
         }
     }
 }

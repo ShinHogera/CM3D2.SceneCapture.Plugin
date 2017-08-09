@@ -16,38 +16,38 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class ObscurancePane : BasePane
     {
-        public ObscurancePane( int fontSize ) : base( fontSize, "Obscurance" ) {}
+        public ObscurancePane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Obscurance") ) {}
 
         override public void SetupPane()
         {
             this.intensitySlider = new CustomSlider( ObscuranceDef.obscuranceEffect.intensity, 0f, 4f, 1 );
-            this.intensitySlider.Text = "Intensity";
+            this.intensitySlider.Text = Translation.GetText("Obscurance", "intensity");
             this.ChildControls.Add( this.intensitySlider );
 
             this.radiusSlider = new CustomSlider( ObscuranceDef.obscuranceEffect.radius, 0f, 2, 1 );
-            this.radiusSlider.Text = "Radius";
+            this.radiusSlider.Text = Translation.GetText("Obscurance", "radius");
             this.ChildControls.Add( this.radiusSlider );
 
             this.sampleCountBox = new CustomComboBox( OBSCURANCE_SAMPLECOUNT );
-            this.sampleCountBox.Text = "Sample Count";
+            this.sampleCountBox.Text = Translation.GetText("Obscurance", "sampleCount");
             this.sampleCountBox.SelectedIndex = (int)ObscuranceDef.obscuranceEffect.sampleCount;
             this.ChildControls.Add( this.sampleCountBox );
 
             this.sampleCountValueSlider = new CustomSlider( ObscuranceDef.obscuranceEffect.sampleCountValue, 0f, 50f, 1 );
-            this.sampleCountValueSlider.Text = "Sample Count Value";
+            this.sampleCountValueSlider.Text = Translation.GetText("Obscurance", "sampleCountValue");
             this.ChildControls.Add( this.sampleCountValueSlider );
 
             this.downsamplingCheckbox = new CustomToggleButton( false, "toggle" );
-            this.downsamplingCheckbox.Text = "Downsampling";
+            this.downsamplingCheckbox.Text = Translation.GetText("Obscurance", "downsampling");
             this.ChildControls.Add( this.downsamplingCheckbox );
 
             this.occlusionSourceBox = new CustomComboBox( OBSCURANCE_OCCLUSIONSOURCE );
-            this.occlusionSourceBox.Text = "Occlusion Source";
+            this.occlusionSourceBox.Text = Translation.GetText("Obscurance", "occlusionSource");
             this.occlusionSourceBox.SelectedIndex = (int)ObscuranceDef.obscuranceEffect.occlusionSource;
             this.ChildControls.Add( this.occlusionSourceBox );
 
             this.ambientOnlyCheckbox = new CustomToggleButton( false, "toggle" );
-            this.ambientOnlyCheckbox.Text = "Ambient Only";
+            this.ambientOnlyCheckbox.Text = Translation.GetText("Obscurance", "ambientOnly");
             this.ChildControls.Add( this.ambientOnlyCheckbox );
         }
 

@@ -16,7 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class BlurPane : BasePane
     {
-        public BlurPane( int fontSize ) : base( fontSize, "Blur" ) {}
+        public BlurPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Blur") ) {}
 
         override public void SetupPane()
         {

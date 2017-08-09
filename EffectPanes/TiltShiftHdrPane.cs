@@ -16,26 +16,26 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class TiltShiftHdrPane : BasePane
     {
-        public TiltShiftHdrPane( int fontSize ) : base( fontSize, "TiltShiftHdr" ) {}
+        public TiltShiftHdrPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "TiltShiftHdr") ) {}
 
         override public void SetupPane()
         {
             this.blurAreaSlider = new CustomSlider( TiltShiftHdrDef.tiltShiftHdrEffect.blurArea, 0f, 15f, 1 );
-            this.blurAreaSlider.Text = "Blur Area";
+            this.blurAreaSlider.Text = Translation.GetText("TiltShiftHdr", "blurArea");
             this.ChildControls.Add( this.blurAreaSlider );
             this.maxBlurSizeSlider = new CustomSlider( TiltShiftHdrDef.tiltShiftHdrEffect.maxBlurSize, 0f, 25f, 1 );
-            this.maxBlurSizeSlider.Text = "Max Blur Size";
+            this.maxBlurSizeSlider.Text = Translation.GetText("TiltShiftHdr", "maxBlurSize");
             this.ChildControls.Add( this.maxBlurSizeSlider );
             this.downsampleSlider = new CustomSlider( TiltShiftHdrDef.tiltShiftHdrEffect.downsample, 0f, 1f, 1 );
-            this.downsampleSlider.Text = "Downsample";
+            this.downsampleSlider.Text = Translation.GetText("TiltShiftHdr", "downsample");
             this.ChildControls.Add( this.downsampleSlider );
 
             this.modeBox = new CustomComboBox( TILT_MODE );
-            this.modeBox.Text = "Mode";
+            this.modeBox.Text = Translation.GetText("TiltShiftHdr", "mode");
             this.modeBox.SelectedIndex = (int)TiltShiftHdrDef.tiltShiftHdrEffect.mode;
             this.ChildControls.Add( this.modeBox );
             this.qualityBox = new CustomComboBox( TILT_QUALITY );
-            this.qualityBox.Text = "Quality";
+            this.qualityBox.Text = Translation.GetText("TiltShiftHdr", "quality");
             this.qualityBox.SelectedIndex = (int)TiltShiftHdrDef.tiltShiftHdrEffect.quality;
             this.ChildControls.Add( this.qualityBox );
         }

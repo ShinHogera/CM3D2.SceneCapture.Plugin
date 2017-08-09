@@ -1,10 +1,10 @@
 <Translations>
   <Translation language="English">
       <AnalogGlitch>
-          <scanLineJitter>Scan Line Jitter</scanLineJitter>
-          <verticalJump>Vertical Jump</verticalJump>
-          <horizontalShake>Horizontal Shake</horizontalShake>
-          <colorDrift>Color Drift</colorDrift>
+        <scanLineJitter>Scan Line Jitter</scanLineJitter>
+        <verticalJump>Vertical Jump</verticalJump>
+        <horizontalShake>Horizontal Shake</horizontalShake>
+        <colorDrift>Color Drift</colorDrift>
       </AnalogGlitch>
       <Antialiasing>
         <mode>Technique</mode>
@@ -22,10 +22,10 @@
         <tweakMode>Mode</tweakMode>
         <quality>Complex</quality>
         <bloomIntensity>Intensity</bloomIntensity>
-        <bloomThreshold>Threshold</bloomThreshold>
+        <bloomThreshhold>Threshhold</bloomThreshhold>
         <bloomBlurIterations>Blur Iterations</bloomBlurIterations>
         <sepBlurSpread>Blur Spread</sepBlurSpread>
-        <bloomThresholdColor>Threshold Color</bloomThresholdColor>
+        <bloomThreshholdColor>Threshhold Color</bloomThreshholdColor>
         <lensflareMode>Lensflare Mode</lensflareMode>
         <lensflareIntensity>Lensflare Intensity</lensflareIntensity>
         <lensFlareSaturation>Lensflare Saturation</lensFlareSaturation>
@@ -119,10 +119,212 @@
         <edgesOnly>Edges Only</edgesOnly>
         <edgesOnlyBgColor>Edges Only Background</edgesOnlyBgColor>
       </EdgeDetect>
+      <Feedback>
+        <color>Color</color>
+        <offsetX>Offset X</offsetX>
+        <offsetY>Offset Y</offsetY>
+        <rotation>Rotation</rotation>
+        <scale>Scale</scale>
+        <jaggies>Disable bilinear filter</jaggies>
+      </Feedback>
+      <Fisheye>
+        <strengthX>Strength X</strengthX>
+        <strengthY>Strength Y</strengthY>
+      </Fisheye>
+      <GlobalFog>
+        <fogMode>Mode</fogMode>
+        <globalDensity>Global Density</globalDensity>
+        <height>Height</height>
+        <heightScale>Height Scale</heightScale>
+        <startDistance>Start Distance</startDistance>
+        <globalFogColor>Color</globalFogColor>
+        <adjustHeightScale>Adjust Height Scale</adjustHeightScale>
+        <adjustStartDistance>Adjust Start Distance</adjustStartDistance>
+      </GlobalFog>
+      <HueFocus>
+        <hue>Hue</hue>
+        <range>Range</range>
+        <boost>Boost</boost>
+        <amount>amount</amount>
+      </HueFocus>
+      <LensDistortionBlur>
+        <quality>Quality</quality>
+        <samples>Samples</samples>
+        <distortion>Distortion</distortion>
+        <cubicDistortion>Cubic Distortion</cubicDistortion>
+        <scale>Scale</scale>
+      </LensDistortionBlur>
+      <Letterbox>
+        <aspectWidth>Aspect Width</aspectWidth>
+        <aspectHeight>Aspect Height</aspectHeight>
+        <fillColor>Color</fillColor>
+      </Letterbox>
+      <MotionBlur>
+        <extraBlur>Extra Blur</extraBlur>
+        <blurAmount>Blur Amount</blurAmount>
+      </MotionBlur>
+      <NoiseAndGrain>
+        <dx11Grain>DirectX11 Grain</dx11Grain>
+        <monochrome>Monochrome</monochrome>
+        <filterMode>Mode</filterMode>
+        <intensityMultiplier>Intensity Multiplier</intensityMultiplier>
+        <generalIntensity>General Intensity</generalIntensity>
+        <blackIntensity>Black Intensity</blackIntensity>
+        <whiteIntensity>White Intensity</whiteIntensity>
+        <midGrey>Mid Grey</midGrey>
+        <softness>Softness</softness>
+        <monochromeTiling>Monochrome Tiling</monochromeTiling>
+        <tilingRed>Red Tiling</tilingRed>
+        <tilingGreen>Green Tiling</tilingGreen>
+        <tilingBlue>Blue Tiling</tilingBlue>
+      </NoiseAndGrain>
+      <Obscurance>
+        <intensity>Intensity</intensity>
+        <radius>Radius</radius>
+        <sampleCount>Sample Count</sampleCount>
+        <sampleCountValue>Sample Count Value</sampleCountValue>
+        <downsampling>Downsampling</downsampling>
+        <occlusionSource>Occlusion Source</occlusionSource>
+        <ambientOnly>Ambient Only</ambientOnly>
+      </Obscurance>
+      <SSAO>
+        <intensity>Intensity</intensity>
+        <radius>Radius</radius>
+        <blurIterations>blurIterations</blurIterations>
+        <blurFilterDistance>Blur Filter Distance</blurFilterDistance>
+        <downsample>Downsample</downsample>
+      </SSAO>
+      <SunShafts>
+        <resolution>Resolution</resolution>
+        <screenBlendMode>Blend</screenBlendMode>
+        <useDepthTexture>Use Depth Texture</useDepthTexture>
+        <sunColor>Color</sunColor>
+        <maxRadius>Max Radius</maxRadius>
+        <sunShaftBlurRadius>Blur Radius</sunShaftBlurRadius>
+        <radialBlurIterations>Radial Blur Iterations</radialBlurIterations>
+        <sunShaftIntensity>Intensity</sunShaftIntensity>
+        <useSkyBoxAlpha>Use Skybox Alpha</useSkyBoxAlpha>
+      </SunShafts>
+      <Technicolor>
+        <exposure>Exposure</exposure>
+        <balanceRed>Red Balance</balanceRed>
+        <balanceGreen>Green Balance</balanceGreen>
+        <balanceBlue>Blue Balance</balanceBlue>
+        <amount>Amount</amount>
+      </Technicolor>
+      <TiltShiftHdr>
+        <blurArea>Blur Area</blurArea>
+        <maxBlurSize>Max Blur Size</maxBlurSize>
+        <downsample>Downsample</downsample>
+        <mode>Mode</mode>
+        <quality>Quality</quality>
+      </TiltShiftHdr>
+      <Vignetting>
+        <intensity>Intensity</intensity>
+        <blur>Blur</blur>
+        <blurSpread>Blur Spread</blurSpread>/
+        <mode>Advanced</mode>
+        <chromaticAberration>Chromatic Aberration</chromaticAberration>
+        <luminanceDependency>Luminance Dependency</luminanceDependency>
+        <axialAberration>Axial Aberration</axialAberration>
+        <blurDistance>Blur Distance</blurDistance>
+      </Vignetting>
+
+      <Panes>
+        <AnalogGlitch>Analog Glitch</AnalogGlitch>
+        <Antialiasing>Antialiasing</Antialiasing>
+        <Bloom>Bloom</Bloom>
+        <Blur>Blur</Blur>
+        <Bokeh>Bokeh</Bokeh>
+        <ChannelSwap>Channel Swap</ChannelSwap>
+        <ColorCorrectionCurves>Color Curves</ColorCorrectionCurves>
+        <Contrast>Contrast</Contrast>
+        <Crease>Crease</Crease>
+        <DepthOfField>Depth Of Field</DepthOfField>
+        <DigitalGlitch>Digital Glitch</DigitalGlitch>
+        <DynamicLookup>Dynamic Lookup</DynamicLookup>
+        <EdgeDetect>Edge Detect</EdgeDetect>
+        <Feedback>Feedback</Feedback>
+        <Fisheye>Fisheye</Fisheye>
+        <GlobalFog>Global Fog</GlobalFog>
+        <Grayscale>Grayscale</Grayscale>
+        <HueFocus>Hue Focus</HueFocus>
+        <LensDistortionBlur>Lens Distortion Blur</LensDistortionBlur>
+        <Letterbox>Letterbox</Letterbox>
+        <MotionBlur>Motion Blur</MotionBlur>
+        <NoiseAndGrain>Noise And Grain</NoiseAndGrain>
+        <Obscurance>Obscurance</Obscurance>
+        <Sepia>Sepia</Sepia>
+        <SSAO>SSAO</SSAO>
+        <SunShafts>Sun Shafts</SunShafts>
+        <Technicolor>Technicolor</Technicolor>
+        <TiltShiftHdr>Tilt Shift HDR</TiltShiftHdr>
+        <Vignetting>Vignetting</Vignetting>
+      </Panes>
+
+      <Model>
+        <gizmoPan>Pan</gizmoPan>
+        <gizmoRotate>Rotation</gizmoRotate>
+        <gizmoScale>Scale</gizmoScale>
+        <resetPan>Reset Pan</resetPan>
+        <resetRotate>Reset Rot</resetRotate>
+        <resetScale>Reset Scl</resetScale>
+        <modelDelete>Delete</modelDelete>
+        <modelCopy>Copy</modelCopy>
+      </Model>
+
+      <Equip>
+        <face>Face</face>
+        <teeth>Teeth</teeth>
+        <frontHair>Front Hair</frontHair>
+        <backHair>Back Hair</backHair>
+        <sideHair>Side Hair</sideHair>
+        <extensions>Extensions</extensions>
+        <ahoge>Ahoge</ahoge>
+        <hat>Hat</hat>
+        <headdress>Headdress</headdress>
+        <top>Top</top>
+        <bottom>Bottom</bottom>
+        <onePiece>One Piece</onePiece>
+        <swimsuit>Swimsuit</swimsuit>
+        <bra>Bra</bra>
+        <panties>Panties</panties>
+        <socks>Socks</socks>
+        <shoes>Shoes</shoes>
+        <hairAccessory>Hair Acc.</hairAccessory>
+        <glasses>Glasses</glasses>
+        <eyeMask>Eye Mask</eyeMask>
+        <nose>Nose</nose>
+        <ears>Ears</ears>
+        <gloves>Gloves</gloves>
+        <necklace>Necklace</necklace>
+        <choker>Choker</choker>
+        <ribbon>Ribbon</ribbon>
+        <nipples>Nipples</nipples>
+        <arms>Arms</arms>
+        <belly>Belly</belly>
+        <ankles>Ankles</ankles>
+        <back>Back</back>
+        <tail>Tail</tail>
+        <genitals>Genitals</genitals>
+        <pubicHair>Pubic Hair</pubicHair>
+      </Equip>
 
       <UI>
         <transformFromMaid>Focal Transform</transformFromMaid>
         <reloadMaids>Reload</reloadMaids>
+        <dragSource>Drag Source</dragSource>
+        <effectSetting>Effects</effectSetting>
+        <envSetting>Environment</envSetting>
+        <dataSetting>Save / Load</dataSetting>
+        <load>Load</load>
+        <delete>Delete</delete>
+        <background>Background</background>
+        <addModel>Add Model</addModel>
+        <addLight>Add Light</addLight>
+        <model>Model</model>
+        <light>Light</light>
+        <language>Language</language>
       </UI>
   </Translation>
 
@@ -133,5 +335,84 @@
           <horizontalShake>Horizontal Shake</horizontalShake>
           <colorDrift>Color Drift</colorDrift>
       </AnalogGlitch>
+
+      <Panes>
+        <AnalogGlitch>Analog Glitch</AnalogGlitch>
+        <Antialiasing>アンチエイリアス</Antialiasing>
+        <Bloom>ブルーム</Bloom>
+        <Blur>ブラー</Blur>
+        <Bokeh>Bokeh</Bokeh>
+        <ChannelSwap>Channel Swap</ChannelSwap>
+        <ColorCorrectionCurves>カラーカーブ</ColorCorrectionCurves>
+        <Contrast>コントラスト</Contrast>
+        <Crease>輪郭強調</Crease>
+        <DepthOfField>深度ブラー</DepthOfField>
+        <DigitalGlitch>Digital Glitch</DigitalGlitch>
+        <DynamicLookup>Dynamic Lookup</DynamicLookup>
+        <EdgeDetect>輪郭検出</EdgeDetect>
+        <Feedback>Feedback</Feedback>
+        <Fisheye>魚眼レンズ</Fisheye>
+        <GlobalFog>フォグ</GlobalFog>
+        <Grayscale>グレースケール</Grayscale>
+        <HueFocus>Hue Focus</HueFocus>
+        <LensDistortionBlur>Lens Distortion Blur</LensDistortionBlur>
+        <Letterbox>Letterbox</Letterbox>
+        <MotionBlur>モーションブラー</MotionBlur>
+        <NoiseAndGrain>ノイズ</NoiseAndGrain>
+        <Obscurance>Obscurance</Obscurance>
+        <Sepia>セピア</Sepia>
+        <SSAO>SSAO</SSAO>
+        <SunShafts>サンシャフト</SunShafts>
+        <Technicolor>Technicolor</Technicolor>
+        <TiltShiftHdr>ティルトシフト</TiltShiftHdr>
+        <Vignetting>光学ブラー</Vignetting>
+      </Panes>
+
+      <Equip>
+        <face>顔</face>
+        <teeth>歯</teeth>
+        <frontHair>前髪</frontHair>
+        <backHair>後髪</backHair>
+        <sideHair>横髪</sideHair>
+        <extensions>エクステ髪</extensions>
+        <ahoge>アホ毛</ahoge>
+        <hat>帽子</hat>
+        <headdress>ヘッドドレス</headdress>
+        <top>トップス</top>
+        <bottom>ボトムス</bottom>
+        <onePiece>ワンピース</onePiece>
+        <swimsuit>水着</swimsuit>
+        <bra>ブラジャー</bra>
+        <panties>パンツ</panties>
+        <socks>靴下</socks>
+        <shoes>靴</shoes>
+        <hairAccessory>前髪アクセ</hairAccessory>
+        <glasses>メガネ</glasses>
+        <eyeMask>アイマスク</eyeMask>
+        <nose>鼻</nose>
+        <ears>耳</ears>
+        <gloves>手袋</gloves>
+        <necklace>ネックレス</necklace>
+        <choker>チョーカー</choker>
+        <ribbon>リボン</ribbon>
+        <nipples>乳首</nipples>
+        <arms>腕</arms>
+        <belly>へそ</belly>
+        <ankles>足首</ankles>
+        <back>背中</back>
+        <tail>しっぽ</tail>
+        <genitals>前穴</genitals>
+        <pubicHair>アンダーヘア</pubicHair>
+      </Equip>
+
+      <UI>
+        <transformFromMaid>Focal Transform</transformFromMaid>
+        <reloadMaids>Reload</reloadMaids>
+        <dragSource>Drag Source</dragSource>
+        <effectSetting>エフェクト設定</effectSetting>
+        <envSetting>環境設定</envSetting>
+        <dataSetting>データ設定</dataSetting>
+        <light>追加ライト</light>
+      </UI>
   </Translation>
 </Translations>

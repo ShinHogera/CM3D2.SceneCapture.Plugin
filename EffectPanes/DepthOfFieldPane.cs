@@ -12,7 +12,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class DepthOfFieldPane : BasePane {
 
-        public DepthOfFieldPane( int fontSize ) : base( fontSize, "DepthOfField" ) {}
+        public DepthOfFieldPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "DepthOfField") ) {}
 
         override public void SetupPane()
         {

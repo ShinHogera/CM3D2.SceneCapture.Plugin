@@ -16,7 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class ChannelSwapPane : BasePane
     {
-        public ChannelSwapPane( int fontSize ) : base( fontSize, "ChannelSwap" ) {}
+        public ChannelSwapPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "ChannelSwap") ) {}
 
         override public void SetupPane()
         {

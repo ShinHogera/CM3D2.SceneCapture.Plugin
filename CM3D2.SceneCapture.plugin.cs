@@ -67,7 +67,7 @@ namespace CM3D2.SceneCapture.Plugin
                 // モーション情報初期化
                 ReadPluginPreferences();
                 ConstantValues.Initialize();
-                Translation.Initialize();
+                Translation.Initialize(configLanguage);
                 Util.LoadShaders();
             }
             catch( Exception e )
@@ -111,6 +111,19 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
+                if(this.dataView != null && this.dataView.wantsLanguageChange)
+                {
+                    string lang = this.dataView.LanguageValue;
+                    if(Translation.HasTranslation(lang)) {
+                        Preferences["Config"]["Language"].Value = dataView.LanguageValue;
+                        SaveConfig();
+
+                        Translation.CurrentTranslation = lang;
+
+                        this.dataView.wantsLanguageChange = false;
+                        initialized = false;
+                    }
+                }
                 // Bloom has to be loaded by the game first
                 if (!initialized) {
                     {
@@ -456,6 +469,7 @@ namespace CM3D2.SceneCapture.Plugin
         /// <summary>.ini ファイルからプラグイン設定を読み込む</summary>
         private void ReadPluginPreferences()
         {
+            configLanguage = GetPreferences("Config", "Language", "English");
             configEffectKey = GetPreferences("Config", "EffectWindowKey", "z");
             configEnvironmentKey = GetPreferences("Config", "EnvironmentWindowKey", "x");
             configDataKey = GetPreferences("Config", "DataWindowKey", "c");
@@ -522,6 +536,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         private bool initialized = false;
 
+        string configLanguage = string.Empty;
         string configEffectKey = string.Empty;
         string configEnvironmentKey = string.Empty;
         string configDataKey = string.Empty;

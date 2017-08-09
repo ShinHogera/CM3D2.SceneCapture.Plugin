@@ -16,16 +16,16 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class MotionBlurPane : BasePane
     {
-        public MotionBlurPane( int fontSize ) : base( fontSize, "MotionBlur" ) {}
+        public MotionBlurPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "MotionBlur") ) {}
 
         override public void SetupPane()
         {
             this.extraBlurCheckbox = new CustomToggleButton( MotionBlurDef.motionBlurEffect.extraBlur, "toggle" );
-            this.extraBlurCheckbox.Text = "Extra Blur";
+            this.extraBlurCheckbox.Text = Translation.GetText("MotionBlur", "extraBlur");
             this.ChildControls.Add( this.extraBlurCheckbox );
 
             this.blurAmountSlider = new CustomSlider( MotionBlurDef.motionBlurEffect.blurAmount, 0f, 1f, 1 );
-            this.blurAmountSlider.Text = "Blur Amount";
+            this.blurAmountSlider.Text = Translation.GetText("MotionBlur", "blurAmount");
             this.ChildControls.Add( this.blurAmountSlider );
         }
 

@@ -16,7 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class CreasePane : BasePane
     {
-        public CreasePane( int fontSize ) : base( fontSize, "Crease" ) {}
+        public CreasePane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Crease") ) {}
 
         override public void SetupPane()
         {

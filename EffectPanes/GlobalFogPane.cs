@@ -16,7 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class GlobalFogPane : BasePane
     {
-        public GlobalFogPane( int fontSize ) : base( fontSize, "GlobalFog" ) {}
+        public GlobalFogPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "GlobalFog") ) {}
 
         override public void SetupPane()
         {
@@ -26,35 +26,37 @@ namespace CM3D2.SceneCapture.Plugin
             }
 
             this.fogModeBox = new CustomComboBox( FOG_MODES );
-            this.fogModeBox.Text = "Mode";
+            this.fogModeBox.Text = Translation.GetText("GlobalFog", "fogMode");
             this.fogModeBox.SelectedIndex = (int)GlobalFogDef.globalFogEffect.fogMode;
             this.ChildControls.Add( this.fogModeBox );
 
             this.globalDensitySlider = new CustomSlider( GlobalFogDef.globalFogEffect.globalDensity, 0f, 5f, 1 );
-            this.globalDensitySlider.Text = "Global Density";
+            this.globalDensitySlider.Text = Translation.GetText("GlobalFog", "globalDensity");
             this.ChildControls.Add( this.globalDensitySlider );
 
             this.heightSlider = new CustomSlider( GlobalFogDef.globalFogEffect.height, 0f, 50f, 1 );
-            this.heightSlider.Text = "Height";
+            this.heightSlider.Text = Translation.GetText("GlobalFog", "height");
             this.ChildControls.Add( this.heightSlider );
 
             this.heightScaleSlider = new CustomSlider( GlobalFogDef.globalFogEffect.heightScale, 1f, 10f, 1 );
-            this.heightScaleSlider.Text = "Height Scale";
+            this.heightScaleSlider.Text = Translation.GetText("GlobalFog", "heightScale");
             this.ChildControls.Add( this.heightScaleSlider );
 
             this.startDistanceSlider = new CustomSlider( GlobalFogDef.globalFogEffect.startDistance, 0f, 50f, 1 );
-            this.startDistanceSlider.Text = "Start Distance";
+            this.startDistanceSlider.Text = Translation.GetText("GlobalFog", "startDistance");
             this.ChildControls.Add( this.startDistanceSlider );
 
             this.globalFogColorPicker = new CustomColorPicker( GlobalFogDef.globalFogEffect.globalFogColor );
-            this.globalFogColorPicker.Text = "Color";
+            this.globalFogColorPicker.Text = Translation.GetText("GlobalFog", "globalFogColor");
             this.globalFogColorPicker.IsRGBA = false;
             this.ChildControls.Add( this.globalFogColorPicker );
 
             this.adjustHeightScaleToggle = new CustomToggleButton( GlobalFogDef.AdjustHeightScale, "button" );
+            this.adjustHeightScaleToggle.Text =Translation.GetText("GlobalFog", "adjustHeightScale");
             this.ChildControls.Add( this.adjustHeightScaleToggle );
 
             this.adjustStartDistanceToggle = new CustomToggleButton( GlobalFogDef.AdjustStartDistance, "button" );
+            this.adjustStartDistanceToggle.Text = Translation.GetText("GlobalFog", "adjustStartDistance");
             this.ChildControls.Add( this.adjustStartDistanceToggle );
 
             setup = true;
@@ -69,19 +71,12 @@ namespace CM3D2.SceneCapture.Plugin
             }
 
             GUIUtil.AddGUICheckbox(this, this.fogModeBox);
-
             GUIUtil.AddGUICheckbox(this, this.adjustStartDistanceToggle);
-            this.adjustStartDistanceToggle.Text = this.adjustStartDistanceToggle.Value ? "startDistance*" : "startDistance";
-
             GUIUtil.AddGUISlider(this, this.startDistanceSlider);
             GUIUtil.AddGUISlider(this, this.globalDensitySlider);
-
             GUIUtil.AddGUICheckbox(this, this.adjustHeightScaleToggle);
-            this.adjustHeightScaleToggle.Text = this.adjustHeightScaleToggle.Value ? "heightScale*" : "heightScale";
-
             GUIUtil.AddGUISlider(this, this.heightScaleSlider);
             GUIUtil.AddGUISlider(this, this.heightSlider);
-
             GUIUtil.AddGUICheckbox(this, this.globalFogColorPicker);
         }
 

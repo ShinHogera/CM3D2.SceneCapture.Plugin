@@ -16,7 +16,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class ContrastPane : BasePane
     {
-        public ContrastPane( int fontSize ) : base( fontSize, "Contrast" ) {}
+        public ContrastPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Contrast") ) {}
 
         override public void SetupPane()
         {
