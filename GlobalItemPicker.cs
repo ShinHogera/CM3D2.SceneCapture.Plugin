@@ -47,7 +47,7 @@ namespace CM3D2.SceneCapture.Plugin
             return itemPicker.Menus.Any();
         }
 
-        public static void Set(Vector2 p, float fWidth, int iFontSize, Action<string> f)
+        public static void Set(Vector2 p, float fWidth, int iFontSize, Action<string, string> f)
         {
             itemPicker.Set(p, fWidth, iFontSize, f);
         }
@@ -68,7 +68,7 @@ namespace CM3D2.SceneCapture.Plugin
 
             public bool show { get; private set; }
 
-            public Action<string> func { get; private set; }
+            public Action<string, string> func { get; private set; }
 
             private GUIStyle gsLabel { get; set; }
             private GUIStyle gsButton { get; set; }
@@ -135,7 +135,8 @@ namespace CM3D2.SceneCapture.Plugin
                             if( menu.modelName == null )
                                 continue;
                             string modelName = String.Copy(menu.modelName);
-                            button.Click += (o, e) => func(modelName);
+                            string modelIconName = String.Copy(menu.iconTextureName);
+                            button.Click += (o, e) => func(modelName, modelIconName);
                             buttons.Add(button);
                         }
                     }
@@ -146,7 +147,7 @@ namespace CM3D2.SceneCapture.Plugin
                 }
             }
 
-            public void Set(Vector2 p, float fWidth, int iFontSize, Action<string> f)
+            public void Set(Vector2 p, float fWidth, int iFontSize, Action<string, string> f)
             {
                 rect = new Rect(p.x - fWidth, p.y, fWidth, 0f);
                 fRightPos = p.x + fWidth;

@@ -42,7 +42,7 @@ namespace CM3D2.SceneCapture.Plugin
                 this.ChildControls.Add( this.backgroundBox );
 
                 this.addedLightInstance = new Dictionary<String, GameObject>();
-                this.addedModelInstance = new Dictionary<string, KeyValuePair<GameObject, string>>();
+                this.addedModelInstance = new Dictionary<string, KeyValuePair<GameObject, KeyValuePair<string, string>>>();
                 this.lightPanes = new List<LightPane>();
                 this.modelPanes = new List<ModelPane>();
 
@@ -186,7 +186,7 @@ namespace CM3D2.SceneCapture.Plugin
             return model;
         }
 
-        private void AddModel(String modelFileName)
+        private void AddModel( String modelFileName, String modelIconName )
         {
             GameObject model = this.LoadModel(modelFileName);
 
@@ -197,10 +197,10 @@ namespace CM3D2.SceneCapture.Plugin
                 gizmo.transform.position = GameMain.Instance.MainCamera.camera.transform.forward * 2 + GameMain.Instance.MainCamera.camera.transform.position;
             }
 
-            this.AddModelPane(model, modelFileName);
+            this.AddModelPane(model, modelFileName, modelIconName);
         }
 
-        private void AddModelPane( GameObject model, string modelFileName )
+        private void AddModelPane( GameObject model, string modelFileName, string modelIconName )
         {
             string modelName = "Model " + (this.modelsAdded + 1);
             while(this.addedModelInstance.ContainsKey(modelName)) {
@@ -208,8 +208,11 @@ namespace CM3D2.SceneCapture.Plugin
                 modelName = "Model " + (this.modelsAdded + 1);
             }
 
-            this.addedModelInstance.Add(modelName, new KeyValuePair<GameObject, String>(model, modelFileName));
-            ModelPane pane = new ModelPane(this.FontSize, modelName);
+            var names = new KeyValuePair<String, String>(modelFileName, modelIconName);
+            var modelAndNames = new KeyValuePair<GameObject, KeyValuePair<String, String>>(model, names);
+            this.addedModelInstance.Add(modelName, modelAndNames);
+
+            ModelPane pane = new ModelPane(this.FontSize, modelName, modelIconName);
             this.modelPanes.Add( pane );
             this.ChildControls.Add( pane );
             this.SetModelInstances();
@@ -233,7 +236,7 @@ namespace CM3D2.SceneCapture.Plugin
                 {
                     GameObject model;
                     ModelInfo modelInfo = modelInfos[i];
-                    AddModel(modelInfo.modelName);
+                    AddModel(modelInfo.modelName, modelInfo.modelIconName);
                     string paneName = this.modelPanes[i].Name;
 
                     model = this.addedModelInstance[paneName].Key;
@@ -334,13 +337,14 @@ namespace CM3D2.SceneCapture.Plugin
         private void CopyModel( ModelPane pane )
         {
             GameObject toCopy = this.addedModelInstance[ pane.Name ].Key;
-            string modelName = this.addedModelInstance[ pane.Name ].Value;
+            string modelName = this.addedModelInstance[ pane.Name ].Value.Key;
+            string modelIconName = this.addedModelInstance[ pane.Name ].Value.Value;
             GameObject model = this.LoadModel(modelName);
             model.transform.position = toCopy.transform.position;
             model.transform.rotation = toCopy.transform.rotation;
             model.transform.localScale = toCopy.transform.localScale;
 
-            this.AddModelPane( model, modelName );
+            this.AddModelPane( model, modelName, modelIconName );
             this.SetModelInstances();
         }
 
@@ -350,7 +354,8 @@ namespace CM3D2.SceneCapture.Plugin
             foreach(ModelPane pane in this.modelPanes)
             {
                 models.Add(new ModelInfo(this.addedModelInstance[ pane.Name ].Key,
-                                         this.addedModelInstance[ pane.Name ].Value));
+                                         this.addedModelInstance[ pane.Name ].Value.Key,
+                                         this.addedModelInstance[ pane.Name ].Value.Value));
             }
             Instances.SetModels(models);
         }
@@ -760,7 +765,9 @@ namespace CM3D2.SceneCapture.Plugin
         private int lightsAdded = 0;
         private int modelsAdded = 0;
         private Dictionary<String, GameObject> addedLightInstance = null;
-        private Dictionary<string, KeyValuePair<GameObject, string>> addedModelInstance = null;
+
+        // <modelName, modelIconName
+        private Dictionary<string, KeyValuePair<GameObject, KeyValuePair<string, string>>> addedModelInstance = null;
 
         private Dictionary<string, string> allBackgrounds = null;
         #endregion
@@ -825,9 +832,10 @@ namespace CM3D2.SceneCapture.Plugin
     {
         public ModelInfo() { }
 
-        public ModelInfo( GameObject obj, string modelName )
+        public ModelInfo( GameObject obj, string modelName, string modelIconName )
         {
             this.modelName = modelName;
+            this.modelIconName = modelIconName;
 
             GizmoRenderTarget gizmo = obj.GetComponent<GizmoRenderTarget>();
 
@@ -866,6 +874,8 @@ namespace CM3D2.SceneCapture.Plugin
         }
 
         public string modelName;
+
+        public string modelIconName;
 
         public Vector3 position;
 

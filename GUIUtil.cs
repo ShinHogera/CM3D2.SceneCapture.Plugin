@@ -39,6 +39,15 @@ namespace CM3D2.SceneCapture.Plugin
             elem.Visible = true;
         }
 
+        public static void AddGUIButtonNoRender(ControlBase parent, ControlBase elem, ControlBase reference, int rowButtonCount )
+        {
+            elem.Left = reference.Left + reference.Width;
+            elem.Top = reference.Top;
+            elem.Width = (parent.Width / rowButtonCount) - ControlBase.FixedMargin / 4;
+            elem.Height = ControlHeight(parent);
+            elem.Visible = true;
+        }
+
         public static void AddGUIButtonAfter(ControlBase parent, ControlBase elem, ControlBase reference, int rowButtonCount)
         {
             elem.Left = parent.Left + ControlBase.FixedMargin;

@@ -166,7 +166,8 @@ namespace CM3D2.SceneCapture.Plugin
                                         new XElement("Position", Util.ConvertVector3ToString(model.position)),
                                         new XElement("Rotation", Util.ConvertQuaternionToString(model.rotation)),
                                         new XElement("LocalScale", Util.ConvertVector3ToString(model.localScale)),
-                                        new XElement("ModelName", model.modelName));
+                                        new XElement("ModelName", model.modelName),
+                                        new XElement("ModelIconName", model.modelIconName));
                 xml.Add(elem);
             }
             return xml;
@@ -344,6 +345,7 @@ namespace CM3D2.SceneCapture.Plugin
                 model.localScale = v3Out;
 
                 model.modelName = singleModel.Element("ModelName").Value.ToString();
+                model.modelIconName = singleModel.Element("ModelIconName").Value.ToString();
 
                 return model;
             }

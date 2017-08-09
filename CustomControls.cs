@@ -1090,7 +1090,7 @@ namespace CM3D2.SceneCapture.Plugin
                 // スタイル
                 GUIStyle labelStyle = new GUIStyle( "label" );
                 labelStyle.normal.textColor = this.TextColor;
-                labelStyle.alignment = TextAnchor.MiddleLeft;
+                labelStyle.alignment = TextAnchor.MiddleCenter;
                 labelStyle.fontSize = this.FixedFontSize;
 
                 // トグル表示
@@ -1740,7 +1740,7 @@ namespace CM3D2.SceneCapture.Plugin
         {
             get
             {
-                return this.Texture;
+                return this._texture;
             }
 
             set
@@ -1750,5 +1750,41 @@ namespace CM3D2.SceneCapture.Plugin
         }
 
         public EventHandler Click = delegate { };
+    }
+
+    internal class CustomImage : ControlBase
+    {
+        public CustomImage( Texture2D tex )
+        {
+            try
+            {
+                this.Texture = tex;
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
+        override public void OnGUI() {
+                Rect imageRect = new Rect( this.Left, this.Top, this.Width, this.Height );
+
+                if( this._texture != null )
+                    GUI.DrawTexture( imageRect, this._texture );
+        }
+
+        private Texture2D _texture = null;
+        public Texture2D Texture
+        {
+            get
+            {
+                return this._texture;
+            }
+
+            set
+            {
+                this._texture = value;
+            }
+        }
     }
 }
