@@ -294,11 +294,11 @@ namespace CM3D2.SceneCapture.Plugin
         public static readonly Dictionary<String, MPN> PropParts = new Dictionary<String, MPN>()
   {
       { "顔", MPN.head },
-      { "眉", MPN.mayu },
-      { "目", MPN.eye },
-      { "目ハイライト", MPN.eye_hi },
-      { "ほくろ", MPN.hokuro },
-      { "唇", MPN.lip },
+      // { "眉", MPN.mayu },
+      // { "目", MPN.eye },
+      // { "目ハイライト", MPN.eye_hi },
+      // { "ほくろ", MPN.hokuro },
+      // { "唇", MPN.lip },
       { "歯", MPN.accha },
       { "前髪", MPN.hairf },
       { "後髪", MPN.hairr },
@@ -331,9 +331,9 @@ namespace CM3D2.SceneCapture.Plugin
       { "背中", MPN.accsenaka },
       { "しっぽ", MPN.accshippo },
       { "前穴", MPN.accxxx },
-      { "肌", MPN.skin },
-      { "乳首", MPN.chikubi },
-      { "タトゥー", MPN.acctatoo },
+      // { "肌", MPN.skin },
+      // { "乳首", MPN.chikubi },
+      // { "タトゥー", MPN.acctatoo },
       { "アンダーヘア", MPN.underhair }
   };
 

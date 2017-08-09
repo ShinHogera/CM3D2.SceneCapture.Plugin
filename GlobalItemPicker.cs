@@ -108,8 +108,6 @@ namespace CM3D2.SceneCapture.Plugin
 
             public void ChangeCategory( object sender, EventArgs args )
             {
-                Debug.Log(categoryBox == null);
-                Debug.Log(categoryBox.SelectedItem);
                 UpdateMenus(ConstantValues.PropParts[ categoryBox.SelectedItem ]);
             }
 
@@ -124,7 +122,6 @@ namespace CM3D2.SceneCapture.Plugin
                 {
                     if(menu != null)
                     {
-                        Debug.Log(menu.partCategory);
                         if(menu.partCategory == category)
                         {
                             Texture2D iconTexture = AssetLoader.LoadTexture( menu.iconTextureName );
@@ -140,18 +137,11 @@ namespace CM3D2.SceneCapture.Plugin
                             string modelName = String.Copy(menu.modelName);
                             button.Click += (o, e) => func(modelName);
                             buttons.Add(button);
-                            var sourceProperties = typeof(MenuInfo).GetProperties();
-                            foreach (PropertyInfo sourceProperty in sourceProperties)
-                            {
-                                Debug.Log( sourceProperty.Name );
-                                Debug.Log( sourceProperty.GetValue( menu, null ) );
-                            }
-                            Debug.Log("\nNext\n");
                         }
                     }
                     else
                     {
-                        Debug.Log("null mi");
+                        Debug.LogError("Null MenuInfo");
                     }
                 }
             }
@@ -189,21 +179,21 @@ namespace CM3D2.SceneCapture.Plugin
 
             public void GuiFunc(int winId)
             {
-                int iFontSize = gsLabel.fontSize;
-                float buttonWidth = (fWidth - iFontSize) / 5 ;
-                float buttonHeight = iFontSize * 1.5f;
-                string[] values = ConstantValues.PropParts.Keys.ToArray();
-
                 float windowHeight = this.rect.height;
                 if( this.rect.height > Screen.height * 0.7f )
                 {
                     windowHeight = Screen.height * 0.7f;
                 }
 
+                int iFontSize = gsLabel.fontSize;
                 Rect rectScroll = new Rect(0, 0 + fMargin * 2, this.rect.width, windowHeight);
                 Rect rectScrollView = new Rect(0, 0, this.rect.width, guiScrollHeight);
 
-                scrollPosition = GUI.BeginScrollView(rectScroll, scrollPosition, rectScrollView, true, true);
+                scrollPosition = GUI.BeginScrollView(rectScroll, scrollPosition, rectScrollView, false, true);
+
+                float buttonWidth = (fWidth - fMargin * 4 - iFontSize) / 5 ;
+                float buttonHeight = iFontSize * 1.5f;
+                string[] values = ConstantValues.PropParts.Keys.ToArray();
 
                 Rect rectItem = new Rect(iFontSize * 0.5f, iFontSize * 0.5f, buttonWidth, buttonHeight);
 
@@ -221,13 +211,13 @@ namespace CM3D2.SceneCapture.Plugin
                     }
                 }
 
-                rectItem = new Rect(iFontSize * 0.5f, rectItem.y + buttonHeight, iFontSize * 5f, iFontSize * 5f);
+                rectItem = new Rect(iFontSize * 0.5f, rectItem.y + buttonHeight + fMargin * 2, buttonWidth, buttonWidth);
                 // GUI.DrawTexture(rectItem, texture);
 
                 int j = 0;
                 foreach(CustomTextureButton button in buttons)
                 {
-                    rectItem.x = iFontSize * 0.5f + (j * iFontSize * 5f);
+                    rectItem.x = iFontSize * 0.5f + (j * buttonWidth);
                     button.SetFromRect(rectItem);
                     button.OnGUI();
 
@@ -262,24 +252,24 @@ namespace CM3D2.SceneCapture.Plugin
 
                 guiScrollHeight = rectItem.y + rectItem.height;
 
+                {
+                    Vector2 mousePos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+
+                    bool enableGameGui = true;
+                    bool m = Input.GetAxis("Mouse ScrollWheel") != 0;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        m |= Input.GetMouseButtonDown(i);
+                    }
+                    if (m)
+                    {
+                        enableGameGui = !rect.Contains(mousePos);
+                    }
+                    GameMain.Instance.MainCamera.SetControl(enableGameGui);
+                    UICamera.InputEnable = enableGameGui;
+                }
+
                 GUI.DragWindow();
-
-                // {
-                //     Vector2 mousePos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
-
-                //     bool enableGameGui = true;
-                //     bool m = Input.GetAxis("Mouse ScrollWheel") != 0;
-                //     for (int i = 0; i < 3; i++)
-                //     {
-                //         m |= Input.GetMouseButtonDown(i);
-                //     }
-                //     if (m)
-                //     {
-                //         enableGameGui = !rect.Contains(mousePos);
-                //     }
-                //     GameMain.Instance.MainCamera.SetControl(enableGameGui);
-                //     UICamera.InputEnable = enableGameGui;
-                // }
 
                 // Vector2 screenSize = new Vector2(Screen.width, Screen.height);
                 // if (guiScrollHeight > screenSize.y * 0.7f)

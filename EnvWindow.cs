@@ -221,14 +221,6 @@ namespace CM3D2.SceneCapture.Plugin
             this.SetLightInstances();
         }
 
-        private void Report( GameObject o )
-        {
-            foreach(Component c in o.GetComponents<Component>())
-            {
-                Debug.Log(c);
-            }
-        }
-
         private void CheckForModelUpdates()
         {
             if ( Instances.needModelReload )
@@ -357,7 +349,6 @@ namespace CM3D2.SceneCapture.Plugin
             List<ModelInfo> models = new List<ModelInfo>();
             foreach(ModelPane pane in this.modelPanes)
             {
-                Debug.Log("mod " + this.addedModelInstance[ pane.Name ].Value);
                 models.Add(new ModelInfo(this.addedModelInstance[ pane.Name ].Key,
                                          this.addedModelInstance[ pane.Name ].Value));
             }
@@ -366,7 +357,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public void ClearModels()
         {
-            Debug.Log("Clear models");
             try
             {
                 // 光源一覧クリア
@@ -435,15 +425,10 @@ namespace CM3D2.SceneCapture.Plugin
 
         private void Collidify( GameObject o )
         {
-            report(o);
-            Debug.Log("Now");
             foreach (Transform child in o.transform) {
                 GameObject obj = child.gameObject;
-                report(obj);
-                Debug.Log(obj);
                 foreach(SkinnedMeshRenderer R in obj.GetComponents<SkinnedMeshRenderer>())
                 {
-                    Debug.Log("getet");
                     CompoundCollider BC = R.gameObject.AddComponent<CompoundCollider>();
                 }
             }
@@ -471,7 +456,7 @@ namespace CM3D2.SceneCapture.Plugin
                     }
                     catch (Exception e)
                     {
-                        Debug.Log( e );
+                        Debug.LogError( e );
                     }
                 }
                 GlobalItemPicker.SetMenus(menus);
@@ -544,19 +529,6 @@ namespace CM3D2.SceneCapture.Plugin
             // // }
         }
 
-        private void report(GameObject o)
-        {
-            Component[] allComponents = o.GetComponents<Component>();
-            foreach (Component component in allComponents) {
-                Debug.Log(component);
-            }
-            Debug.Log("all");
-            var all = o.GetComponentsInChildren<Component>();
-            foreach (Component component in all) {
-                Debug.Log(component);
-            }
-        }
-
         private void AddLight()
         {
             try
@@ -596,7 +568,6 @@ namespace CM3D2.SceneCapture.Plugin
                             newLight.transform.position = new Vector3( currentLight.transform.position.x,
                                                                                               currentLight.transform.position.y,
                                                                                               currentLight.transform.position.z );
-                            Debug.Log("pos " + newLight.transform.position);
                             newLight.shadows = currentLight.shadows;
                             newLight.shadowStrength = currentLight.shadowStrength;
                             newLight.shadowBias = currentLight.shadowBias;
