@@ -1090,7 +1090,10 @@ namespace CM3D2.SceneCapture.Plugin
                 // スタイル
                 GUIStyle labelStyle = new GUIStyle( "label" );
                 labelStyle.normal.textColor = this.TextColor;
-                labelStyle.alignment = TextAnchor.MiddleCenter;
+                if( this._style == "button" )
+                    labelStyle.alignment = TextAnchor.MiddleCenter;
+                else
+                    labelStyle.alignment = TextAnchor.MiddleLeft;
                 labelStyle.fontSize = this.FixedFontSize;
 
                 // トグル表示
@@ -1102,7 +1105,7 @@ namespace CM3D2.SceneCapture.Plugin
 
                 if( this._style == "toggle" )
                 {
-                    toggleRect.x += 10;
+                    toggleRect.x += 15;
                 }
 
                 // ラベル表示

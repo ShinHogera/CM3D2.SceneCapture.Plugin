@@ -19,6 +19,7 @@ These are the default keybindings, but they can be edited in the `UnityInjector/
 | X   | Open Environment Window |
 | C   | Open Save/Load Window   |
 
-## Bugs
+## Known Bugs
 - The `Threshold` parameter of the Bloom effect isn't preserved for some reason. Adjusting it after loading will allow you to set it to the saved value.
-- Sometimes a bunch of exceptions are printed out in the log on loading a preset and the preset won't load entirely. Loading the preset again should make it work.
+- Sometimes a bunch of exceptions are printed out in the log on loading a preset and the preset won't load entirely. The sepia effect might also get enabled when this happen. Loading the preset again should fix things.
+- Models may not be able to be moved around after loading for some reason.

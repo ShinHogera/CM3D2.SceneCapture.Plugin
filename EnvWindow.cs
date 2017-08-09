@@ -34,7 +34,12 @@ namespace CM3D2.SceneCapture.Plugin
                 this.bgButton.Click += BGButtonPressed;
                 this.ChildControls.Add( this.bgButton );
 
-                this.backgroundBox = new CustomComboBox( new string[0] );
+                this.allBackgrounds = new Dictionary<string, string>();
+                this.allBackgrounds.Add("", "");
+                foreach( var kvp in ConstantValues.Background )
+                    this.allBackgrounds.Add(kvp.Key, kvp.Value);
+
+                this.backgroundBox = new CustomComboBox( this.allBackgrounds.Keys.ToArray() );
                 this.backgroundBox.FontSize = this.FontSize;
                 this.backgroundBox.Text = "Background";
                 this.backgroundBox.SelectedIndex = 0;
@@ -76,24 +81,6 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
-                if(!addedBackgrounds)
-                {
-                    this.allBackgrounds = new Dictionary<string, string>();
-                    this.allBackgrounds.Add("", "");
-                    foreach( var kvp in ConstantValues.Background )
-                        this.allBackgrounds.Add(kvp.Key, kvp.Value);
-                    string[] bgFiles = GameUty.FileSystem.GetList("bg", AFileSystemBase.ListType.AllFile)
-                        .Where(f => f.EndsWith("bg")).ToArray();
-
-                    foreach( var bg in bgFiles ) {
-                        string name = bg.Remove(0, 3);
-                        name = Path.GetFileNameWithoutExtension(name);
-                        this.allBackgrounds.Add(name, name);
-                    }
-                    this.backgroundBox.SetItems(this.allBackgrounds.Keys.ToList());
-                    addedBackgrounds = true;
-                }
-
                 this.UpdateChildControls();
                 this.CheckForLightUpdates();
                 this.CheckForModelUpdates();
@@ -112,7 +99,7 @@ namespace CM3D2.SceneCapture.Plugin
         {
             this.backgroundBox.Left = this.Left + ControlBase.FixedMargin;
             this.backgroundBox.Top = this.Top + ControlBase.FixedMargin;
-            this.backgroundBox.Width = this.Width - ControlBase.FixedMargin / 4;
+            this.backgroundBox.Width = this.Width - ControlBase.FixedMargin * 2;
             this.backgroundBox.Height = this.ControlHeight;
             this.backgroundBox.OnGUI();
 
@@ -139,19 +126,40 @@ namespace CM3D2.SceneCapture.Plugin
             this.Height = GUIUtil.GetHeightForParent(this);
         }
 
+        private void AddBackgroundAssets()
+        {
+            if(!addedBackgrounds)
+            {
+                this.allBackgrounds = new Dictionary<string, string>();
+                this.allBackgrounds.Add("", "");
+                foreach( var kvp in ConstantValues.Background )
+                    this.allBackgrounds.Add(kvp.Key, kvp.Value);
+                string[] bgFiles = GameUty.FileSystem.GetList("bg", AFileSystemBase.ListType.AllFile)
+                    .Where(f => f.EndsWith("bg")).ToArray();
+
+                foreach( var bg in bgFiles ) {
+                    string name = bg.Remove(0, 3);
+                    name = Path.GetFileNameWithoutExtension(name);
+                    this.allBackgrounds.Add(name, name);
+                }
+                this.backgroundBox.SetItems(this.allBackgrounds.Keys.ToList());
+                addedBackgrounds = true;
+            }
+        }
+
         private void ChangeBackground( object sender, EventArgs args )
         {
             string bg = this.backgroundBox.SelectedItem;
             if( String.IsNullOrEmpty( bg ) == false )
             {
-                if( this.allBackgrounds.ContainsKey( bg ) )
+                if( ConstantValues.Background.ContainsKey( bg ) )
                 {
                     if( bg == "非表示") {
                         GameMain.Instance.BgMgr.DeleteBg();
                     }
                     else
                     {
-                        GameMain.Instance.BgMgr.ChangeBg( this.allBackgrounds[ bg ] );
+                        GameMain.Instance.BgMgr.ChangeBg( ConstantValues.Background[ bg ] );
                     }
                     Instances.background = bg;
                 }

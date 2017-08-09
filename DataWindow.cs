@@ -92,7 +92,7 @@ namespace CM3D2.SceneCapture.Plugin
         {
             this.nameTextField.Left = this.Left + ControlBase.FixedMargin;
             this.nameTextField.Top = this.Top + ControlBase.FixedMargin;
-            this.nameTextField.Width = this.Width - ControlBase.FixedMargin / 4;
+            this.nameTextField.Width = this.Width - ControlBase.FixedMargin * 2;
             this.nameTextField.Height = this.ControlHeight;
             this.nameTextField.OnGUI();
 

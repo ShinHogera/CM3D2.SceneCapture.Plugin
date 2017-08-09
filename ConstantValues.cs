@@ -248,7 +248,15 @@ namespace CM3D2.SceneCapture.Plugin
             { "執務室２：夜", "Shitsumu_ChairRot_Night" },
             { "キッチン", "Kitchen" },
             { "キッチン：夜", "Kitchen_Night" },
-            { "バー", "Bar" }
+            { "バー", "Bar" },
+            { "教室", "Classroom" },
+            { "教室２", "Classroom_Play" },
+            { "ハネムーン", "HoneymoonRoom" },
+            { "四畳半部屋", "Oheya" },
+            { "アウトレットパーク", "OutletPark" },
+            { "トイレ", "Toilet" },
+            { "電車", "Train" },
+            { "電車２", "Train_Notsurikawa" }
         };
 
         /// <summary>アイテム</summary>

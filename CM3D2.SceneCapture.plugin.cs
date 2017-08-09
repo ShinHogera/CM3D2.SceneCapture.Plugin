@@ -325,7 +325,7 @@ namespace CM3D2.SceneCapture.Plugin
                 // モード選択画面
                 this.modeSelectView = new ModeSelectWindow( fontSize );
                 this.modeSelectView.Text = String.Format( "{0} ver.{1}", this.GetPluginName(), this.GetPluginVersion() );
-                this.modeSelectView.Left = Screen.width - windowWidth;
+                this.modeSelectView.Left = Screen.width - windowWidth - ControlBase.FixedMargin;
                 this.modeSelectView.Top = ControlBase.FixedMargin * 15;
                 this.modeSelectView.Width = windowWidth;
 
