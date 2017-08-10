@@ -148,7 +148,7 @@ namespace CM3D2.SceneCapture.Plugin
                             Debug.LogError("Null MenuInfo");
                         }
                     }
-                    catch( Exception e )
+                    catch
                     {
                         // Debug.LogError( e );
                     }

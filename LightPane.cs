@@ -100,7 +100,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.lightDeleteButton.Click += this.DeleteLight;
             this.ChildControls.Add( this.lightDeleteButton );
 
-            this.lightIntensitySlider = new CustomSlider( this.light.intensity, 0, 3f, 2 );
+            this.lightIntensitySlider = new CustomSlider( this.light.intensity, 0, 3f, 3 );
             this.lightIntensitySlider.FontSize = this.FontSize;
             this.lightIntensitySlider.Text = Translation.GetText("Light", "lightIntensity");
             this.lightIntensitySlider.ValueChanged += this.ChangeIntensity;
@@ -112,13 +112,13 @@ namespace CM3D2.SceneCapture.Plugin
             this.lightBounceIntensitySlider.ValueChanged += this.ChangeIntensity;
             this.ChildControls.Add( this.lightBounceIntensitySlider );
 
-            this.lightRangeSlider = new CustomSlider( this.light.range, 0, 200f, 1 );
+            this.lightRangeSlider = new CustomSlider( this.light.range, 0, 200f, 4 );
             this.lightRangeSlider.FontSize = this.FontSize;
             this.lightRangeSlider.Text = Translation.GetText("Light", "lightRange");
             this.lightRangeSlider.ValueChanged += this.ChangeRange;
             this.ChildControls.Add( this.lightRangeSlider );
 
-            this.spotLightAngleSlider = new CustomSlider( this.light.spotAngle, 0, 360f, 1 );
+            this.spotLightAngleSlider = new CustomSlider( this.light.spotAngle, 0, 360f, 4 );
             this.spotLightAngleSlider.FontSize = this.FontSize;
             this.spotLightAngleSlider.Text = Translation.GetText("Light", "spotLightAngle");
             this.spotLightAngleSlider.ValueChanged += this.ChangeSpotAngle;
@@ -143,7 +143,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.lightColorPicker.IsRGBA = false;
             this.ChildControls.Add( this.lightColorPicker );
 
-            this.shadowStrengthSlider = new CustomSlider( this.light.shadowStrength, 0, 1f, 1 );
+            this.shadowStrengthSlider = new CustomSlider( this.light.shadowStrength, 0, 1f, 4 );
             this.shadowStrengthSlider.FontSize = this.FontSize;
             this.shadowStrengthSlider.Text = Translation.GetText("Light", "shadowStrength");
             this.shadowStrengthSlider.ValueChanged += this.ChangeShadowStrength;
@@ -155,13 +155,13 @@ namespace CM3D2.SceneCapture.Plugin
             this.shadowsBox.SelectedIndexChanged += this.ChangeShadowType;
             this.ChildControls.Add( this.shadowsBox );
 
-            this.shadowBiasSlider = new CustomSlider( this.light.shadowBias, 0, 2f, 1 );
+            this.shadowBiasSlider = new CustomSlider( this.light.shadowBias, 0, 2f, 4 );
             this.shadowBiasSlider.FontSize = this.FontSize;
             this.shadowBiasSlider.Text = Translation.GetText("Light", "shadowBias");
             this.shadowBiasSlider.ValueChanged += this.ChangeShadowBias;
             this.ChildControls.Add( this.shadowBiasSlider );
 
-            this.shadowNormalBiasSlider = new CustomSlider( this.light.shadowNormalBias, 0, 3f, 1 );
+            this.shadowNormalBiasSlider = new CustomSlider( this.light.shadowNormalBias, 0, 3f, 4 );
             this.shadowNormalBiasSlider.FontSize = this.FontSize;
             this.shadowNormalBiasSlider.Text = Translation.GetText("Light", "shadowNormalBias");
             this.shadowNormalBiasSlider.ValueChanged += this.ChangeShadowNormalBias;
@@ -189,6 +189,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.lightNameLabel.Top = this.Top + ControlBase.FixedMargin;
             this.lightNameLabel.Width = this.Width / 2 - ControlBase.FixedMargin / 4;
             this.lightNameLabel.Height = this.ControlHeight;
+            this.lightNameLabel.Text = this.Text;
             this.lightNameLabel.OnGUI();
 
             GUIUtil.AddGUICheckbox(this, this.lightTypeComboBox );

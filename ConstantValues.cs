@@ -28,6 +28,21 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
+                Background = new Dictionary<String, String>();
+                Background.Add("", "");
+                Background.Add("非表示", "Hide");
+
+                // Get list of backgrounds directly from game
+                PhotoBGData.Create();
+
+                foreach( List<PhotoBGData> list in PhotoBGData.category_list.Values )
+                {
+                    foreach( PhotoBGData dat in list )
+                    {
+                        Background.Add(dat.category + ": " + dat.name, dat.create_prefab_name);
+                    }
+                }
+
                 MotionList = new Dictionary<String, List<String>>( ConstantValues.Motion.Values.Count );
 
                 // あらかじめ種別を登録しておく
@@ -211,47 +226,7 @@ namespace CM3D2.SceneCapture.Plugin
         };
 
         /// <summary>背景</summary>
-        public static readonly Dictionary<String, String> Background = new Dictionary<String, String>()
-        {
-            { "非表示", "Hide" },
-            { "サロン", "Salon" },
-            { "サロン：昼", "Salon_Day" },
-            { "サロン：玄関", "Salon_Entrance" },
-            { "サロン：玄関２", "Salon_Entrance2" },
-            { "サロン：中庭", "Salon_Garden" },
-            { "サロン：ソファ無し", "Salon_nosofa" },
-            { "書斎", "Syosai" },
-            { "書斎：夜", "Syosai_Night" },
-            { "ドレスルーム", "DressRoom_NoMirror" },
-            { "自室", "MyBedRoom" },
-            { "自室：夜", "MyBedRoom_Night" },
-            { "自室：消灯", "MyBedRoom_NightOff" },
-            { "バスルーム１", "BathRoom" },
-            { "バスルーム２", "LargeBathRoom" },
-            { "プレイルーム１", "PlayRoom" },
-            { "プレイルーム２", "PlayRoom2" },
-            { "プール", "Pool" },
-            { "SMルーム", "SMRoom" },
-            { "メイド部屋", "MaidRoom" },
-            { "花魁部屋", "OiranRoom" },
-            { "ペントハウス", "Penthouse" },
-            { "街中", "Town" },
-            { "執務室", "Shitsumu" },
-            { "執務室：夜", "Shitsumu_Night" },
-            { "執務室２", "Shitsumu_ChairRot" },
-            { "執務室２：夜", "Shitsumu_ChairRot_Night" },
-            { "キッチン", "Kitchen" },
-            { "キッチン：夜", "Kitchen_Night" },
-            { "バー", "Bar" },
-            { "教室", "Classroom" },
-            { "教室２", "Classroom_Play" },
-            { "ハネムーン", "HoneymoonRoom" },
-            { "四畳半部屋", "Oheya" },
-            { "アウトレットパーク", "OutletPark" },
-            { "トイレ", "Toilet" },
-            { "電車", "Train" },
-            { "電車２", "Train_Notsurikawa" }
-        };
+        public static Dictionary<String, String> Background = null;
 
         /// <summary>アイテム</summary>
         public static readonly Dictionary<String, KeyValuePair<String, String>> Item = new Dictionary<String, KeyValuePair<String, String>>()

@@ -39,12 +39,7 @@ namespace CM3D2.SceneCapture.Plugin
                 this.bgButton.Click += BGButtonPressed;
                 this.ChildControls.Add( this.bgButton );
 
-                this.allBackgrounds = new Dictionary<string, string>();
-                this.allBackgrounds.Add("", "");
-                foreach( var kvp in ConstantValues.Background )
-                    this.allBackgrounds.Add(kvp.Key, kvp.Value);
-
-                this.backgroundBox = new CustomComboBox( this.allBackgrounds.Keys.ToArray() );
+                this.backgroundBox = new CustomComboBox( ConstantValues.Background.Keys.ToArray() );
                 this.backgroundBox.FontSize = this.FontSize;
                 this.backgroundBox.Text = Translation.GetText("UI", "background");
                 this.backgroundBox.SelectedIndex = 0;
@@ -129,27 +124,6 @@ namespace CM3D2.SceneCapture.Plugin
             }
 
             this.Height = GUIUtil.GetHeightForParent(this);
-        }
-
-        private void AddBackgroundAssets()
-        {
-            if(!addedBackgrounds)
-            {
-                this.allBackgrounds = new Dictionary<string, string>();
-                this.allBackgrounds.Add("", "");
-                foreach( var kvp in ConstantValues.Background )
-                    this.allBackgrounds.Add(kvp.Key, kvp.Value);
-                string[] bgFiles = GameUty.FileSystem.GetList("bg", AFileSystemBase.ListType.AllFile)
-                    .Where(f => f.EndsWith("bg")).ToArray();
-
-                foreach( var bg in bgFiles ) {
-                    string name = bg.Remove(0, 3);
-                    name = Path.GetFileNameWithoutExtension(name);
-                    this.allBackgrounds.Add(name, name);
-                }
-                this.backgroundBox.SetItems(this.allBackgrounds.Keys.ToList());
-                addedBackgrounds = true;
-            }
         }
 
         private void ChangeBackground( object sender, EventArgs args )
@@ -788,8 +762,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         // <modelName, modelIconName
         private Dictionary<string, KeyValuePair<GameObject, KeyValuePair<string, string>>> addedModelInstance = null;
-
-        private Dictionary<string, string> allBackgrounds = null;
         #endregion
     }
 

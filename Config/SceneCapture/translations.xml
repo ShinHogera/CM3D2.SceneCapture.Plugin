@@ -440,9 +440,9 @@
       <highResolution>高解像度</highResolution>
       <nearBlur>近ブラー</nearBlur>
       <foregroundOverlap>フォアグラウンド重複</foregroundOverlap>
-      <dx11BokehScale>Bokehスケール</dx11BokehScale>
-      <dx11BokehIntensity>Bokeh強度</dx11BokehIntensity>
-      <dx11BokehThreshhold>Bokeh敷居</dx11BokehThreshhold>
+      <dx11BokehScale>ボケスケール</dx11BokehScale>
+      <dx11BokehIntensity>ボケ強度</dx11BokehIntensity>
+      <dx11BokehThreshhold>ボケ敷居</dx11BokehThreshhold>
       <dx11SpawnHeuristic>Spawn Heuristic</dx11SpawnHeuristic>
     </DepthOfField>
     <DigitalGlitch>
@@ -585,7 +585,7 @@
       <Antialiasing>アンチエイリアス</Antialiasing>
       <Bloom>ブルーム</Bloom>
       <Blur>ブラー</Blur>
-      <Bokeh>Bokeh</Bokeh>
+      <Bokeh>ボケ</Bokeh>
       <ChannelSwap>チャンネルスワップ</ChannelSwap>
       <ColorCorrectionCurves>カラーカーブ</ColorCorrectionCurves>
       <Contrast>コントラスト</Contrast>
@@ -616,7 +616,7 @@
       <gizmoPan>移動</gizmoPan>
       <gizmoRotate>回転</gizmoRotate>
       <gizmoScale>スケール</gizmoScale>
-      <gizmoScaleAllAxes>Scale All Axes</gizmoScaleAllAxes>
+      <gizmoScaleAllAxes>全軸スケール</gizmoScaleAllAxes>
       <modelDelete>削除</modelDelete>
       <modelCopy>複製</modelCopy>
     </Model>
@@ -627,7 +627,7 @@
       <lightRotationX>回転Ｘ</lightRotationX>
       <lightRotationY>回転Ｙ</lightRotationY>
       <lightRotationZ>回転Ｚ</lightRotationZ>
-      <lightResetPos>位地リセット</lightResetPos>
+      <lightResetPos>位置リセット</lightResetPos>
       <lightIntensity>光量</lightIntensity>
       <lightBounceIntensity>弾み強度</lightBounceIntensity>
       <lightRange>範囲</lightRange>
