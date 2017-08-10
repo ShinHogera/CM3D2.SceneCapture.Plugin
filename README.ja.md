@@ -5,7 +5,7 @@
 
 ## 導入方法
 * `CM3D2.SceneCapture.Plugin.dll`を`UnityInjector`フォルダに置いてください。
-* `Config`フォルダの中身を`UnityInjector/Config`フォルダにコピーしてください。シェーダーや翻訳が含まれていますので、`Config`にいなければ動作の損害になります。
+* `Config`フォルダの中身を`UnityInjector/Config`フォルダにコピーしてください。シェーダーや翻訳が含まれていますので、`Config`になければ動作の損害になります。
 
 ## ビルド方法
 Sybarisを使っていて、ソースフォルダがSybarisの`UnityInjector`フォルダにあるなら、`compile.bat`を実行すればビルドができると思います。そうでない場合は、`compile.bat`に参照されたライブラリパスを編集してください。
