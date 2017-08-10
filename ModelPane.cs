@@ -36,7 +36,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.modelIconImage = new CustomImage( null );
             this.ChildControls.Add( this.modelIconImage );
 
-            if( this.iconName != null )
+            if( this.iconName != null && this.iconName != string.Empty )
             {
                 try
                 {
@@ -45,7 +45,19 @@ namespace CM3D2.SceneCapture.Plugin
                 catch( Exception e )
                 {
                     Debug.LogError("Failed to load model icon: " + e);
+
+                    Texture2D iconTexture = new Texture2D(1, 1);
+                    iconTexture.SetPixel(0, 0, new Color32(1, 1, 1, 1));
+                    iconTexture.Apply();
+                    this.modelIconImage.Texture = iconTexture;
                 }
+            }
+            else
+            {
+                Texture2D iconTexture = new Texture2D(1, 1);
+                iconTexture.SetPixel(0, 0, new Color32(1, 1, 1, 1));
+                iconTexture.Apply();
+                this.modelIconImage.Texture = iconTexture;
             }
 
             this.gizmoPanToggle = new CustomToggleButton( false );

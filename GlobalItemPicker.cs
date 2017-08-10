@@ -75,11 +75,6 @@ namespace CM3D2.SceneCapture.Plugin
 
             private Vector2 scrollPosition { get; set; }
 
-            private byte r { get; set; }
-            private byte g { get; set; }
-            private byte b { get; set; }
-            private byte a { get; set; }
-
             private List<CustomTextureButton> buttons = null;
             private CustomComboBox categoryBox = null;
             private Dictionary<MPN, List<MenuInfo>> _menus;
@@ -123,22 +118,27 @@ namespace CM3D2.SceneCapture.Plugin
                     try{
                         if(menu != null)
                         {
+                            if(menu.delOnly || menu.isMan)
+                                continue;
+
                             if(menu.partCategory == category)
                             {
                                 Texture2D iconTexture = AssetLoader.LoadTexture( menu.iconTextureName );
                                 if( iconTexture == null )
                                 {
                                     iconTexture = new Texture2D(1, 1);
-                                    iconTexture.SetPixel(0, 0, new Color32(r, g, b, a));
+                                    iconTexture.SetPixel(0, 0, new Color32(1, 1, 1, 1));
                                     iconTexture.Apply();
                                 }
                                 CustomTextureButton button = new CustomTextureButton( iconTexture );
                                 if( menu.modelName == null )
                                     continue;
-                                Debug.Log(menu.modelName);
-                                Debug.Log(menu.iconTextureName);
                                 string modelName = String.Copy(menu.modelName);
-                                string modelIconName = String.Copy(menu.iconTextureName);
+                                string modelIconName;
+                                if(menu.iconTextureName != null)
+                                    modelIconName = String.Copy(menu.iconTextureName);
+                                else
+                                    modelIconName = "";
                                 button.Click += (o, e) => func(modelName, modelIconName);
                                 buttons.Add(button);
                             }
@@ -150,7 +150,7 @@ namespace CM3D2.SceneCapture.Plugin
                     }
                     catch( Exception e )
                     {
-                        Debug.LogError( e );
+                        // Debug.LogError( e );
                     }
                 }
             }
