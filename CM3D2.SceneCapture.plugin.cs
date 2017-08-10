@@ -131,8 +131,6 @@ namespace CM3D2.SceneCapture.Plugin
                         SaveConfig();
 
                         this.dataView.wantsLanguageChange = false;
-                        this.envView.ClearLights(false);
-                        this.envView.ClearModels();
                     }
                 }
                 // Bloom has to be loaded by the game first
