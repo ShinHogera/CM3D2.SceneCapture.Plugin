@@ -98,6 +98,17 @@ namespace CM3D2.SceneCapture.Plugin
                     // 追加した光源を削除
                     this.envView.ClearLights(false);
                     this.envView.ClearModels();
+                    initialized = false;
+                    Translation.CurrentTranslation = configLanguage;
+
+                }
+                else if (( this.sceneNo != ConstantValues.Scene.SceneEdit && this.sceneNo != ConstantValues.Scene.SceneYotogi && this.sceneNo != ConstantValues.Scene.ScenePhoto  ) &&
+                   ( sceneLevel == ConstantValues.Scene.SceneEdit || sceneLevel == ConstantValues.Scene.SceneYotogi || sceneLevel == ConstantValues.Scene.ScenePhoto ) )
+                {
+                    this.envView.ClearLights(false);
+                    this.envView.ClearModels();
+                    initialized = false;
+                    Translation.CurrentTranslation = configLanguage;
                 }
             }
 
@@ -116,12 +127,12 @@ namespace CM3D2.SceneCapture.Plugin
                     string lang = this.dataView.LanguageValue;
                     if(Translation.HasTranslation(lang)) {
                         Preferences["Config"]["Language"].Value = dataView.LanguageValue;
+                        configLanguage = dataView.LanguageValue;
                         SaveConfig();
 
-                        Translation.CurrentTranslation = lang;
-
                         this.dataView.wantsLanguageChange = false;
-                        initialized = false;
+                        this.envView.ClearLights(false);
+                        this.envView.ClearModels();
                     }
                 }
                 // Bloom has to be loaded by the game first
@@ -199,7 +210,7 @@ namespace CM3D2.SceneCapture.Plugin
 
                     if ( this.dataView.wasPresetLoaded )
                     {
-                        Debug.Log(" === Reload ===");
+                        Debug.Log(" === Scene Reload === ");
                         this.envView.Update();
                         this.effectView.Update();
                         this.dataView.Update();

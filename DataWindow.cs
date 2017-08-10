@@ -34,12 +34,12 @@ namespace CM3D2.SceneCapture.Plugin
                 this.ChildControls.Add( this.languageBox );
 
                 this.saveButton = new CustomButton();
-                this.saveButton.Text = "Save";
+                this.saveButton.Text = Translation.GetText("UI", "save");
                 this.saveButton.Click += SaveEnv;
                 this.ChildControls.Add( this.saveButton );
 
                 this.nameTextField = new CustomTextField();
-                this.nameTextField.Text = "Name";
+                this.nameTextField.Text = Translation.GetText("UI", "name");
                 this.ChildControls.Add( this.nameTextField );
 
                 this.wasPresetLoaded = false;

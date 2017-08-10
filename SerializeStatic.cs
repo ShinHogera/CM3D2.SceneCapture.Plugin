@@ -92,7 +92,6 @@ namespace CM3D2.SceneCapture.Plugin
 
                 if(typeof(BloomDef) == effectDefType)
                 {
-                    Debug.Log("Enabled bloom: " + BloomDef.enabledInPane);
                     enabled = BloomDef.enabledInPane;
                 }
                 else if (enabledProperty != null)
@@ -105,14 +104,11 @@ namespace CM3D2.SceneCapture.Plugin
                     foreach (FieldInfo field in fields)
                     {
                         Type fieldType = field.FieldType;
-                        Debug.Log("PropName: " + field.Name.ToString());
                         if(fieldType.IsPrimitive || fieldType.IsEnum || TypeAllowed(fieldType)) {
-                            Debug.Log("get: " + field.Name.ToString());
 
                             string val;
                             if (typeof(Bloom) == enabled_effect && field.Name == "bloomIntensity")
                             {
-                                Debug.Log("CM Bloom get " + GameMain.Instance.CMSystem.BloomValue.ToString());
                                 val = GameMain.Instance.CMSystem.BloomValue.ToString();
                             }
                             else
@@ -176,7 +172,6 @@ namespace CM3D2.SceneCapture.Plugin
                     // Effect was not enabled in the preset. Disable it.
                     if(typeof(Bloom) == enabled_effect)
                     {
-                        // Debug.Log("Resetting bloom!");
                         enabledProperty.SetValue(null, false, null);
                         // MethodInfo mi = effectDefType.GetMethod("Reset");
                         // if (mi != null)
@@ -191,7 +186,6 @@ namespace CM3D2.SceneCapture.Plugin
                 {
                     if(typeof(BloomDef) == enabled_effect)
                     {
-                        Debug.Log("Enabling bloom!");
                         enabledProperty.SetValue(null, true, null);
                     }
                     else
@@ -220,7 +214,6 @@ namespace CM3D2.SceneCapture.Plugin
                         {
                             if (typeof(Bloom) == enabled_effect && field.Name == "bloomIntensity")
                             {
-                                Debug.Log("CM bloom " + propElem.Value);
                                 if (int.TryParse(propElem.Value, out iTmp))
                                     GameMain.Instance.CMSystem.BloomValue = iTmp;
                             }

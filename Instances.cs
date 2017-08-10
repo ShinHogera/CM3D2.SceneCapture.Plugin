@@ -315,8 +315,6 @@ namespace CM3D2.SceneCapture.Plugin
                 List<ModelInfo> modelsList = new List<ModelInfo>();
                 foreach(XElement model in modelsElem.Elements())
                 {
-                    Debug.Log(model == null);
-                    Debug.Log(model.ToString());
                     modelsList.Add(Instances.LoadModel(model));
                 }
                 Instances.SetModels(modelsList);

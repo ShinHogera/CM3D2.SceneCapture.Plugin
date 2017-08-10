@@ -7,35 +7,35 @@ namespace CM3D2.SceneCapture.Plugin
     {
         #region Editable properties
 
-        Transform _pointOfFocus;
+        public Transform _pointOfFocus;
 
         public Transform pointOfFocus {
             get { return _pointOfFocus; }
             set { _pointOfFocus = value; }
         }
 
-        float _focusDistance = 10.0f;
+        public float _focusDistance = 10.0f;
 
         public float focusDistance {
             get { return _focusDistance; }
             set { _focusDistance = value; }
         }
 
-        float _fNumber = 1.4f;
+        public float _fNumber = 1.4f;
 
         public float fNumber {
             get { return _fNumber; }
             set { _fNumber = value; }
         }
 
-        bool _useCameraFov = true;
+        public bool _useCameraFov = true;
 
         public bool useCameraFov {
             get { return _useCameraFov; }
             set { _useCameraFov = value; }
         }
 
-        float _focalLength = 0.05f;
+        public float _focalLength = 0.05f;
 
         public float focalLength {
             get { return _focalLength; }
@@ -55,7 +55,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         #region Debug properties
 
-        bool _visualize = false;
+        public bool _visualize = false;
         public bool visualize {
             get { return _visualize; }
             set { _visualize = value; }

@@ -68,19 +68,19 @@ namespace CM3D2.SceneCapture.Plugin
 
             this.resetPanButton = new CustomButton();
             this.resetPanButton.FontSize = this.FontSize;
-            this.resetPanButton.Text = Translation.GetText("Model", "resetPan");
+            this.resetPanButton.Text = Translation.GetText("UI", "reset");
             this.resetPanButton.Click += this.ResetPan;
             this.ChildControls.Add( this.resetPanButton );
 
             this.resetRotateButton = new CustomButton();
             this.resetRotateButton.FontSize = this.FontSize;
-            this.resetRotateButton.Text = Translation.GetText("Model", "resetRotate");
+            this.resetRotateButton.Text = Translation.GetText("UI", "reset");
             this.resetRotateButton.Click += this.ResetRotation;
             this.ChildControls.Add( this.resetRotateButton );
 
             this.resetScaleButton = new CustomButton();
             this.resetScaleButton.FontSize = this.FontSize;
-            this.resetScaleButton.Text = Translation.GetText("Model", "resetScale");
+            this.resetScaleButton.Text = Translation.GetText("UI", "reset");
             this.resetScaleButton.Click += this.ResetScale;
             this.ChildControls.Add( this.resetScaleButton );
 

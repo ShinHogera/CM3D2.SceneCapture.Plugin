@@ -84,7 +84,7 @@ namespace CM3D2.SceneCapture.Plugin
 
             this.lightResetButton = new CustomButton();
             this.lightResetButton.FontSize = this.FontSize;
-            this.lightResetButton.Text = Translation.GetText("Light", "lightReset");
+            this.lightResetButton.Text = Translation.GetText("UI", "reset");
             this.lightResetButton.Click += this.ResetLight;
             this.ChildControls.Add( this.lightResetButton );
 

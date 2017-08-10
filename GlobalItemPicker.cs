@@ -120,29 +120,37 @@ namespace CM3D2.SceneCapture.Plugin
 
                 foreach(MenuInfo menu in existing)
                 {
-                    if(menu != null)
-                    {
-                        if(menu.partCategory == category)
+                    try{
+                        if(menu != null)
                         {
-                            Texture2D iconTexture = AssetLoader.LoadTexture( menu.iconTextureName );
-                            if( iconTexture == null )
+                            if(menu.partCategory == category)
                             {
-                                iconTexture = new Texture2D(1, 1);
-                                iconTexture.SetPixel(0, 0, new Color32(r, g, b, a));
-                                iconTexture.Apply();
+                                Texture2D iconTexture = AssetLoader.LoadTexture( menu.iconTextureName );
+                                if( iconTexture == null )
+                                {
+                                    iconTexture = new Texture2D(1, 1);
+                                    iconTexture.SetPixel(0, 0, new Color32(r, g, b, a));
+                                    iconTexture.Apply();
+                                }
+                                CustomTextureButton button = new CustomTextureButton( iconTexture );
+                                if( menu.modelName == null )
+                                    continue;
+                                Debug.Log(menu.modelName);
+                                Debug.Log(menu.iconTextureName);
+                                string modelName = String.Copy(menu.modelName);
+                                string modelIconName = String.Copy(menu.iconTextureName);
+                                button.Click += (o, e) => func(modelName, modelIconName);
+                                buttons.Add(button);
                             }
-                            CustomTextureButton button = new CustomTextureButton( iconTexture );
-                            if( menu.modelName == null )
-                                continue;
-                            string modelName = String.Copy(menu.modelName);
-                            string modelIconName = String.Copy(menu.iconTextureName);
-                            button.Click += (o, e) => func(modelName, modelIconName);
-                            buttons.Add(button);
+                        }
+                        else
+                        {
+                            Debug.LogError("Null MenuInfo");
                         }
                     }
-                    else
+                    catch( Exception e )
                     {
-                        Debug.LogError("Null MenuInfo");
+                        Debug.LogError( e );
                     }
                 }
             }
