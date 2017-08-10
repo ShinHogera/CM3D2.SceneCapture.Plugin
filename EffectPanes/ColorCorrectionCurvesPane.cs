@@ -65,15 +65,15 @@ namespace CM3D2.SceneCapture.Plugin
             GUIUtil.AddGUICheckbox(this, this.modeCheckbox);
             GUIUtil.AddGUISlider(this, this.saturationSlider);
 
-            GUIUtil.AddGUICheckbox(this, this.redChannelCurve);
-            GUIUtil.AddGUICheckbox(this, this.greenChannelCurve);
-            GUIUtil.AddGUICheckbox(this, this.blueChannelCurve);
+            GUIUtil.AddGUICurve(this, this.redChannelCurve);
+            GUIUtil.AddGUICurve(this, this.greenChannelCurve);
+            GUIUtil.AddGUICurve(this, this.blueChannelCurve);
             if( this.ModeValue == ColorCorrectionMode.Advanced )
             {
-                GUIUtil.AddGUICheckbox(this, this.depthRedChannelCurve);
-                GUIUtil.AddGUICheckbox(this, this.depthGreenChannelCurve);
-                GUIUtil.AddGUICheckbox(this, this.depthBlueChannelCurve);
-                GUIUtil.AddGUICheckbox(this, this.zCurveCurve);
+                GUIUtil.AddGUICurve(this, this.depthRedChannelCurve);
+                GUIUtil.AddGUICurve(this, this.depthGreenChannelCurve);
+                GUIUtil.AddGUICurve(this, this.depthBlueChannelCurve);
+                GUIUtil.AddGUICurve(this, this.zCurveCurve);
             }
 
             GUIUtil.AddGUICheckbox(this, this.selectiveCcCheckbox);

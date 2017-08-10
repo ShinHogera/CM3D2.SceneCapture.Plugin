@@ -80,6 +80,18 @@ namespace CM3D2.SceneCapture.Plugin
             elem.Visible = true;
         }
 
+        public static void AddGUICurve(ControlBase parent, ControlBase elem)
+        {
+            float lastSize = parent.LastElementSize;
+            elem.Left = parent.Left + ControlBase.FixedMargin;
+            elem.Top = lastSize + ControlBase.FixedMargin;
+            elem.Width = parent.Width - ControlBase.FixedMargin * 4;
+            elem.Height = ControlHeight(parent) * 4;
+            elem.FontSize = parent.FontSize;
+            elem.OnGUI();
+            elem.Visible = true;
+        }
+
         public static void AddGUISlider(ControlBase parent, ControlBase elem)
         {
             float lastSize = parent.LastElementSize;

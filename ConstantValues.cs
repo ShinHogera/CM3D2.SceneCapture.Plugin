@@ -173,12 +173,6 @@ namespace CM3D2.SceneCapture.Plugin
         /// <summary>ライト個数上限</summary>
         public const int MaxLightCount = 10;
 
-        /// <summary>メインライト名称</summary>
-        public const String MainLightName = "メインライト";
-
-        /// <summary>追加ライト名称</summary>
-        public const String AddLightName = "追加ライト";
-
         /// <summary>モーション一覧</summary>
         public static Dictionary<String, List<String>> MotionList = null;
 

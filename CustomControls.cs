@@ -1588,8 +1588,8 @@ namespace CM3D2.SceneCapture.Plugin
 
             if(this.Text != string.Empty)
             {
-                curveRect = new Rect( this.Left, this.Top, this.Width, this.Height / 2 );
-                Rect labelRect = new Rect( this.Left + this.Height, this.Top, this.Width - this.Height, this.Height );
+                Rect labelRect = new Rect( this.Left, this.Top, this.Width, this.FixedFontSize * 2 );
+                curveRect = new Rect( this.Left, this.Top + labelRect.height + ControlBase.FixedMargin, this.Width, this.Height - labelRect.height - ControlBase.FixedMargin );
 
                 GUI.Label( labelRect, this.Text, labelStyle );
             }

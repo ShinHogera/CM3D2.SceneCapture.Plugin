@@ -56,7 +56,6 @@ namespace CM3D2.SceneCapture.Plugin
                     }
                 }
                 string translationLanguage = translation.Attribute("language").Value.ToString();
-                Debug.Log("LANG " + translationLanguage);
                 translations[ translationLanguage ] = dict;
 
                 IEnumerator<string> enumerator = translations.Keys.GetEnumerator();

@@ -71,7 +71,7 @@ namespace CM3D2.SceneCapture.Plugin
             if( GameMain.Instance.MainLight.GetComponent<Light>() != null )
             {
                 LightPane pane = new LightPane( this.FontSize, GameMain.Instance.MainLight.GetComponent<Light>() );
-                pane.Text = ConstantValues.MainLightName;
+                pane.Text = Translation.GetText("UI", "mainLight");
                 this.ChildControls.Add( pane );
                 this.lightPanes.Add( pane );
             }
@@ -606,7 +606,7 @@ namespace CM3D2.SceneCapture.Plugin
         private void ResetLightPane( ref LightPane pane )
         {
             Light light;
-            if(pane.Text == ConstantValues.MainLightName)
+            if(pane.Text == Translation.GetText("UI", "mainLight"))
                 light = GameMain.Instance.MainLight.GetComponent<Light>();
             else
                 light = this.addedLightInstance[ pane.Text ].GetComponent<Light>();
@@ -652,7 +652,7 @@ namespace CM3D2.SceneCapture.Plugin
                         light = GameMain.Instance.MainLight.GetComponent<Light>();
                         lightInfo.UpdateLight(light);
                         LightPane pane = new LightPane( this.FontSize, light );
-                        pane.Text = ConstantValues.MainLightName;
+                        pane.Text = Translation.GetText("UI", "mainLight");
                         this.ChildControls.Add( pane );
                         this.lightPanes.Add( pane );
 
@@ -717,7 +717,7 @@ namespace CM3D2.SceneCapture.Plugin
                 LightPane[] panes = this.lightPanes.ToArray();
                 foreach( LightPane pane in panes )
                 {
-                    if( clearMain || pane.Text != ConstantValues.MainLightName )
+                    if( clearMain || pane.Text != Translation.GetText("UI", "mainLight") )
                     {
                         pane.StopDrag();
                         this.ChildControls.Remove( pane );
