@@ -39,11 +39,6 @@ namespace CM3D2.SceneCapture.Plugin
                 this.bgButton.Click += BGButtonPressed;
                 this.ChildControls.Add( this.bgButton );
 
-                this.doItButton = new CustomButton();
-                this.doItButton.Text = "Do It";
-                this.doItButton.Click += DoItButtonPressed;
-                this.ChildControls.Add( this.doItButton );
-
                 this.allBackgrounds = new Dictionary<string, string>();
                 this.allBackgrounds.Add("", "");
                 foreach( var kvp in ConstantValues.Background )
@@ -114,9 +109,8 @@ namespace CM3D2.SceneCapture.Plugin
             this.backgroundBox.OnGUI();
 
             GUIUtil.AddGUICheckbox( this, this.bgButton, this.backgroundBox );
-            GUIUtil.AddGUICheckbox( this, this.doItButton, this.bgButton );
 
-            ControlBase prev = this.doItButton;
+            ControlBase prev = this.bgButton;
             foreach( ModelPane pane in this.modelPanes )
             {
                 GUIUtil.AddGUICheckbox( this, pane, prev );
@@ -206,25 +200,6 @@ namespace CM3D2.SceneCapture.Plugin
         private void AddModel( String modelFileName, String modelIconName )
         {
             GameObject model = this.LoadModel(modelFileName);
-            model.AddComponent<Rigidbody>().useGravity = true;
-            model.GetComponent<Rigidbody>().isKinematic = false;
-            // this.Collidify(model);
-
-
-                foreach(var t in model.GetComponentsInChildren<Transform>())
-                {
-                    Renderer renderer = t.gameObject.GetComponent<Renderer>();
-                    if(renderer != null)
-                    {
-                        Debug.Log("GET");
-                        BoxCollider box = t.gameObject.AddComponent<BoxCollider> ();
-                        // box.center = new Vector3 (0, renderer.bounds.size.y * model.transform.localScale.reciprocal().y * 0.5f,0);
-                        // box.size = Vector3.Scale(renderer.bounds.size,model.transform.localScale.reciprocal());
-                        // box.isTrigger = true;
-                        // t.gameObject.AddComponent<Rigidbody>();
-                    }
-                }
-
 
             // Spawn in front of camera
             GizmoRenderTarget gizmo = model.GetComponent<GizmoRenderTarget>();
@@ -291,12 +266,25 @@ namespace CM3D2.SceneCapture.Plugin
 
                     GameObject model = this.addedModelInstance[ this.modelPanes[i].Name ].Key;
                     GizmoRenderTarget gizmo = model.GetComponent<GizmoRenderTarget>();
-                    if(gizmo != null) {
-                        pane.UpdateCache( model.transform );
-                        Rigidbody rb = model.GetComponent<Rigidbody>();
-                        if(rb != null)
+                    if( gizmo != null && pane.GizmoScaleAllAxesValue == true )
+                    {
+                        if(gizmo.transform.localScale.y == gizmo.transform.localScale.z)
                         {
-                            rb.isKinematic = gizmo.Visible;
+                            gizmo.transform.localScale = new Vector3(gizmo.transform.localScale.x,
+                                                                     gizmo.transform.localScale.x,
+                                                                     gizmo.transform.localScale.x);
+                        }
+                        else if(gizmo.transform.localScale.x == gizmo.transform.localScale.z)
+                        {
+                            gizmo.transform.localScale = new Vector3(gizmo.transform.localScale.y,
+                                                                     gizmo.transform.localScale.y,
+                                                                     gizmo.transform.localScale.y);
+                        }
+                        else
+                        {
+                            gizmo.transform.localScale = new Vector3(gizmo.transform.localScale.z,
+                                                                     gizmo.transform.localScale.z,
+                                                                     gizmo.transform.localScale.z);
                         }
                     }
 
@@ -478,48 +466,6 @@ namespace CM3D2.SceneCapture.Plugin
                 foreach(SkinnedMeshRenderer R in obj.GetComponents<SkinnedMeshRenderer>())
                 {
                     CompoundCollider BC = R.gameObject.AddComponent<CompoundCollider>();
-                }
-            }
-        }
-
-        private void DoItButtonPressed( object sender, EventArgs args )
-        {
-                if(!cubeSet) {
-                    GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    cube.transform.localScale = new Vector3(5, 5, 5);
-                    cube.transform.position = new Vector3(0, -2, 0);
-                    // cube.AddComponent<Rigidbody>().useGravity = false;
-                    // cube.GetComponent<Rigidbody>().isKinematic = false;
-                    Renderer r = cube.GetComponent<Renderer>();
-                    cube.AddComponent<BoxCollider>();
-                    cubeSet = true;
-                }
-                // cube.AddComponent<BoxCollider>().center = new Vector3(0, r.bounds.size.y * cube.transform.localScale.reciprocal().y * 0.5f, 0);
-                // cube.GetComponent<BoxCollider>().size = Vector3.Scale(r.bounds.size, cube.transform.localScale.reciprocal());
-            if (GameMain.Instance.CharacterMgr.GetMaidCount() > 0)
-            {
-                Maid maid = GameMain.Instance.CharacterMgr.GetMaid(0);
-                GameObject maidObject = maid.gameObject;
-                List<CapsuleCollider> capsuleColliderList = MaidColliderCollect.AddColliderCollect(maid).AddCollider(MaidColliderCollect.ColliderType.Touch);
-                // maidObject.AddComponent<BoxCollider>().size = new Vector3(0.1f, 0.1f, 0.5f);
-                // maidObject.AddComponent<Rigidbody>().useGravity = false;
-
-                var allChildren = maidObject.GetComponentsInChildren<Transform>();
-                Debug.Log("Maid!");
-                foreach(Transform child in allChildren) {
-                    if(child.gameObject.GetComponent<Rigidbody>() == null) {
-                        if(child.gameObject.name.Contains("Arm") || child.gameObject.name.Contains(" Foot")) {
-                            child.gameObject.AddComponent<Rigidbody>().useGravity = true;
-                            child.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-                            child.gameObject.AddComponent<BoxCollider>().size = new Vector3(0.02f, 0.02f, 0.02f);
-                            child.gameObject.GetComponent<BoxCollider>().isTrigger = false;
-                        }
-                    }
-
-                    if(child.gameObject.GetComponent<Animation>() != null) {
-                        child.gameObject.GetComponent<Animation>().Stop();
-                    child.gameObject.GetComponent<Animation>().enabled = false;
-                    }
                 }
             }
         }
@@ -829,7 +775,6 @@ namespace CM3D2.SceneCapture.Plugin
         public const string MODEL_TAG = "CM3D2.SceneCapture.Model";
         private CustomButton addLightButton = null;
         private CustomButton bgButton = null;
-        private CustomButton doItButton = null;
         private CustomComboBox backgroundBox = null;
         private bool addedBackgrounds = false;
 

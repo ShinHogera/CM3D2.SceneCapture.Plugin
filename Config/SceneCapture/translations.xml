@@ -266,6 +266,7 @@
       <gizmoPan>Pan</gizmoPan>
       <gizmoRotate>Rotation</gizmoRotate>
       <gizmoScale>Scale</gizmoScale>
+      <gizmoScaleAllAxes>Scale All Axes</gizmoScaleAllAxes>
       <modelDelete>Delete</modelDelete>
       <modelCopy>Copy</modelCopy>
     </Model>
@@ -615,6 +616,7 @@
       <gizmoPan>移動</gizmoPan>
       <gizmoRotate>回転</gizmoRotate>
       <gizmoScale>スケール</gizmoScale>
+      <gizmoScaleAllAxes>Scale All Axes</gizmoScaleAllAxes>
       <modelDelete>削除</modelDelete>
       <modelCopy>複製</modelCopy>
     </Model>

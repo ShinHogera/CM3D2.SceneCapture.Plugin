@@ -78,6 +78,12 @@ namespace CM3D2.SceneCapture.Plugin
             this.gizmoScaleToggle.CheckedChanged += this.ToggleScale;
             this.ChildControls.Add( this.gizmoScaleToggle );
 
+            this.gizmoScaleAllAxesToggle = new CustomToggleButton( false, "toggle" );
+            this.gizmoScaleAllAxesToggle.FontSize = this.FontSize;
+            this.gizmoScaleAllAxesToggle.Text = Translation.GetText("Model", "gizmoScaleAllAxes");
+            this.gizmoScaleAllAxesToggle.CheckedChanged += this.ToggleScale;
+            this.ChildControls.Add( this.gizmoScaleAllAxesToggle );
+
             this.resetPanButton = new CustomButton();
             this.resetPanButton.FontSize = this.FontSize;
             this.resetPanButton.Text = Translation.GetText("UI", "reset");
@@ -140,6 +146,11 @@ namespace CM3D2.SceneCapture.Plugin
             GUIUtil.AddGUIButton( this, this.resetRotateButton, this.resetPanButton, 5 );
             GUIUtil.AddGUIButton( this, this.resetScaleButton, this.resetRotateButton, 5 );
             GUIUtil.AddGUIButton( this, this.modelDeleteButton, this.resetScaleButton, 8 );
+
+            if( this.gizmoScaleToggle.Value == true )
+            {
+                GUIUtil.AddGUICheckbox( this, this.gizmoScaleAllAxesToggle, this.modelIconImage );
+            }
 
             this.Height = GUIUtil.GetHeightForParent(this);
         }
@@ -234,6 +245,14 @@ namespace CM3D2.SceneCapture.Plugin
 
         // }
 
+        public bool GizmoScaleAllAxesValue
+        {
+            get
+            {
+                return this.gizmoScaleAllAxesToggle.Value;
+            }
+        }
+
         public bool WantsTogglePan
         {
             get
@@ -319,6 +338,7 @@ namespace CM3D2.SceneCapture.Plugin
         private CustomToggleButton gizmoPanToggle = null;
         private CustomToggleButton gizmoRotateToggle = null;
         private CustomToggleButton gizmoScaleToggle = null;
+        private CustomToggleButton gizmoScaleAllAxesToggle = null;
         private CustomButton resetPanButton = null;
         private CustomButton resetRotateButton = null;
         private CustomButton resetScaleButton = null;
