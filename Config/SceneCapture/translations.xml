@@ -491,7 +491,7 @@
       <adjustStartDistance>開始距離調整</adjustStartDistance>
     </GlobalFog>
     <HueFocus>
-      <hue>色相い</hue>
+      <hue>色相</hue>
       <range>距離</range>
       <boost>ブースト</boost>
       <amount>量</amount>
