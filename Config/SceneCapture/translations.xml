@@ -492,7 +492,7 @@
     </GlobalFog>
     <HueFocus>
       <hue>色相</hue>
-      <range>距離</range>
+      <range>範囲</range>
       <boost>ブースト</boost>
       <amount>量</amount>
     </HueFocus>
