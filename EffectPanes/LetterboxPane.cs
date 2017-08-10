@@ -20,10 +20,10 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
-            this.aspectWidthSlider = new CustomSlider( LetterboxDef.letterboxEffect.aspectWidth, 0f, 50f, 1 );
+            this.aspectWidthSlider = new CustomSlider( LetterboxDef.letterboxEffect.aspectWidth, 0f, 50f, 2 );
             this.aspectWidthSlider.Text = Translation.GetText("Letterbox", "aspectWidth");
             this.ChildControls.Add( this.aspectWidthSlider );
-            this.aspectHeightSlider = new CustomSlider( LetterboxDef.letterboxEffect.aspectHeight, 0f, 50, 1 );
+            this.aspectHeightSlider = new CustomSlider( LetterboxDef.letterboxEffect.aspectHeight, 0f, 50, 2 );
             this.aspectHeightSlider.Text = Translation.GetText("Letterbox", "aspectHeight");
             this.ChildControls.Add( this.aspectHeightSlider );
             this.fillColorPicker = new CustomColorPicker( LetterboxDef.letterboxEffect.fillColor );

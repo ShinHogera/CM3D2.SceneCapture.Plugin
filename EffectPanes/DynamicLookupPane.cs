@@ -60,7 +60,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.cyanPicker.IsRGBA = false;
             this.ChildControls.Add( this.cyanPicker );
 
-            this.amountSlider = new CustomSlider( DynamicLookupDef.dynamicLookupEffect.amount, 0f, 1f, 1 );
+            this.amountSlider = new CustomSlider( DynamicLookupDef.dynamicLookupEffect.amount, 0f, 1f, 4 );
             this.amountSlider.Text = Translation.GetText("DynamicLookup",  "amount");
             this.ChildControls.Add( this.amountSlider );
         }

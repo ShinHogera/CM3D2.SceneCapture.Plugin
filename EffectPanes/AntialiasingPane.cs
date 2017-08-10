@@ -33,23 +33,23 @@ namespace CM3D2.SceneCapture.Plugin
             this.showGeneratedNormalsCheckbox.Text = Translation.GetText("Antialiasing", "showGeneratedNormals");
             this.ChildControls.Add( this.showGeneratedNormalsCheckbox );
 
-            this.blurRadiusSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.blurRadius, 0f, 50f, 1 );
+            this.blurRadiusSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.blurRadius, 0f, 50f, 2 );
             this.blurRadiusSlider.Text = Translation.GetText("Antialiasing", "blurRadius");
             this.ChildControls.Add( this.blurRadiusSlider );
 
-            this.edgeSharpnessSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.edgeSharpness, 0f, 10f, 1 );
+            this.edgeSharpnessSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.edgeSharpness, 0f, 10f, 2 );
             this.edgeSharpnessSlider.Text = Translation.GetText("Antialiasing", "edgeSharpness");
             this.ChildControls.Add( this.edgeSharpnessSlider );
 
-            this.edgeThresholdSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.edgeThreshold, 0f, 10f, 1 );
+            this.edgeThresholdSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.edgeThreshold, 0f, 10f, 2 );
             this.edgeThresholdSlider.Text = Translation.GetText("Antialiasing", "edgeThreshold");
             this.ChildControls.Add( this.edgeThresholdSlider );
 
-            this.edgeThresholdMinSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.edgeThresholdMin, 0f, 10f, 1 );
+            this.edgeThresholdMinSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.edgeThresholdMin, 0f, 10f, 2 );
             this.edgeThresholdMinSlider.Text = Translation.GetText("Antialiasing", "edgeThresholdMin");
             this.ChildControls.Add( this.edgeThresholdMinSlider );
 
-            this.offsetScaleSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.offsetScale, 0f, 10f, 1 );
+            this.offsetScaleSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.offsetScale, 0f, 10f, 2 );
             this.offsetScaleSlider.Text = Translation.GetText("Antialiasing", "offsetScale");
             this.ChildControls.Add( this.offsetScaleSlider );
         }

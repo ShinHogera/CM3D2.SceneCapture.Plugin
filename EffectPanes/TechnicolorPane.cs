@@ -20,19 +20,19 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
-            this.exposureSlider = new CustomSlider( TechnicolorDef.technicolorEffect.exposure, 0f, 8f, 1 );
+            this.exposureSlider = new CustomSlider( TechnicolorDef.technicolorEffect.exposure, 0f, 8f, 4 );
             this.exposureSlider.Text = Translation.GetText("Technicolor", "exposure");
             this.ChildControls.Add( this.exposureSlider );
-            this.balanceRedSlider = new CustomSlider( TechnicolorDef.technicolorEffect.balance.x, 0f, 1f, 1 );
+            this.balanceRedSlider = new CustomSlider( TechnicolorDef.technicolorEffect.balance.x, 0f, 1f, 4 );
             this.balanceRedSlider.Text = Translation.GetText("Technicolor", "balanceRed");
             this.ChildControls.Add( this.balanceRedSlider );
-            this.balanceGreenSlider = new CustomSlider( TechnicolorDef.technicolorEffect.balance.y, 0f, 1f, 1 );
+            this.balanceGreenSlider = new CustomSlider( TechnicolorDef.technicolorEffect.balance.y, 0f, 1f, 4 );
             this.balanceGreenSlider.Text = Translation.GetText("Technicolor", "balanceGreen");
             this.ChildControls.Add( this.balanceGreenSlider );
-            this.balanceBlueSlider = new CustomSlider( TechnicolorDef.technicolorEffect.balance.z, 0f, 1f, 1 );
+            this.balanceBlueSlider = new CustomSlider( TechnicolorDef.technicolorEffect.balance.z, 0f, 1f, 4 );
             this.balanceBlueSlider.Text = Translation.GetText("Technicolor", "balanceBlue");
             this.ChildControls.Add( this.balanceBlueSlider );
-            this.amountSlider = new CustomSlider( TechnicolorDef.technicolorEffect.amount, 0f, 1f, 1 );
+            this.amountSlider = new CustomSlider( TechnicolorDef.technicolorEffect.amount, 0f, 1f, 4 );
             this.amountSlider.Text = Translation.GetText("Technicolor", "amount");
             this.ChildControls.Add( this.amountSlider );
         }

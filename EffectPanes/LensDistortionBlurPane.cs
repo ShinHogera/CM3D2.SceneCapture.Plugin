@@ -25,19 +25,19 @@ namespace CM3D2.SceneCapture.Plugin
             this.qualityBox.SelectedIndex = 3;
             this.ChildControls.Add( this.qualityBox );
 
-            this.samplesSlider = new CustomSlider( LensDistortionBlurDef.lensDistortionBlurEffect.samples, 2f, 32f, 1 );
+            this.samplesSlider = new CustomSlider( LensDistortionBlurDef.lensDistortionBlurEffect.samples, 2f, 32f, 2 );
             this.samplesSlider.Text = Translation.GetText("LensDistortionBlur", "samples");
             this.ChildControls.Add( this.samplesSlider );
 
-            this.distortionSlider = new CustomSlider( LensDistortionBlurDef.lensDistortionBlurEffect.distortion, -2f, 2f, 1 );
+            this.distortionSlider = new CustomSlider( LensDistortionBlurDef.lensDistortionBlurEffect.distortion, -2f, 2f, 4 );
             this.distortionSlider.Text = Translation.GetText("LensDistortionBlur", "distortion");
             this.ChildControls.Add( this.distortionSlider );
 
-            this.cubicDistortionSlider = new CustomSlider( LensDistortionBlurDef.lensDistortionBlurEffect.cubicDistortion, -2f, 2f, 1 );
+            this.cubicDistortionSlider = new CustomSlider( LensDistortionBlurDef.lensDistortionBlurEffect.cubicDistortion, -2f, 2f, 4 );
             this.cubicDistortionSlider.Text = Translation.GetText("LensDistortionBlur", "cubicDistortion");
             this.ChildControls.Add( this.cubicDistortionSlider );
 
-            this.scaleSlider = new CustomSlider( LensDistortionBlurDef.lensDistortionBlurEffect.scale, 0.01f, 2f, 1 );
+            this.scaleSlider = new CustomSlider( LensDistortionBlurDef.lensDistortionBlurEffect.scale, 0.01f, 2f, 4 );
             this.scaleSlider.Text = Translation.GetText("LensDistortionBlur", "scale");
             this.ChildControls.Add( this.scaleSlider );
         }

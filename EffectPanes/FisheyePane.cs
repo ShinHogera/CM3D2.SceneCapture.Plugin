@@ -20,10 +20,10 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
-            this.strengthXSlider = new CustomSlider( FisheyeDef.fisheyeEffect.strengthX, 0f, 10f, 1 );
+            this.strengthXSlider = new CustomSlider( FisheyeDef.fisheyeEffect.strengthX, 0f, 10f, 4 );
             this.strengthXSlider.Text = Translation.GetText("Fisheye", "strengthX");
             this.ChildControls.Add( this.strengthXSlider );
-            this.strengthYSlider = new CustomSlider( FisheyeDef.fisheyeEffect.strengthY, 0f, 10f, 1 );
+            this.strengthYSlider = new CustomSlider( FisheyeDef.fisheyeEffect.strengthY, 0f, 10f, 2 );
             this.strengthYSlider.Text = Translation.GetText("Fisheye", "strengthY");
             this.ChildControls.Add( this.strengthYSlider );
         }

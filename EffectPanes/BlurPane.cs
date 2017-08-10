@@ -20,15 +20,15 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
-            this.blurIterationsSlider = new CustomSlider( BlurDef.blurEffect.blurIterations, 0f, 5f, 1 );
+            this.blurIterationsSlider = new CustomSlider( BlurDef.blurEffect.blurIterations, 0f, 10f, 0 );
             this.blurIterationsSlider.Text = Translation.GetText("Blur", "blurIterations");
             this.ChildControls.Add( this.blurIterationsSlider );
 
-            this.blurSizeSlider = new CustomSlider( BlurDef.blurEffect.blurSize, 0f, 10f, 1 );
+            this.blurSizeSlider = new CustomSlider( BlurDef.blurEffect.blurSize, 0f, 10f, 2 );
             this.blurSizeSlider.Text = Translation.GetText("Blur", "blurSize");
             this.ChildControls.Add( this.blurSizeSlider );
 
-            this.downsampleSlider = new CustomSlider( BlurDef.blurEffect.downsample, 1f, 4f, 1 );
+            this.downsampleSlider = new CustomSlider( BlurDef.blurEffect.downsample, 1f, 4f, 0 );
             this.downsampleSlider.Text = Translation.GetText("Blur", "downsample");
             this.ChildControls.Add( this.downsampleSlider );
         }

@@ -20,13 +20,13 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
-            this.blurAreaSlider = new CustomSlider( TiltShiftHdrDef.tiltShiftHdrEffect.blurArea, 0f, 15f, 1 );
+            this.blurAreaSlider = new CustomSlider( TiltShiftHdrDef.tiltShiftHdrEffect.blurArea, 0f, 15f, 2 );
             this.blurAreaSlider.Text = Translation.GetText("TiltShiftHdr", "blurArea");
             this.ChildControls.Add( this.blurAreaSlider );
-            this.maxBlurSizeSlider = new CustomSlider( TiltShiftHdrDef.tiltShiftHdrEffect.maxBlurSize, 0f, 25f, 1 );
+            this.maxBlurSizeSlider = new CustomSlider( TiltShiftHdrDef.tiltShiftHdrEffect.maxBlurSize, 0f, 25f, 2 );
             this.maxBlurSizeSlider.Text = Translation.GetText("TiltShiftHdr", "maxBlurSize");
             this.ChildControls.Add( this.maxBlurSizeSlider );
-            this.downsampleSlider = new CustomSlider( TiltShiftHdrDef.tiltShiftHdrEffect.downsample, 0f, 1f, 1 );
+            this.downsampleSlider = new CustomSlider( TiltShiftHdrDef.tiltShiftHdrEffect.downsample, 0f, 1f, 3 );
             this.downsampleSlider.Text = Translation.GetText("TiltShiftHdr", "downsample");
             this.ChildControls.Add( this.downsampleSlider );
 

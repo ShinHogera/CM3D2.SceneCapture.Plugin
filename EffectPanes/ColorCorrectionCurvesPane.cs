@@ -24,7 +24,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.modeCheckbox.Text = Translation.GetText("ColorCorrectionCurves", "mode");
             this.ChildControls.Add( this.modeCheckbox );
 
-            this.saturationSlider = new CustomSlider( ColorCorrectionCurvesDef.colorCurvesEffect.saturation, 0f, 10f, 1 );
+            this.saturationSlider = new CustomSlider( ColorCorrectionCurvesDef.colorCurvesEffect.saturation, 0f, 10f, 2 );
             this.saturationSlider.Text = Translation.GetText("ColorCorrectionCurves", "saturation");
             this.ChildControls.Add( this.saturationSlider );
             this.redChannelCurve = new CustomCurve( ColorCorrectionCurvesDef.colorCurvesEffect.redChannel );

@@ -28,11 +28,11 @@ namespace CM3D2.SceneCapture.Plugin
             this.rangeSlider.Text = Translation.GetText("HueFocus", "range");
             this.ChildControls.Add( this.rangeSlider );
 
-            this.boostSlider = new CustomSlider( HueFocusDef.hueFocusEffect.boost, 0f, 1f, 1 );
+            this.boostSlider = new CustomSlider( HueFocusDef.hueFocusEffect.boost, 0f, 1f, 4 );
             this.boostSlider.Text = Translation.GetText("HueFocus", "boost");
             this.ChildControls.Add( this.boostSlider );
 
-            this.amountSlider = new CustomSlider( HueFocusDef.hueFocusEffect.amount, 0f, 1f, 1 );
+            this.amountSlider = new CustomSlider( HueFocusDef.hueFocusEffect.amount, 0f, 1f, 4 );
             this.amountSlider.Text = Translation.GetText("HueFocus", "amount");
             this.ChildControls.Add( this.amountSlider );
         }

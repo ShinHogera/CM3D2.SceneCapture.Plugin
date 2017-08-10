@@ -20,11 +20,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
-            this.focusDistanceSlider = new CustomSlider( BokehDef.bokehEffect.focusDistance, 0f, 200f, 1 );
+            this.focusDistanceSlider = new CustomSlider( BokehDef.bokehEffect.focusDistance, 0f, 200f, 2 );
             this.focusDistanceSlider.Text = Translation.GetText("Bokeh", "focusDistance");
             this.ChildControls.Add( this.focusDistanceSlider  );
 
-            this.fNumberSlider = new CustomSlider( BokehDef.bokehEffect.fNumber, 1f, 50f, 1 );
+            this.fNumberSlider = new CustomSlider( BokehDef.bokehEffect.fNumber, 1f, 50f, 3 );
             this.fNumberSlider.Text = Translation.GetText("Bokeh", "fNumber");
             this.ChildControls.Add( this.fNumberSlider  );
 
@@ -37,7 +37,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.useCameraFovCheckbox.Text = Translation.GetText("Bokeh", "useCameraFov");
             this.ChildControls.Add( this.useCameraFovCheckbox );
 
-            this.focalLengthSlider = new CustomSlider( BokehDef.bokehEffect.focalLength, 0f, 10f, 1 );
+            this.focalLengthSlider = new CustomSlider( BokehDef.bokehEffect.focalLength, 0f, 10f, 4 );
             this.focalLengthSlider.Text = Translation.GetText("Bokeh", "focalLength");
             this.ChildControls.Add( this.focalLengthSlider  );
 

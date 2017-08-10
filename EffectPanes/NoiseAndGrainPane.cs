@@ -33,35 +33,35 @@ namespace CM3D2.SceneCapture.Plugin
             this.filterModeBox.SelectedIndex = (int)NoiseAndGrainDef.noiseAndGrainEffect.filterMode;
             this.ChildControls.Add( this.filterModeBox );
 
-            this.intensityMultiplierSlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.intensityMultiplier, 0f, 10f, 1 );
+            this.intensityMultiplierSlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.intensityMultiplier, 0f, 10f, 2 );
             this.intensityMultiplierSlider.Text = Translation.GetText("NoiseAndGrain", "intensityMultiplier");
             this.ChildControls.Add( this.intensityMultiplierSlider );
-            this.generalIntensitySlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.generalIntensity, 0f, 10f, 1 );
+            this.generalIntensitySlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.generalIntensity, 0f, 10f, 2 );
             this.generalIntensitySlider.Text = Translation.GetText("NoiseAndGrain", "generalIntensity");
             this.ChildControls.Add( this.generalIntensitySlider );
-            this.blackIntensitySlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.blackIntensity, 0f, 10f, 1 );
+            this.blackIntensitySlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.blackIntensity, 0f, 10f, 2 );
             this.blackIntensitySlider.Text = Translation.GetText("NoiseAndGrain", "blackIntensity");
             this.ChildControls.Add( this.blackIntensitySlider );
-            this.whiteIntensitySlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.whiteIntensity, 0f, 10f, 1 );
+            this.whiteIntensitySlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.whiteIntensity, 0f, 10f, 2 );
             this.whiteIntensitySlider.Text = Translation.GetText("NoiseAndGrain", "whiteIntensity");
             this.ChildControls.Add( this.whiteIntensitySlider );
-            this.midGreySlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.midGrey, 0f, 1f, 1 );
+            this.midGreySlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.midGrey, 0f, 1f, 4 );
             this.midGreySlider.Text = Translation.GetText("NoiseAndGrain", "midGrey");
             this.ChildControls.Add( this.midGreySlider );
-            this.softnessSlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.softness, 0f, 1f, 1 );
+            this.softnessSlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.softness, 0f, 1f, 4 );
             this.softnessSlider.Text = Translation.GetText("NoiseAndGrain", "softness");
             this.ChildControls.Add( this.softnessSlider );
 
-            this.monochromeTilingSlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.monochromeTiling, 0f, 100f, 1 );
+            this.monochromeTilingSlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.monochromeTiling, 0f, 100f, 2 );
             this.monochromeTilingSlider.Text = Translation.GetText("NoiseAndGrain", "monochromeTiling");
             this.ChildControls.Add( this.monochromeTilingSlider );
-            this.tilingRedSlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.tiling.x, 0f, 100f, 1 );
+            this.tilingRedSlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.tiling.x, 0f, 100f, 2 );
             this.tilingRedSlider.Text = Translation.GetText("NoiseAndGrain", "tilingRed");
             this.ChildControls.Add( this.tilingRedSlider );
-            this.tilingGreenSlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.tiling.y, 0f, 100f, 1 );
+            this.tilingGreenSlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.tiling.y, 0f, 100f, 2 );
             this.tilingGreenSlider.Text = Translation.GetText("NoiseAndGrain", "tilingGreen");
             this.ChildControls.Add( this.tilingGreenSlider );
-            this.tilingBlueSlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.tiling.z, 0f, 100f, 1 );
+            this.tilingBlueSlider = new CustomSlider( NoiseAndGrainDef.noiseAndGrainEffect.tiling.z, 0f, 100f, 2 );
             this.tilingBlueSlider.Text = Translation.GetText("NoiseAndGrain", "tilingBlue");
             this.ChildControls.Add( this.tilingBlueSlider );
         }

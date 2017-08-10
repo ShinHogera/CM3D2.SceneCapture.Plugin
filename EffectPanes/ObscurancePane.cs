@@ -20,11 +20,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
-            this.intensitySlider = new CustomSlider( ObscuranceDef.obscuranceEffect.intensity, 0f, 4f, 1 );
+            this.intensitySlider = new CustomSlider( ObscuranceDef.obscuranceEffect.intensity, 0f, 4f, 4 );
             this.intensitySlider.Text = Translation.GetText("Obscurance", "intensity");
             this.ChildControls.Add( this.intensitySlider );
 
-            this.radiusSlider = new CustomSlider( ObscuranceDef.obscuranceEffect.radius, 0f, 2, 1 );
+            this.radiusSlider = new CustomSlider( ObscuranceDef.obscuranceEffect.radius, 0f, 2, 4 );
             this.radiusSlider.Text = Translation.GetText("Obscurance", "radius");
             this.ChildControls.Add( this.radiusSlider );
 

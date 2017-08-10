@@ -24,7 +24,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.extraBlurCheckbox.Text = Translation.GetText("MotionBlur", "extraBlur");
             this.ChildControls.Add( this.extraBlurCheckbox );
 
-            this.blurAmountSlider = new CustomSlider( MotionBlurDef.motionBlurEffect.blurAmount, 0f, 1f, 1 );
+            this.blurAmountSlider = new CustomSlider( MotionBlurDef.motionBlurEffect.blurAmount, 0f, 1f, 4 );
             this.blurAmountSlider.Text = Translation.GetText("MotionBlur", "blurAmount");
             this.ChildControls.Add( this.blurAmountSlider );
         }

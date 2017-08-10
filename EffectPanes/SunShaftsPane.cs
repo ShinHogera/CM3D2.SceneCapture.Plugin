@@ -52,21 +52,21 @@ namespace CM3D2.SceneCapture.Plugin
             this.sunColorPicker.IsRGBA = false;
             this.ChildControls.Add( this.sunColorPicker );
 
-            this.maxRadiusSlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.maxRadius, 0f, 1f, 1 );
+            this.maxRadiusSlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.maxRadius, 0f, 1f, 4 );
             this.maxRadiusSlider.Text = Translation.GetText("SunShafts", "maxRadius");
             this.ChildControls.Add( this.maxRadiusSlider  );
 
-            this.sunShaftBlurRadiusSlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.sunShaftBlurRadius, -40f, 40, 1 );
+            this.sunShaftBlurRadiusSlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.sunShaftBlurRadius, -40f, 40, 2 );
             this.sunShaftBlurRadiusSlider.Text = Translation.GetText("SunShafts", "sunShaftBlurRadius");
             this.ChildControls.Add( this.sunShaftBlurRadiusSlider  );
-            this.radialBlurIterationsSlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.radialBlurIterations, 0f, 5f, 1 );
+            this.radialBlurIterationsSlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.radialBlurIterations, 0f, 10f, 0 );
             this.radialBlurIterationsSlider.Text = Translation.GetText("SunShafts", "radialBlurIterations");
             this.ChildControls.Add( this.radialBlurIterationsSlider  );
-            this.sunShaftIntensitySlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.sunShaftIntensity, 0f, 20f, 1 );
+            this.sunShaftIntensitySlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.sunShaftIntensity, 0f, 20f, 2 );
             this.sunShaftIntensitySlider.Text = Translation.GetText("SunShafts", "sunShaftIntensity");
             this.ChildControls.Add( this.sunShaftIntensitySlider  );
 
-            this.useSkyBoxAlphaSlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.useSkyBoxAlpha, 0f, 50f, 1 );
+            this.useSkyBoxAlphaSlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.useSkyBoxAlpha, 0f, 50f, 2 );
             this.useSkyBoxAlphaSlider.Text = Translation.GetText("SunShafts", "useSkyBoxAlpha");
             this.ChildControls.Add( this.useSkyBoxAlphaSlider  );
         }

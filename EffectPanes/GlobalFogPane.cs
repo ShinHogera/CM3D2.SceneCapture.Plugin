@@ -30,19 +30,19 @@ namespace CM3D2.SceneCapture.Plugin
             this.fogModeBox.SelectedIndex = (int)GlobalFogDef.globalFogEffect.fogMode;
             this.ChildControls.Add( this.fogModeBox );
 
-            this.globalDensitySlider = new CustomSlider( GlobalFogDef.globalFogEffect.globalDensity, 0f, 5f, 1 );
+            this.globalDensitySlider = new CustomSlider( GlobalFogDef.globalFogEffect.globalDensity, 0f, 5f, 4 );
             this.globalDensitySlider.Text = Translation.GetText("GlobalFog", "globalDensity");
             this.ChildControls.Add( this.globalDensitySlider );
 
-            this.heightSlider = new CustomSlider( GlobalFogDef.globalFogEffect.height, 0f, 50f, 1 );
+            this.heightSlider = new CustomSlider( GlobalFogDef.globalFogEffect.height, 0f, 50f, 2 );
             this.heightSlider.Text = Translation.GetText("GlobalFog", "height");
             this.ChildControls.Add( this.heightSlider );
 
-            this.heightScaleSlider = new CustomSlider( GlobalFogDef.globalFogEffect.heightScale, 1f, 10f, 1 );
+            this.heightScaleSlider = new CustomSlider( GlobalFogDef.globalFogEffect.heightScale, 1f, 10f, 2 );
             this.heightScaleSlider.Text = Translation.GetText("GlobalFog", "heightScale");
             this.ChildControls.Add( this.heightScaleSlider );
 
-            this.startDistanceSlider = new CustomSlider( GlobalFogDef.globalFogEffect.startDistance, 0f, 50f, 1 );
+            this.startDistanceSlider = new CustomSlider( GlobalFogDef.globalFogEffect.startDistance, 0f, 50f, 2 );
             this.startDistanceSlider.Text = Translation.GetText("GlobalFog", "startDistance");
             this.ChildControls.Add( this.startDistanceSlider );
 

@@ -20,7 +20,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
-            this.intensitySlider = new CustomSlider( DigitalGlitchDef.digitalGlitchEffect.intensity, 0f, 10f, 1 );
+            this.intensitySlider = new CustomSlider( DigitalGlitchDef.digitalGlitchEffect.intensity, 0f, 10f, 4 );
             this.intensitySlider.Text = Translation.GetText("DigitalGlitch", "intensity");
             this.ChildControls.Add( this.intensitySlider );
         }
