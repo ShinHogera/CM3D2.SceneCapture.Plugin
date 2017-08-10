@@ -59,7 +59,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.sunShaftBlurRadiusSlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.sunShaftBlurRadius, -40f, 40, 1 );
             this.sunShaftBlurRadiusSlider.Text = Translation.GetText("SunShafts", "sunShaftBlurRadius");
             this.ChildControls.Add( this.sunShaftBlurRadiusSlider  );
-            this.radialBlurIterationsSlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.radialBlurIterations, 1f, 3f, 1 );
+            this.radialBlurIterationsSlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.radialBlurIterations, 0f, 5f, 1 );
             this.radialBlurIterationsSlider.Text = Translation.GetText("SunShafts", "radialBlurIterations");
             this.ChildControls.Add( this.radialBlurIterationsSlider  );
             this.sunShaftIntensitySlider = new CustomSlider( SunShaftsDef.sunShaftsEffect.sunShaftIntensity, 0f, 20f, 1 );

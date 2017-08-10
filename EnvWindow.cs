@@ -153,6 +153,11 @@ namespace CM3D2.SceneCapture.Plugin
             target.GetComponent<GizmoRenderTarget>().eScal = false;
         }
 
+        public void ShowGizmos(bool show)
+        {
+            this.showGizmos = show;
+        }
+
         private GameObject LoadModel(String modelFileName)
         {
             GameObject model = AssetLoader.LoadMesh(modelFileName);
@@ -278,6 +283,11 @@ namespace CM3D2.SceneCapture.Plugin
                         UpdateModelPane(ref pane);
 
                     }
+
+                    if (!this.showGizmos || (!gizmo.eAxis && !gizmo.eRotate && !gizmo.eScal))
+                        gizmo.Visible = false;
+                    else
+                        gizmo.Visible = true;
                 }
 
                 if( changed )
@@ -332,11 +342,6 @@ namespace CM3D2.SceneCapture.Plugin
                 this.CopyModel( pane );
                 pane.wantsCopy = false;
             }
-
-            if (!gizmo.eAxis && !gizmo.eRotate && !gizmo.eScal)
-                gizmo.Visible = false;
-            else
-                gizmo.Visible = true;
         }
 
         private void CopyModel( ModelPane pane )
@@ -750,7 +755,7 @@ namespace CM3D2.SceneCapture.Plugin
         private CustomButton addLightButton = null;
         private CustomButton bgButton = null;
         private CustomComboBox backgroundBox = null;
-        private bool addedBackgrounds = false;
+        private bool showGizmos = true;
 
         private List<LightPane> lightPanes = null;
         private List<ModelPane> modelPanes = null;
@@ -758,7 +763,6 @@ namespace CM3D2.SceneCapture.Plugin
         private int lightsAdded = 0;
         private int modelsAdded = 0;
         private Dictionary<String, GameObject> addedLightInstance = null;
-        private bool cubeSet = false;
 
         // <modelName, modelIconName
         private Dictionary<string, KeyValuePair<GameObject, KeyValuePair<string, string>>> addedModelInstance = null;

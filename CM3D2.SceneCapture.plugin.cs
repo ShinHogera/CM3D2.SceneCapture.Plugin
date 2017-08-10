@@ -122,6 +122,10 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
+                if(this.envView != null) {
+                    this.envView.ShowGizmos(GizmoRender.UIVisible);
+                }
+
                 if(this.dataView != null && this.dataView.wantsLanguageChange)
                 {
                     string lang = this.dataView.LanguageValue;
@@ -245,6 +249,8 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 // 機能有効の場合
                 // if( this.Enable )
+
+                this.envView.ShowGizmos(GizmoRender.UIVisible);
 
                 if( GizmoRender.UIVisible )
                 {
