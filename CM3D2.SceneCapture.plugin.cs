@@ -353,7 +353,7 @@ namespace CM3D2.SceneCapture.Plugin
 
                 // モード選択画面
                 this.modeSelectView = new ModeSelectWindow( fontSize );
-                this.modeSelectView.Text = String.Format( "{0} ver.{1}", this.GetPluginName(), this.GetPluginVersion() );
+                this.modeSelectView.Text = String.Format( "{0} ver.{1}", SceneCapture.GetPluginName(), SceneCapture.GetPluginVersion() );
                 this.modeSelectView.Left = Screen.width - windowWidth - ControlBase.FixedMargin;
                 this.modeSelectView.Top = ControlBase.FixedMargin * 15;
                 this.modeSelectView.Width = windowWidth;
@@ -376,7 +376,7 @@ namespace CM3D2.SceneCapture.Plugin
         /// <summary>プラグイン名取得</summary>
         /// <returns>プラグイン名</returns>
         ///-------------------------------------------------------------------------
-        private String GetPluginName()
+        public static String GetPluginName()
         {
             String name = String.Empty;
             try
@@ -400,7 +400,7 @@ namespace CM3D2.SceneCapture.Plugin
         /// <summary>プラグインバージョン取得</summary>
         /// <returns>プラグインバージョン</returns>
         ///-------------------------------------------------------------------------
-        private String GetPluginVersion()
+        public static String GetPluginVersion()
         {
             String version = String.Empty;
             try

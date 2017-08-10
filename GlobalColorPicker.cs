@@ -10,6 +10,13 @@ using System.Xml;
 
 namespace CM3D2.SceneCapture.Plugin
 {
+    public enum ColorPickerType
+    {
+        RGB,
+        RGBA,
+        MaidProp
+    }
+
     public static class GlobalColorPicker
     {
         static GlobalColorPicker() {
@@ -36,9 +43,9 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
-        public static void Set(Vector2 p, float fWidth, int iFontSize, Color32 c, bool isRGBA, Action<Color32> f)
+        public static void Set(Vector2 p, float fWidth, int iFontSize, Color32 c, ColorPickerType type, Action<Color32, MaidParts.PartsColor> f)
         {
-            color.Set(p, fWidth, iFontSize, c, isRGBA, f);
+            color.Set(p, fWidth, iFontSize, c, type, f);
         }
 
         private static GUIStyle gsWin;
@@ -55,7 +62,7 @@ namespace CM3D2.SceneCapture.Plugin
 
             public bool show { get; private set; }
 
-            public Action<Color32> func { get; private set; }
+            public Action<Color32, MaidParts.PartsColor> func { get; private set; }
 
             private GUIStyle gsLabel { get; set; }
             private GUIStyle gsButton { get; set; }
@@ -65,8 +72,9 @@ namespace CM3D2.SceneCapture.Plugin
             private byte g { get; set; }
             private byte b { get; set; }
             private byte a { get; set; }
+            private MaidParts.PartsColor partsColor;
 
-            private bool isRGBA { get; set; }
+            private ColorPickerType type { get; set; }
 
             public ColorWindow(int iWIndowID)
             {
@@ -77,8 +85,7 @@ namespace CM3D2.SceneCapture.Plugin
                 texture.Apply();
             }
 
-
-            public void Set(Vector2 p, float fWidth, int iFontSize, Color32 c, bool isRGBA, Action<Color32> f)
+            public void Set(Vector2 p, float fWidth, int iFontSize, Color32 c, ColorPickerType type, Action<Color32, MaidParts.PartsColor> f)
             {
                 rect = new Rect(p.x - fWidth, p.y, fWidth, 0f);
                 fRightPos = p.x + fWidth;
@@ -101,12 +108,39 @@ namespace CM3D2.SceneCapture.Plugin
                 b = c.b;
                 a = c.a;
 
-                this.isRGBA = isRGBA;
+                partsColor = new MaidParts.PartsColor();
+
+                this.type = type;
 
                 texture.SetPixel(0, 0, c);
                 texture.Apply();
 
                 show = true;
+            }
+
+            private float slider(float val, float min, float max, string name, ref Rect rectItem)
+            {
+                rectItem.y += rectItem.height + fMargin;
+                GUI.Label(rectItem, name + ": " + r.ToString(), gsLabel);
+
+                rectItem.x = rect.width - gsLabel.fontSize * 4.5f;
+                rectItem.width = gsLabel.fontSize * 2;
+                if(GUI.Button(rectItem, "-1", gsButton))
+                {
+                    val = val == min ? r : (r - 1);
+                }
+
+                rectItem.x += rectItem.width;
+                if (GUI.Button(rectItem, "+1", gsButton))
+                {
+                    val = val == max ? r : (r + 1);
+                }
+
+                rectItem.x = gsLabel.fontSize * 0.5f;
+                rectItem.width = rect.width - gsLabel.fontSize;
+                rectItem.y += rectItem.height;
+
+                return GUI.HorizontalSlider(rectItem, val, 0f, 255f);
             }
 
             public void GuiFunc(int winId)
@@ -115,92 +149,28 @@ namespace CM3D2.SceneCapture.Plugin
                 Rect rectItem = new Rect(iFontSize * 0.5f, iFontSize * 0.5f, iFontSize * 1.5f, iFontSize * 1.5f);
                 GUI.DrawTexture(rectItem, texture);
 
-                rectItem.width = rect.width - iFontSize;
-                rectItem.y += rectItem.height + fMargin;
-                GUI.Label(rectItem, "R: " + r.ToString(), gsLabel);
-
-                rectItem.x = rect.width - iFontSize * 4.5f;
-                rectItem.width = iFontSize * 2;
-                if(GUI.Button(rectItem, "-1", gsButton))
+                if( this.type == ColorPickerType.RGB || this.type == ColorPickerType.RGBA )
                 {
-                    r = r == 0 ? r : (byte)(r - 1);
-                }
-
-                rectItem.x += rectItem.width;
-                if (GUI.Button(rectItem, "+1", gsButton))
-                {
-                    r = r == 255 ? r : (byte)(r + 1);
-                }
-
-                rectItem.x = iFontSize * 0.5f;
-                rectItem.width = rect.width - iFontSize;
-                rectItem.y += rectItem.height;
-                r = (byte)GUI.HorizontalSlider(rectItem, r, 0f, 255f);
-
-                rectItem.y += rectItem.height + fMargin;
-                GUI.Label(rectItem, "G: " + g.ToString(), gsLabel);
-
-                rectItem.x = rect.width - iFontSize * 4.5f;
-                rectItem.width = iFontSize * 2;
-                if (GUI.Button(rectItem, "-1", gsButton))
-                {
-                    g = g == 0 ? g : (byte)(g - 1);
-                }
-
-                rectItem.x += rectItem.width;
-                if (GUI.Button(rectItem, "+1", gsButton))
-                {
-                    g = g == 255 ? g : (byte)(g + 1);
-                }
-
-                rectItem.x = iFontSize * 0.5f;
-                rectItem.width = rect.width - iFontSize;
-                rectItem.y += rectItem.height;
-                g = (byte)GUI.HorizontalSlider(rectItem, g, 0f, 255f);
-
-                rectItem.y += rectItem.height + fMargin;
-                GUI.Label(rectItem, "B: " + b.ToString(), gsLabel);
-
-                rectItem.x = rect.width - iFontSize * 4.5f;
-                rectItem.width = iFontSize * 2;
-                if (GUI.Button(rectItem, "-1", gsButton))
-                {
-                    b = b == 0 ? b : (byte)(b - 1);
-                }
-
-                rectItem.x += rectItem.width;
-                if (GUI.Button(rectItem, "+1", gsButton))
-                {
-                    b = b == 255 ? b : (byte)(b + 1);
-                }
-
-                rectItem.x = iFontSize * 0.5f;
-                rectItem.width = rect.width - iFontSize;
-                rectItem.y += rectItem.height;
-                b = (byte)GUI.HorizontalSlider(rectItem, b, 0f, 255f);
-
-                if( this.isRGBA )
-                {
-                    rectItem.y += rectItem.height + fMargin;
-                    GUI.Label(rectItem, "A: " + a.ToString(), gsLabel);
-
-                    rectItem.x = rect.width - iFontSize * 4.5f;
-                    rectItem.width = iFontSize * 2;
-                    if (GUI.Button(rectItem, "-1", gsButton))
+                    r = (byte)slider((float)r, 0, 255, "R", ref rectItem);
+                    g = (byte)slider((float)g, 0, 255, "G", ref rectItem);
+                    b = (byte)slider((float)b, 0, 255, "B", ref rectItem);
+                    if( this.type == ColorPickerType.RGBA )
                     {
-                        a = a == 0 ? a : (byte)(a - 1);
+                        a = (byte)slider(a, 0, 255, "A", ref rectItem);
                     }
+                }
 
-                    rectItem.x += rectItem.width;
-                    if (GUI.Button(rectItem, "+1", gsButton))
-                    {
-                        a = a == 255 ? a : (byte)(a + 1);
-                    }
-
-                    rectItem.x = iFontSize * 0.5f;
-                    rectItem.width = rect.width - iFontSize;
-                    rectItem.y += rectItem.height;
-                    a = (byte)GUI.HorizontalSlider(rectItem, a, 0f, 255f);
+                else if( this.type == ColorPickerType.MaidProp )
+                {
+                    partsColor.m_nMainHue = (int)slider((float)partsColor.m_nMainHue, 0, 300, Translation.GetText("ColorPicker", "hue"), ref rectItem);
+                    partsColor.m_nMainChroma = (int)slider((float)partsColor.m_nMainChroma, 0, 300, Translation.GetText("ColorPicker", "chroma"), ref rectItem);
+                    partsColor.m_nMainBrightness = (int)slider((float)partsColor.m_nMainBrightness, 0, 300, Translation.GetText("ColorPicker", "brightness"), ref rectItem);
+                    partsColor.m_nMainContrast = (int)slider((float)partsColor.m_nMainContrast, 0, 300, Translation.GetText("ColorPicker", "contrast"), ref rectItem);
+                    partsColor.m_nShadowRate = (int)slider((float)partsColor.m_nShadowRate, 0, 300, Translation.GetText("ColorPicker", "shadowRate"), ref rectItem);
+                    partsColor.m_nShadowHue = (int)slider((float)partsColor.m_nShadowHue, 0, 300, Translation.GetText("ColorPicker", "shadowHue"), ref rectItem);
+                    partsColor.m_nShadowChroma = (int)slider((float)partsColor.m_nShadowChroma, 0, 300, Translation.GetText("ColorPicker", "shadowChroma"), ref rectItem);
+                    partsColor.m_nShadowBrightness = (int)slider((float)partsColor.m_nShadowBrightness, 0, 300, Translation.GetText("ColorPicker", "shadowBrightness"), ref rectItem);
+                    partsColor.m_nShadowContrast = (int)slider((float)partsColor.m_nShadowContrast, 0, 300, Translation.GetText("ColorPicker", "shadowContrast"), ref rectItem);
                 }
 
                 float fHeight = rectItem.y + rectItem.height + fMargin;
@@ -224,7 +194,7 @@ namespace CM3D2.SceneCapture.Plugin
                 {
                     texture.SetPixel(0, 0, new Color32(r, g, b, a));
                     texture.Apply();
-                    func(new Color32(r, g, b, a));
+                    func(new Color32(r, g, b, a), partsColor);
                 }
 
                 GUI.DragWindow();
@@ -234,7 +204,7 @@ namespace CM3D2.SceneCapture.Plugin
                     Vector2 v2Tmp = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
                     if (!rect.Contains(v2Tmp))
                     {
-                        func(new Color32(r, g, b, a));
+                        func(new Color32(r, g, b, a), partsColor);
                         show = false;
                     }
                 }

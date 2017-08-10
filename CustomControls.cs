@@ -1523,8 +1523,8 @@ namespace CM3D2.SceneCapture.Plugin
 
                 if( GUI.Button( colorRect, string.Empty, labelStyle ) )
                 {
-                    GlobalColorPicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y), this.FontSize * 15, this.FontSize, this._value, this.IsRGBA,
-                                          (x) =>
+                    GlobalColorPicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y), this.FontSize * 15, this.FontSize, this._value, this.IsRGBA ? ColorPickerType.RGBA : ColorPickerType.RGB,
+                                          (x, y) =>
                             {
                                 this.Value = x;
                                 this.ColorChanged(this, new EventArgs());
@@ -1557,6 +1557,102 @@ namespace CM3D2.SceneCapture.Plugin
         public bool IsRGBA { get; set; }
 
         private Texture2D _colorTex;
+
+        public EventHandler ColorChanged = delegate { };
+    }
+
+    internal class CustomMaidPartsColorPicker : ControlBase
+    {
+        public CustomMaidPartsColorPicker( Color color, Color shadowColor )
+        {
+            try
+            {
+                this.BackgroundColor = Color.clear;
+                this._value = color;
+                this._shadowValue = shadowColor;
+
+                this._colorTex = new Texture2D(1, 1);
+                this._colorTex.SetPixel(0, 0, color);
+                this._colorTex.Apply();
+                this._shadowColorTex = new Texture2D(1, 1);
+                this._shadowColorTex.SetPixel(0, 0, shadowColor);
+                this._shadowColorTex.Apply();
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
+        override public void OnGUI()
+        {
+            try
+            {
+                Rect colorRect = new Rect( this.Left, this.Top, this.Height, this.Height );
+                Rect labelRect = new Rect( this.Left + this.Height, this.Top, this.Width - this.Height, this.Height );
+
+                // スタイル
+                GUIStyle labelStyle = new GUIStyle( "label" );
+                labelStyle.alignment = TextAnchor.MiddleLeft;
+                labelStyle.normal.textColor = this.TextColor;
+                labelStyle.fontSize = this.FixedFontSize;
+
+                GUI.DrawTexture( colorRect, this._colorTex );
+                GUI.Label( labelRect, this.Text, labelStyle );
+
+                if( GUI.Button( colorRect, string.Empty, labelStyle ) )
+                {
+                    GlobalColorPicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y), this.FontSize * 15, this.FontSize, this._value, ColorPickerType.MaidProp,
+                                          (x, y) =>
+                            {
+                                this.Value = x;
+                                this.ShadowValue = x;
+                                this.ColorChanged(this, new EventArgs());
+                            });
+                }
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
+        private Color _value;
+        virtual public Color Value
+        {
+            get
+            {
+                return this._value;
+            }
+
+            set
+
+            {
+                this._value = value;
+                this._colorTex.SetPixel(0, 0, value);
+                this._colorTex.Apply();
+            }
+        }
+
+        private Color _shadowValue;
+        virtual public Color ShadowValue
+        {
+            get
+            {
+                return this._shadowValue;
+            }
+
+            set
+
+            {
+                this._shadowValue = value;
+                this._colorTex.SetPixel(0, 0, value);
+                this._colorTex.Apply();
+            }
+        }
+
+        private Texture2D _colorTex;
+        private Texture2D _shadowColorTex;
 
         public EventHandler ColorChanged = delegate { };
     }

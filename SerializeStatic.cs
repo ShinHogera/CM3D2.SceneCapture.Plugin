@@ -195,65 +195,72 @@ namespace CM3D2.SceneCapture.Plugin
 
                     foreach (XElement propElem in def.Elements())
                     {
-                        string propName = propElem.Name.ToString();
-                        FieldInfo field = enabled_effect.GetField(propName);
-                        if(field == null)
+                        try
                         {
-                            Debug.LogError("Failed to load field! " + propName);
-                            continue;
+                            string propName = propElem.Name.ToString();
+                            FieldInfo field = enabled_effect.GetField(propName);
+                            if(field == null)
+                            {
+                                Debug.LogError("Failed to load field! " + propName);
+                                continue;
+                            }
+
+                            Type fieldType = field.FieldType;
+
+                            int iTmp;
+                            float fTmp;
+                            bool bTmp;
+                            float.TryParse(propElem.Value, out fTmp);
+
+                            if (field != null)
+                            {
+                                if (typeof(Bloom) == enabled_effect && field.Name == "bloomIntensity")
+                                {
+                                    if (int.TryParse(propElem.Value, out iTmp))
+                                        GameMain.Instance.CMSystem.BloomValue = iTmp;
+                                }
+                                else if (fieldType == typeof(int) || fieldType.IsEnum)
+                                {
+                                    if (int.TryParse(propElem.Value, out iTmp))
+                                        field.SetValue(effect, iTmp);
+                                }
+                                else if (fieldType == typeof(float))
+                                {
+                                    if (float.TryParse(propElem.Value, out fTmp))
+                                        field.SetValue(effect, fTmp);
+                                }
+                                else if (fieldType == typeof(bool))
+                                {
+                                    if (bool.TryParse(propElem.Value, out bTmp))
+                                        field.SetValue(effect, bTmp);
+                                }
+                                else if (fieldType == typeof(Vector3))
+                                {
+                                    Vector3 v3 = Util.ConvertStringToVector3(propElem.Value);
+                                    field.SetValue(effect, v3);
+                                }
+                                else if (fieldType == typeof(Color) || fieldType == typeof(Color32))
+                                {
+                                    Color color = Util.ConvertStringToColor32(propElem.Value);
+                                    field.SetValue(effect, color);
+                                }
+                                else if (fieldType == typeof(AnimationCurve))
+                                {
+                                    AnimationCurve curve = Util.ConvertStringToAnimationCurve(propElem.Value);
+                                    field.SetValue(effect, curve);
+                                }
+                                else if (fieldType == typeof(Transform))
+                                {
+                                    Vector3 v3 = Util.ConvertStringToVector3(propElem.Value);
+                                    ((Transform)field.GetValue(effect)).position = v3;
+                                }
+                            }
                         }
-
-                        Type fieldType = field.FieldType;
-
-                        int iTmp;
-                        float fTmp;
-                        bool bTmp;
-                        float.TryParse(propElem.Value, out fTmp);
-
-                        if (field != null)
+                        catch( Exception e )
                         {
-                            if (typeof(Bloom) == enabled_effect && field.Name == "bloomIntensity")
-                            {
-                                if (int.TryParse(propElem.Value, out iTmp))
-                                    GameMain.Instance.CMSystem.BloomValue = iTmp;
-                            }
-                            else if (fieldType == typeof(int) || fieldType.IsEnum)
-                            {
-                                if (int.TryParse(propElem.Value, out iTmp))
-                                    field.SetValue(effect, iTmp);
-                            }
-                            else if (fieldType == typeof(float))
-                            {
-                                if (float.TryParse(propElem.Value, out fTmp))
-                                    field.SetValue(effect, fTmp);
-                            }
-                            else if (fieldType == typeof(bool))
-                            {
-                                if (bool.TryParse(propElem.Value, out bTmp))
-                                    field.SetValue(effect, bTmp);
-                            }
-                            else if (fieldType == typeof(Vector3))
-                            {
-                                Vector3 v3 = Util.ConvertStringToVector3(propElem.Value);
-                                field.SetValue(effect, v3);
-                            }
-                            else if (fieldType == typeof(Color) || fieldType == typeof(Color32))
-                            {
-                                Color color = Util.ConvertStringToColor32(propElem.Value);
-                                field.SetValue(effect, color);
-                            }
-                            else if (fieldType == typeof(AnimationCurve))
-                            {
-                                AnimationCurve curve = Util.ConvertStringToAnimationCurve(propElem.Value);
-                                field.SetValue(effect, curve);
-                            }
-                            else if (fieldType == typeof(Transform))
-                            {
-                                Vector3 v3 = Util.ConvertStringToVector3(propElem.Value);
-                                ((Transform)field.GetValue(effect)).position = v3;
-                            }
+                            Debug.LogError("Failed to load field " + propElem.Name.ToString() + ": " + e);
                         }
-                    };
+                    }
                 }
 
                 // MethodInfo mi = effectDefType.GetMethod("InitMemberByInstance");

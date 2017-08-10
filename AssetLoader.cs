@@ -452,12 +452,17 @@ namespace CM3D2.SceneCapture.Plugin
             string str2 = r.ReadString();
             string path = "DefMaterial/" + r.ReadString();
             Material material = existmat;
-            if ((UnityEngine.Object) existmat == (UnityEngine.Object) null)
+            if ( existmat ==  null)
             {
                 Material original = Resources.Load(path, typeof (Material)) as Material;
                 if ((UnityEngine.Object) original == (UnityEngine.Object) null)
                     NDebug.Assert("DefMaterialが見つかりません。" + path);
                 material = UnityEngine.Object.Instantiate<Material>(original);
+            }
+            else
+            {
+                material = existmat;
+                NDebug.Assert(material.shader.name == str2, "マテリアル入れ替えエラー。違うシェーダーに入れようとしました。 " + str2 + " -> " + material.shader.name);
             }
             material.name = str1;
             int hashCode = material.name.GetHashCode();

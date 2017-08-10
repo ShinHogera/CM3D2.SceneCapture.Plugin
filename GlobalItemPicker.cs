@@ -195,8 +195,8 @@ namespace CM3D2.SceneCapture.Plugin
                 }
 
                 int iFontSize = gsLabel.fontSize;
-                Rect rectScroll = new Rect(0, 0 + fMargin * 2, this.rect.width, windowHeight);
-                Rect rectScrollView = new Rect(0, 0, this.rect.width, guiScrollHeight);
+                Rect rectScroll = new Rect(0, fMargin * 2, this.rect.width - fMargin, windowHeight - fMargin * 4);
+                Rect rectScrollView = new Rect(0, 0, this.rect.width - 5 * fMargin, guiScrollHeight);
 
                 scrollPosition = GUI.BeginScrollView(rectScroll, scrollPosition, rectScrollView, false, true);
 

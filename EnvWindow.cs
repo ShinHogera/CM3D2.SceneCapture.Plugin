@@ -15,11 +15,11 @@ using UnityInjector.Attributes;
 
 namespace CM3D2.SceneCapture.Plugin
 {
- public static class Vector3Ext {
- public static Vector3 reciprocal(this Vector3 input){
- return new Vector3(1f/input.x,1f/input.y,1f/input.z);
-     }
- } 
+    public static class Vector3Ext {
+        public static Vector3 reciprocal(this Vector3 input){
+            return new Vector3(1f/input.x,1f/input.y,1f/input.z);
+        }
+    }
     internal class EnvWindow : ScrollablePane
     {
         public EnvWindow( int fontSize ) : base ( fontSize ) {
@@ -47,7 +47,7 @@ namespace CM3D2.SceneCapture.Plugin
                 this.ChildControls.Add( this.backgroundBox );
 
                 this.addedLightInstance = new Dictionary<String, GameObject>();
-                this.addedModelInstance = new Dictionary<string, KeyValuePair<GameObject, KeyValuePair<string, string>>>();
+                this.addedModelInstance = new Dictionary<string, ModelInstanceInfo>();
                 this.lightPanes = new List<LightPane>();
                 this.modelPanes = new List<ModelPane>();
 
@@ -199,9 +199,8 @@ namespace CM3D2.SceneCapture.Plugin
                 modelName = modelString + " " + (this.modelsAdded + 1);
             }
 
-            var names = new KeyValuePair<String, String>(modelFileName, modelIconName);
-            var modelAndNames = new KeyValuePair<GameObject, KeyValuePair<String, String>>(model, names);
-            this.addedModelInstance.Add(modelName, modelAndNames);
+            var modelInstanceInfo = new ModelInstanceInfo(model, modelFileName, modelIconName);
+            this.addedModelInstance.Add(modelName, modelInstanceInfo);
 
             ModelPane pane = new ModelPane(this.FontSize, modelName, modelIconName);
             this.modelPanes.Add( pane );
@@ -230,7 +229,7 @@ namespace CM3D2.SceneCapture.Plugin
                     AddModel(modelInfo.modelName, modelInfo.modelIconName);
                     string paneName = this.modelPanes[i].Name;
 
-                    model = this.addedModelInstance[paneName].Key;
+                    model = this.addedModelInstance[paneName].model;
                     modelInfo.UpdateModel(model);
                 }
                 this.SetModelInstances();
@@ -243,7 +242,9 @@ namespace CM3D2.SceneCapture.Plugin
                 {
                     ModelPane pane = this.modelPanes[i];
 
-                    GameObject model = this.addedModelInstance[ this.modelPanes[i].Name ].Key;
+                    ModelInstanceInfo info = this.addedModelInstance[ this.modelPanes[i].Name ];
+                    this.UpdateModelInstance(info);
+                    GameObject model = info.model;
                     GizmoRenderTarget gizmo = model.GetComponent<GizmoRenderTarget>();
                     if( gizmo != null && pane.GizmoScaleAllAxesValue == true )
                     {
@@ -271,7 +272,7 @@ namespace CM3D2.SceneCapture.Plugin
                     {
                         this.modelPanes.RemoveAt(i);
                         this.ChildControls.Remove( pane );
-                        GameObject.Destroy( this.addedModelInstance[ pane.Name ].Key );
+                        GameObject.Destroy( this.addedModelInstance[ pane.Name ].model );
                         this.addedModelInstance.Remove( pane.Name );
                         changed = true;
                     }
@@ -299,7 +300,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         private void UpdateModelPane( ref ModelPane pane )
         {
-            GameObject model = this.addedModelInstance[pane.Name].Key;
+            GameObject model = this.addedModelInstance[pane.Name].model;
             if( model == null )
                 return;
 
@@ -344,11 +345,47 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
+        private void UpdateModelInstance( ModelInstanceInfo info )
+        {
+            // Shader shader = Shader.Find("CM3D2/Toony_Lighted_Hair");
+            // if (shader != null) {
+
+            //     foreach( SkinnedMeshRenderer r in info.model.GetComponentsInChildren<SkinnedMeshRenderer>() )
+            //     {
+            //         if(info.baseTexture == null )
+            //         {
+            //             info.baseTexture = r.material.mainTexture;
+            //         }
+
+            //         Debug.Log("Get!");
+            //         Debug.Log(r.material.shader.name);
+            //         info.SetPartsColor(MaidParts.PARTS_COLOR.HAIR, new MaidParts.PartsColor()
+            //                            {
+            //                                 m_nMainHue = 6,
+            //                                     m_nMainChroma = 117,
+            //                                     m_nMainBrightness = 179,
+            //                                     m_nMainContrast = 94
+            //                            });
+            //         r.material.SetTexture("_MultiColTex", info.GetPartsColorTableTex (MaidParts.PARTS_COLOR.HAIR));
+
+            //         RenderTexture active = RenderTexture.active;
+            //         Material systemMaterial = GameUty.GetSystemMaterial(GameUty.SystemMaterial.InfinityColor);
+            //         systemMaterial.SetTexture("_MultiColTex", (Texture) info.GetPartsColorTableTex(MaidParts.PARTS_COLOR.HAIR));
+            //         Graphics.Blit(info.baseTexture, active, systemMaterial);
+            //         RenderTexture.active = active;
+            //         // var rq = r.material.renderQueue;
+            //         // r.material.shader = shader;
+            //         // r.material.renderQueue = rq;
+            //         // r.material.SetColor("_Color", new Color32(1,0,1,1));
+            //     }
+            // }
+        }
+
         private void CopyModel( ModelPane pane )
         {
-            GameObject toCopy = this.addedModelInstance[ pane.Name ].Key;
-            string modelName = this.addedModelInstance[ pane.Name ].Value.Key;
-            string modelIconName = this.addedModelInstance[ pane.Name ].Value.Value;
+            GameObject toCopy = this.addedModelInstance[ pane.Name ].model;
+            string modelName = this.addedModelInstance[ pane.Name ].modelName;
+            string modelIconName = this.addedModelInstance[ pane.Name ].modelIconName;
             GameObject model = this.LoadModel(modelName);
             model.transform.position = toCopy.transform.position;
             model.transform.rotation = toCopy.transform.rotation;
@@ -363,9 +400,9 @@ namespace CM3D2.SceneCapture.Plugin
             List<ModelInfo> models = new List<ModelInfo>();
             foreach(ModelPane pane in this.modelPanes)
             {
-                models.Add(new ModelInfo(this.addedModelInstance[ pane.Name ].Key,
-                                         this.addedModelInstance[ pane.Name ].Value.Key,
-                                         this.addedModelInstance[ pane.Name ].Value.Value));
+                models.Add(new ModelInfo(this.addedModelInstance[ pane.Name ].model,
+                                         this.addedModelInstance[ pane.Name ].modelName,
+                                         this.addedModelInstance[ pane.Name ].modelIconName));
             }
             Instances.SetModels(models);
         }
@@ -385,7 +422,7 @@ namespace CM3D2.SceneCapture.Plugin
                 // 追加した光源を破棄
                 foreach( var obj in this.addedModelInstance.Values )
                 {
-                    GameObject.Destroy( obj.Key );
+                    GameObject.Destroy( obj.model );
                 }
 
                 // 追加光源オブジェクトクリア
@@ -421,9 +458,9 @@ namespace CM3D2.SceneCapture.Plugin
 
         private void ReselectModels(GameObject target)
         {
-            foreach(var kvp in this.addedModelInstance.Values)
+            foreach(ModelInstanceInfo info in this.addedModelInstance.Values)
             {
-                GameObject model = kvp.Key;
+                GameObject model = info.model;
                 if( model == target )
                 {
                     if(model.GetComponent<GizmoRenderTarget>() == null)
@@ -537,7 +574,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 if( this.lightPanes.Count < ConstantValues.MaxLightCount )
                 {
-                    String lightString = Translation.GetText("UI", "light"); 
+                    String lightString = Translation.GetText("UI", "light");
                     String lightName = lightString + " " + this.lightsAdded;
                     while(this.addedLightInstance.ContainsKey(lightName)) {
                         this.lightsAdded++;
@@ -764,12 +801,51 @@ namespace CM3D2.SceneCapture.Plugin
         private int modelsAdded = 0;
         private Dictionary<String, GameObject> addedLightInstance = null;
 
-        // <modelName, modelIconName
-        private Dictionary<string, KeyValuePair<GameObject, KeyValuePair<string, string>>> addedModelInstance = null;
+        private Dictionary<string, ModelInstanceInfo> addedModelInstance = null;
         #endregion
     }
 
     #region InsideClasses
+    public class ModelInstanceInfo
+    {
+        public GameObject model;
+        public string modelName;
+        public string modelIconName;
+        private MaidParts.PartsColor[] partsColors = new MaidParts.PartsColor[7];
+        private Texture2D[] partsColorTextures = new Texture2D[7];
+
+        public  Texture baseTexture;
+        public  RenderTexture modifiedTexture;
+
+        public ModelInstanceInfo( GameObject model, string modelName, string modelIconName )
+        {
+            this.model = model;
+            this.modelName = modelName;
+            this.modelIconName = modelIconName;
+            this.baseTexture = (Texture)null;
+            this.modifiedTexture = (RenderTexture)null;
+            for (int index = 0; index < 7; ++index) {
+                this.partsColorTextures[index] = new Texture2D(256, 1, TextureFormat.RGBA32, false);
+            }
+        }
+
+        public void SetPartsColor(MaidParts.PARTS_COLOR colorType, MaidParts.PartsColor color)
+        {
+            this.partsColors[(int)colorType] = color;
+            UTY.UpdateColorTableTexture(color, ref this.partsColorTextures[(int) colorType]);
+        }
+
+        public MaidParts.PartsColor GetPartsColor(MaidParts.PARTS_COLOR f_eColorType)
+        {
+            return this.partsColors[(int) f_eColorType];
+        }
+
+        public Texture2D GetPartsColorTableTex(MaidParts.PARTS_COLOR f_eColorType)
+        {
+            return this.partsColorTextures[(int) f_eColorType];
+        }
+    }
+
     ///=========================================================================
     /// <summary>光源設定値</summary>
     ///=========================================================================
