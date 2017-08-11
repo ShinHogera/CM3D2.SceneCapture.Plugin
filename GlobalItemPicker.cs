@@ -118,7 +118,7 @@ namespace CM3D2.SceneCapture.Plugin
                     try{
                         if(menu != null)
                         {
-                            if(menu.delOnly || menu.isMan)
+                            if(menu.delOnly)
                                 continue;
 
                             if(menu.partCategory == category)

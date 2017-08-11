@@ -213,7 +213,11 @@ namespace CM3D2.SceneCapture.Plugin
             // GUIUtil.AddGUISlider(this, this.lightRotationZSlider );
             GUIUtil.AddGUISlider(this, this.lightIntensitySlider );
             // GUIUtil.AddGUISlider(this, this.lightBounceIntensitySlider );
-            GUIUtil.AddGUISlider(this, this.lightRangeSlider );
+
+            if( this.lightTypeComboBox.SelectedItem != "Directional" )
+            {
+                GUIUtil.AddGUISlider(this, this.lightRangeSlider );
+            }
 
             if( this.lightTypeComboBox.SelectedItem == "Spot" )
             {
@@ -222,14 +226,17 @@ namespace CM3D2.SceneCapture.Plugin
 
             GUIUtil.AddGUICheckbox(this, this.lightColorPicker );
 
-            if( this.lightTypeComboBox.SelectedItem == "Directional" )
-            {
+            // if( this.lightTypeComboBox.SelectedItem == "Directional" )
+            // {
                 GUIUtil.AddGUICheckbox(this, this.shadowsBox );
-            }
+            // }
 
-            GUIUtil.AddGUISlider(this, this.shadowStrengthSlider );
-            GUIUtil.AddGUISlider(this, this.shadowBiasSlider );
-            GUIUtil.AddGUISlider(this, this.shadowNormalBiasSlider );
+            if( this.shadowsBox.SelectedItem != "None" )
+            {
+                GUIUtil.AddGUISlider(this, this.shadowStrengthSlider );
+                GUIUtil.AddGUISlider(this, this.shadowBiasSlider );
+                GUIUtil.AddGUISlider(this, this.shadowNormalBiasSlider );
+            }
 
             foreach(ControlBase control in this.ChildControls)
             {

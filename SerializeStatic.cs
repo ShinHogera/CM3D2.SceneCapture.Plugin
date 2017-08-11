@@ -252,8 +252,14 @@ namespace CM3D2.SceneCapture.Plugin
                                 else if (fieldType == typeof(Transform))
                                 {
                                     Vector3 v3 = Util.ConvertStringToVector3(propElem.Value);
-                                    if(field.GetValue(effect) != null) {
-                                        ((Transform)field.GetValue(effect)).position = v3;
+
+                                    // FIXME: Loading maid manager transforms bugs out maid heads.
+                                    if(enabled_effect == typeof(SunShafts))
+                                    {
+                                        if(field.GetValue(effect) != null)
+                                        {
+                                            ((Transform)field.GetValue(effect)).position = v3;
+                                        }
                                     }
                                 }
                             }

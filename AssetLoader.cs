@@ -145,10 +145,11 @@ namespace CM3D2.SceneCapture.Plugin
                 file = GameUty.FileOpen(name);
                 if( file.GetSize() == 0 || !file.IsValid() )
                 {
-                    name = menuFileName.Replace(@"man\", "");
+                    name = menuFileName.Replace(@"menu\man\", "");
                     file = GameUty.FileOpen(name);
                     if( file.GetSize() == 0 || !file.IsValid() )
                     {
+                        Debug.Log(menuFileName + " " + name);
                         throw new FileNotFoundException(name);
                     }
                 }
@@ -254,6 +255,8 @@ namespace CM3D2.SceneCapture.Plugin
         label_61:
 
             binaryReader.Close();
+            if(mi.isMan)
+                Debug.Log(mi.isMan + " " + mi.partCategory);
             return mi;
         }
 

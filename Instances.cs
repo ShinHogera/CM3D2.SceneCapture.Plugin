@@ -422,10 +422,10 @@ namespace CM3D2.SceneCapture.Plugin
         {
             XDocument xml = XDocument.Load(filename);
             Instances.LoadEffects(xml);
-            Instances.LoadLights(xml);
-            Instances.LoadModels(xml);
-            Instances.LoadCamera(xml);
-            Instances.LoadMisc(xml);
+            // Instances.LoadLights(xml);
+            // Instances.LoadModels(xml);
+            // Instances.LoadCamera(xml);
+            // Instances.LoadMisc(xml);
         }
     }
 }

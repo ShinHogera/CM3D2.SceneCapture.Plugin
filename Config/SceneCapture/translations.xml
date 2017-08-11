@@ -301,9 +301,9 @@
       <cameraFov>Camera FOV</cameraFov>
       <cameraDistance>Camera Distance</cameraDistance>
       <cameraAllSettings>All Settings</cameraAllSettings>
-      <cameraSavePosition>Save Camera Position</cameraSavePosition>
-      <cameraRestorePosition>Restore Camera Position</cameraRestorePosition>
-      <cameraResetPosition>Reset Camera Position</cameraResetPosition>
+      <cameraSavePosition>Save Camera</cameraSavePosition>
+      <cameraRestorePosition>Restore Camera</cameraRestorePosition>
+      <cameraResetPosition>Reset Camera</cameraResetPosition>
     </Camera>
 
     <Equip>

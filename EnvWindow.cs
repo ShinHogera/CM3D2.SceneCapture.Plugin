@@ -46,13 +46,13 @@ namespace CM3D2.SceneCapture.Plugin
                 this.cameraRotationXSlider.ValueChanged += this.ChangeCameraRotation;
                 this.ChildControls.Add( this.cameraRotationXSlider );
 
-                this.cameraRotationYSlider = new CustomSlider( 0, 0f, 360f, 2 );
+                this.cameraRotationYSlider = new CustomSlider( 0, 0f, 359.9999f, 2 );
                 this.cameraRotationYSlider.FontSize = this.FontSize;
                 this.cameraRotationYSlider.Text = Translation.GetText("Camera", "cameraRotationY");
                 this.cameraRotationYSlider.ValueChanged += this.ChangeCameraRotation;
                 this.ChildControls.Add( this.cameraRotationYSlider );
 
-                this.cameraRotationZSlider = new CustomSlider( 0, 0f, 360f, 2 );
+                this.cameraRotationZSlider = new CustomSlider( 0, 0f, 359.9999f, 2 );
                 this.cameraRotationZSlider.FontSize = this.FontSize;
                 this.cameraRotationZSlider.Text = Translation.GetText("Camera", "cameraRotationZ");
                 this.cameraRotationZSlider.ValueChanged += this.ChangeCameraRotation;
