@@ -6,7 +6,7 @@ namespace CM3D2.SceneCapture.Plugin
     {
         #region Public Properties
 
-        float _intensity = 0;
+        public float _intensity = 0;
 
         public float intensity {
             get { return _intensity; }

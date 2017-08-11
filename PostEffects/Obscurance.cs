@@ -38,7 +38,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         // [SerializeField, Range(0, 4), Tooltip(
         //     "Degree of darkness produced by the effect.")]
-        float _intensity = 1;
+        public float _intensity = 1;
 
         /// Radius of sample points, which affects extent of darkened areas.
         public float radius {
@@ -48,7 +48,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         // [SerializeField, Tooltip(
         //     "Radius of sample points, which affects extent of darkened areas.")]
-        float _radius = 0.3f;
+        public float _radius = 0.3f;
 
         /// Number of sample points, which affects quality and performance.
         public SampleCount sampleCount {
@@ -60,7 +60,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         // [SerializeField, Tooltip(
         //     "Number of sample points, which affects quality and performance.")]
-        SampleCount _sampleCount = SampleCount.Medium;
+        public SampleCount _sampleCount = SampleCount.Medium;
 
         /// Determines the sample count when SampleCount.Variable is used.
         /// In other cases, it returns the preset value of the current setting.
@@ -78,7 +78,7 @@ namespace CM3D2.SceneCapture.Plugin
         }
 
         // [SerializeField]
-        int _sampleCountValue = 24;
+        public int _sampleCountValue = 24;
 
         /// Halves the resolution of the effect to increase performance.
         public bool downsampling {
@@ -88,7 +88,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         // [SerializeField, Tooltip(
         //     "Halves the resolution of the effect to increase performance.")]
-        bool _downsampling = false;
+        public bool _downsampling = false;
 
         /// Source buffer used for obscurance estimation.
         public OcclusionSource occlusionSource {
@@ -110,7 +110,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         // [SerializeField, Tooltip(
         //     "Source buffer used for obscurance estimation")]
-        OcclusionSource _occlusionSource = OcclusionSource.GBuffer;
+        public OcclusionSource _occlusionSource = OcclusionSource.GBuffer;
 
         /// Enables the ambient-only mode in that the effect only affects
         /// ambient lighting. This mode is only available with G-buffer source
@@ -125,7 +125,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         // [SerializeField, Tooltip(
         //     "If checked, the effect only affects ambient lighting.")]
-        bool _ambientOnly = false;
+        public bool _ambientOnly = false;
 
         #endregion
 

@@ -8,7 +8,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         // Scan line jitter
 
-        float _scanLineJitter = 0;
+        public float _scanLineJitter = 0;
 
         public float scanLineJitter {
             get { return _scanLineJitter; }
@@ -17,7 +17,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         // Vertical jump
 
-        float _verticalJump = 0;
+        public float _verticalJump = 0;
 
         public float verticalJump {
             get { return _verticalJump; }
@@ -26,7 +26,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         // Horizontal shake
 
-        float _horizontalShake = 0;
+        public float _horizontalShake = 0;
 
         public float horizontalShake {
             get { return _horizontalShake; }
@@ -35,7 +35,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         // Color drift
 
-        float _colorDrift = 0;
+        public float _colorDrift = 0;
 
         public float colorDrift {
             get { return _colorDrift; }
