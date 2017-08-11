@@ -51,7 +51,7 @@ namespace CM3D2.SceneCapture.Plugin
     ///					モーション一時停止後、選択対象メイドを切り替えるとモーションの一時停止が解除される不具合
     /// </remarks>
     ///=========================================================================
-    [PluginFilter( "CM3D2x64" ), PluginFilter( "CM3D2x86" ), PluginFilter( "CM3D2VRx64" ), PluginName( "CM3D2.SceneCapture.Plugin" ), PluginVersion( "0.2.2.0" )]
+    [PluginFilter( "CM3D2x64" ), PluginFilter( "CM3D2x86" ), PluginFilter( "CM3D2VRx64" ), PluginName( "CM3D2.SceneCapture.Plugin" ), PluginVersion( "0.2.3.0" )]
     public class SceneCapture : PluginBase
     {
         #region Methods
