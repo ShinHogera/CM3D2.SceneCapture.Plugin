@@ -32,7 +32,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.apertureSlider.Text = Translation.GetText("DepthOfField", "aperture");
             this.ChildControls.Add( this.apertureSlider );
 
-            this.blurTypeCheckbox = new CustomToggleButton( DepthOfFieldDef.depthOfFieldEffect == DepthOfFieldScatter.BlurType.DX11, "toggle" );
+            this.blurTypeCheckbox = new CustomToggleButton( DepthOfFieldDef.depthOfFieldEffect.blurType == DepthOfFieldScatter.BlurType.DX11, "toggle" );
             this.blurTypeCheckbox.Text = Translation.GetText("DepthOfField", "blurType");
             this.ChildControls.Add( this.blurTypeCheckbox );
 
