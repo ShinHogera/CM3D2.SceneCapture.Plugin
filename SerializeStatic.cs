@@ -252,7 +252,9 @@ namespace CM3D2.SceneCapture.Plugin
                                 else if (fieldType == typeof(Transform))
                                 {
                                     Vector3 v3 = Util.ConvertStringToVector3(propElem.Value);
-                                    ((Transform)field.GetValue(effect)).position = v3;
+                                    if(field.GetValue(effect) != null) {
+                                        ((Transform)field.GetValue(effect)).position = v3;
+                                    }
                                 }
                             }
                         }
