@@ -12,70 +12,69 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class DepthOfFieldPane : BasePane {
 
-        public DepthOfFieldPane( int fontSize ) : base( fontSize, "DepthOfField" ) {}
+        public DepthOfFieldPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "DepthOfField") ) {}
 
         override public void SetupPane()
         {
             this.visualizeFocusCheckbox = new CustomToggleButton( DepthOfFieldDef.depthOfFieldEffect.visualizeFocus, "toggle" );
-            this.visualizeFocusCheckbox.Text = "Visualize Focus";
+            this.visualizeFocusCheckbox.Text = Translation.GetText("DepthOfField", "visualizeFocus");
             this.ChildControls.Add( this.visualizeFocusCheckbox );
 
-            this.focalLengthSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.focalLength, 0f, 20f, 1 );
-            this.focalLengthSlider.Text = "Focal Length";
+            this.focalLengthSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.focalLength, 0f, 20f, 2 );
+            this.focalLengthSlider.Text = Translation.GetText("DepthOfField", "focalLength");
             this.ChildControls.Add( this.focalLengthSlider );
 
-            this.focalSizeSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.focalSize, 0f, 2f, 1 );
-            this.focalSizeSlider.Text = "Focal Size";
+            this.focalSizeSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.focalSize, 0f, 2f, 4 );
+            this.focalSizeSlider.Text = Translation.GetText("DepthOfField", "focalSize");
             this.ChildControls.Add( this.focalSizeSlider );
 
-            this.apertureSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.aperture, 0f, 60f, 1 );
-            this.apertureSlider.Text = "Aperture";
+            this.apertureSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.aperture, 0f, 60f, 2 );
+            this.apertureSlider.Text = Translation.GetText("DepthOfField", "aperture");
             this.ChildControls.Add( this.apertureSlider );
 
-            this.blurTypeCheckbox = new CustomToggleButton( false, "toggle" );
-            this.blurTypeCheckbox.Text = "DX11 Blur";
+            this.blurTypeCheckbox = new CustomToggleButton( DepthOfFieldDef.depthOfFieldEffect.blurType == DepthOfFieldScatter.BlurType.DX11, "toggle" );
+            this.blurTypeCheckbox.Text = Translation.GetText("DepthOfField", "blurType");
             this.ChildControls.Add( this.blurTypeCheckbox );
 
             this.blurSampleCountBox = new CustomComboBox( DEPTH_BLURSAMPLECOUNTS );
-            this.blurSampleCountBox.Text = "Blur Sample";
+            this.blurSampleCountBox.Text = Translation.GetText("DepthOfField", "blurSampleCount");
             this.blurSampleCountBox.SelectedIndex = (int)DepthOfFieldDef.depthOfFieldEffect.blurSampleCount;
             this.ChildControls.Add( this.blurSampleCountBox );
 
-            this.maxBlurSizeSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.maxBlurSize, 0f, 20f, 1 );
-            this.maxBlurSizeSlider.Text = "Max Blur Size";
+            this.maxBlurSizeSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.maxBlurSize, 0f, 20f, 2 );
+            this.maxBlurSizeSlider.Text = Translation.GetText("DepthOfField", "maxBlurSize");
             this.ChildControls.Add( this.maxBlurSizeSlider );
 
             this.highResolutionCheckbox = new CustomToggleButton( DepthOfFieldDef.depthOfFieldEffect.highResolution, "toggle" );
-            this.highResolutionCheckbox.Text = "High Resolution";
+            this.highResolutionCheckbox.Text = Translation.GetText("DepthOfField", "highResolution");
             this.ChildControls.Add( this.highResolutionCheckbox );
 
             this.nearBlurCheckbox = new CustomToggleButton( DepthOfFieldDef.depthOfFieldEffect.nearBlur, "toggle" );
-            this.nearBlurCheckbox.Text = "Near Blur";
+            this.nearBlurCheckbox.Text = Translation.GetText("DepthOfField", "nearBlur");
             this.ChildControls.Add( this.nearBlurCheckbox );
 
-            this.foregroundOverlapSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.foregroundOverlap, -20f, 20f, 1 );
-            this.foregroundOverlapSlider.Text = "Foreground Overlap";
+            this.foregroundOverlapSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.foregroundOverlap, -20f, 20f, 2 );
+            this.foregroundOverlapSlider.Text = Translation.GetText("DepthOfField", "foregroundOverlap");
             this.ChildControls.Add( this.foregroundOverlapSlider );
 
-            this.dx11BokehScaleSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.dx11BokehScale, 0f, 10f, 1 );
-            this.dx11BokehScaleSlider.Text = "Bokeh Scale";
+            this.dx11BokehScaleSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.dx11BokehScale, 0f, 10f, 2 );
+            this.dx11BokehScaleSlider.Text = Translation.GetText("DepthOfField", "dx11BokehScale");
             this.ChildControls.Add( this.dx11BokehScaleSlider );
 
-            this.dx11BokehIntensitySlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.dx11BokehIntensity, 0f, 20f, 1 );
-            this.dx11BokehIntensitySlider.Text = "Bokeh Intensity";
+            this.dx11BokehIntensitySlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.dx11BokehIntensity, 0f, 20f, 2 );
+            this.dx11BokehIntensitySlider.Text = Translation.GetText("DepthOfField", "dx11BokehIntensity");
             this.ChildControls.Add( this.dx11BokehIntensitySlider );
 
-            this.dx11BokehThreshholdSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.dx11BokehThreshhold, 0f, 1f, 1 );
-            this.dx11BokehThreshholdSlider.Text = "Bokeh Threshold";
+            this.dx11BokehThreshholdSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.dx11BokehThreshhold, 0f, 1f, 4 );
+            this.dx11BokehThreshholdSlider.Text = Translation.GetText("DepthOfField", "dx11BokehThreshhold");
             this.ChildControls.Add( this.dx11BokehThreshholdSlider );
 
-            this.dx11SpawnHeuristicSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.dx11SpawnHeuristic, 0f, 1f, 1 );
-            this.dx11SpawnHeuristicSlider.Text = "Spawn Heuristic";
+            this.dx11SpawnHeuristicSlider = new CustomSlider( DepthOfFieldDef.depthOfFieldEffect.dx11SpawnHeuristic, 0f, 1f, 4 );
+            this.dx11SpawnHeuristicSlider.Text = Translation.GetText("DepthOfField", "dx11SpawnHeuristic");
             this.ChildControls.Add( this.dx11SpawnHeuristicSlider );
 
-
             this.transformFromMaidCheckbox = new CustomToggleButton( DepthOfFieldDef.transformFromMaid, "toggle" );
-            this.transformFromMaidCheckbox.Text = "Focal Transform";
+            this.transformFromMaidCheckbox.Text = Translation.GetText("UI", "transformFromMaid");
             this.transformFromMaidCheckbox.CheckedChanged += (o, e) => {
                 if( this.transformFromMaidCheckbox.Value == true )
                 {
@@ -107,7 +106,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.ChildControls.Add( this.nextMaidButton );
 
             this.reloadMaidsButton = new CustomButton();
-            this.reloadMaidsButton.Text = "Reload";
+            this.reloadMaidsButton.Text = Translation.GetText("UI", "reloadMaids");
             this.reloadMaidsButton.Click += (o, e) => {
                 this.maidManager.bUpdateRequest = true;
             };

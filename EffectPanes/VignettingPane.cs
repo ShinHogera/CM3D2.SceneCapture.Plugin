@@ -16,35 +16,35 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class VignettingPane : BasePane
     {
-        public VignettingPane( int fontSize ) : base( fontSize, "Vignetting" ) {}
+        public VignettingPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Vignetting") ) {}
 
         override public void SetupPane()
         {
-            this.intensitySlider = new CustomSlider( VignettingDef.vignettingEffect.intensity, -20f, 20f, 1 );
-            this.intensitySlider.Text = "Intensity";
+            this.intensitySlider = new CustomSlider( VignettingDef.vignettingEffect.intensity, -20f, 20f, 2 );
+            this.intensitySlider.Text = Translation.GetText("Vignetting", "intensity");
             this.ChildControls.Add( this.intensitySlider );
-            this.blurSlider = new CustomSlider( VignettingDef.vignettingEffect.blur, -20f, 20f, 1 );
-            this.blurSlider.Text = "Blur";
+            this.blurSlider = new CustomSlider( VignettingDef.vignettingEffect.blur, -20f, 20f, 2 );
+            this.blurSlider.Text = Translation.GetText("Vignetting", "blur");
             this.ChildControls.Add( this.blurSlider );
-            this.blurSpreadSlider = new CustomSlider( VignettingDef.vignettingEffect.blurSpread, -20f, 20f, 1 );
-            this.blurSpreadSlider.Text = "Blur Spread";
+            this.blurSpreadSlider = new CustomSlider( VignettingDef.vignettingEffect.blurSpread, -20f, 20f, 2 );
+            this.blurSpreadSlider.Text = Translation.GetText("Vignetting", "blurSpread");
             this.ChildControls.Add( this.blurSpreadSlider );
 
-            this.modeCheckbox = new CustomToggleButton( false, "toggle" );
-            this.modeCheckbox.Text = "Advanced";
+            this.modeCheckbox = new CustomToggleButton( VignettingDef.vignettingEffect.mode == Vignetting.AberrationMode.Advanced, "toggle" );
+            this.modeCheckbox.Text = Translation.GetText("Vignetting", "mode");
             this.ChildControls.Add( this.modeCheckbox );
 
-            this.chromaticAberrationSlider = new CustomSlider( VignettingDef.vignettingEffect.chromaticAberration, -20f, 20f, 1 );
-            this.chromaticAberrationSlider.Text = "Chromatic Aberration";
+            this.chromaticAberrationSlider = new CustomSlider( VignettingDef.vignettingEffect.chromaticAberration, -20f, 20f, 2 );
+            this.chromaticAberrationSlider.Text = Translation.GetText("Vignetting", "chromaticAberration");
             this.ChildControls.Add( this.chromaticAberrationSlider );
-            this.luminanceDependencySlider = new CustomSlider( VignettingDef.vignettingEffect.luminanceDependency, 0f, 2f, 1 );
-            this.luminanceDependencySlider.Text = "Luminance Dependency";
+            this.luminanceDependencySlider = new CustomSlider( VignettingDef.vignettingEffect.luminanceDependency, 0f, 2f, 4 );
+            this.luminanceDependencySlider.Text = Translation.GetText("Vignetting", "luminanceDependency");
             this.ChildControls.Add( this.luminanceDependencySlider );
-            this.axialAberrationSlider = new CustomSlider( VignettingDef.vignettingEffect.axialAberration, 0f, 20f, 1 );
-            this.axialAberrationSlider.Text = "Axial Aberration";
+            this.axialAberrationSlider = new CustomSlider( VignettingDef.vignettingEffect.axialAberration, 0f, 20f, 2 );
+            this.axialAberrationSlider.Text = Translation.GetText("Vignetting", "axialAberration");
             this.ChildControls.Add( this.axialAberrationSlider );
-            this.blurDistanceSlider = new CustomSlider( VignettingDef.vignettingEffect.blurDistance, -20f, 20f, 1 );
-            this.blurDistanceSlider.Text = "Blur Distance";
+            this.blurDistanceSlider = new CustomSlider( VignettingDef.vignettingEffect.blurDistance, -20f, 20f, 2 );
+            this.blurDistanceSlider.Text = Translation.GetText("Vignetting", "blurDistance");
             this.ChildControls.Add( this.blurDistanceSlider );
         }
 

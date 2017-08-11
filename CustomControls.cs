@@ -579,6 +579,10 @@ namespace CM3D2.SceneCapture.Plugin
                     this.comboListStyle.hover.textColor = this.comboListStyle.onHover.textColor =
                     this.comboListStyle.active.textColor = this.comboListStyle.onActive.textColor =
                     this.comboListStyle.focused.textColor = this.comboListStyle.onFocused.textColor = Color.white;
+
+                this.labelStyle = new GUIStyle( "label" );
+                labelStyle.alignment = TextAnchor.MiddleLeft;
+                labelStyle.fontSize = this.FixedFontSize;
             }
             catch( Exception e )
             {
@@ -613,8 +617,11 @@ namespace CM3D2.SceneCapture.Plugin
                     this.comboBoxButton = new GUIContent( String.Empty );
                 }
 
+                Rect labelRect = new Rect( this.Left, this.Top, this.Width / 3, this.Height );
+                GUI.Label( labelRect, this.Text, this.labelStyle );
+
                 // ボタン
-                Rect comboBoxRect = new Rect( this.Left, this.Top, this.Width, this.Height );
+                Rect comboBoxRect = new Rect( this.Left + this.Width / 3, this.Top, (this.Width / 3) * 2, this.Height );
                 if( GUI.Button( comboBoxRect, this.comboBoxButton, this.comboButtonStyle ) )
                 {
                     if( this._items != null )
@@ -630,11 +637,11 @@ namespace CM3D2.SceneCapture.Plugin
                 // ドロップダウンリスト表示の場合
                 if( this._items != null && this._isShowDropDownList )
                 {
-                    float maxDropDownListHeight = Screen.height - Screen.height / 5 - this.ScreenPos.y;
+                    float maxDropDownListHeight = Screen.height - Screen.height / 4 - this.ScreenPos.y;
                     float itemHeight = comboListStyle.CalcHeight( this.comboBoxButton, 1.0f ) * ( this._items.Count );
                     float windowHeight = maxDropDownListHeight < itemHeight ? maxDropDownListHeight : itemHeight;
 
-                    this.dropDownListRect = new Rect( this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y + this.ScreenPos.height, this.Width, windowHeight );
+                    this.dropDownListRect = new Rect( comboBoxRect.x + this.ScreenPos.x, this.Top + this.ScreenPos.y + this.ScreenPos.height, comboBoxRect.width, windowHeight );
                     // this.dropDownListRect = new Rect( this.Left, this.Top + this.Height, this.Width, windowHeight );
 
                     // ウィンドウ表示
@@ -644,7 +651,7 @@ namespace CM3D2.SceneCapture.Plugin
                     // グリッド表示
                     // The '36' is from the scrollable pane's item size times 2
                     // Need to replace later.
-                    Rect listRect = new Rect( this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y + 36, this.dropDownListRect.width, this.dropDownListRect.height );
+                    Rect listRect = new Rect( this.dropDownListRect.x, this.Top + this.ScreenPos.y + 36, this.dropDownListRect.width, this.dropDownListRect.height );
 
                     GUIContent[] contents = new GUIContent[ this._items.Count ];
                     this._items.CopyTo( contents );
@@ -956,6 +963,8 @@ namespace CM3D2.SceneCapture.Plugin
         // コンボリストスタイル
         private GUIStyle comboListStyle = null;
 
+        private GUIStyle labelStyle = null;
+
         /// <summary>スクロール位置</summary>
         private Vector2 scrollViewVector = Vector2.zero;
         #endregion
@@ -1056,8 +1065,8 @@ namespace CM3D2.SceneCapture.Plugin
             this._value = value;
             this._style = "button";
 
-            this.BackgroundColor = Color.white;
-            this.TextColor = Color.grey;
+            this.BackgroundColor = Color.gray;
+            this.TextColor = new Color(192, 192, 192);
         }
 
         public CustomToggleButton( bool value, string style )
@@ -1065,8 +1074,8 @@ namespace CM3D2.SceneCapture.Plugin
             this._value = value;
             this._style = style;
 
-            this.BackgroundColor = Color.white;
-            this.TextColor = Color.grey;
+            this.BackgroundColor = Color.gray;
+            this.TextColor = Color.white;
         }
 
         ///-------------------------------------------------------------------------
@@ -1080,7 +1089,11 @@ namespace CM3D2.SceneCapture.Plugin
 
                 // スタイル
                 GUIStyle labelStyle = new GUIStyle( "label" );
-                labelStyle.alignment = TextAnchor.MiddleLeft;
+                labelStyle.normal.textColor = this.TextColor;
+                if( this._style == "button" )
+                    labelStyle.alignment = TextAnchor.MiddleCenter;
+                else
+                    labelStyle.alignment = TextAnchor.MiddleLeft;
                 labelStyle.fontSize = this.FixedFontSize;
 
                 // トグル表示
@@ -1092,7 +1105,7 @@ namespace CM3D2.SceneCapture.Plugin
 
                 if( this._style == "toggle" )
                 {
-                    toggleRect.x += 10;
+                    toggleRect.x += 15;
                 }
 
                 // ラベル表示
@@ -1256,6 +1269,7 @@ namespace CM3D2.SceneCapture.Plugin
         public CustomSlider( float value, float min, float max, int dec )
         {
             this._value = value;
+            this.fieldValue = value.ToString();
             this._min = min;
             this._max = max;
             this._decimal = dec;
@@ -1270,15 +1284,14 @@ namespace CM3D2.SceneCapture.Plugin
             try
             {
                 Rect sliderRect;
+                GUIStyle labelStyle = new GUIStyle( "label" );
+                labelStyle.alignment = TextAnchor.MiddleLeft;
+                labelStyle.normal.textColor = this.TextColor;
+                labelStyle.fontSize = this.FixedFontSize;
                 if( this.Text != string.Empty )
                 {
                     Rect labelRect = new Rect( this.Left, this.Top, this.Width, this.Height - this.FontSize - ControlBase.FixedMargin );
-                    sliderRect = new Rect( this.Left, this.Top + this.Height - this.FontSize - ControlBase.FixedMargin, this.Width, this.FontSize + ControlBase.FixedMargin );
-
-                    GUIStyle labelStyle = new GUIStyle( "label" );
-                    labelStyle.alignment = TextAnchor.MiddleLeft;
-                    labelStyle.normal.textColor = this.TextColor;
-                    labelStyle.fontSize = this.FixedFontSize;
+                    sliderRect = new Rect( this.Left, this.Top + this.Height - this.FontSize - ControlBase.FixedMargin, this.Width - this.FontSize * 6, this.FontSize + ControlBase.FixedMargin );
 
                     GUI.Label(labelRect, this.Text, labelStyle);
                 }
@@ -1299,6 +1312,23 @@ namespace CM3D2.SceneCapture.Plugin
                 {
                     String format = "{0:f" + this._decimal.ToString() + "}";
                     this.Value = ( float )Convert.ToDouble( String.Format( format, retVal ) );
+                    this.fieldValue = this._value.ToString();
+                }
+
+                GUIStyle fieldStyle = new GUIStyle("textarea");
+                fieldStyle.alignment = TextAnchor.MiddleLeft;
+                fieldStyle.fontSize = this.FixedFontSize + 1;
+
+                Rect fieldRect = new Rect( sliderRect.x + sliderRect.width + ControlBase.FixedMargin, sliderRect.y, this.FontSize * 8, sliderRect.height);
+                string sTmp = Util.DrawTextFieldF(fieldRect, this.fieldValue, fieldStyle);
+                if (sTmp != this.fieldValue)
+                {
+                    this.fieldValue = sTmp;
+                    float fTmp;
+                    if (float.TryParse(sTmp, out fTmp))
+                    {
+                        this.Value = fTmp;
+                    }
                 }
             }
             catch( Exception e )
@@ -1326,6 +1356,7 @@ namespace CM3D2.SceneCapture.Plugin
                 if( this._min <= value && value <= this._max )
                 {
                     this._value = value;
+                    this.fieldValue = value.ToString();
 
                     if( this.Enabled )
                     {
@@ -1388,6 +1419,8 @@ namespace CM3D2.SceneCapture.Plugin
         }
         #endregion
 
+        private string fieldValue;
+
         #region Events
                 ///-------------------------------------------------------------------------
                 /// <summary>値変更イベント</summary>
@@ -1413,7 +1446,14 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
+                this.TextColor = new Color(255, 255, 255, 255);
                 this.BackgroundColor = Color.clear;
+
+                // スタイル
+                labelStyle = new GUIStyle( "label" );
+                labelStyle.alignment = TextAnchor.MiddleLeft;
+                labelStyle.normal.textColor = this.TextColor;
+                labelStyle.fontSize = this.FixedFontSize;
             }
             catch( Exception e )
             {
@@ -1430,9 +1470,6 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 Rect labelRect = new Rect( this.Left, this.Top, this.Width, this.Height );
 
-                // スタイル
-                GUIStyle labelStyle = new GUIStyle( "label" );
-                labelStyle.alignment = TextAnchor.MiddleLeft;
                 labelStyle.normal.textColor = this.TextColor;
                 labelStyle.fontSize = this.FixedFontSize;
 
@@ -1444,6 +1481,8 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
         #endregion
+
+        private GUIStyle labelStyle = null;
     }
     #endregion
 
@@ -1455,6 +1494,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 this.BackgroundColor = Color.clear;
                 this._value = color;
+                this.IsRGBA = true;
 
                 this._colorTex = new Texture2D(1, 1);
                 this._colorTex.SetPixel(0, 0, color);
@@ -1484,8 +1524,8 @@ namespace CM3D2.SceneCapture.Plugin
 
                 if( GUI.Button( colorRect, string.Empty, labelStyle ) )
                 {
-                    GlobalColorPicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y), this.FontSize * 15, this.FontSize, this._value,
-                                          (x) =>
+                    GlobalColorPicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y), this.FontSize * 15, this.FontSize, this._value, this.IsRGBA ? ColorPickerType.RGBA : ColorPickerType.RGB,
+                                          (x, y) =>
                             {
                                 this.Value = x;
                                 this.ColorChanged(this, new EventArgs());
@@ -1515,7 +1555,105 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
+        public bool IsRGBA { get; set; }
+
         private Texture2D _colorTex;
+
+        public EventHandler ColorChanged = delegate { };
+    }
+
+    internal class CustomMaidPartsColorPicker : ControlBase
+    {
+        public CustomMaidPartsColorPicker( Color color, Color shadowColor )
+        {
+            try
+            {
+                this.BackgroundColor = Color.clear;
+                this._value = color;
+                this._shadowValue = shadowColor;
+
+                this._colorTex = new Texture2D(1, 1);
+                this._colorTex.SetPixel(0, 0, color);
+                this._colorTex.Apply();
+                this._shadowColorTex = new Texture2D(1, 1);
+                this._shadowColorTex.SetPixel(0, 0, shadowColor);
+                this._shadowColorTex.Apply();
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
+        override public void OnGUI()
+        {
+            try
+            {
+                Rect colorRect = new Rect( this.Left, this.Top, this.Height, this.Height );
+                Rect labelRect = new Rect( this.Left + this.Height, this.Top, this.Width - this.Height, this.Height );
+
+                // スタイル
+                GUIStyle labelStyle = new GUIStyle( "label" );
+                labelStyle.alignment = TextAnchor.MiddleLeft;
+                labelStyle.normal.textColor = this.TextColor;
+                labelStyle.fontSize = this.FixedFontSize;
+
+                GUI.DrawTexture( colorRect, this._colorTex );
+                GUI.Label( labelRect, this.Text, labelStyle );
+
+                if( GUI.Button( colorRect, string.Empty, labelStyle ) )
+                {
+                    GlobalColorPicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y), this.FontSize * 15, this.FontSize, this._value, ColorPickerType.MaidProp,
+                                          (x, y) =>
+                            {
+                                this.Value = x;
+                                this.ShadowValue = x;
+                                this.ColorChanged(this, new EventArgs());
+                            });
+                }
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
+        private Color _value;
+        virtual public Color Value
+        {
+            get
+            {
+                return this._value;
+            }
+
+            set
+
+            {
+                this._value = value;
+                this._colorTex.SetPixel(0, 0, value);
+                this._colorTex.Apply();
+            }
+        }
+
+        private Color _shadowValue;
+        virtual public Color ShadowValue
+        {
+            get
+            {
+                return this._shadowValue;
+            }
+
+            set
+
+            {
+                this._shadowValue = value;
+                this._colorTex.SetPixel(0, 0, value);
+                this._colorTex.Apply();
+            }
+        }
+
+        private Texture2D _colorTex;
+        private Texture2D _shadowColorTex;
 
         public EventHandler ColorChanged = delegate { };
     }
@@ -1547,8 +1685,8 @@ namespace CM3D2.SceneCapture.Plugin
 
             if(this.Text != string.Empty)
             {
-                curveRect = new Rect( this.Left, this.Top, this.Width, this.Height / 2 );
-                Rect labelRect = new Rect( this.Left + this.Height, this.Top, this.Width - this.Height, this.Height );
+                Rect labelRect = new Rect( this.Left, this.Top, this.Width, this.FixedFontSize * 2 );
+                curveRect = new Rect( this.Left, this.Top + labelRect.height + ControlBase.FixedMargin, this.Width, this.Height - labelRect.height - ControlBase.FixedMargin );
 
                 GUI.Label( labelRect, this.Text, labelStyle );
             }
@@ -1721,7 +1859,7 @@ namespace CM3D2.SceneCapture.Plugin
         {
             get
             {
-                return this.Texture;
+                return this._texture;
             }
 
             set
@@ -1731,5 +1869,41 @@ namespace CM3D2.SceneCapture.Plugin
         }
 
         public EventHandler Click = delegate { };
+    }
+
+    internal class CustomImage : ControlBase
+    {
+        public CustomImage( Texture2D tex )
+        {
+            try
+            {
+                this.Texture = tex;
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
+        override public void OnGUI() {
+                Rect imageRect = new Rect( this.Left, this.Top, this.Width, this.Height );
+
+                if( this._texture != null )
+                    GUI.DrawTexture( imageRect, this._texture );
+        }
+
+        private Texture2D _texture = null;
+        public Texture2D Texture
+        {
+            get
+            {
+                return this._texture;
+            }
+
+            set
+            {
+                this._texture = value;
+            }
+        }
     }
 }

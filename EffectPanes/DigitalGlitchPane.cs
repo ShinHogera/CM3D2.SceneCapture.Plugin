@@ -16,12 +16,12 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class DigitalGlitchPane : BasePane
     {
-        public DigitalGlitchPane( int fontSize ) : base( fontSize, "DigitalGlitch" ) {}
+        public DigitalGlitchPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "DigitalGlitch") ) {}
 
         override public void SetupPane()
         {
-            this.intensitySlider = new CustomSlider( DigitalGlitchDef.digitalGlitchEffect.intensity, 0f, 10f, 1 );
-            this.intensitySlider.Text = "Intensity";
+            this.intensitySlider = new CustomSlider( DigitalGlitchDef.digitalGlitchEffect.intensity, 0f, 1f, 4 );
+            this.intensitySlider.Text = Translation.GetText("DigitalGlitch", "intensity");
             this.ChildControls.Add( this.intensitySlider );
         }
 
@@ -40,7 +40,7 @@ namespace CM3D2.SceneCapture.Plugin
         {
             get
             {
-                return this.intensitySlider.Value / 10.0f;
+                return this.intensitySlider.Value;
             }
         }
         #endregion

@@ -16,10 +16,11 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class ModelPane : ControlBase
     {
-        public ModelPane( int fontSize, string name )
+        public ModelPane( int fontSize, string name, string iconName )
         {
             this.FontSize = fontSize;
             this.name = name;
+            this.iconName = iconName;
 
             this.Awake();
         }
@@ -32,100 +33,124 @@ namespace CM3D2.SceneCapture.Plugin
             this.modelNameLabel.Text = this.Name;
             this.ChildControls.Add( this.modelNameLabel );
 
+            this.modelIconImage = new CustomImage( null );
+            this.ChildControls.Add( this.modelIconImage );
+
+            if( this.iconName != null && this.iconName != string.Empty )
+            {
+                try
+                {
+                    this.modelIconImage.Texture = ImportCM.CreateTexture(this.iconName);
+                }
+                catch( Exception e )
+                {
+                    Debug.LogError("Failed to load model icon: " + e);
+
+                    Texture2D iconTexture = new Texture2D(1, 1);
+                    iconTexture.SetPixel(0, 0, new Color32(1, 1, 1, 1));
+                    iconTexture.Apply();
+                    this.modelIconImage.Texture = iconTexture;
+                }
+            }
+            else
+            {
+                Texture2D iconTexture = new Texture2D(1, 1);
+                iconTexture.SetPixel(0, 0, new Color32(1, 1, 1, 1));
+                iconTexture.Apply();
+                this.modelIconImage.Texture = iconTexture;
+            }
+
             this.gizmoPanToggle = new CustomToggleButton( false );
             this.gizmoPanToggle.FontSize = this.FontSize;
-            this.gizmoPanToggle.Text = "Pan";
+            this.gizmoPanToggle.Text = Translation.GetText("Model", "gizmoPan");
             this.gizmoPanToggle.CheckedChanged += this.TogglePan;
             this.ChildControls.Add( this.gizmoPanToggle );
 
             this.gizmoRotateToggle = new CustomToggleButton( false );
             this.gizmoRotateToggle.FontSize = this.FontSize;
-            this.gizmoRotateToggle.Text = "Rotation";
+            this.gizmoRotateToggle.Text = Translation.GetText("Model", "gizmoRotate");
             this.gizmoRotateToggle.CheckedChanged += this.ToggleRotate;
             this.ChildControls.Add( this.gizmoRotateToggle );
 
             this.gizmoScaleToggle = new CustomToggleButton( false );
             this.gizmoScaleToggle.FontSize = this.FontSize;
-            this.gizmoScaleToggle.Text = "Scale";
+            this.gizmoScaleToggle.Text = Translation.GetText("Model", "gizmoScale");
             this.gizmoScaleToggle.CheckedChanged += this.ToggleScale;
             this.ChildControls.Add( this.gizmoScaleToggle );
 
+            this.gizmoScaleAllAxesToggle = new CustomToggleButton( false, "toggle" );
+            this.gizmoScaleAllAxesToggle.FontSize = this.FontSize;
+            this.gizmoScaleAllAxesToggle.Text = Translation.GetText("Model", "gizmoScaleAllAxes");
+            this.gizmoScaleAllAxesToggle.CheckedChanged += this.ToggleScale;
+            this.ChildControls.Add( this.gizmoScaleAllAxesToggle );
+
             this.resetPanButton = new CustomButton();
             this.resetPanButton.FontSize = this.FontSize;
-            this.resetPanButton.Text = "Reset Pan";
+            this.resetPanButton.Text = Translation.GetText("UI", "reset");
             this.resetPanButton.Click += this.ResetPan;
             this.ChildControls.Add( this.resetPanButton );
 
             this.resetRotateButton = new CustomButton();
             this.resetRotateButton.FontSize = this.FontSize;
-            this.resetRotateButton.Text = "Reset Rot";
+            this.resetRotateButton.Text = Translation.GetText("UI", "reset");
             this.resetRotateButton.Click += this.ResetRotation;
             this.ChildControls.Add( this.resetRotateButton );
 
             this.resetScaleButton = new CustomButton();
             this.resetScaleButton.FontSize = this.FontSize;
-            this.resetScaleButton.Text = "Reset Scl";
+            this.resetScaleButton.Text = Translation.GetText("UI", "reset");
             this.resetScaleButton.Click += this.ResetScale;
             this.ChildControls.Add( this.resetScaleButton );
 
             this.modelDeleteButton = new CustomButton();
             this.modelDeleteButton.FontSize = this.FontSize;
-            this.modelDeleteButton.Text = "X";
+            this.modelDeleteButton.Text = Translation.GetText("Model", "modelDelete");
             this.modelDeleteButton.Click += this.DeleteModel;
             this.ChildControls.Add( this.modelDeleteButton );
+
+            this.modelCopyButton = new CustomButton();
+            this.modelCopyButton.FontSize = this.FontSize;
+            this.modelCopyButton.Text = Translation.GetText("Model", "modelCopy");
+            this.modelCopyButton.Click += this.CopyModel;
+            this.ChildControls.Add( this.modelCopyButton );
         }
 
         override public void OnGUI()
         {
             this.SetAllVisible(false, 0);
 
-            this.modelNameLabel.Left = this.Left + ControlBase.FixedMargin;
+            this.modelIconImage.Left = this.Left + ControlBase.FixedMargin;
+            this.modelIconImage.Top = this.Top + ControlBase.FixedMargin;
+            this.modelIconImage.Width = (this.Width / 3 - ControlBase.FixedMargin / 4) / 4;
+            this.modelIconImage.Height = this.modelIconImage.Width;
+            this.modelIconImage.OnGUI();
+
+            this.modelNameLabel.Left = this.modelIconImage.Left + this.modelIconImage.Width + ControlBase.FixedMargin;
             this.modelNameLabel.Top = this.Top + ControlBase.FixedMargin + this.ControlHeight / 2;
-            this.modelNameLabel.Width = this.Width / 3 - ControlBase.FixedMargin / 4;
+            this.modelNameLabel.Width = this.modelIconImage.Width * 2;
             this.modelNameLabel.Height = this.ControlHeight;
             this.modelNameLabel.OnGUI();
 
-            this.gizmoPanToggle.Left = this.modelNameLabel.Left + this.modelNameLabel.Width;
-            this.gizmoPanToggle.Top = this.Top + ControlBase.FixedMargin;
-            this.gizmoPanToggle.Width = (this.Width / 5) - ControlBase.FixedMargin / 4;
-            this.gizmoPanToggle.Height = this.ControlHeight;
+            GUIUtil.AddGUIButtonNoRender( this, this.gizmoPanToggle, this.modelNameLabel, 5 );
+            this.gizmoPanToggle.Top -= this.ControlHeight / 2;
             this.gizmoPanToggle.OnGUI();
 
-            this.gizmoRotateToggle.Left = this.gizmoPanToggle.Left + this.gizmoPanToggle.Width;
-            this.gizmoRotateToggle.Top = this.Top + ControlBase.FixedMargin;
-            this.gizmoRotateToggle.Width = (this.Width / 5) - ControlBase.FixedMargin / 4;
-            this.gizmoRotateToggle.Height = this.ControlHeight;
-            this.gizmoRotateToggle.OnGUI();
+            GUIUtil.AddGUIButton( this, this.gizmoRotateToggle, this.gizmoPanToggle, 5 );
+            GUIUtil.AddGUIButton( this, this.gizmoScaleToggle, this.gizmoRotateToggle, 5 );
+            GUIUtil.AddGUIButton( this, this.modelCopyButton, this.gizmoScaleToggle, 8 );
 
-            this.gizmoScaleToggle.Left = this.gizmoRotateToggle.Left + this.gizmoRotateToggle.Width;
-            this.gizmoScaleToggle.Top = this.Top + ControlBase.FixedMargin;
-            this.gizmoScaleToggle.Width = (this.Width / 5) - ControlBase.FixedMargin / 4;
-            this.gizmoScaleToggle.Height = this.ControlHeight;
-            this.gizmoScaleToggle.OnGUI();
-
-            this.resetPanButton.Left = this.modelNameLabel.Left + this.modelNameLabel.Width;
-            this.resetPanButton.Top = this.Top + ControlBase.FixedMargin + this.ControlHeight;
-            this.resetPanButton.Width = (this.Width / 5) - ControlBase.FixedMargin / 4;
-            this.resetPanButton.Height = this.ControlHeight;
+            GUIUtil.AddGUIButtonNoRender( this, this.resetPanButton, this.modelNameLabel, 5 );
+            this.resetPanButton.Top += this.ControlHeight / 2;
             this.resetPanButton.OnGUI();
 
-            this.resetRotateButton.Left = this.resetPanButton.Left + this.resetPanButton.Width;
-            this.resetRotateButton.Top = this.Top + ControlBase.FixedMargin + this.ControlHeight;
-            this.resetRotateButton.Width = (this.Width / 5) - ControlBase.FixedMargin / 4;
-            this.resetRotateButton.Height = this.ControlHeight;
-            this.resetRotateButton.OnGUI();
+            GUIUtil.AddGUIButton( this, this.resetRotateButton, this.resetPanButton, 5 );
+            GUIUtil.AddGUIButton( this, this.resetScaleButton, this.resetRotateButton, 5 );
+            GUIUtil.AddGUIButton( this, this.modelDeleteButton, this.resetScaleButton, 8 );
 
-            this.resetScaleButton.Left = this.resetRotateButton.Left + this.resetRotateButton.Width;
-            this.resetScaleButton.Top = this.Top + ControlBase.FixedMargin + this.ControlHeight;
-            this.resetScaleButton.Width = (this.Width / 5) - ControlBase.FixedMargin / 4;
-            this.resetScaleButton.Height = this.ControlHeight;
-            this.resetScaleButton.OnGUI();
-
-            this.modelDeleteButton.Left = this.gizmoScaleToggle.Left + this.gizmoScaleToggle.Width;
-            this.modelDeleteButton.Top = this.Top + ControlBase.FixedMargin + this.ControlHeight;
-            this.modelDeleteButton.Width = (this.Width / 10) - ControlBase.FixedMargin / 4;
-            this.modelDeleteButton.Height = this.ControlHeight;
-            this.modelDeleteButton.OnGUI();
+            if( this.gizmoScaleToggle.Value == true )
+            {
+                GUIUtil.AddGUICheckbox( this, this.gizmoScaleAllAxesToggle, this.modelIconImage );
+            }
 
             this.Height = GUIUtil.GetHeightForParent(this);
         }
@@ -184,6 +209,12 @@ namespace CM3D2.SceneCapture.Plugin
             this.wasChanged = true;
         }
 
+        private void CopyModel( object sender, EventArgs args )
+        {
+            this.wantsCopy = true;
+            this.wasChanged = true;
+        }
+
         private void DeleteModel( object sender, EventArgs args )
         {
             this.deleteRequested = true;
@@ -198,7 +229,6 @@ namespace CM3D2.SceneCapture.Plugin
                 this.cachedRotation = transform.rotation;
                 this.cachedLocalScale = transform.localScale;
             }
-
         }
 
         #region Properties
@@ -214,6 +244,14 @@ namespace CM3D2.SceneCapture.Plugin
         // {
 
         // }
+
+        public bool GizmoScaleAllAxesValue
+        {
+            get
+            {
+                return this.gizmoScaleAllAxesToggle.Value;
+            }
+        }
 
         public bool WantsTogglePan
         {
@@ -276,6 +314,7 @@ namespace CM3D2.SceneCapture.Plugin
         private static readonly string[] LIGHT_SHADOWS = new string[] { "None", "Hard", "Soft" };
 
         private string name = null;
+        private string iconName = null;
         private bool deleteRequested;
         private bool toggling = false;
         public bool wasChanged { get; set; }
@@ -290,12 +329,16 @@ namespace CM3D2.SceneCapture.Plugin
         public bool wantsResetPan { get; set; }
         public bool wantsResetRotation { get; set; }
         public bool wantsResetScale { get; set; }
+        public bool wantsCopy { get; set; }
 
         private CustomLabel modelNameLabel = null;
+        private CustomImage modelIconImage = null;
         private CustomButton modelDeleteButton = null;
+        private CustomButton modelCopyButton = null;
         private CustomToggleButton gizmoPanToggle = null;
         private CustomToggleButton gizmoRotateToggle = null;
         private CustomToggleButton gizmoScaleToggle = null;
+        private CustomToggleButton gizmoScaleAllAxesToggle = null;
         private CustomButton resetPanButton = null;
         private CustomButton resetRotateButton = null;
         private CustomButton resetScaleButton = null;

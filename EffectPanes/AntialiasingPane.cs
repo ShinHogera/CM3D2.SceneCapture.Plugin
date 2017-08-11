@@ -16,42 +16,41 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class AntialiasingPane : BasePane
     {
-
-        public AntialiasingPane( int fontSize ) : base( fontSize, "Antialiasing" ) {}
+        public AntialiasingPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Antialiasing") ) {}
 
         override public void SetupPane()
         {
             this.modeBox = new CustomComboBox( AA_MODES );
-            this.modeBox.Text = "Technique";
+            this.modeBox.Text = Translation.GetText("Antialiasing", "mode");
             this.modeBox.SelectedIndex = (int)AntialiasingDef.antialiasingEffect.mode;
             this.ChildControls.Add( this.modeBox );
 
-            this.dlaaSharpCheckbox = new CustomToggleButton( false, "toggle" );
-            this.dlaaSharpCheckbox.Text = "Sharp";
+            this.dlaaSharpCheckbox = new CustomToggleButton( AntialiasingDef.antialiasingEffect.dlaaSharp, "toggle" );
+            this.dlaaSharpCheckbox.Text = Translation.GetText("Antialiasing", "dlaaSharp");
             this.ChildControls.Add( this.dlaaSharpCheckbox );
 
-            this.showGeneratedNormalsCheckbox = new CustomToggleButton( false, "toggle" );
-            this.showGeneratedNormalsCheckbox.Text = "Show Generated Normals";
+            this.showGeneratedNormalsCheckbox = new CustomToggleButton( AntialiasingDef.antialiasingEffect.showGeneratedNormals, "toggle" );
+            this.showGeneratedNormalsCheckbox.Text = Translation.GetText("Antialiasing", "showGeneratedNormals");
             this.ChildControls.Add( this.showGeneratedNormalsCheckbox );
 
-            this.blurRadiusSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.blurRadius, 0f, 50f, 1 );
-            this.blurRadiusSlider.Text = "Blur Radius";
+            this.blurRadiusSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.blurRadius, 0f, 50f, 2 );
+            this.blurRadiusSlider.Text = Translation.GetText("Antialiasing", "blurRadius");
             this.ChildControls.Add( this.blurRadiusSlider );
 
-            this.edgeSharpnessSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.edgeSharpness, 0f, 10f, 1 );
-            this.edgeSharpnessSlider.Text = "Edge Sharpness";
+            this.edgeSharpnessSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.edgeSharpness, 0f, 10f, 2 );
+            this.edgeSharpnessSlider.Text = Translation.GetText("Antialiasing", "edgeSharpness");
             this.ChildControls.Add( this.edgeSharpnessSlider );
 
-            this.edgeThresholdSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.edgeThreshold, 0f, 10f, 1 );
-            this.edgeThresholdSlider.Text = "Edge Threshold";
+            this.edgeThresholdSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.edgeThreshold, 0f, 10f, 2 );
+            this.edgeThresholdSlider.Text = Translation.GetText("Antialiasing", "edgeThreshold");
             this.ChildControls.Add( this.edgeThresholdSlider );
 
-            this.edgeThresholdMinSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.edgeThresholdMin, 0f, 10f, 1 );
-            this.edgeThresholdMinSlider.Text = "Edge Threshold Min";
+            this.edgeThresholdMinSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.edgeThresholdMin, 0f, 10f, 2 );
+            this.edgeThresholdMinSlider.Text = Translation.GetText("Antialiasing", "edgeThresholdMin");
             this.ChildControls.Add( this.edgeThresholdMinSlider );
 
-            this.offsetScaleSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.offsetScale, 0f, 10f, 1 );
-            this.offsetScaleSlider.Text = "Offset Scale";
+            this.offsetScaleSlider = new CustomSlider( AntialiasingDef.antialiasingEffect.offsetScale, 0f, 10f, 2 );
+            this.offsetScaleSlider.Text = Translation.GetText("Antialiasing", "offsetScale");
             this.ChildControls.Add( this.offsetScaleSlider );
         }
 

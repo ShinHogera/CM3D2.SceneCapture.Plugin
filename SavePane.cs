@@ -34,13 +34,13 @@ namespace CM3D2.SceneCapture.Plugin
 
             this.loadButton = new CustomButton();
             this.loadButton.FontSize = this.FontSize;
-            this.loadButton.Text = "Load";
+            this.loadButton.Text = Translation.GetText("UI", "load");
             this.loadButton.Click += this.LoadPressed;
             this.ChildControls.Add( this.loadButton );
 
             this.deleteButton = new CustomButton();
             this.deleteButton.FontSize = this.FontSize;
-            this.deleteButton.Text = "Delete";
+            this.deleteButton.Text = Translation.GetText("UI", "delete");
             this.deleteButton.Click += this.DeletePressed;
             this.ChildControls.Add( this.deleteButton );
         }

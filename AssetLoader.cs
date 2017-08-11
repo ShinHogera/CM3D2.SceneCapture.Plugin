@@ -39,8 +39,6 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 if (textureName != string.Empty)
                 {
-                    Debug.Log("try " + textureName);
-
                     try
                     {
                         texture = ImportCM.CreateTexture(textureName);
@@ -50,7 +48,6 @@ namespace CM3D2.SceneCapture.Plugin
                         try
                         {
                             textureName = textureName.Replace(@"tex\", "");
-                            Debug.Log("try2 " + textureName);
                             texture = ImportCM.CreateTexture(textureName);
                         }
                         catch (Exception ex)
@@ -148,8 +145,13 @@ namespace CM3D2.SceneCapture.Plugin
                 file = GameUty.FileOpen(name);
                 if( file.GetSize() == 0 || !file.IsValid() )
                 {
-                    Debug.LogError("File not valid");
-                    return null;
+                    name = menuFileName.Replace(@"menu\man\", "");
+                    file = GameUty.FileOpen(name);
+                    if( file.GetSize() == 0 || !file.IsValid() )
+                    {
+                        Debug.Log(menuFileName + " " + name);
+                        throw new FileNotFoundException(name);
+                    }
                 }
             }
 
@@ -244,25 +246,26 @@ namespace CM3D2.SceneCapture.Plugin
                     mi.isMan = true;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                UnityEngine.Debug.LogError(("Exception " + Path.GetFileName(path) + " 現在処理中だった行 = " + sss + " 以前の行 = " + str2 + "   " + ex.Message + "StackTrace：\n" + ex.StackTrace));
-                throw ex;
+                UnityEngine.Debug.LogError("Failed to parse menu file " + Path.GetFileName(path));
+                // UnityEngine.Debug.LogError(("Exception " + Path.GetFileName(path) + " 現在処理中だった行 = " + sss + " 以前の行 = " + str2 + "   " + ex.Message + "StackTrace：\n" + ex.StackTrace));
+                throw;
             }
         label_61:
 
             binaryReader.Close();
+            if(mi.isMan)
+                Debug.Log(mi.isMan + " " + mi.partCategory);
             return mi;
         }
 
         public static GameObject LoadMesh(string modelName) {
             AFileBase file = GameUty.FileOpen(modelName);
-            Debug.Log("size " + file.GetSize());
 
             if( !file.IsValid() || file.GetSize() == 0 )
             {
                 string name = modelName.Replace(@"model\", "");
-                Debug.Log("try " + name);
                 file = GameUty.FileOpen(name);
                 if( file.GetSize() == 0 || !file.IsValid() )
                 {
@@ -281,15 +284,12 @@ namespace CM3D2.SceneCapture.Plugin
                 Hashtable hashtable = new Hashtable();
 
                 string str1 = r.ReadString();
-                Debug.Log("str1 " + str1);
                 if (str1 != "CM3D2_MESH") {
                     return null;
                 }
                 r.ReadInt32();
                 string str2 = r.ReadString();
-                Debug.Log("str2 " + str2);
                 string str3 = r.ReadString();
-                Debug.Log("str3 " + str3);
                 int num = r.ReadInt32();
                 List<GameObject> gameObjectList = new List<GameObject>();
                 for (int index = 0; index < num; ++index)
@@ -297,7 +297,6 @@ namespace CM3D2.SceneCapture.Plugin
                     GameObject gameObject3 = UnityEngine.Object.Instantiate(Resources.Load("seed")) as GameObject;
                     gameObject3.layer = layer;
                     gameObject3.name = r.ReadString();
-                    Debug.Log("name " + gameObject3.name);
                     gameObjectList.Add(gameObject3);
                     if (gameObject3.name == str3)
                         gameObject2 = gameObject3;
@@ -353,7 +352,6 @@ namespace CM3D2.SceneCapture.Plugin
                 for (int index = 0; index < length3; ++index)
                 {
                     string str4 = r.ReadString();
-                    Debug.Log("str4 " + str4);
                     if (!hashtable.ContainsKey((object) str4))
                     {
                         Debug.LogError((object) ("nullbone= " + str4));
@@ -445,7 +443,6 @@ namespace CM3D2.SceneCapture.Plugin
                     Material material = ReadMaterial(r, null);
                     materialArray[index] = material;
                 }
-                Debug.Log("reach");
                 component.materials = materialArray;
                 r.Close();
                 return gameObject1;
@@ -454,20 +451,21 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static Material ReadMaterial(BinaryReader r, Material existmat)
         {
-            Debug.Log("ReadMaterial");
             string str1 = r.ReadString();
-            Debug.Log(str1);
             string str2 = r.ReadString();
-            Debug.Log(str2);
             string path = "DefMaterial/" + r.ReadString();
-            Debug.Log(path);
             Material material = existmat;
-            if ((UnityEngine.Object) existmat == (UnityEngine.Object) null)
+            if ( existmat ==  null)
             {
                 Material original = Resources.Load(path, typeof (Material)) as Material;
                 if ((UnityEngine.Object) original == (UnityEngine.Object) null)
                     NDebug.Assert("DefMaterialが見つかりません。" + path);
                 material = UnityEngine.Object.Instantiate<Material>(original);
+            }
+            else
+            {
+                material = existmat;
+                NDebug.Assert(material.shader.name == str2, "マテリアル入れ替えエラー。違うシェーダーに入れようとしました。 " + str2 + " -> " + material.shader.name);
             }
             material.name = str1;
             int hashCode = material.name.GetHashCode();
@@ -488,21 +486,17 @@ namespace CM3D2.SceneCapture.Plugin
                 do
                 {
                     str3 = r.ReadString();
-                    Debug.Log("str3 " + str3);
                     if (!(str3 == "end"))
                     {
                         propertyName = r.ReadString();
-                        Debug.Log("propertyName " + propertyName);
                         if (str3 == "tex")
                         {
                             str4 = r.ReadString();
-                            Debug.Log("str4 " + str4);
                             if (str4 == "null")
                                 material.SetTexture(propertyName, (Texture) null);
                             else if (str4 == "tex2d")
                             {
                                 string str5 = r.ReadString();
-                                Debug.Log("str5 " + str5);
                                 r.ReadString();
                                 Texture2D texture = ImportCM.CreateTexture(str5 + ".tex");
                                 texture.name = str5;
@@ -514,12 +508,10 @@ namespace CM3D2.SceneCapture.Plugin
                                 offset.x = r.ReadSingle();
                                 offset.y = r.ReadSingle();
                                 material.SetTextureOffset(propertyName, offset);
-                                Debug.Log("offset " + offset);
                                 Vector2 scale;
                                 scale.x = r.ReadSingle();
                                 scale.y = r.ReadSingle();
                                 material.SetTextureScale(propertyName, scale);
-                                Debug.Log("scale " + scale);
                             }
                         }
                         else

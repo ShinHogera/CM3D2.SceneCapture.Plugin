@@ -16,28 +16,28 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class SSAOPane : BasePane
     {
-        public SSAOPane( int fontSize ) : base( fontSize, "SSAO" ) {}
+        public SSAOPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "SSAO") ) {}
 
         override public void SetupPane()
         {
             this.intensitySlider = new CustomSlider( SSAODef.ssaoEffect.intensity, 0.0f, 3.0f, 1 );
-            this.intensitySlider.Text = "Intensity";
+            this.intensitySlider.Text = Translation.GetText("SSAO", "intensity");
             this.ChildControls.Add( this.intensitySlider );
 
             this.radiusSlider = new CustomSlider( SSAODef.ssaoEffect.radius, 0.1f, 3.0f, 1 );
-            this.radiusSlider.Text = "Radius";
+            this.radiusSlider.Text = Translation.GetText("SSAO", "radius");
             this.ChildControls.Add( this.radiusSlider );
 
             this.blurIterationsSlider = new CustomSlider( SSAODef.ssaoEffect.blurIterations, 0.0f, 3.0f, 1 );
-            this.blurIterationsSlider.Text = "Blur Iterations";
+            this.blurIterationsSlider.Text = Translation.GetText("SSAO", "blurIterations");
             this.ChildControls.Add( this.blurIterationsSlider );
 
             this.blurFilterDistanceSlider = new CustomSlider( SSAODef.ssaoEffect.blurFilterDistance, 0.0f, 5.0f, 1 );
-            this.blurFilterDistanceSlider.Text = "Blur Filter Distance";
+            this.blurFilterDistanceSlider.Text = Translation.GetText("SSAO", "blurFilterDistance");
             this.ChildControls.Add( this.blurFilterDistanceSlider );
 
             this.downsampleSlider = new CustomSlider( SSAODef.ssaoEffect.downsample, 0.0f, 1.0f, 1 );
-            this.downsampleSlider.Text = "Downsample";
+            this.downsampleSlider.Text = Translation.GetText("SSAO", "downsample");
             this.ChildControls.Add( this.downsampleSlider );
         }
 

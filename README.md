@@ -1,21 +1,30 @@
 # CM3D2.SceneCapture.Plugin
-This plugin allows you to configure camera effects and lighting, and to save entire presets for both.
+カメラエフェクト、ライトの設定およびメイド装備（モデル）を調整し、シーン設定をプリセットとして完全にセーブすることを可能にするプラグインです。
 
-## Installation
-* Place `CM3D2.SceneCapture.Plugin.dll` into your `UnityInjector` directory.
-* Place the contents of the `Config` folder into your `UnityInjector/Config` directory. This is required for the shader injection to work.
+![スクリーンショット](https://github.com/ShinHogera/CM3D2.SceneCapture.Plugin/raw/master/screenshot.png)
 
-## Building
-If you use Sybaris and the repository folder is inside the `UnityInjector` folder of the Sybaris install directory, you should be able to build by running `compile.bat`. Otherwise you'll have to edit the path references in `compile.bat` to match your folder structure.
+## 導入方法
+* `CM3D2.SceneCapture.Plugin.dll`を`UnityInjector`フォルダに置いてください。
+* `Config`フォルダの中身を`UnityInjector/Config`フォルダにコピーしてください。シェーダーや翻訳が含まれていますので、`Config`になければ動作の損害になります。
 
-## Usage
-These are the default keybindings, but they can be edited in the `UnityInjector/Config/SceneCapture.ini` config file.
+## ビルド方法
+Sybarisを使っていて、ソースフォルダがSybarisの`UnityInjector`フォルダにあるなら、`compile.bat`を実行すればビルドができると思います。そうでない場合は、`compile.bat`に参照されたライブラリパスを編集してください。
 
-| Key | Function                |
-|-----|-------------------------|
-| Z   | Open Effects Window     |
-| X   | Open Environment Window |
-| C   | Open Save/Load Window   |
+## 使用方法
+キーを変更したい場合は、`UnityInjector/Config/SceneCapture.ini`を編集してください。
 
-## Bugs
-- The `Threshold` parameter of the Bloom effect isn't preserved for some reason. Adjusting it after loading will allow you to set it to the saved value.
+| キー | 操作                    |
+|------|-------------------------|
+| Z    | エフェクト設定を開く    |
+| X    | 環境設定を開く          |
+| C    | データ設定を開く        |
+
+言語を変えたい場合、データ設定のウィンドウに`Language`/`言語`のボックスで変えて、プログラムを再起動してください。
+
+## 問題点
+- ロード後に`ブルーム`の`敷居`パラメータは維持していません。
+- たまには、ロード後にプリセットは不完全になり、セピアのエフェクトが勝手に有効になります。この場合には最ロードすれば解決されると思います。
+- ロード後に、呼び出したモデルを動かせなくなってしまうことがあります。
+- 翻訳の経験はあまりないので、日本語訳は下手かもしれない。
+
+バグとか不良点があれば、ぜひ報告してください。よろしく。

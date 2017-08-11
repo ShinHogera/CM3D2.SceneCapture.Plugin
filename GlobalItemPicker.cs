@@ -47,7 +47,7 @@ namespace CM3D2.SceneCapture.Plugin
             return itemPicker.Menus.Any();
         }
 
-        public static void Set(Vector2 p, float fWidth, int iFontSize, Action<string> f)
+        public static void Set(Vector2 p, float fWidth, int iFontSize, Action<string, string> f)
         {
             itemPicker.Set(p, fWidth, iFontSize, f);
         }
@@ -68,17 +68,12 @@ namespace CM3D2.SceneCapture.Plugin
 
             public bool show { get; private set; }
 
-            public Action<string> func { get; private set; }
+            public Action<string, string> func { get; private set; }
 
             private GUIStyle gsLabel { get; set; }
             private GUIStyle gsButton { get; set; }
 
             private Vector2 scrollPosition { get; set; }
-
-            private byte r { get; set; }
-            private byte g { get; set; }
-            private byte b { get; set; }
-            private byte a { get; set; }
 
             private List<CustomTextureButton> buttons = null;
             private CustomComboBox categoryBox = null;
@@ -108,8 +103,6 @@ namespace CM3D2.SceneCapture.Plugin
 
             public void ChangeCategory( object sender, EventArgs args )
             {
-                Debug.Log(categoryBox == null);
-                Debug.Log(categoryBox.SelectedItem);
                 UpdateMenus(ConstantValues.PropParts[ categoryBox.SelectedItem ]);
             }
 
@@ -122,41 +115,47 @@ namespace CM3D2.SceneCapture.Plugin
 
                 foreach(MenuInfo menu in existing)
                 {
-                    if(menu != null)
-                    {
-                        Debug.Log(menu.partCategory);
-                        if(menu.partCategory == category)
+                    try{
+                        if(menu != null)
                         {
-                            Texture2D iconTexture = AssetLoader.LoadTexture( menu.iconTextureName );
-                            if( iconTexture == null )
-                            {
-                                iconTexture = new Texture2D(1, 1);
-                                iconTexture.SetPixel(0, 0, new Color32(r, g, b, a));
-                                iconTexture.Apply();
-                            }
-                            CustomTextureButton button = new CustomTextureButton( iconTexture );
-                            if( menu.modelName == null )
+                            if(menu.delOnly)
                                 continue;
-                            string modelName = String.Copy(menu.modelName);
-                            button.Click += (o, e) => func(modelName);
-                            buttons.Add(button);
-                            var sourceProperties = typeof(MenuInfo).GetProperties();
-                            foreach (PropertyInfo sourceProperty in sourceProperties)
+
+                            if(menu.partCategory == category)
                             {
-                                Debug.Log( sourceProperty.Name );
-                                Debug.Log( sourceProperty.GetValue( menu, null ) );
+                                Texture2D iconTexture = AssetLoader.LoadTexture( menu.iconTextureName );
+                                if( iconTexture == null )
+                                {
+                                    iconTexture = new Texture2D(1, 1);
+                                    iconTexture.SetPixel(0, 0, new Color32(1, 1, 1, 1));
+                                    iconTexture.Apply();
+                                }
+                                CustomTextureButton button = new CustomTextureButton( iconTexture );
+                                if( menu.modelName == null )
+                                    continue;
+                                string modelName = String.Copy(menu.modelName);
+                                string modelIconName;
+                                if(menu.iconTextureName != null)
+                                    modelIconName = String.Copy(menu.iconTextureName);
+                                else
+                                    modelIconName = "";
+                                button.Click += (o, e) => func(modelName, modelIconName);
+                                buttons.Add(button);
                             }
-                            Debug.Log("\nNext\n");
+                        }
+                        else
+                        {
+                            Debug.LogError("Null MenuInfo");
                         }
                     }
-                    else
+                    catch
                     {
-                        Debug.Log("null mi");
+                        // Debug.LogError( e );
                     }
                 }
             }
 
-            public void Set(Vector2 p, float fWidth, int iFontSize, Action<string> f)
+            public void Set(Vector2 p, float fWidth, int iFontSize, Action<string, string> f)
             {
                 rect = new Rect(p.x - fWidth, p.y, fWidth, 0f);
                 fRightPos = p.x + fWidth;
@@ -181,7 +180,7 @@ namespace CM3D2.SceneCapture.Plugin
 
             private void categoryButton(string value, Rect rectItem)
             {
-                if(GUI.Button(rectItem, value, gsButton))
+                if(GUI.Button(rectItem, Translation.GetText("Equip", value), gsButton))
                 {
                     UpdateMenus(ConstantValues.PropParts[value]);
                 }
@@ -189,21 +188,21 @@ namespace CM3D2.SceneCapture.Plugin
 
             public void GuiFunc(int winId)
             {
-                int iFontSize = gsLabel.fontSize;
-                float buttonWidth = (fWidth - iFontSize) / 5 ;
-                float buttonHeight = iFontSize * 1.5f;
-                string[] values = ConstantValues.PropParts.Keys.ToArray();
-
                 float windowHeight = this.rect.height;
                 if( this.rect.height > Screen.height * 0.7f )
                 {
                     windowHeight = Screen.height * 0.7f;
                 }
 
-                Rect rectScroll = new Rect(0, 0 + fMargin * 2, this.rect.width, windowHeight);
-                Rect rectScrollView = new Rect(0, 0, this.rect.width, guiScrollHeight);
+                int iFontSize = gsLabel.fontSize;
+                Rect rectScroll = new Rect(0, fMargin * 2, this.rect.width - fMargin, windowHeight - fMargin * 4);
+                Rect rectScrollView = new Rect(0, 0, this.rect.width - 5 * fMargin, guiScrollHeight);
 
-                scrollPosition = GUI.BeginScrollView(rectScroll, scrollPosition, rectScrollView, true, true);
+                scrollPosition = GUI.BeginScrollView(rectScroll, scrollPosition, rectScrollView, false, true);
+
+                float buttonWidth = (fWidth - fMargin * 4 - iFontSize) / 5 ;
+                float buttonHeight = iFontSize * 1.5f;
+                string[] values = ConstantValues.PropParts.Keys.ToArray();
 
                 Rect rectItem = new Rect(iFontSize * 0.5f, iFontSize * 0.5f, buttonWidth, buttonHeight);
 
@@ -221,13 +220,13 @@ namespace CM3D2.SceneCapture.Plugin
                     }
                 }
 
-                rectItem = new Rect(iFontSize * 0.5f, rectItem.y + buttonHeight, iFontSize * 5f, iFontSize * 5f);
+                rectItem = new Rect(iFontSize * 0.5f, rectItem.y + buttonHeight + fMargin * 2, buttonWidth, buttonWidth);
                 // GUI.DrawTexture(rectItem, texture);
 
                 int j = 0;
                 foreach(CustomTextureButton button in buttons)
                 {
-                    rectItem.x = iFontSize * 0.5f + (j * iFontSize * 5f);
+                    rectItem.x = iFontSize * 0.5f + (j * buttonWidth);
                     button.SetFromRect(rectItem);
                     button.OnGUI();
 
@@ -262,24 +261,24 @@ namespace CM3D2.SceneCapture.Plugin
 
                 guiScrollHeight = rectItem.y + rectItem.height;
 
+                {
+                    Vector2 mousePos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+
+                    bool enableGameGui = true;
+                    bool m = Input.GetAxis("Mouse ScrollWheel") != 0;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        m |= Input.GetMouseButtonDown(i);
+                    }
+                    if (m)
+                    {
+                        enableGameGui = !rect.Contains(mousePos);
+                    }
+                    GameMain.Instance.MainCamera.SetControl(enableGameGui);
+                    UICamera.InputEnable = enableGameGui;
+                }
+
                 GUI.DragWindow();
-
-                // {
-                //     Vector2 mousePos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
-
-                //     bool enableGameGui = true;
-                //     bool m = Input.GetAxis("Mouse ScrollWheel") != 0;
-                //     for (int i = 0; i < 3; i++)
-                //     {
-                //         m |= Input.GetMouseButtonDown(i);
-                //     }
-                //     if (m)
-                //     {
-                //         enableGameGui = !rect.Contains(mousePos);
-                //     }
-                //     GameMain.Instance.MainCamera.SetControl(enableGameGui);
-                //     UICamera.InputEnable = enableGameGui;
-                // }
 
                 // Vector2 screenSize = new Vector2(Screen.width, Screen.height);
                 // if (guiScrollHeight > screenSize.y * 0.7f)

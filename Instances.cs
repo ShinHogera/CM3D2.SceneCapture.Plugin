@@ -20,15 +20,29 @@ namespace CM3D2.SceneCapture.Plugin
         public static bool needEffectWindowReload { get; set; }
         public static string background { get; set; }
 
+        public static bool loadEffects { get; set; }
+        public static bool loadLights { get; set; }
+        public static bool loadModels { get; set; }
+        public static bool loadCamera { get; set; }
+        public static bool loadMisc { get; set; }
+
         public Instances()
         {
             Debug.Log("new instances");
             lights = new List<LightInfo>();
-            needLightReload = false;
             models = new List<ModelInfo>();
+
+            needLightReload = false;
             needModelReload = false;
             needEffectWindowReload = false;
+            needMiscReload = false;
+
             background = ConstantValues.Background.Keys.First();
+            loadEffects = true;
+            loadLights = true;
+            loadModels = true;
+            loadCamera = true;
+            loadMisc = true;
 
             new ColorCorrectionCurvesDef();
             new SepiaDef();
@@ -79,9 +93,26 @@ namespace CM3D2.SceneCapture.Plugin
             return Instances.models;
         }
 
+        public static void ClearEffects()
+        {
+            Instances.LoadEffects(XDocument.Parse("<Preset><Effects /></Preset>"));
+        }
+
         public static void ClearLights()
         {
             Instances.lights.Clear();
+
+            Light mainLight = GameMain.Instance.MainLight.GetComponent<Light>();
+
+            mainLight.intensity = 0.95f;
+            mainLight.range = 10;
+            mainLight.color = new Color(1, 1, 1, 1);
+            mainLight.transform.eulerAngles = new Vector3(40, 180, 18);
+            mainLight.spotAngle = 30;
+            mainLight.shadows = LightShadows.Soft;
+            mainLight.shadowStrength = 0.098f;
+            mainLight.shadowBias = 0.01f;
+            mainLight.shadowNormalBias = 0.4f;
         }
 
         public static void ClearModels()
@@ -89,9 +120,33 @@ namespace CM3D2.SceneCapture.Plugin
             Instances.models.Clear();
         }
 
+        public static void ResetCamera()
+        {
+            // Taken from photo mode defaults
+            GameMain.Instance.MainCamera.SetTargetPos(new Vector3(-0.05539433f, 0.95894f, 0.1269088f), true);
+            GameMain.Instance.MainCamera.SetDistance(3f, true);
+            GameMain.Instance.MainCamera.SetAroundAngle(new Vector2(-180f,11.5528f), true);
+            GameMain.Instance.MainCamera.SetTargetOffset(new Vector3(0.0f, 0.0f, 0.0f), true);
+            GameMain.Instance.MainCamera.gameObject.GetComponent<Camera>().fieldOfView = 35f;
+        }
+
         public static void ClearMisc()
         {
-            Instances.background = ConstantValues.Background.Keys.First();
+            Instances.background = "夜伽: サロン:夜";
+        }
+
+        public static void ResetAll()
+        {
+            ClearEffects();
+            ClearLights();
+            ClearModels();
+            ResetCamera();
+            ClearMisc();
+
+            needLightReload = true;
+            needMiscReload = true;
+            needModelReload = true;
+            needEffectWindowReload = true;
         }
 
         public static XElement SaveEffects()
@@ -166,16 +221,30 @@ namespace CM3D2.SceneCapture.Plugin
                                         new XElement("Position", Util.ConvertVector3ToString(model.position)),
                                         new XElement("Rotation", Util.ConvertQuaternionToString(model.rotation)),
                                         new XElement("LocalScale", Util.ConvertVector3ToString(model.localScale)),
-                                        new XElement("ModelName", model.modelName));
+                                        new XElement("ModelName", model.modelName),
+                                        new XElement("ModelIconName", model.modelIconName));
                 xml.Add(elem);
             }
+            return xml;
+        }
+
+        public static XElement SaveCamera()
+        {
+            GameObject cameraObj = GameMain.Instance.MainCamera.gameObject;
+            var xml = new XElement("Camera",
+                                   new XElement("Position", Util.ConvertVector3ToString(GameMain.Instance.MainCamera.GetTargetPos())),
+                                   new XElement("Rotation", Util.ConvertVector3ToString(cameraObj.transform.eulerAngles)),
+                                   new XElement("Distance", GameMain.Instance.MainCamera.GetDistance().ToString()),
+                                   new XElement("FieldOfView", cameraObj.GetComponent<Camera>().fieldOfView.ToString()));
+
             return xml;
         }
 
         public static XElement SaveMisc()
         {
             var xml = new XElement("Misc",
-                                   new XElement("Background", background));
+                                   new XElement("Background", background),
+                                   new XElement("Version", SceneCapture.GetPluginVersion()));
             return xml;
         }
 
@@ -185,6 +254,7 @@ namespace CM3D2.SceneCapture.Plugin
                                               SaveEffects(),
                                               SaveLights(),
                                               SaveModels(),
+                                              SaveCamera(),
                                               SaveMisc()));
         }
 
@@ -314,8 +384,6 @@ namespace CM3D2.SceneCapture.Plugin
                 List<ModelInfo> modelsList = new List<ModelInfo>();
                 foreach(XElement model in modelsElem.Elements())
                 {
-                    Debug.Log(model == null);
-                    Debug.Log(model.ToString());
                     modelsList.Add(Instances.LoadModel(model));
                 }
                 Instances.SetModels(modelsList);
@@ -344,6 +412,7 @@ namespace CM3D2.SceneCapture.Plugin
                 model.localScale = v3Out;
 
                 model.modelName = singleModel.Element("ModelName").Value.ToString();
+                model.modelIconName = singleModel.Element("ModelIconName").Value.ToString();
 
                 return model;
             }
@@ -352,6 +421,36 @@ namespace CM3D2.SceneCapture.Plugin
                 Debug.LogError( e );
             }
             return null;
+        }
+        private static void LoadCamera(XDocument xml)
+        {
+            try
+            {
+                XElement cameraElem = xml.Element("Preset").Element("Camera");
+
+                if(cameraElem == null)
+                    return;
+
+                GameObject cameraObj = GameMain.Instance.MainCamera.gameObject;
+                float fOut;
+                Vector3 v3Out;
+
+                v3Out = Util.ConvertStringToVector3(cameraElem.Element("Position").Value.ToString());
+                GameMain.Instance.MainCamera.SetTargetPos(v3Out, true);
+
+                v3Out = Util.ConvertStringToVector3(cameraElem.Element("Rotation").Value.ToString());
+                cameraObj.transform.eulerAngles = v3Out;
+
+                float.TryParse(cameraElem.Element("Distance").Value.ToString(), out fOut);
+                GameMain.Instance.MainCamera.SetDistance(fOut, true);
+
+                float.TryParse(cameraElem.Element("FieldOfView").Value.ToString(), out fOut);
+                cameraObj.GetComponent<Camera>().fieldOfView = fOut;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError( e );
+            }
         }
 
         private static void LoadMisc(XDocument xml)
@@ -377,10 +476,22 @@ namespace CM3D2.SceneCapture.Plugin
         public static void Load(string filename)
         {
             XDocument xml = XDocument.Load(filename);
-            Instances.LoadEffects(xml);
-            Instances.LoadLights(xml);
-            Instances.LoadModels(xml);
-            Instances.LoadMisc(xml);
+            Instances.ResetAll();
+
+            if(loadEffects)
+                Instances.LoadEffects(xml);
+
+            if(loadLights)
+                Instances.LoadLights(xml);
+
+            if(loadModels)
+                Instances.LoadModels(xml);
+
+            if(loadCamera)
+                Instances.LoadCamera(xml);
+
+            if(loadMisc)
+                Instances.LoadMisc(xml);
         }
     }
 }

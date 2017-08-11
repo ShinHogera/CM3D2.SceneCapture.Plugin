@@ -28,6 +28,21 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
+                Background = new Dictionary<String, String>();
+                Background.Add("", "");
+                Background.Add("非表示", "Hide");
+
+                // Get list of backgrounds directly from game
+                PhotoBGData.Create();
+
+                foreach( List<PhotoBGData> list in PhotoBGData.category_list.Values )
+                {
+                    foreach( PhotoBGData dat in list )
+                    {
+                        Background.Add(dat.category + ": " + dat.name, dat.create_prefab_name);
+                    }
+                }
+
                 MotionList = new Dictionary<String, List<String>>( ConstantValues.Motion.Values.Count );
 
                 // あらかじめ種別を登録しておく
@@ -173,12 +188,6 @@ namespace CM3D2.SceneCapture.Plugin
         /// <summary>ライト個数上限</summary>
         public const int MaxLightCount = 10;
 
-        /// <summary>メインライト名称</summary>
-        public const String MainLightName = "メインライト";
-
-        /// <summary>追加ライト名称</summary>
-        public const String AddLightName = "追加ライト";
-
         /// <summary>モーション一覧</summary>
         public static Dictionary<String, List<String>> MotionList = null;
 
@@ -217,39 +226,7 @@ namespace CM3D2.SceneCapture.Plugin
         };
 
         /// <summary>背景</summary>
-        public static readonly Dictionary<String, String> Background = new Dictionary<String, String>()
-        {
-            { "非表示", "Hide" },
-            { "サロン", "Salon" },
-            { "サロン：昼", "Salon_Day" },
-            { "サロン：玄関", "Salon_Entrance" },
-            { "サロン：玄関２", "Salon_Entrance2" },
-            { "サロン：中庭", "Salon_Garden" },
-            { "サロン：ソファ無し", "Salon_nosofa" },
-            { "書斎", "Syosai" },
-            { "書斎：夜", "Syosai_Night" },
-            { "ドレスルーム", "DressRoom_NoMirror" },
-            { "自室", "MyBedRoom" },
-            { "自室：夜", "MyBedRoom_Night" },
-            { "自室：消灯", "MyBedRoom_NightOff" },
-            { "バスルーム１", "BathRoom" },
-            { "バスルーム２", "LargeBathRoom" },
-            { "プレイルーム１", "PlayRoom" },
-            { "プレイルーム２", "PlayRoom2" },
-            { "プール", "Pool" },
-            { "SMルーム", "SMRoom" },
-            { "メイド部屋", "MaidRoom" },
-            { "花魁部屋", "OiranRoom" },
-            { "ペントハウス", "Penthouse" },
-            { "街中", "Town" },
-            { "執務室", "Shitsumu" },
-            { "執務室：夜", "Shitsumu_Night" },
-            { "執務室２", "Shitsumu_ChairRot" },
-            { "執務室２：夜", "Shitsumu_ChairRot_Night" },
-            { "キッチン", "Kitchen" },
-            { "キッチン：夜", "Kitchen_Night" },
-            { "バー", "Bar" }
-        };
+        public static Dictionary<String, String> Background = null;
 
         /// <summary>アイテム</summary>
         public static readonly Dictionary<String, KeyValuePair<String, String>> Item = new Dictionary<String, KeyValuePair<String, String>>()
@@ -293,48 +270,48 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static readonly Dictionary<String, MPN> PropParts = new Dictionary<String, MPN>()
   {
-      { "顔", MPN.head },
-      { "眉", MPN.mayu },
-      { "目", MPN.eye },
-      { "目ハイライト", MPN.eye_hi },
-      { "ほくろ", MPN.hokuro },
-      { "唇", MPN.lip },
-      { "歯", MPN.accha },
-      { "前髪", MPN.hairf },
-      { "後髪", MPN.hairr },
-      { "横髪", MPN.hairs },
-      { "エクステ髪", MPN.hairt },
-      { "アホ毛", MPN.hairaho },
-      { "帽子", MPN.acchat },
-      { "ヘッドドレス", MPN.headset },
-      { "トップス", MPN.wear },
-      { "ボトムス", MPN.skirt },
-      { "ワンピース", MPN.onepiece },
-      { "水着", MPN.mizugi },
-      { "ブラジャー", MPN.bra },
-      { "パンツ", MPN.panz },
-      { "靴下", MPN.stkg },
-      { "靴", MPN.shoes },
-      { "前髪 a", MPN.acckami },
-      { "メガネ", MPN.megane },
-      { "アイマスク", MPN.acchead },
-      { "鼻", MPN.acchana },
-      { "耳", MPN.accmimi },
-      { "手袋", MPN.glove },
-      { "ネックレス", MPN.acckubi },
-      { "チョーカー", MPN.acckubiwa },
-      { "リボン", MPN.acckamisub },
-      { "乳首 acc", MPN.accnip },
-      { "腕", MPN.accude },
-      { "へそ", MPN.accheso },
-      { "足首", MPN.accashi },
-      { "背中", MPN.accsenaka },
-      { "しっぽ", MPN.accshippo },
-      { "前穴", MPN.accxxx },
-      { "肌", MPN.skin },
-      { "乳首 type", MPN.chikubi },
-      { "タトゥー", MPN.acctatoo },
-      { "アンダーヘア", MPN.underhair }
+      { "face", MPN.head },
+      // { "眉", MPN.mayu },
+      // { "目", MPN.eye },
+      // { "目ハイライト", MPN.eye_hi },
+      // { "ほくろ", MPN.hokuro },
+      // { "唇", MPN.lip },
+      { "teeth", MPN.accha },
+      { "frontHair", MPN.hairf },
+      { "backHair", MPN.hairr },
+      { "sideHair", MPN.hairs },
+      { "extensions", MPN.hairt },
+      { "ahoge", MPN.hairaho },
+      { "hat", MPN.acchat },
+      { "headdress", MPN.headset },
+      { "top", MPN.wear },
+      { "bottom", MPN.skirt },
+      { "onePiece", MPN.onepiece },
+      { "swimsuit", MPN.mizugi },
+      { "bra", MPN.bra },
+      { "panties", MPN.panz },
+      { "socks", MPN.stkg },
+      { "shoes", MPN.shoes },
+      { "hairAccessory", MPN.acckami },
+      { "glasses", MPN.megane },
+      { "eyeMask", MPN.acchead },
+      { "nose", MPN.acchana },
+      { "ears", MPN.accmimi },
+      { "gloves", MPN.glove },
+      { "necklace", MPN.acckubi },
+      { "choker", MPN.acckubiwa },
+      { "ribbon", MPN.acckamisub },
+      { "nipples", MPN.accnip },
+      { "arms", MPN.accude },
+      { "belly", MPN.accheso },
+      { "ankles", MPN.accashi },
+      { "back", MPN.accsenaka },
+      { "tail", MPN.accshippo },
+      { "genitals", MPN.accxxx },
+      // { "肌", MPN.skin },
+      // { "乳首", MPN.chikubi },
+      // { "タトゥー", MPN.acctatoo },
+      { "pubicHair", MPN.underhair }
   };
 
         /// <summary>表情</summary>

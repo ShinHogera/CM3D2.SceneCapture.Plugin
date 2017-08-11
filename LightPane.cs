@@ -38,6 +38,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.dragManager = new DragManager();
             this.isDrag = false;
             this.deleteRequested = false;
+            this.resetRequested = false;
             this.changingDrag = false;
 
             this.lightNameLabel = new CustomLabel();
@@ -46,110 +47,123 @@ namespace CM3D2.SceneCapture.Plugin
 
             this.lightTypeComboBox = new CustomComboBox( ConstantValues.Light );
             this.lightTypeComboBox.FontSize = this.FontSize;
-            this.lightTypeComboBox.Text = "Type";
+            this.lightTypeComboBox.Text = Translation.GetText("Light", "lightType");
             this.lightTypeComboBox.SelectedIndex = (int)this.light.type;
             this.lightTypeComboBox.SelectedIndexChanged += this.SwitchLightType;
             this.ChildControls.Add( this.lightTypeComboBox );
 
             this.lightEnableToggle = new CustomToggleButton( this.light.enabled );
             this.lightEnableToggle.FontSize = this.FontSize;
-            this.lightEnableToggle.Text = "Enable";
+            this.lightEnableToggle.Text = Translation.GetText("Light", "lightEnable");
             this.lightEnableToggle.CheckedChanged += this.ToggleLight;
             this.ChildControls.Add( this.lightEnableToggle );
 
             this.lightDragToggle = new CustomToggleButton( false );
             this.lightDragToggle.FontSize = this.FontSize;
-            this.lightDragToggle.Text = "DragSource";
+            this.lightDragToggle.Text = Translation.GetText("UI", "dragSource");
             this.lightDragToggle.CheckedChanged += this.DragLight;
             this.ChildControls.Add( this.lightDragToggle );
 
             this.lightRotationXSlider = new CustomSlider( this.light.transform.eulerAngles.x, 0f, 360f, 4 );
             this.lightRotationXSlider.FontSize = this.FontSize;
-            this.lightRotationXSlider.Text = "Rotation X";
+            this.lightRotationXSlider.Text = Translation.GetText("Light", "lightRotationX");
             this.lightRotationXSlider.ValueChanged += this.RotateLight;
             this.ChildControls.Add( this.lightRotationXSlider );
 
             this.lightRotationYSlider = new CustomSlider( this.light.transform.eulerAngles.y, 0f, 360f, 4 );
             this.lightRotationYSlider.FontSize = this.FontSize;
             this.lightRotationYSlider.ValueChanged += this.RotateLight;
-            this.lightRotationYSlider.Text = "Rotation Y";
+            this.lightRotationYSlider.Text = Translation.GetText("Light", "lightRotationY");
             this.ChildControls.Add( this.lightRotationYSlider );
 
             this.lightRotationZSlider = new CustomSlider( this.light.transform.eulerAngles.z, 0f, 360f, 4 );
             this.lightRotationZSlider.ValueChanged += this.RotateLight;
             this.lightRotationZSlider.FontSize = this.FontSize;
-            this.lightRotationZSlider.Text = "Rotation Z";
+            this.lightRotationZSlider.Text = Translation.GetText("Light", "lightRotationZ");
             this.ChildControls.Add( this.lightRotationZSlider );
+
+            this.lightResetButton = new CustomButton();
+            this.lightResetButton.FontSize = this.FontSize;
+            this.lightResetButton.Text = Translation.GetText("UI", "reset");
+            this.lightResetButton.Click += this.ResetLight;
+            this.ChildControls.Add( this.lightResetButton );
+
+            this.lightResetPosButton = new CustomButton();
+            this.lightResetPosButton.FontSize = this.FontSize;
+            this.lightResetPosButton.Text = Translation.GetText("Light", "lightResetPos");
+            this.lightResetPosButton.Click += this.ResetLightPos;
+            this.ChildControls.Add( this.lightResetPosButton );
 
             this.lightDeleteButton = new CustomButton();
             this.lightDeleteButton.FontSize = this.FontSize;
-            this.lightDeleteButton.Text = "Delete";
+            this.lightDeleteButton.Text = Translation.GetText("UI", "delete");
             this.lightDeleteButton.Click += this.DeleteLight;
             this.ChildControls.Add( this.lightDeleteButton );
 
-            this.lightIntensitySlider = new CustomSlider( this.light.intensity, 0, 3f, 2 );
+            this.lightIntensitySlider = new CustomSlider( this.light.intensity, 0, 3f, 3 );
             this.lightIntensitySlider.FontSize = this.FontSize;
-            this.lightIntensitySlider.Text = "Intensity";
+            this.lightIntensitySlider.Text = Translation.GetText("Light", "lightIntensity");
             this.lightIntensitySlider.ValueChanged += this.ChangeIntensity;
             this.ChildControls.Add( this.lightIntensitySlider );
 
             this.lightBounceIntensitySlider = new CustomSlider( this.light.bounceIntensity, 0, 8f, 2 );
             this.lightBounceIntensitySlider.FontSize = this.FontSize;
-            this.lightBounceIntensitySlider.Text = "Bounce Intensity";
+            this.lightBounceIntensitySlider.Text = Translation.GetText("Light", "lightBounceIntensity");
             this.lightBounceIntensitySlider.ValueChanged += this.ChangeIntensity;
             this.ChildControls.Add( this.lightBounceIntensitySlider );
 
-            this.lightRangeSlider = new CustomSlider( this.light.range, 0, 200f, 1 );
+            this.lightRangeSlider = new CustomSlider( this.light.range, 0, 200f, 4 );
             this.lightRangeSlider.FontSize = this.FontSize;
-            this.lightRangeSlider.Text = "Range";
+            this.lightRangeSlider.Text = Translation.GetText("Light", "lightRange");
             this.lightRangeSlider.ValueChanged += this.ChangeRange;
             this.ChildControls.Add( this.lightRangeSlider );
 
-            this.spotLightAngleSlider = new CustomSlider( this.light.spotAngle, 0, 360f, 1 );
+            this.spotLightAngleSlider = new CustomSlider( this.light.spotAngle, 0, 360f, 4 );
             this.spotLightAngleSlider.FontSize = this.FontSize;
-            this.spotLightAngleSlider.Text = "Spotlight Angle";
+            this.spotLightAngleSlider.Text = Translation.GetText("Light", "spotLightAngle");
             this.spotLightAngleSlider.ValueChanged += this.ChangeSpotAngle;
             this.ChildControls.Add( this.spotLightAngleSlider );
 
             this.areaLightWidthSlider = new CustomSlider( 0, 0, 50f, 1 );
             this.areaLightWidthSlider.FontSize = this.FontSize;
-            this.areaLightWidthSlider.Text = "Area Width";
+            this.areaLightWidthSlider.Text = Translation.GetText("Light", "areaLightWidth");
             this.areaLightWidthSlider.ValueChanged += this.ChangeAreaSize;
             this.ChildControls.Add( this.areaLightWidthSlider );
 
             this.areaLightHeightSlider = new CustomSlider( 0, 0, 50f, 1 );
             this.areaLightHeightSlider.FontSize = this.FontSize;
-            this.areaLightHeightSlider.Text = "Area Height";
+            this.areaLightHeightSlider.Text = Translation.GetText("Light", "areaLightHeight");
             this.areaLightHeightSlider.ValueChanged += this.ChangeAreaSize;
             this.ChildControls.Add( this.areaLightHeightSlider );
 
             this.lightColorPicker = new CustomColorPicker( this.light.color );
             this.lightColorPicker.FontSize = this.FontSize;
-            this.lightColorPicker.Text = "Color";
+            this.lightColorPicker.Text = Translation.GetText("Light", "lightColor");
             this.lightColorPicker.ColorChanged = this.ChangeColor;
+            this.lightColorPicker.IsRGBA = false;
             this.ChildControls.Add( this.lightColorPicker );
 
-            this.shadowStrengthSlider = new CustomSlider( this.light.shadowStrength, 0, 1f, 1 );
+            this.shadowStrengthSlider = new CustomSlider( this.light.shadowStrength, 0, 1f, 4 );
             this.shadowStrengthSlider.FontSize = this.FontSize;
-            this.shadowStrengthSlider.Text = "Shadow Strength";
+            this.shadowStrengthSlider.Text = Translation.GetText("Light", "shadowStrength");
             this.shadowStrengthSlider.ValueChanged += this.ChangeShadowStrength;
             this.ChildControls.Add( this.shadowStrengthSlider );
 
             this.shadowsBox = new CustomComboBox( LIGHT_SHADOWS );
-            this.shadowsBox.Text = "Shadow Type";
+            this.shadowsBox.Text = Translation.GetText("Light", "shadows");
             this.shadowsBox.SelectedIndex = (int)this.light.shadows;
             this.shadowsBox.SelectedIndexChanged += this.ChangeShadowType;
             this.ChildControls.Add( this.shadowsBox );
 
-            this.shadowBiasSlider = new CustomSlider( this.light.shadowBias, 0, 2f, 1 );
+            this.shadowBiasSlider = new CustomSlider( this.light.shadowBias, 0, 2f, 4 );
             this.shadowBiasSlider.FontSize = this.FontSize;
-            this.shadowBiasSlider.Text = "Shadow Bias";
+            this.shadowBiasSlider.Text = Translation.GetText("Light", "shadowBias");
             this.shadowBiasSlider.ValueChanged += this.ChangeShadowBias;
             this.ChildControls.Add( this.shadowBiasSlider );
 
-            this.shadowNormalBiasSlider = new CustomSlider( this.light.shadowNormalBias, 0, 3f, 1 );
+            this.shadowNormalBiasSlider = new CustomSlider( this.light.shadowNormalBias, 0, 3f, 4 );
             this.shadowNormalBiasSlider.FontSize = this.FontSize;
-            this.shadowNormalBiasSlider.Text = "Shadow NormalBias";
+            this.shadowNormalBiasSlider.Text = Translation.GetText("Light", "shadowNormalBias");
             this.shadowNormalBiasSlider.ValueChanged += this.ChangeShadowNormalBias;
             this.ChildControls.Add( this.shadowNormalBiasSlider );
         }
@@ -158,7 +172,6 @@ namespace CM3D2.SceneCapture.Plugin
         {
             if( !this.isDrag ) {
                 this.dragManager.SetTransform(this.light.transform);
-                return;
             }
 
             Vector3 newPos = new Vector3(this.dragManager.goDrag.transform.position.x,
@@ -176,27 +189,35 @@ namespace CM3D2.SceneCapture.Plugin
             this.lightNameLabel.Top = this.Top + ControlBase.FixedMargin;
             this.lightNameLabel.Width = this.Width / 2 - ControlBase.FixedMargin / 4;
             this.lightNameLabel.Height = this.ControlHeight;
+            this.lightNameLabel.Text = this.Text;
             this.lightNameLabel.OnGUI();
 
             GUIUtil.AddGUICheckbox(this, this.lightTypeComboBox );
 
-            if( this.lightTypeComboBox.SelectedItem != "Directional" )
+            int buttonCount = this.Text != Translation.GetText("UI", "mainLight") ? 5 : 3;
+
+            GUIUtil.AddGUIButtonAfter(this, this.lightResetButton, this.lightTypeComboBox, buttonCount );
+            this.lightResetButton.Height = this.ControlHeight;
+
+            GUIUtil.AddGUIButton(this, this.lightResetPosButton, this.lightResetButton, buttonCount );
+            GUIUtil.AddGUIButton(this, this.lightDragToggle, this.lightResetPosButton, buttonCount );
+
+            if( this.Text != Translation.GetText("UI", "mainLight") )
             {
-                GUIUtil.AddGUICheckbox(this, this.lightEnableToggle );
+                GUIUtil.AddGUIButton(this, this.lightEnableToggle, this.lightDragToggle, buttonCount );
+                GUIUtil.AddGUIButton(this, this.lightDeleteButton, this.lightEnableToggle, buttonCount );
             }
 
-            if( this.Text != ConstantValues.MainLightName )
-            {
-                GUIUtil.AddGUICheckbox(this, this.lightDeleteButton );
-            }
-
-            GUIUtil.AddGUICheckbox(this, this.lightDragToggle );
             GUIUtil.AddGUISlider(this, this.lightRotationXSlider );
             GUIUtil.AddGUISlider(this, this.lightRotationYSlider );
             // GUIUtil.AddGUISlider(this, this.lightRotationZSlider );
             GUIUtil.AddGUISlider(this, this.lightIntensitySlider );
             // GUIUtil.AddGUISlider(this, this.lightBounceIntensitySlider );
-            GUIUtil.AddGUISlider(this, this.lightRangeSlider );
+
+            if( this.lightTypeComboBox.SelectedItem != "Directional" )
+            {
+                GUIUtil.AddGUISlider(this, this.lightRangeSlider );
+            }
 
             if( this.lightTypeComboBox.SelectedItem == "Spot" )
             {
@@ -205,14 +226,17 @@ namespace CM3D2.SceneCapture.Plugin
 
             GUIUtil.AddGUICheckbox(this, this.lightColorPicker );
 
-            if( this.lightTypeComboBox.SelectedItem == "Directional" )
-            {
+            // if( this.lightTypeComboBox.SelectedItem == "Directional" )
+            // {
                 GUIUtil.AddGUICheckbox(this, this.shadowsBox );
-            }
+            // }
 
-            GUIUtil.AddGUISlider(this, this.shadowStrengthSlider );
-            GUIUtil.AddGUISlider(this, this.shadowBiasSlider );
-            GUIUtil.AddGUISlider(this, this.shadowNormalBiasSlider );
+            if( this.shadowsBox.SelectedItem != "None" )
+            {
+                GUIUtil.AddGUISlider(this, this.shadowStrengthSlider );
+                GUIUtil.AddGUISlider(this, this.shadowBiasSlider );
+                GUIUtil.AddGUISlider(this, this.shadowNormalBiasSlider );
+            }
 
             foreach(ControlBase control in this.ChildControls)
             {
@@ -225,19 +249,27 @@ namespace CM3D2.SceneCapture.Plugin
 
         public void UpdateFromLight()
         {
-            this.lightTypeComboBox.SelectedIndex = (int)light.type;
-            this.lightEnableToggle.Value = light.enabled;
-            this.lightDragToggle.Value = false;
-            this.lightRotationXSlider.Value = light.transform.eulerAngles.x;
-            this.lightRotationYSlider.Value = light.transform.eulerAngles.y;
-            this.lightRotationZSlider.Value = light.transform.eulerAngles.z;
-            this.lightRangeSlider.Value = light.range;
-            this.spotLightAngleSlider.Value = light.spotAngle;
-            this.lightColorPicker.Value = light.color;
-            this.shadowsBox.SelectedIndex = (int)light.shadows;
-            this.shadowStrengthSlider.Value = light.shadowStrength;
-            this.shadowBiasSlider.Value = light.shadowBias;
-            this.shadowNormalBiasSlider.Value = light.shadowNormalBias;
+            // prevent rotation slider callback from firing
+            if(!this.updating) {
+                this.updating = true;
+
+                this.lightTypeComboBox.SelectedIndex = (int)light.type;
+                this.lightIntensitySlider.Value = light.intensity;
+                this.lightEnableToggle.Value = light.enabled;
+                this.lightDragToggle.Value = false;
+                this.lightRotationXSlider.Value = light.transform.eulerAngles.x;
+                this.lightRotationYSlider.Value = light.transform.eulerAngles.y;
+                this.lightRotationZSlider.Value = light.transform.eulerAngles.z;
+                this.lightRangeSlider.Value = light.range;
+                this.spotLightAngleSlider.Value = light.spotAngle;
+                this.lightColorPicker.Value = light.color;
+                this.shadowsBox.SelectedIndex = (int)light.shadows;
+                this.shadowStrengthSlider.Value = light.shadowStrength;
+                this.shadowBiasSlider.Value = light.shadowBias;
+                this.shadowNormalBiasSlider.Value = light.shadowNormalBias;
+
+                this.updating = false;
+            }
         }
 
         private void SwitchLightType( object sender, EventArgs args)
@@ -276,9 +308,24 @@ namespace CM3D2.SceneCapture.Plugin
 
         private void RotateLight( object sender, EventArgs args )
         {
-            this.light.transform.eulerAngles = new Vector3( this.lightRotationXSlider.Value,
-                                                            this.lightRotationYSlider.Value,
-                                                            this.lightRotationZSlider.Value );
+            if( !this.updating ) {
+                this.light.transform.eulerAngles = new Vector3( this.lightRotationXSlider.Value,
+                                                                this.lightRotationYSlider.Value,
+                                                                this.lightRotationZSlider.Value );
+                this.wasChanged = true;
+            }
+        }
+
+        private void ResetLight( object sender, EventArgs args )
+        {
+            this.resetRequested = true;
+        }
+
+        private void ResetLightPos( object sender, EventArgs args )
+        {
+            this.light.transform.position = new Vector3(0, 2, 0);
+            this.dragManager.SetTransform(this.light.transform);
+
             this.wasChanged = true;
         }
 
@@ -383,6 +430,10 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 return this.light;
             }
+            set
+            {
+                this.light = value;
+            }
         }
 
         public bool IsDeleteRequested
@@ -413,12 +464,16 @@ namespace CM3D2.SceneCapture.Plugin
         private DragManager dragManager = null;
         private bool isDrag;
         private bool deleteRequested;
+        public bool resetRequested { get; set; }
         private bool wasChanged;
         private bool changingDrag;
+        private bool updating = false;
 
         private CustomLabel lightNameLabel = null;
         private CustomComboBox lightTypeComboBox = null;
         private CustomToggleButton lightEnableToggle = null;
+        private CustomButton lightResetButton = null;
+        private CustomButton lightResetPosButton = null;
         private CustomButton lightDeleteButton = null;
         private CustomToggleButton lightDragToggle = null;
 
@@ -438,7 +493,6 @@ namespace CM3D2.SceneCapture.Plugin
         private CustomSlider areaLightWidthSlider = null;
         private CustomSlider areaLightHeightSlider = null;
         private CustomColorPicker lightColorPicker = null;
-        private CustomButton lightResetButton = null;
         #endregion
     }
 }

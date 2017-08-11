@@ -13,7 +13,7 @@ namespace CM3D2.SceneCapture.Plugin
             set { _color = value; }
         }
 
-        Color _color = Color.white;
+        public Color _color = Color.white;
 
         /// Horizontal offset for feedback
         public float offsetX {
@@ -21,7 +21,7 @@ namespace CM3D2.SceneCapture.Plugin
             set { _offsetX = value; }
         }
 
-        float _offsetX = 0;
+        public float _offsetX = 0;
 
         /// Vertical offset for feedback
         public float offsetY {
@@ -29,7 +29,7 @@ namespace CM3D2.SceneCapture.Plugin
             set { _offsetY = value; }
         }
 
-        float _offsetY = 0;
+        public float _offsetY = 0;
 
         /// Center-axis rotation for feedback
         public float rotation {
@@ -37,7 +37,7 @@ namespace CM3D2.SceneCapture.Plugin
             set { _rotation = value; }
         }
 
-        float _rotation = 0;
+        public float _rotation = 0;
 
         /// Scale factor for feedback
         public float scale {
@@ -45,7 +45,7 @@ namespace CM3D2.SceneCapture.Plugin
             set { _scale = value; }
         }
 
-        float _scale = 1;
+        public float _scale = 1;
 
         /// Disables bilinear filter
         public bool jaggies {
@@ -53,7 +53,7 @@ namespace CM3D2.SceneCapture.Plugin
             set { _jaggies = value; }
         }
 
-        bool _jaggies = false;
+        public bool _jaggies = false;
 
         #endregion
 

@@ -16,20 +16,20 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class ContrastPane : BasePane
     {
-        public ContrastPane( int fontSize ) : base( fontSize, "Contrast" ) {}
+        public ContrastPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Contrast") ) {}
 
         override public void SetupPane()
         {
-            this.intensitySlider = new CustomSlider( ContrastDef.contrastEffect.intensity, -10.0f, 10.0f, 1 );
-            this.intensitySlider.Text = "Intensity";
+            this.intensitySlider = new CustomSlider( ContrastDef.contrastEffect.intensity, -10.0f, 10.0f, 2 );
+            this.intensitySlider.Text = Translation.GetText("Contrast", "intensity");
             this.ChildControls.Add( this.intensitySlider );
 
-            this.threshholdSlider = new CustomSlider( ContrastDef.contrastEffect.threshhold, 0.0f, 1.0f, 1 );
-            this.threshholdSlider.Text = "Threshold";
+            this.threshholdSlider = new CustomSlider( ContrastDef.contrastEffect.threshhold, 0.0f, 1.0f, 4 );
+            this.threshholdSlider.Text = Translation.GetText("Contrast", "threshold");
             this.ChildControls.Add( this.threshholdSlider );
 
-            this.blurSpreadSlider = new CustomSlider( ContrastDef.contrastEffect.blurSpread, 0.0f, 10.0f, 1 );
-            this.blurSpreadSlider.Text = "Blur Spread";
+            this.blurSpreadSlider = new CustomSlider( ContrastDef.contrastEffect.blurSpread, 0.0f, 10.0f, 2 );
+            this.blurSpreadSlider.Text = Translation.GetText("Contrast", "blurSpread");
             this.ChildControls.Add( this.blurSpreadSlider );
         }
 

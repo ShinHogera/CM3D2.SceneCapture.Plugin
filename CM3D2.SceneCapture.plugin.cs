@@ -51,7 +51,7 @@ namespace CM3D2.SceneCapture.Plugin
     ///					モーション一時停止後、選択対象メイドを切り替えるとモーションの一時停止が解除される不具合
     /// </remarks>
     ///=========================================================================
-    [PluginFilter( "CM3D2x64" ), PluginFilter( "CM3D2x86" ), PluginFilter( "CM3D2VRx64" ), PluginName( "CM3D2.SceneCapture.Plugin" ), PluginVersion( "0.2.0.0" )]
+    [PluginFilter( "CM3D2x64" ), PluginFilter( "CM3D2x86" ), PluginFilter( "CM3D2VRx64" ), PluginName( "CM3D2.SceneCapture.Plugin" ), PluginVersion( "0.2.3.0" )]
     public class SceneCapture : PluginBase
     {
         #region Methods
@@ -67,6 +67,7 @@ namespace CM3D2.SceneCapture.Plugin
                 // モーション情報初期化
                 ReadPluginPreferences();
                 ConstantValues.Initialize();
+                Translation.Initialize(configLanguage);
                 Util.LoadShaders();
             }
             catch( Exception e )
@@ -89,6 +90,28 @@ namespace CM3D2.SceneCapture.Plugin
             // 初期化
             // モーション情報初期化
 
+            if(this.envView != null) {
+                // // メイドエディット画面または夜伽画面から、メイドエディット画面、夜伽画面以外に遷移した場合
+                if(( this.sceneNo == ConstantValues.Scene.SceneEdit || this.sceneNo == ConstantValues.Scene.SceneYotogi || this.sceneNo == ConstantValues.Scene.ScenePhoto  ) &&
+                   ( sceneLevel != ConstantValues.Scene.SceneEdit && sceneLevel != ConstantValues.Scene.SceneYotogi && sceneLevel != ConstantValues.Scene.ScenePhoto ) )
+                {
+                    // 追加した光源を削除
+                    this.envView.ClearLights(false);
+                    this.envView.ClearModels();
+                    initialized = false;
+                    Translation.CurrentTranslation = configLanguage;
+
+                }
+                else if (( this.sceneNo != ConstantValues.Scene.SceneEdit && this.sceneNo != ConstantValues.Scene.SceneYotogi && this.sceneNo != ConstantValues.Scene.ScenePhoto  ) &&
+                   ( sceneLevel == ConstantValues.Scene.SceneEdit || sceneLevel == ConstantValues.Scene.SceneYotogi || sceneLevel == ConstantValues.Scene.ScenePhoto ) )
+                {
+                    this.envView.ClearLights(false);
+                    this.envView.ClearModels();
+                    initialized = false;
+                    Translation.CurrentTranslation = configLanguage;
+                }
+            }
+
             this.sceneNo = sceneLevel;
         }
 
@@ -99,6 +122,21 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
+                if(this.envView != null) {
+                    this.envView.ShowGizmos(GizmoRender.UIVisible);
+                }
+
+                if(this.dataView != null && this.dataView.wantsLanguageChange)
+                {
+                    string lang = this.dataView.LanguageValue;
+                    if(Translation.HasTranslation(lang)) {
+                        Preferences["Config"]["Language"].Value = dataView.LanguageValue;
+                        configLanguage = dataView.LanguageValue;
+                        SaveConfig();
+
+                        this.dataView.wantsLanguageChange = false;
+                    }
+                }
                 // Bloom has to be loaded by the game first
                 if (!initialized) {
                     {
@@ -174,7 +212,7 @@ namespace CM3D2.SceneCapture.Plugin
 
                     if ( this.dataView.wasPresetLoaded )
                     {
-                        Debug.Log(" === Reload ===");
+                        Debug.Log(" === Scene Reload === ");
                         this.envView.Update();
                         this.effectView.Update();
                         this.dataView.Update();
@@ -212,6 +250,8 @@ namespace CM3D2.SceneCapture.Plugin
                 // 機能有効の場合
                 // if( this.Enable )
 
+                this.envView.ShowGizmos(GizmoRender.UIVisible);
+
                 if( GizmoRender.UIVisible )
                 {
                     // 補助キーの押下有無確認
@@ -222,8 +262,10 @@ namespace CM3D2.SceneCapture.Plugin
                     // 表示中
                     if( this.modeSelectView.SelectedMode != ConstantValues.EditMode.Disable )
                     {
-                        Vector2 point = new Vector2( Input.mousePosition.x, Screen.height - Input.mousePosition.y );
-                        Rect pluginPos = new Rect( Screen.width - Screen.width / 5, Screen.height / 15 + ControlBase.FixedMargin, Screen.width / 5 - Screen.width / 65, Screen.height - Screen.height / 5 );
+                        float windowWidth = Screen.width / 4 - ControlBase.FixedMargin * 2;
+
+                        // Vector2 point = new Vector2( Input.mousePosition.x, Screen.height - Input.mousePosition.y );
+                        Rect pluginPos = new Rect( Screen.width - windowWidth, Screen.height / 15 + ControlBase.FixedMargin, Screen.width / 5 - Screen.width / 65, Screen.height - Screen.height / 5 );
 
                         // プラグイン画面の外にある場合、かつ補助キーを押下していない場合
                         // bool isEnableControl = ( pluginPos.Contains( point ) == false && ( isCtrl == false && isShift == false && isAlt == false ) );
@@ -231,20 +273,17 @@ namespace CM3D2.SceneCapture.Plugin
                         // UICamera.InputEnable = isEnableControl;
 
                         // モード選択ウィンドウ
-                        this.modeSelectView.Left = Screen.width - Screen.width / 5;
-                        this.modeSelectView.Top = ControlBase.FixedMargin * 15;
-                        this.modeSelectView.Width = Screen.width / 5 - ControlBase.FixedMargin * 2;
                         this.modeSelectView.OnGUI();
 
                         // メイド設定中
                         if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Effect )
                         {
                             // メイド設定ウィンドウ
-                            this.effectView.rectGui.x = Screen.width - Screen.width / 5;
+                            this.effectView.rectGui.x = this.modeSelectView.Left;
                             this.effectView.rectGui.y = this.modeSelectView.Top + this.modeSelectView.Height + ControlBase.FixedMargin;
                             this.effectView.Left = 0;
                             this.effectView.Top = 0;
-                            this.effectView.Width = Screen.width / 5 - ControlBase.FixedMargin * 2;
+                            this.effectView.Width = this.modeSelectView.Width;
                             this.effectView.rectGui.width = this.effectView.Width;
                             this.effectView.OnGUI();
                         }
@@ -252,22 +291,22 @@ namespace CM3D2.SceneCapture.Plugin
                         else if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Environment )
                         {
                             // 環境設定ウィンドウ
-                            this.envView.rectGui.x = Screen.width - Screen.width / 5;
+                            this.envView.rectGui.x = this.modeSelectView.Left;
                             this.envView.rectGui.y = this.modeSelectView.Top + this.modeSelectView.Height + ControlBase.FixedMargin;
                             this.envView.Left = 0;
                             this.envView.Top = 0;
-                            this.envView.Width = Screen.width / 5 - ControlBase.FixedMargin * 2;
+                            this.envView.Width = this.modeSelectView.Width;
                             this.envView.rectGui.width = this.envView.Width;
                             this.envView.OnGUI();
                         }
                         else if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Data )
                         {
                             // 環境設定ウィンドウ
-                            this.dataView.rectGui.x = Screen.width - Screen.width / 5;
+                            this.dataView.rectGui.x = this.modeSelectView.Left;
                             this.dataView.rectGui.y = this.modeSelectView.Top + this.modeSelectView.Height + ControlBase.FixedMargin;
                             this.dataView.Left = 0;
                             this.dataView.Top = 0;
-                            this.dataView.Width = Screen.width / 5 - ControlBase.FixedMargin * 2;
+                            this.dataView.Width = this.modeSelectView.Width;
                             this.dataView.rectGui.width = this.dataView.Width;
                             this.dataView.OnGUI();
                         }
@@ -310,10 +349,14 @@ namespace CM3D2.SceneCapture.Plugin
             try
             {
                 int fontSize = 11;
+                float windowWidth = Screen.width / 4 - ControlBase.FixedMargin * 2;
 
                 // モード選択画面
                 this.modeSelectView = new ModeSelectWindow( fontSize );
-                this.modeSelectView.Text = String.Format( "{0} ver.{1}", this.GetPluginName(), this.GetPluginVersion() );
+                this.modeSelectView.Text = String.Format( "{0} ver.{1}", SceneCapture.GetPluginName(), SceneCapture.GetPluginVersion() );
+                this.modeSelectView.Left = Screen.width - windowWidth - ControlBase.FixedMargin;
+                this.modeSelectView.Top = ControlBase.FixedMargin * 15;
+                this.modeSelectView.Width = windowWidth;
 
                 // メイド設定画面
                 this.effectView = new EffectWindow( fontSize );
@@ -322,15 +365,6 @@ namespace CM3D2.SceneCapture.Plugin
                 this.envView = new EnvWindow( fontSize );
 
                 this.dataView = new DataWindow( fontSize );
-
-                // // メイドエディット画面または夜伽画面から、メイドエディット画面、夜伽画面以外に遷移した場合
-                if( this.sceneNo == ConstantValues.Scene.SceneEdit || this.sceneNo == ConstantValues.Scene.SceneYotogi || this.sceneNo == ConstantValues.Scene.ScenePhoto  ) // &&
-                    // ( sceneLevel != ConstantValues.Scene.SceneEdit && sceneLevel != ConstantValues.Scene.SceneYotogi && sceneLevel != ConstantValues.Scene.ScenePhoto ) )
-                {
-                    // 追加した光源を削除
-                    this.envView.ClearLights(false);
-                    this.envView.ClearModels();
-                }
             }
             catch( Exception e )
             {
@@ -342,7 +376,7 @@ namespace CM3D2.SceneCapture.Plugin
         /// <summary>プラグイン名取得</summary>
         /// <returns>プラグイン名</returns>
         ///-------------------------------------------------------------------------
-        private String GetPluginName()
+        public static String GetPluginName()
         {
             String name = String.Empty;
             try
@@ -366,7 +400,7 @@ namespace CM3D2.SceneCapture.Plugin
         /// <summary>プラグインバージョン取得</summary>
         /// <returns>プラグインバージョン</returns>
         ///-------------------------------------------------------------------------
-        private String GetPluginVersion()
+        public static String GetPluginVersion()
         {
             String version = String.Empty;
             try
@@ -450,6 +484,7 @@ namespace CM3D2.SceneCapture.Plugin
         /// <summary>.ini ファイルからプラグイン設定を読み込む</summary>
         private void ReadPluginPreferences()
         {
+            configLanguage = GetPreferences("Config", "Language", "English");
             configEffectKey = GetPreferences("Config", "EffectWindowKey", "z");
             configEnvironmentKey = GetPreferences("Config", "EnvironmentWindowKey", "x");
             configDataKey = GetPreferences("Config", "DataWindowKey", "c");
@@ -516,6 +551,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         private bool initialized = false;
 
+        string configLanguage = string.Empty;
         string configEffectKey = string.Empty;
         string configEnvironmentKey = string.Empty;
         string configDataKey = string.Empty;

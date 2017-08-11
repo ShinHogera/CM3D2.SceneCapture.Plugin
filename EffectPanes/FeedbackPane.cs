@@ -15,32 +15,32 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class FeedbackPane : BasePane
     {
-        public FeedbackPane( int fontSize ) : base( fontSize, "Feedback" ) {}
+        public FeedbackPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Feedback") ) {}
 
         override public void SetupPane()
         {
             this.colorPicker = new CustomColorPicker( FeedbackDef.feedbackEffect.color );
-            this.colorPicker.Text = "Color";
+            this.colorPicker.Text = Translation.GetText("Feedback",  "color");
             this.ChildControls.Add( this.colorPicker );
 
             this.offsetXSlider = new CustomSlider( FeedbackDef.feedbackEffect.offsetX, -1f, 1f, 1 );
-            this.offsetXSlider.Text = "Offset X";
+            this.offsetXSlider.Text = Translation.GetText("Feedback",  "offsetX");
             this.ChildControls.Add( this.offsetXSlider );
 
             this.offsetYSlider = new CustomSlider( FeedbackDef.feedbackEffect.offsetY, -1f, 1f, 1 );
-            this.offsetYSlider.Text = "Offset Y";
+            this.offsetYSlider.Text = Translation.GetText("Feedback",  "offsetY");
             this.ChildControls.Add( this.offsetYSlider );
 
             this.rotationSlider = new CustomSlider( FeedbackDef.feedbackEffect.rotation, -5f, 5f, 1 );
-            this.rotationSlider.Text = "Rotation";
+            this.rotationSlider.Text = Translation.GetText("Feedback",  "rotation");
             this.ChildControls.Add( this.rotationSlider );
 
             this.scaleSlider = new CustomSlider( FeedbackDef.feedbackEffect.scale, 0.95f, 1.05f, 1 );
-            this.scaleSlider.Text = "Scale";
+            this.scaleSlider.Text = Translation.GetText("Feedback",  "scale");
             this.ChildControls.Add( this.scaleSlider );
 
-            this.jaggiesCheckbox = new CustomToggleButton( false, "toggle" );
-            this.jaggiesCheckbox.Text = "Disable bilinear filter";
+            this.jaggiesCheckbox = new CustomToggleButton( FeedbackDef.feedbackEffect.jaggies, "toggle" );
+            this.jaggiesCheckbox.Text = Translation.GetText("Feedback",  "jaggies");
             this.ChildControls.Add( this.jaggiesCheckbox );
         }
 

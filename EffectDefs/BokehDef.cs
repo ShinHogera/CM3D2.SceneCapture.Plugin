@@ -41,7 +41,7 @@ namespace CM3D2.SceneCapture.Plugin
             kernelSize = Bokeh.KernelSize.Medium;
             visualize = false;
 
-            // pointOfFocus = drag.goDrag.transform;
+            pointOfFocus = null;
 
             focusedMaid = -1;
         }

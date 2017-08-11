@@ -18,31 +18,96 @@ namespace CM3D2.SceneCapture.Plugin
     internal class EnvWindow : ScrollablePane
     {
         public EnvWindow( int fontSize ) : base ( fontSize ) {
+            this.savedCameraInfo = new CameraInfo();
         }
 
         override public void Awake()
         {
             try
             {
-                this.addLightButton = new CustomButton();
-                this.addLightButton.Text = "Add Light";
-                this.addLightButton.Click += AddLightButtonPressed;
-                this.ChildControls.Add( this.addLightButton );
+                this.cameraPositionXField = new CustomTextField();
+                this.cameraPositionXField.Text = Translation.GetText("Camera", "cameraPositionX");
+                this.cameraPositionXField.ValueChanged += this.ChangeCameraPosition;
+                this.ChildControls.Add( this.cameraPositionXField );
+
+                this.cameraPositionYField = new CustomTextField();
+                this.cameraPositionYField.Text = Translation.GetText("Camera", "cameraPositionY");
+                this.cameraPositionYField.ValueChanged += this.ChangeCameraPosition;
+                this.ChildControls.Add( this.cameraPositionYField );
+
+                this.cameraPositionZField = new CustomTextField();
+                this.cameraPositionZField.Text = Translation.GetText("Camera", "cameraPositionZ");
+                this.cameraPositionZField.ValueChanged += this.ChangeCameraPosition;
+                this.ChildControls.Add( this.cameraPositionZField );
+
+                this.cameraRotationXSlider = new CustomSlider( 0, -90f, 90f, 2 );
+                this.cameraRotationXSlider.FontSize = this.FontSize;
+                this.cameraRotationXSlider.Text = Translation.GetText("Camera", "cameraRotationX");
+                this.cameraRotationXSlider.ValueChanged += this.ChangeCameraRotation;
+                this.ChildControls.Add( this.cameraRotationXSlider );
+
+                this.cameraRotationYSlider = new CustomSlider( 0, 0f, 359.9999f, 2 );
+                this.cameraRotationYSlider.FontSize = this.FontSize;
+                this.cameraRotationYSlider.Text = Translation.GetText("Camera", "cameraRotationY");
+                this.cameraRotationYSlider.ValueChanged += this.ChangeCameraRotation;
+                this.ChildControls.Add( this.cameraRotationYSlider );
+
+                this.cameraRotationZSlider = new CustomSlider( 0, 0f, 359.9999f, 2 );
+                this.cameraRotationZSlider.FontSize = this.FontSize;
+                this.cameraRotationZSlider.Text = Translation.GetText("Camera", "cameraRotationZ");
+                this.cameraRotationZSlider.ValueChanged += this.ChangeCameraRotation;
+                this.ChildControls.Add( this.cameraRotationZSlider );
+
+                this.cameraFovSlider = new CustomSlider( 0, 0f, 180f, 2 );
+                this.cameraFovSlider.FontSize = this.FontSize;
+                this.cameraFovSlider.Text = Translation.GetText("Camera", "cameraFov");
+                this.cameraFovSlider.ValueChanged += this.ChangeCameraFov;
+                this.ChildControls.Add( this.cameraFovSlider );
+
+                this.cameraDistanceSlider = new CustomSlider( 0.1f, 0f, 25f, 2 );
+                this.cameraDistanceSlider.FontSize = this.FontSize;
+                this.cameraDistanceSlider.Text = Translation.GetText("Camera", "cameraDistance");
+                this.cameraDistanceSlider.ValueChanged += this.ChangeCameraDistance;
+                this.ChildControls.Add( this.cameraDistanceSlider );
+
+                this.cameraSavePositionButton = new CustomButton();
+                this.cameraSavePositionButton.Text = Translation.GetText("Camera", "cameraSavePosition");
+                this.cameraSavePositionButton.Click += CameraSavePositionButtonPressed;
+                this.ChildControls.Add( this.cameraSavePositionButton );
+
+                this.cameraRestorePositionButton = new CustomButton();
+                this.cameraRestorePositionButton.Text = Translation.GetText("Camera", "cameraRestorePosition");
+                this.cameraRestorePositionButton.Click += CameraRestorePositionButtonPressed;
+                this.ChildControls.Add( this.cameraRestorePositionButton );
+
+                this.cameraResetPositionButton = new CustomButton();
+                this.cameraResetPositionButton.Text = Translation.GetText("Camera", "cameraResetPosition");
+                this.cameraResetPositionButton.Click += CameraResetPositionButtonPressed;
+                this.ChildControls.Add( this.cameraResetPositionButton );
+
+                this.cameraAllSettingsCheckbox = new CustomToggleButton( false, "toggle" );
+                this.cameraAllSettingsCheckbox.Text = Translation.GetText("Camera", "cameraAllSettings");
+                this.ChildControls.Add( this.cameraAllSettingsCheckbox );
 
                 this.bgButton = new CustomButton();
-                this.bgButton.Text = "Add Model";
+                this.bgButton.Text = Translation.GetText("UI", "addModel");
                 this.bgButton.Click += BGButtonPressed;
                 this.ChildControls.Add( this.bgButton );
 
-                this.backgroundBox = new CustomComboBox( new string[0] );
+                this.addLightButton = new CustomButton();
+                this.addLightButton.Text = Translation.GetText("UI", "addLight");
+                this.addLightButton.Click += AddLightButtonPressed;
+                this.ChildControls.Add( this.addLightButton );
+
+                this.backgroundBox = new CustomComboBox( ConstantValues.Background.Keys.ToArray() );
                 this.backgroundBox.FontSize = this.FontSize;
-                this.backgroundBox.Text = "Background";
+                this.backgroundBox.Text = Translation.GetText("UI", "background");
                 this.backgroundBox.SelectedIndex = 0;
                 this.backgroundBox.SelectedIndexChanged += this.ChangeBackground;
                 this.ChildControls.Add( this.backgroundBox );
 
                 this.addedLightInstance = new Dictionary<String, GameObject>();
-                this.addedModelInstance = new Dictionary<string, KeyValuePair<GameObject, string>>();
+                this.addedModelInstance = new Dictionary<string, ModelInstanceInfo>();
                 this.lightPanes = new List<LightPane>();
                 this.modelPanes = new List<ModelPane>();
 
@@ -66,7 +131,7 @@ namespace CM3D2.SceneCapture.Plugin
             if( GameMain.Instance.MainLight.GetComponent<Light>() != null )
             {
                 LightPane pane = new LightPane( this.FontSize, GameMain.Instance.MainLight.GetComponent<Light>() );
-                pane.Text = ConstantValues.MainLightName;
+                pane.Text = Translation.GetText("UI", "mainLight");
                 this.ChildControls.Add( pane );
                 this.lightPanes.Add( pane );
             }
@@ -76,28 +141,16 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
-                if(!addedBackgrounds)
+                if( this.needCameraUpdate )
                 {
-                    this.allBackgrounds = new Dictionary<string, string>();
-                    this.allBackgrounds.Add("", "");
-                    foreach( var kvp in ConstantValues.Background )
-                        this.allBackgrounds.Add(kvp.Key, kvp.Value);
-                    string[] bgFiles = GameUty.FileSystem.GetList("bg", AFileSystemBase.ListType.AllFile)
-                        .Where(f => f.EndsWith("bg")).ToArray();
-
-                    foreach( var bg in bgFiles ) {
-                        string name = bg.Remove(0, 3);
-                        name = Path.GetFileNameWithoutExtension(name);
-                        this.allBackgrounds.Add(name, name);
-                    }
-                    this.backgroundBox.SetItems(this.allBackgrounds.Keys.ToList());
-                    addedBackgrounds = true;
+                    this.CameraSavePositionButtonPressed( this, new EventArgs() );
+                    this.needCameraUpdate = false;
                 }
-
                 this.UpdateChildControls();
                 this.CheckForLightUpdates();
                 this.CheckForModelUpdates();
                 this.CheckForMiscUpdates();
+                this.UpdateCameraValues();
 
                 // FIXME: doesn't work.
                 // this.CheckModelGizmoClick();
@@ -110,12 +163,67 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void ShowPane()
         {
-            this.backgroundBox.Left = this.Left + ControlBase.FixedMargin;
-            this.backgroundBox.Top = this.Top + ControlBase.FixedMargin;
-            this.backgroundBox.Width = this.Width / 2 - ControlBase.FixedMargin / 4;
-            this.backgroundBox.Height = this.ControlHeight;
-            this.backgroundBox.OnGUI();
+            if( this.cameraAllSettingsCheckbox.Value == true )
+            {
+                this.cameraPositionXField.Left = this.Left + ControlBase.FixedMargin;
+                this.cameraPositionXField.Top = this.Top + ControlBase.FixedMargin;
+                this.cameraPositionXField.Width = (this.Width / 3) - ControlBase.FixedMargin * 4;
+                this.cameraPositionXField.Height = this.FixedFontSize + ControlBase.FixedMargin;
+                this.cameraPositionXField.OnGUI();
+                this.cameraPositionXField.Visible = true;
 
+                GUIUtil.AddGUIButton(this, this.cameraPositionYField, this.cameraPositionXField, 3);
+                GUIUtil.AddGUIButton(this, this.cameraPositionZField, this.cameraPositionYField, 3);
+
+                this.cameraRotationXSlider.Left = this.Left + ControlBase.FixedMargin;
+                this.cameraRotationXSlider.Top = this.cameraPositionZField.Top + this.cameraPositionZField.Height + ControlBase.FixedMargin;
+                this.cameraRotationXSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraRotationXSlider.Height = this.ControlHeight * 2;
+                this.cameraRotationXSlider.OnGUI();
+                this.cameraRotationXSlider.Visible = true;
+
+                GUIUtil.AddGUISliderNoRender(this, this.cameraRotationYSlider, this.cameraRotationXSlider);
+                this.cameraRotationYSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraRotationYSlider.OnGUI();
+                GUIUtil.AddGUISliderNoRender(this, this.cameraRotationZSlider, this.cameraRotationYSlider);
+                this.cameraRotationZSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraRotationZSlider.OnGUI();
+                GUIUtil.AddGUISliderNoRender(this, this.cameraDistanceSlider, this.cameraRotationZSlider);
+                this.cameraDistanceSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraDistanceSlider.OnGUI();
+                GUIUtil.AddGUISliderNoRender(this, this.cameraFovSlider, this.cameraDistanceSlider);
+                this.cameraFovSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraFovSlider.OnGUI();
+                GUIUtil.AddGUIButtonAfter(this, this.cameraSavePositionButton, this.cameraFovSlider, 3);
+            }
+            else
+            {
+                this.cameraFovSlider.Left = this.Left + ControlBase.FixedMargin;
+                this.cameraFovSlider.Top = this.Top + ControlBase.FixedMargin;
+                this.cameraFovSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraFovSlider.Height = this.ControlHeight * 2;
+                this.cameraFovSlider.OnGUI();
+                this.cameraFovSlider.Visible = true;
+
+                GUIUtil.AddGUISliderNoRender(this, this.cameraRotationZSlider, this.cameraFovSlider);
+                this.cameraRotationZSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraRotationZSlider.OnGUI();
+                GUIUtil.AddGUIButtonAfter(this, this.cameraSavePositionButton, this.cameraRotationZSlider, 3);
+
+                this.cameraPositionXField.Visible = false;
+                this.cameraPositionYField.Visible = false;
+                this.cameraPositionZField.Visible = false;
+                this.cameraRotationXSlider.Visible = false;
+                this.cameraRotationYSlider.Visible = false;
+                this.cameraRotationZSlider.Visible = false;
+                this.cameraDistanceSlider.Visible = false;
+            }
+
+            GUIUtil.AddGUIButton(this, this.cameraRestorePositionButton, this.cameraSavePositionButton, 3);
+            GUIUtil.AddGUIButton(this, this.cameraResetPositionButton, this.cameraRestorePositionButton, 3);
+            GUIUtil.AddGUICheckbox(this, this.cameraAllSettingsCheckbox, this.cameraSavePositionButton);
+
+            GUIUtil.AddGUICheckbox( this, this.backgroundBox, this.cameraAllSettingsCheckbox );
             GUIUtil.AddGUICheckbox( this, this.bgButton, this.backgroundBox );
 
             ControlBase prev = this.bgButton;
@@ -139,19 +247,119 @@ namespace CM3D2.SceneCapture.Plugin
             this.Height = GUIUtil.GetHeightForParent(this);
         }
 
+        private void ChangeCameraPosition( object sender, EventArgs args )
+        {
+            if(this.updatingCamera)
+                return;
+
+            Vector3 cameraPos = GameMain.Instance.MainCamera.GetTargetPos();
+
+            float fTmpX;
+            float fTmpY;
+            float fTmpZ;
+            if (!float.TryParse(this.cameraPositionXField.Value, out fTmpX))
+            {
+                fTmpX = cameraPos.x;
+            }
+            if (!float.TryParse(this.cameraPositionYField.Value, out fTmpY))
+            {
+                fTmpX = cameraPos.y;
+            }
+            if (!float.TryParse(this.cameraPositionZField.Value, out fTmpZ))
+            {
+                fTmpX = cameraPos.z;
+            }
+            GameMain.Instance.MainCamera.SetTargetPos(new Vector3(fTmpX, fTmpY, fTmpZ), true);
+        }
+
+        private void ChangeCameraRotation( object sender, EventArgs args )
+        {
+            if(this.updatingCamera)
+                return;
+
+            Camera camera = GameMain.Instance.MainCamera.gameObject.GetComponent<Camera>();
+            camera.transform.eulerAngles = new Vector3(this.cameraRotationXSlider.Value,
+                                                       this.cameraRotationYSlider.Value,
+                                                       this.cameraRotationZSlider.Value);
+        }
+
+        private void ChangeCameraFov( object sender, EventArgs args )
+        {
+            if(this.updatingCamera)
+                return;
+
+            // Changing the camera FOV bugs out the gizmos
+            this.DisableAllGizmos();
+
+            Camera camera = GameMain.Instance.MainCamera.gameObject.GetComponent<Camera>();
+            camera.fieldOfView = this.cameraFovSlider.Value;
+        }
+
+        private void ChangeCameraDistance( object sender, EventArgs args )
+        {
+            if(this.updatingCamera)
+                return;
+
+            CameraMain camera = GameMain.Instance.MainCamera;
+            camera.SetDistance(this.cameraDistanceSlider.Value, true);
+        }
+
+        private void CameraSavePositionButtonPressed( object sender, EventArgs args )
+        {
+            GameObject cameraObj = GameMain.Instance.MainCamera.gameObject;
+            this.savedCameraInfo = new CameraInfo()
+                {
+                    position = GameMain.Instance.MainCamera.GetTargetPos(),
+                    rotation = cameraObj.transform.eulerAngles,
+                    distance = GameMain.Instance.MainCamera.GetDistance(),
+                    fieldOfView = cameraObj.GetComponent<Camera>().fieldOfView,
+                };
+        }
+
+        private void CameraRestorePositionButtonPressed( object sender, EventArgs args )
+        {
+            GameObject cameraObj = GameMain.Instance.MainCamera.gameObject;
+            GameMain.Instance.MainCamera.SetTargetPos(this.savedCameraInfo.position, true);
+            cameraObj.transform.eulerAngles = this.savedCameraInfo.rotation;
+            GameMain.Instance.MainCamera.SetDistance(this.savedCameraInfo.distance, true);
+            cameraObj.GetComponent<Camera>().fieldOfView = this.savedCameraInfo.fieldOfView;
+        }
+
+        private void CameraResetPositionButtonPressed( object sender, EventArgs args )
+        {
+            Instances.ResetCamera();
+        }
+
+        private void UpdateCameraValues()
+        {
+            GameObject cameraObj = GameMain.Instance.MainCamera.gameObject;
+            Camera camera = cameraObj.GetComponent<Camera>();
+            Vector3 cameraPos = GameMain.Instance.MainCamera.GetTargetPos();
+            this.updatingCamera = true;
+            this.cameraPositionXField.Value = cameraPos.x.ToString();
+            this.cameraPositionYField.Value = cameraPos.y.ToString();
+            this.cameraPositionZField.Value = cameraPos.z.ToString();
+            this.cameraRotationXSlider.Value = cameraObj.transform.eulerAngles.x;
+            this.cameraRotationYSlider.Value = cameraObj.transform.eulerAngles.y;
+            this.cameraRotationZSlider.Value = cameraObj.transform.eulerAngles.z;
+            this.cameraFovSlider.Value = camera.fieldOfView;
+            this.cameraDistanceSlider.Value = GameMain.Instance.MainCamera.GetDistance();
+            this.updatingCamera = false;
+        }
+
         private void ChangeBackground( object sender, EventArgs args )
         {
             string bg = this.backgroundBox.SelectedItem;
             if( String.IsNullOrEmpty( bg ) == false )
             {
-                if( this.allBackgrounds.ContainsKey( bg ) )
+                if( ConstantValues.Background.ContainsKey( bg ) )
                 {
                     if( bg == "非表示") {
                         GameMain.Instance.BgMgr.DeleteBg();
                     }
                     else
                     {
-                        GameMain.Instance.BgMgr.ChangeBg( this.allBackgrounds[ bg ] );
+                        GameMain.Instance.BgMgr.ChangeBg( ConstantValues.Background[ bg ] );
                     }
                     Instances.background = bg;
                 }
@@ -166,7 +374,23 @@ namespace CM3D2.SceneCapture.Plugin
             target.GetComponent<GizmoRenderTarget>().eScal = false;
         }
 
-        private void AddModel(String modelFileName)
+        public void ShowGizmos(bool show)
+        {
+            this.showGizmos = show;
+        }
+
+        private void DisableAllGizmos()
+        {
+            foreach( ModelPane pane in this.modelPanes )
+            {
+                pane.WantsTogglePan = false;
+                pane.WantsToggleRotate = false;
+                pane.WantsToggleScale = false;
+            }
+            this.CheckForModelUpdates();
+        }
+
+        private GameObject LoadModel(String modelFileName)
         {
             GameObject model = AssetLoader.LoadMesh(modelFileName);
             model.name = MODEL_TAG;
@@ -176,26 +400,41 @@ namespace CM3D2.SceneCapture.Plugin
 
             // model.AddComponent<Cloth>().enabled = true;
             // model.GetComponent<Cloth>().useGravity = true;
-            // model.AddComponent<Rigidbody>().useGravity = true;
-            // model.GetComponent<Rigidbody>().isKinematic = true;
             // this.Collidify(model);
 
             model.transform.localScale = new Vector3(1,1,1);
             model.transform.position = new Vector3(0, 0, 0);
 
-            this.AddModelPane(model, modelFileName);
+            return model;
         }
 
-        private void AddModelPane( GameObject model, string modelFileName )
+        private void AddModel( String modelFileName, String modelIconName )
         {
-            string modelName = "Model " + (this.modelsAdded + 1);
-            while(this.addedModelInstance.ContainsKey(modelName)) {
-                this.modelsAdded++;
-                modelName = "Model " + (this.modelsAdded + 1);
+            GameObject model = this.LoadModel(modelFileName);
+
+            // Spawn in front of camera
+            GizmoRenderTarget gizmo = model.GetComponent<GizmoRenderTarget>();
+            if(gizmo != null)
+            {
+                gizmo.transform.position = GameMain.Instance.MainCamera.camera.transform.forward * 2 + GameMain.Instance.MainCamera.camera.transform.position;
             }
 
-            this.addedModelInstance.Add(modelName, new KeyValuePair<GameObject, String>(model, modelFileName));
-            ModelPane pane = new ModelPane(this.FontSize, modelName);
+            this.AddModelPane(model, modelFileName, modelIconName);
+        }
+
+        private void AddModelPane( GameObject model, string modelFileName, string modelIconName )
+        {
+            string modelString = Translation.GetText("UI", "model");
+            string modelName = modelString + " " + (this.modelsAdded + 1);
+            while(this.addedModelInstance.ContainsKey(modelName)) {
+                this.modelsAdded++;
+                modelName = modelString + " " + (this.modelsAdded + 1);
+            }
+
+            var modelInstanceInfo = new ModelInstanceInfo(model, modelFileName, modelIconName);
+            this.addedModelInstance.Add(modelName, modelInstanceInfo);
+
+            ModelPane pane = new ModelPane(this.FontSize, modelName, modelIconName);
             this.modelPanes.Add( pane );
             this.ChildControls.Add( pane );
             this.SetModelInstances();
@@ -205,14 +444,6 @@ namespace CM3D2.SceneCapture.Plugin
         {
             AddLight();
             this.SetLightInstances();
-        }
-
-        private void Report( GameObject o )
-        {
-            foreach(Component c in o.GetComponents<Component>())
-            {
-                Debug.Log(c);
-            }
         }
 
         private void CheckForModelUpdates()
@@ -227,10 +458,10 @@ namespace CM3D2.SceneCapture.Plugin
                 {
                     GameObject model;
                     ModelInfo modelInfo = modelInfos[i];
-                    AddModel(modelInfo.modelName);
+                    AddModel(modelInfo.modelName, modelInfo.modelIconName);
                     string paneName = this.modelPanes[i].Name;
 
-                    model = this.addedModelInstance[paneName].Key;
+                    model = this.addedModelInstance[paneName].model;
                     modelInfo.UpdateModel(model);
                 }
                 this.SetModelInstances();
@@ -243,16 +474,37 @@ namespace CM3D2.SceneCapture.Plugin
                 {
                     ModelPane pane = this.modelPanes[i];
 
-                    GameObject model = this.addedModelInstance[ this.modelPanes[i].Name ].Key;
+                    ModelInstanceInfo info = this.addedModelInstance[ this.modelPanes[i].Name ];
+                    this.UpdateModelInstance(info);
+                    GameObject model = info.model;
                     GizmoRenderTarget gizmo = model.GetComponent<GizmoRenderTarget>();
-                    if(gizmo != null)
-                        pane.UpdateCache( model.transform );
+                    if( gizmo != null && pane.GizmoScaleAllAxesValue == true )
+                    {
+                        if(gizmo.transform.localScale.y == gizmo.transform.localScale.z)
+                        {
+                            gizmo.transform.localScale = new Vector3(gizmo.transform.localScale.x,
+                                                                     gizmo.transform.localScale.x,
+                                                                     gizmo.transform.localScale.x);
+                        }
+                        else if(gizmo.transform.localScale.x == gizmo.transform.localScale.z)
+                        {
+                            gizmo.transform.localScale = new Vector3(gizmo.transform.localScale.y,
+                                                                     gizmo.transform.localScale.y,
+                                                                     gizmo.transform.localScale.y);
+                        }
+                        else
+                        {
+                            gizmo.transform.localScale = new Vector3(gizmo.transform.localScale.z,
+                                                                     gizmo.transform.localScale.z,
+                                                                     gizmo.transform.localScale.z);
+                        }
+                    }
 
                     if( pane.IsDeleteRequested )
                     {
                         this.modelPanes.RemoveAt(i);
                         this.ChildControls.Remove( pane );
-                        GameObject.Destroy( this.addedModelInstance[ pane.Name ].Key );
+                        GameObject.Destroy( this.addedModelInstance[ pane.Name ].model );
                         this.addedModelInstance.Remove( pane.Name );
                         changed = true;
                     }
@@ -264,6 +516,11 @@ namespace CM3D2.SceneCapture.Plugin
                         UpdateModelPane(ref pane);
 
                     }
+
+                    if (!this.showGizmos || (!gizmo.eAxis && !gizmo.eRotate && !gizmo.eScal))
+                        gizmo.Visible = false;
+                    else
+                        gizmo.Visible = true;
                 }
 
                 if( changed )
@@ -275,7 +532,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         private void UpdateModelPane( ref ModelPane pane )
         {
-            GameObject model = this.addedModelInstance[pane.Name].Key;
+            GameObject model = this.addedModelInstance[pane.Name].model;
             if( model == null )
                 return;
 
@@ -285,7 +542,6 @@ namespace CM3D2.SceneCapture.Plugin
                 Debug.Log("Gizmo null! " + pane.Name);
                 return;
             }
-            Debug.Log("before " +gizmo.eAxis.ToString() + " " + gizmo.eRotate.ToString() + " " + gizmo.eScal.ToString());
 
             if( pane.WantsTogglePan != gizmo.eAxis ) {
                 gizmo.eAxis = pane.WantsTogglePan;
@@ -314,26 +570,72 @@ namespace CM3D2.SceneCapture.Plugin
                 gizmo.transform.localScale = new Vector3(1, 1, 1);
                 pane.wantsResetScale = false;
             }
+            if( pane.wantsCopy )
+            {
+                this.CopyModel( pane );
+                pane.wantsCopy = false;
+            }
+        }
 
-            Debug.Log("after " +gizmo.eAxis.ToString() + " " + gizmo.eRotate.ToString() + " " + gizmo.eScal.ToString());
+        private void UpdateModelInstance( ModelInstanceInfo info )
+        {
+            // Shader shader = Shader.Find("CM3D2/Toony_Lighted_Hair");
+            // if (shader != null) {
 
-            if (!gizmo.eAxis && !gizmo.eRotate && !gizmo.eScal)
-                gizmo.Visible = false;
-            else
-                gizmo.Visible = true;
+            //     foreach( SkinnedMeshRenderer r in info.model.GetComponentsInChildren<SkinnedMeshRenderer>() )
+            //     {
+            //         if(info.baseTexture == null )
+            //         {
+            //             info.baseTexture = r.material.mainTexture;
+            //         }
+
+            //         Debug.Log("Get!");
+            //         Debug.Log(r.material.shader.name);
+            //         info.SetPartsColor(MaidParts.PARTS_COLOR.HAIR, new MaidParts.PartsColor()
+            //                            {
+            //                                 m_nMainHue = 6,
+            //                                     m_nMainChroma = 117,
+            //                                     m_nMainBrightness = 179,
+            //                                     m_nMainContrast = 94
+            //                            });
+            //         r.material.SetTexture("_MultiColTex", info.GetPartsColorTableTex (MaidParts.PARTS_COLOR.HAIR));
+
+            //         RenderTexture active = RenderTexture.active;
+            //         Material systemMaterial = GameUty.GetSystemMaterial(GameUty.SystemMaterial.InfinityColor);
+            //         systemMaterial.SetTexture("_MultiColTex", (Texture) info.GetPartsColorTableTex(MaidParts.PARTS_COLOR.HAIR));
+            //         Graphics.Blit(info.baseTexture, active, systemMaterial);
+            //         RenderTexture.active = active;
+            //         // var rq = r.material.renderQueue;
+            //         // r.material.shader = shader;
+            //         // r.material.renderQueue = rq;
+            //         // r.material.SetColor("_Color", new Color32(1,0,1,1));
+            //     }
+            // }
+        }
+
+        private void CopyModel( ModelPane pane )
+        {
+            GameObject toCopy = this.addedModelInstance[ pane.Name ].model;
+            string modelName = this.addedModelInstance[ pane.Name ].modelName;
+            string modelIconName = this.addedModelInstance[ pane.Name ].modelIconName;
+            GameObject model = this.LoadModel(modelName);
+            model.transform.position = toCopy.transform.position;
+            model.transform.rotation = toCopy.transform.rotation;
+            model.transform.localScale = toCopy.transform.localScale;
+
+            this.AddModelPane( model, modelName, modelIconName );
+            this.SetModelInstances();
         }
 
         public void SetModelInstances()
         {
-            Debug.Log("Set Model Instances");
             List<ModelInfo> models = new List<ModelInfo>();
             foreach(ModelPane pane in this.modelPanes)
             {
-                Debug.Log("mod " + this.addedModelInstance[ pane.Name ].Value);
-                models.Add(new ModelInfo(this.addedModelInstance[ pane.Name ].Key,
-                                         this.addedModelInstance[ pane.Name ].Value));
+                models.Add(new ModelInfo(this.addedModelInstance[ pane.Name ].model,
+                                         this.addedModelInstance[ pane.Name ].modelName,
+                                         this.addedModelInstance[ pane.Name ].modelIconName));
             }
-            Debug.Log("End");
             Instances.SetModels(models);
         }
 
@@ -352,10 +654,11 @@ namespace CM3D2.SceneCapture.Plugin
                 // 追加した光源を破棄
                 foreach( var obj in this.addedModelInstance.Values )
                 {
-                    GameObject.Destroy( obj.Key );
+                    GameObject.Destroy( obj.model );
                 }
 
                 // 追加光源オブジェクトクリア
+                this.modelPanes.Clear();
                 this.addedModelInstance.Clear();
                 this.SetModelInstances();
             }
@@ -387,9 +690,9 @@ namespace CM3D2.SceneCapture.Plugin
 
         private void ReselectModels(GameObject target)
         {
-            foreach(var kvp in this.addedModelInstance.Values)
+            foreach(ModelInstanceInfo info in this.addedModelInstance.Values)
             {
-                GameObject model = kvp.Key;
+                GameObject model = info.model;
                 if( model == target )
                 {
                     if(model.GetComponent<GizmoRenderTarget>() == null)
@@ -406,15 +709,10 @@ namespace CM3D2.SceneCapture.Plugin
 
         private void Collidify( GameObject o )
         {
-            report(o);
-            Debug.Log("Now");
             foreach (Transform child in o.transform) {
                 GameObject obj = child.gameObject;
-                report(obj);
-                Debug.Log(obj);
                 foreach(SkinnedMeshRenderer R in obj.GetComponents<SkinnedMeshRenderer>())
                 {
-                    Debug.Log("getet");
                     CompoundCollider BC = R.gameObject.AddComponent<CompoundCollider>();
                 }
             }
@@ -442,7 +740,7 @@ namespace CM3D2.SceneCapture.Plugin
                     }
                     catch (Exception e)
                     {
-                        Debug.Log( e );
+                        Debug.LogError( e );
                     }
                 }
                 GlobalItemPicker.SetMenus(menus);
@@ -500,32 +798,6 @@ namespace CM3D2.SceneCapture.Plugin
 
             // bg.transform.localScale = new Vector3(1,1,1);
             // bg.transform.position = new Vector3(0, 1.5f, -1f);
-
-            // // foreach (Component componentsInChild in bg.GetComponentsInChildren<Transform>(true))
-            // // {
-            // //     Renderer component = componentsInChild.GetComponent<Renderer>();
-            // //     if (component != null && component.materials != null)
-            // //     {
-            // //         foreach (Material material in component.materials)
-            // //         {
-            // //             material.color = new Color32(255, 192, 192, 192);
-            // //             material.mainTexture = texture;
-            // //         }
-            // //     }
-            // // }
-        }
-
-        private void report(GameObject o)
-        {
-            Component[] allComponents = o.GetComponents<Component>();
-            foreach (Component component in allComponents) {
-                Debug.Log(component);
-            }
-            Debug.Log("all");
-            var all = o.GetComponentsInChildren<Component>();
-            foreach (Component component in all) {
-                Debug.Log(component);
-            }
         }
 
         private void AddLight()
@@ -534,10 +806,11 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 if( this.lightPanes.Count < ConstantValues.MaxLightCount )
                 {
-                    String lightName = ConstantValues.AddLightName + this.lightsAdded;
+                    String lightString = Translation.GetText("UI", "light");
+                    String lightName = lightString + " " + this.lightsAdded;
                     while(this.addedLightInstance.ContainsKey(lightName)) {
                         this.lightsAdded++;
-                        lightName = ConstantValues.AddLightName + this.lightsAdded;
+                        lightName = lightString + " " + this.lightsAdded;
                     }
 
                     // 光源追加し、選択中の設定をコピー
@@ -548,25 +821,30 @@ namespace CM3D2.SceneCapture.Plugin
                         this.addedLightInstance[ lightName ] = newObject;
 
                         Light currentLight = this.lightPanes.Last().LightValue;
+                        Light newLight = newObject.GetComponent<Light>();
 
-                        if( newObject.GetComponent<Light>() != null )
+                        if( newLight != null )
                         {
-                            newObject.GetComponent<Light>().type = currentLight.type;
-                            newObject.GetComponent<Light>().intensity = currentLight.intensity;
-                            newObject.GetComponent<Light>().range = currentLight.range;
-                            newObject.GetComponent<Light>().color = new Color( currentLight.color.r,
-                                                                               currentLight.color.g,
-                                                                               currentLight.color.b,
-                                                                               currentLight.color.a );
-                            newObject.GetComponent<Light>().spotAngle = currentLight.spotAngle;
-                            newObject.GetComponent<Light>().transform.rotation = new Quaternion( currentLight.transform.rotation.x,
-                                                                                                 currentLight.transform.rotation.y,
-                                                                                                 currentLight.transform.rotation.z,
-                                                                                                 currentLight.transform.rotation.w );
-                            newObject.GetComponent<Light>().transform.position = new Vector3( currentLight.transform.position.x,
-                                                                                              currentLight.transform.position.y,
-                                                                                              currentLight.transform.position.z );
-                            newObject.GetComponent<Light>().enabled = true;
+                            newLight.type = currentLight.type;
+                            newLight.intensity = currentLight.intensity;
+                            newLight.range = currentLight.range;
+                            newLight.color = new Color( currentLight.color.r,
+                                                        currentLight.color.g,
+                                                        currentLight.color.b,
+                                                        currentLight.color.a );
+                            newLight.spotAngle = currentLight.spotAngle;
+                            newLight.transform.rotation = new Quaternion( currentLight.transform.rotation.x,
+                                                                          currentLight.transform.rotation.y,
+                                                                          currentLight.transform.rotation.z,
+                                                                          currentLight.transform.rotation.w );
+                            newLight.transform.position = new Vector3( currentLight.transform.position.x,
+                                                                       currentLight.transform.position.y,
+                                                                       currentLight.transform.position.z );
+                            newLight.shadows = currentLight.shadows;
+                            newLight.shadowStrength = currentLight.shadowStrength;
+                            newLight.shadowBias = currentLight.shadowBias;
+                            newLight.shadowNormalBias = currentLight.shadowNormalBias;
+                            newLight.enabled = true;
 
                             LightPane pane =  new LightPane( this.FontSize, newObject.GetComponent<Light>() );
                             pane.Text = lightName;
@@ -580,6 +858,29 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 Debug.LogError( e.ToString() );
             }
+        }
+
+        private void ResetLightPane( ref LightPane pane )
+        {
+            Light light;
+            if(pane.Text == Translation.GetText("UI", "mainLight"))
+                light = GameMain.Instance.MainLight.GetComponent<Light>();
+            else
+                light = this.addedLightInstance[ pane.Text ].GetComponent<Light>();
+
+            // Taken from GameMain.Instace.MainLight default values
+            light.intensity = 0.95f;
+            light.range = 10;
+            light.color = new Color(1, 1, 1, 1);
+            light.transform.eulerAngles = new Vector3(40, 180, 18);
+            light.spotAngle = 30;
+            light.shadows = LightShadows.Soft;
+            light.shadowStrength = 0.098f;
+            light.shadowBias = 0.01f;
+            light.shadowNormalBias = 0.4f;
+            pane.LightValue = light;
+
+            pane.UpdateFromLight();
         }
 
         private void CheckForLightUpdates()
@@ -608,7 +909,7 @@ namespace CM3D2.SceneCapture.Plugin
                         light = GameMain.Instance.MainLight.GetComponent<Light>();
                         lightInfo.UpdateLight(light);
                         LightPane pane = new LightPane( this.FontSize, light );
-                        pane.Text = ConstantValues.MainLightName;
+                        pane.Text = Translation.GetText("UI", "mainLight");
                         this.ChildControls.Add( pane );
                         this.lightPanes.Add( pane );
 
@@ -633,10 +934,18 @@ namespace CM3D2.SceneCapture.Plugin
                         this.addedLightInstance.Remove( pane.Text );
                         changed = true;
                     }
-                    else if( pane.WasChanged )
-                    {
-                        changed = true;
-                        pane.WasChanged = false;
+                    else {
+                        if( pane.resetRequested )
+                        {
+                            this.ResetLightPane( ref pane );
+                            changed = true;
+                            pane.resetRequested = false;
+                        }
+                        if( pane.WasChanged )
+                        {
+                            changed = true;
+                            pane.WasChanged = false;
+                        }
                     }
                 }
 
@@ -665,7 +974,7 @@ namespace CM3D2.SceneCapture.Plugin
                 LightPane[] panes = this.lightPanes.ToArray();
                 foreach( LightPane pane in panes )
                 {
-                    if( clearMain || pane.Text != ConstantValues.MainLightName )
+                    if( clearMain || pane.Text != Translation.GetText("UI", "mainLight") )
                     {
                         pane.StopDrag();
                         this.ChildControls.Remove( pane );
@@ -715,21 +1024,92 @@ namespace CM3D2.SceneCapture.Plugin
         private CustomButton addLightButton = null;
         private CustomButton bgButton = null;
         private CustomComboBox backgroundBox = null;
-        private bool addedBackgrounds = false;
+
+        private CustomSlider cameraFovSlider = null;
+        private CustomSlider cameraDistanceSlider = null;
+        private CustomSlider cameraRotationXSlider = null;
+        private CustomSlider cameraRotationYSlider = null;
+        private CustomSlider cameraRotationZSlider = null;
+        private CustomTextField cameraPositionXField = null;
+        private CustomTextField cameraPositionYField = null;
+        private CustomTextField cameraPositionZField = null;
+        private CustomButton cameraSavePositionButton = null;
+        private CustomButton cameraRestorePositionButton = null;
+        private CustomButton cameraResetPositionButton = null;
+        private CustomToggleButton cameraAllSettingsCheckbox = null;
 
         private List<LightPane> lightPanes = null;
         private List<ModelPane> modelPanes = null;
 
         private int lightsAdded = 0;
         private int modelsAdded = 0;
+        private bool showGizmos = true;
+        private bool needCameraUpdate = true;
+        private bool updatingCamera = false;
+        private CameraInfo savedCameraInfo;
         private Dictionary<String, GameObject> addedLightInstance = null;
-        private Dictionary<string, KeyValuePair<GameObject, string>> addedModelInstance = null;
 
-        private Dictionary<string, string> allBackgrounds = null;
+        private Dictionary<string, ModelInstanceInfo> addedModelInstance = null;
         #endregion
     }
 
     #region InsideClasses
+    public class CameraInfo
+    {
+        public CameraInfo()
+        {
+            this.position = Vector3.zero;
+            this.rotation = Vector3.zero;
+            this.distance = 5f;
+            this.fieldOfView = 1.0f;
+        }
+
+        public Vector3 position;
+        public Vector3 rotation;
+        public float distance;
+        public float fieldOfView;
+    }
+
+    public class ModelInstanceInfo
+    {
+        public GameObject model;
+        public string modelName;
+        public string modelIconName;
+        private MaidParts.PartsColor[] partsColors = new MaidParts.PartsColor[7];
+        private Texture2D[] partsColorTextures = new Texture2D[7];
+
+        public Texture baseTexture;
+        public RenderTexture modifiedTexture;
+
+        public ModelInstanceInfo( GameObject model, string modelName, string modelIconName )
+        {
+            this.model = model;
+            this.modelName = modelName;
+            this.modelIconName = modelIconName;
+            this.baseTexture = (Texture)null;
+            this.modifiedTexture = (RenderTexture)null;
+            for (int index = 0; index < 7; ++index) {
+                this.partsColorTextures[index] = new Texture2D(256, 1, TextureFormat.RGBA32, false);
+            }
+        }
+
+        public void SetPartsColor(MaidParts.PARTS_COLOR colorType, MaidParts.PartsColor color)
+        {
+            this.partsColors[(int)colorType] = color;
+            UTY.UpdateColorTableTexture(color, ref this.partsColorTextures[(int) colorType]);
+        }
+
+        public MaidParts.PartsColor GetPartsColor(MaidParts.PARTS_COLOR f_eColorType)
+        {
+            return this.partsColors[(int) f_eColorType];
+        }
+
+        public Texture2D GetPartsColorTableTex(MaidParts.PARTS_COLOR f_eColorType)
+        {
+            return this.partsColorTextures[(int) f_eColorType];
+        }
+    }
+
     ///=========================================================================
     /// <summary>光源設定値</summary>
     ///=========================================================================
@@ -788,9 +1168,10 @@ namespace CM3D2.SceneCapture.Plugin
     {
         public ModelInfo() { }
 
-        public ModelInfo( GameObject obj, string modelName )
+        public ModelInfo( GameObject obj, string modelName, string modelIconName )
         {
             this.modelName = modelName;
+            this.modelIconName = modelIconName;
 
             GizmoRenderTarget gizmo = obj.GetComponent<GizmoRenderTarget>();
 
@@ -830,11 +1211,19 @@ namespace CM3D2.SceneCapture.Plugin
 
         public string modelName;
 
+        public string modelIconName;
+
         public Vector3 position;
 
         public Quaternion rotation;
 
         public Vector3 localScale;
+    }
+
+    public static class Vector3Ext {
+        public static Vector3 reciprocal(this Vector3 input){
+            return new Vector3(1f/input.x,1f/input.y,1f/input.z);
+        }
     }
     #endregion
 }

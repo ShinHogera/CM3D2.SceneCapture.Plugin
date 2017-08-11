@@ -178,7 +178,7 @@ namespace CM3D2.SceneCapture.Plugin
             // 光源名ラベル
             this.colorCorrectionCurvesPane.Left = this.Left + ControlBase.FixedMargin;
             this.colorCorrectionCurvesPane.Top = this.Top + ControlBase.FixedMargin;
-            this.colorCorrectionCurvesPane.Width = this.Width / 2 - ControlBase.FixedMargin / 4;
+            this.colorCorrectionCurvesPane.Width = this.Width - ControlBase.FixedMargin * 4;
             this.colorCorrectionCurvesPane.Height = this.ControlHeight;
             this.colorCorrectionCurvesPane.OnGUI();
 

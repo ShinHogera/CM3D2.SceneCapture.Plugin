@@ -216,12 +216,8 @@ namespace CM3D2.SceneCapture.Plugin
 
             if (Instances.needEffectWindowReload == true)
             {
-                Debug.Log("Before " + bloomEffect.bloomIntensity);
-                Debug.Log("Before " + GameMain.Instance.CMSystem.BloomValue);
-
                 // Maximum 'real' bloom value is 2.85, while the CMSystem max is 100, so 100/2.85 ~= 35
                 float intensity = bloomEffect.bloomIntensity * 35.0877192982f;
-                Debug.Log("int " + intensity + " " + bloomEffect.bloomIntensity);
                 GameMain.Instance.CMSystem.BloomValue = (int)(intensity);
                 bloomPane.BloomIntensityValue = intensity;
             }
@@ -265,17 +261,10 @@ namespace CM3D2.SceneCapture.Plugin
             texFlareColorC.Apply();
             texFlareColorD.SetPixel(0, 0, flareColorD);
             texFlareColorD.Apply();
-
-            if (Instances.needEffectWindowReload == true)
-            {
-                Debug.Log("After " + bloomEffect.bloomIntensity);
-                Debug.Log("After " + GameMain.Instance.CMSystem.BloomValue);
-            }
         }
 
         public static void Reset()
         {
-            Debug.Log("Reset");
             if (bloomEffect == null)
                 return;
 
@@ -369,7 +358,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void Restore()
         {
-            Debug.Log("Restore");
             if (bloomEffect == null)
                 return;
 

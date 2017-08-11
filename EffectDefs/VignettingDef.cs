@@ -68,7 +68,6 @@ namespace CM3D2.SceneCapture.Plugin
             vignettingEffect.chromaticAberration = vignettingPane.ChromaticAberrationValue;
             vignettingEffect.axialAberration = vignettingPane.AxialAberrationValue;
             vignettingEffect.blurDistance = vignettingPane.BlurDistanceValue;
-
         }
 
         public static void Reset()

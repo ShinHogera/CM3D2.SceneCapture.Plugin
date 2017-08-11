@@ -16,38 +16,37 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class BokehPane : BasePane
     {
-        public BokehPane( int fontSize ) : base( fontSize, "Bokeh" ) {}
+        public BokehPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Bokeh") ) {}
 
         override public void SetupPane()
         {
-            this.focusDistanceSlider = new CustomSlider( BokehDef.bokehEffect.focusDistance, 0f, 200f, 1 );
-            this.focusDistanceSlider.Text = "Focus Distance";
+            this.focusDistanceSlider = new CustomSlider( BokehDef.bokehEffect.focusDistance, 0f, 200f, 2 );
+            this.focusDistanceSlider.Text = Translation.GetText("Bokeh", "focusDistance");
             this.ChildControls.Add( this.focusDistanceSlider  );
 
-            this.fNumberSlider = new CustomSlider( BokehDef.bokehEffect.fNumber, 1f, 50f, 1 );
-            this.fNumberSlider.Text = "f Number";
+            this.fNumberSlider = new CustomSlider( BokehDef.bokehEffect.fNumber, 1f, 50f, 3 );
+            this.fNumberSlider.Text = Translation.GetText("Bokeh", "fNumber");
             this.ChildControls.Add( this.fNumberSlider  );
 
             this.kernelSizeBox = new CustomComboBox( BOKEH_KERNEL_SIZES );
-            this.kernelSizeBox.Text = "Kernel Size";
+            this.kernelSizeBox.Text = Translation.GetText("Bokeh", "kernelSize");
             this.kernelSizeBox.SelectedIndex = (int)BokehDef.bokehEffect.kernelSize;
             this.ChildControls.Add( this.kernelSizeBox );
 
-            this.useCameraFovCheckbox = new CustomToggleButton( true, "toggle" );
-            this.useCameraFovCheckbox.Text = "Use Camera FOV";
+            this.useCameraFovCheckbox = new CustomToggleButton( BokehDef.bokehEffect.useCameraFov, "toggle" );
+            this.useCameraFovCheckbox.Text = Translation.GetText("Bokeh", "useCameraFov");
             this.ChildControls.Add( this.useCameraFovCheckbox );
 
-            this.focalLengthSlider = new CustomSlider( BokehDef.bokehEffect.focalLength, 0f, 10f, 1 );
-            this.focalLengthSlider.Text = "Focal Length";
+            this.focalLengthSlider = new CustomSlider( BokehDef.bokehEffect.focalLength, 0f, 10f, 4 );
+            this.focalLengthSlider.Text = Translation.GetText("Bokeh", "focalLength");
             this.ChildControls.Add( this.focalLengthSlider  );
 
-            this.visualizeCheckbox = new CustomToggleButton( false, "toggle" );
-            this.visualizeCheckbox.Text = "Visualize";
+            this.visualizeCheckbox = new CustomToggleButton( BokehDef.bokehEffect.visualize, "toggle" );
+            this.visualizeCheckbox.Text = Translation.GetText("Bokeh", "visualize");
             this.ChildControls.Add( this.visualizeCheckbox );
 
-
             this.transformFromMaidCheckbox = new CustomToggleButton( BokehDef.transformFromMaid, "toggle" );
-            this.transformFromMaidCheckbox.Text = "Focal Transform";
+            this.transformFromMaidCheckbox.Text = Translation.GetText("UI", "transformFromMaid");
             this.transformFromMaidCheckbox.CheckedChanged += (o, e) => {
                 if( this.transformFromMaidCheckbox.Value == true )
                 {
@@ -79,7 +78,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.ChildControls.Add( this.nextMaidButton );
 
             this.reloadMaidsButton = new CustomButton();
-            this.reloadMaidsButton.Text = "Reload";
+            this.reloadMaidsButton.Text = Translation.GetText("UI", "reloadMaids");
             this.reloadMaidsButton.Click += (o, e) => {
                 this.maidManager.bUpdateRequest = true;
             };
@@ -186,8 +185,7 @@ namespace CM3D2.SceneCapture.Plugin
         {
             get
             {
-                // TODO: adjust slider step
-                return this.focalLengthSlider.Value / 10.0f;
+                return this.focalLengthSlider.Value;
             }
         }
 

@@ -19,6 +19,45 @@ namespace CM3D2.SceneCapture.Plugin
             gsLabel.alignment = TextAnchor.MiddleLeft;
         }
 
+        public static void AddGUIButton(ControlBase parent, ControlBase elem, int rowButtonCount)
+        {
+            elem.Left = parent.Left + ControlBase.FixedMargin;
+            elem.Top = parent.Top + ControlBase.FixedMargin;
+            elem.Width = (parent.Width / rowButtonCount) - ControlBase.FixedMargin / 4;
+            elem.Height = ControlHeight(parent);
+            elem.OnGUI();
+            elem.Visible = true;
+        }
+
+        public static void AddGUIButton(ControlBase parent, ControlBase elem, ControlBase reference, int rowButtonCount )
+        {
+            elem.Left = reference.Left + reference.Width;
+            elem.Top = reference.Top;
+            elem.Width = (parent.Width / rowButtonCount) - ControlBase.FixedMargin / 4;
+            elem.Height = ControlHeight(parent);
+            elem.OnGUI();
+            elem.Visible = true;
+        }
+
+        public static void AddGUIButtonNoRender(ControlBase parent, ControlBase elem, ControlBase reference, int rowButtonCount )
+        {
+            elem.Left = reference.Left + reference.Width;
+            elem.Top = reference.Top;
+            elem.Width = (parent.Width / rowButtonCount) - ControlBase.FixedMargin / 4;
+            elem.Height = ControlHeight(parent);
+            elem.Visible = true;
+        }
+
+        public static void AddGUIButtonAfter(ControlBase parent, ControlBase elem, ControlBase reference, int rowButtonCount)
+        {
+            elem.Left = parent.Left + ControlBase.FixedMargin;
+            elem.Top = reference.Top + reference.Height + ControlBase.FixedMargin;
+            elem.Width = (parent.Width / rowButtonCount) - ControlBase.FixedMargin / 4;
+            elem.Height = ControlHeight(parent);
+            elem.OnGUI();
+            elem.Visible = true;
+        }
+
         public static void AddGUICheckbox(ControlBase parent, ControlBase elem)
         {
             float lastSize = parent.LastElementSize;
@@ -37,6 +76,18 @@ namespace CM3D2.SceneCapture.Plugin
             elem.Top = reference.Top + reference.Height + ControlBase.FixedMargin;
             elem.Width = parent.Width - ControlBase.FixedMargin * 4;
             elem.Height = ControlHeight(parent);
+            elem.OnGUI();
+            elem.Visible = true;
+        }
+
+        public static void AddGUICurve(ControlBase parent, ControlBase elem)
+        {
+            float lastSize = parent.LastElementSize;
+            elem.Left = parent.Left + ControlBase.FixedMargin;
+            elem.Top = lastSize + ControlBase.FixedMargin;
+            elem.Width = parent.Width - ControlBase.FixedMargin * 4;
+            elem.Height = ControlHeight(parent) * 4;
+            elem.FontSize = parent.FontSize;
             elem.OnGUI();
             elem.Visible = true;
         }
@@ -70,6 +121,20 @@ namespace CM3D2.SceneCapture.Plugin
             elem.Visible = true;
         }
 
+        public static void AddGUISlider(ControlBase parent, ControlBase elem, ControlBase reference)
+        {
+            Rect area = new Rect(parent.Left + ControlBase.FixedMargin,
+                                 reference.Top + reference.Height + ControlBase.FixedMargin,
+                                 parent.Width - ControlBase.FixedMargin * 4,
+                                 ControlHeight(parent) * 2);
+            elem.Left = area.x;
+            elem.Top = area.y;
+            elem.Width = area.width;
+            elem.Height = area.height;
+            elem.OnGUI();
+            elem.Visible = true;
+        }
+
         public static void AddGUISlider(ControlBase parent, ControlBase elem, ControlBase reference, string label)
         {
             Rect area = new Rect(parent.Left + ControlBase.FixedMargin,
@@ -83,6 +148,19 @@ namespace CM3D2.SceneCapture.Plugin
             elem.Width = area.width;
             elem.Height = area.height;
             elem.OnGUI();
+            elem.Visible = true;
+        }
+
+        public static void AddGUISliderNoRender(ControlBase parent, ControlBase elem, ControlBase reference)
+        {
+            Rect area = new Rect(parent.Left + ControlBase.FixedMargin,
+                                 reference.Top + reference.Height + ControlBase.FixedMargin,
+                                 parent.Width - ControlBase.FixedMargin * 4,
+                                 ControlHeight(parent) * 2);
+            elem.Left = area.x;
+            elem.Top = area.y;
+            elem.Width = area.width;
+            elem.Height = area.height;
             elem.Visible = true;
         }
 

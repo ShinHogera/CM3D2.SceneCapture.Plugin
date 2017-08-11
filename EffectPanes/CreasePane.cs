@@ -16,20 +16,20 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class CreasePane : BasePane
     {
-        public CreasePane( int fontSize ) : base( fontSize, "Crease" ) {}
+        public CreasePane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Crease") ) {}
 
         override public void SetupPane()
         {
-                this.intensitySlider = new CustomSlider( CreaseDef.creaseEffect.intensity, -40f, 40f, 1 );
-                this.intensitySlider.Text = "Intensity";
+                this.intensitySlider = new CustomSlider( CreaseDef.creaseEffect.intensity, -40f, 40f, 2 );
+                this.intensitySlider.Text = Translation.GetText("Crease", "intensity");
                 this.ChildControls.Add( this.intensitySlider );
 
-                this.softnessSlider = new CustomSlider( CreaseDef.creaseEffect.softness, 0f, 10f, 1 );
-                this.softnessSlider.Text = "Softness";
+                this.softnessSlider = new CustomSlider( CreaseDef.creaseEffect.softness, 0f, 10f, 2 );
+                this.softnessSlider.Text = Translation.GetText("Crease", "softness");
                 this.ChildControls.Add( this.softnessSlider );
 
-                this.spreadSlider = new CustomSlider( CreaseDef.creaseEffect.spread, 0f, 10f, 1 );
-                this.spreadSlider.Text = "Spread";
+                this.spreadSlider = new CustomSlider( CreaseDef.creaseEffect.spread, 0f, 10f, 2 );
+                this.spreadSlider.Text = Translation.GetText("Crease", "spread");
                 this.ChildControls.Add( this.spreadSlider );
         }
 
