@@ -40,23 +40,23 @@ namespace CM3D2.SceneCapture.Plugin
                 this.cameraPositionZField.ValueChanged += this.ChangeCameraPosition;
                 this.ChildControls.Add( this.cameraPositionZField );
 
-                this.cameraOrbitXSlider = new CustomSlider( 0, -90f, 90f, 2 );
-                this.cameraOrbitXSlider.FontSize = this.FontSize;
-                this.cameraOrbitXSlider.Text = Translation.GetText("Camera", "cameraOrbitX");
-                this.cameraOrbitXSlider.ValueChanged += this.ChangeCameraRotation;
-                this.ChildControls.Add( this.cameraOrbitXSlider );
+                this.cameraRotationXSlider = new CustomSlider( 0, -90f, 90f, 2 );
+                this.cameraRotationXSlider.FontSize = this.FontSize;
+                this.cameraRotationXSlider.Text = Translation.GetText("Camera", "cameraRotationX");
+                this.cameraRotationXSlider.ValueChanged += this.ChangeCameraRotation;
+                this.ChildControls.Add( this.cameraRotationXSlider );
 
-                this.cameraOrbitYSlider = new CustomSlider( 0, 0f, 360f, 2 );
-                this.cameraOrbitYSlider.FontSize = this.FontSize;
-                this.cameraOrbitYSlider.Text = Translation.GetText("Camera", "cameraOrbitY");
-                this.cameraOrbitYSlider.ValueChanged += this.ChangeCameraRotation;
-                this.ChildControls.Add( this.cameraOrbitYSlider );
+                this.cameraRotationYSlider = new CustomSlider( 0, 0f, 360f, 2 );
+                this.cameraRotationYSlider.FontSize = this.FontSize;
+                this.cameraRotationYSlider.Text = Translation.GetText("Camera", "cameraRotationY");
+                this.cameraRotationYSlider.ValueChanged += this.ChangeCameraRotation;
+                this.ChildControls.Add( this.cameraRotationYSlider );
 
-                this.cameraOrbitZSlider = new CustomSlider( 0, 0f, 360f, 2 );
-                this.cameraOrbitZSlider.FontSize = this.FontSize;
-                this.cameraOrbitZSlider.Text = Translation.GetText("Camera", "cameraOrbitZ");
-                this.cameraOrbitZSlider.ValueChanged += this.ChangeCameraRotation;
-                this.ChildControls.Add( this.cameraOrbitZSlider );
+                this.cameraRotationZSlider = new CustomSlider( 0, 0f, 360f, 2 );
+                this.cameraRotationZSlider.FontSize = this.FontSize;
+                this.cameraRotationZSlider.Text = Translation.GetText("Camera", "cameraRotationZ");
+                this.cameraRotationZSlider.ValueChanged += this.ChangeCameraRotation;
+                this.ChildControls.Add( this.cameraRotationZSlider );
 
                 this.cameraFovSlider = new CustomSlider( 0, 0f, 180f, 2 );
                 this.cameraFovSlider.FontSize = this.FontSize;
@@ -75,10 +75,10 @@ namespace CM3D2.SceneCapture.Plugin
                 this.cameraSavePositionButton.Click += CameraSavePositionButtonPressed;
                 this.ChildControls.Add( this.cameraSavePositionButton );
 
-                this.cameraRecallPositionButton = new CustomButton();
-                this.cameraRecallPositionButton.Text = Translation.GetText("Camera", "cameraRecallPosition");
-                this.cameraRecallPositionButton.Click += CameraRecallPositionButtonPressed;
-                this.ChildControls.Add( this.cameraRecallPositionButton );
+                this.cameraRestorePositionButton = new CustomButton();
+                this.cameraRestorePositionButton.Text = Translation.GetText("Camera", "cameraRestorePosition");
+                this.cameraRestorePositionButton.Click += CameraRestorePositionButtonPressed;
+                this.ChildControls.Add( this.cameraRestorePositionButton );
 
                 this.cameraResetPositionButton = new CustomButton();
                 this.cameraResetPositionButton.Text = Translation.GetText("Camera", "cameraResetPosition");
@@ -175,20 +175,20 @@ namespace CM3D2.SceneCapture.Plugin
                 GUIUtil.AddGUIButton(this, this.cameraPositionYField, this.cameraPositionXField, 3);
                 GUIUtil.AddGUIButton(this, this.cameraPositionZField, this.cameraPositionYField, 3);
 
-                this.cameraOrbitXSlider.Left = this.Left + ControlBase.FixedMargin;
-                this.cameraOrbitXSlider.Top = this.cameraPositionZField.Top + this.cameraPositionZField.Height + ControlBase.FixedMargin;
-                this.cameraOrbitXSlider.Width = this.Width - ControlBase.FixedMargin * 7;
-                this.cameraOrbitXSlider.Height = this.ControlHeight * 2;
-                this.cameraOrbitXSlider.OnGUI();
-                this.cameraOrbitXSlider.Visible = true;
+                this.cameraRotationXSlider.Left = this.Left + ControlBase.FixedMargin;
+                this.cameraRotationXSlider.Top = this.cameraPositionZField.Top + this.cameraPositionZField.Height + ControlBase.FixedMargin;
+                this.cameraRotationXSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraRotationXSlider.Height = this.ControlHeight * 2;
+                this.cameraRotationXSlider.OnGUI();
+                this.cameraRotationXSlider.Visible = true;
 
-                GUIUtil.AddGUISliderNoRender(this, this.cameraOrbitYSlider, this.cameraOrbitXSlider);
-                this.cameraOrbitYSlider.Width = this.Width - ControlBase.FixedMargin * 7;
-                this.cameraOrbitYSlider.OnGUI();
-                GUIUtil.AddGUISliderNoRender(this, this.cameraOrbitZSlider, this.cameraOrbitYSlider);
-                this.cameraOrbitZSlider.Width = this.Width - ControlBase.FixedMargin * 7;
-                this.cameraOrbitZSlider.OnGUI();
-                GUIUtil.AddGUISliderNoRender(this, this.cameraDistanceSlider, this.cameraOrbitZSlider);
+                GUIUtil.AddGUISliderNoRender(this, this.cameraRotationYSlider, this.cameraRotationXSlider);
+                this.cameraRotationYSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraRotationYSlider.OnGUI();
+                GUIUtil.AddGUISliderNoRender(this, this.cameraRotationZSlider, this.cameraRotationYSlider);
+                this.cameraRotationZSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraRotationZSlider.OnGUI();
+                GUIUtil.AddGUISliderNoRender(this, this.cameraDistanceSlider, this.cameraRotationZSlider);
                 this.cameraDistanceSlider.Width = this.Width - ControlBase.FixedMargin * 7;
                 this.cameraDistanceSlider.OnGUI();
                 GUIUtil.AddGUISliderNoRender(this, this.cameraFovSlider, this.cameraDistanceSlider);
@@ -205,22 +205,22 @@ namespace CM3D2.SceneCapture.Plugin
                 this.cameraFovSlider.OnGUI();
                 this.cameraFovSlider.Visible = true;
 
-                GUIUtil.AddGUISliderNoRender(this, this.cameraOrbitZSlider, this.cameraFovSlider);
-                this.cameraOrbitZSlider.Width = this.Width - ControlBase.FixedMargin * 7;
-                this.cameraOrbitZSlider.OnGUI();
-                GUIUtil.AddGUIButtonAfter(this, this.cameraSavePositionButton, this.cameraOrbitZSlider, 3);
+                GUIUtil.AddGUISliderNoRender(this, this.cameraRotationZSlider, this.cameraFovSlider);
+                this.cameraRotationZSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraRotationZSlider.OnGUI();
+                GUIUtil.AddGUIButtonAfter(this, this.cameraSavePositionButton, this.cameraRotationZSlider, 3);
 
                 this.cameraPositionXField.Visible = false;
                 this.cameraPositionYField.Visible = false;
                 this.cameraPositionZField.Visible = false;
-                this.cameraOrbitXSlider.Visible = false;
-                this.cameraOrbitYSlider.Visible = false;
-                this.cameraOrbitZSlider.Visible = false;
+                this.cameraRotationXSlider.Visible = false;
+                this.cameraRotationYSlider.Visible = false;
+                this.cameraRotationZSlider.Visible = false;
                 this.cameraDistanceSlider.Visible = false;
             }
 
-            GUIUtil.AddGUIButton(this, this.cameraRecallPositionButton, this.cameraSavePositionButton, 3);
-            GUIUtil.AddGUIButton(this, this.cameraResetPositionButton, this.cameraRecallPositionButton, 3);
+            GUIUtil.AddGUIButton(this, this.cameraRestorePositionButton, this.cameraSavePositionButton, 3);
+            GUIUtil.AddGUIButton(this, this.cameraResetPositionButton, this.cameraRestorePositionButton, 3);
             GUIUtil.AddGUICheckbox(this, this.cameraAllSettingsCheckbox, this.cameraSavePositionButton);
 
             GUIUtil.AddGUICheckbox( this, this.backgroundBox, this.cameraAllSettingsCheckbox );
@@ -278,15 +278,18 @@ namespace CM3D2.SceneCapture.Plugin
                 return;
 
             Camera camera = GameMain.Instance.MainCamera.gameObject.GetComponent<Camera>();
-            camera.transform.eulerAngles = new Vector3(this.cameraOrbitXSlider.Value,
-                                                       this.cameraOrbitYSlider.Value,
-                                                       this.cameraOrbitZSlider.Value);
+            camera.transform.eulerAngles = new Vector3(this.cameraRotationXSlider.Value,
+                                                       this.cameraRotationYSlider.Value,
+                                                       this.cameraRotationZSlider.Value);
         }
 
         private void ChangeCameraFov( object sender, EventArgs args )
         {
             if(this.updatingCamera)
                 return;
+
+            // Changing the camera FOV bugs out the gizmos
+            this.DisableAllGizmos();
 
             Camera camera = GameMain.Instance.MainCamera.gameObject.GetComponent<Camera>();
             camera.fieldOfView = this.cameraFovSlider.Value;
@@ -313,7 +316,7 @@ namespace CM3D2.SceneCapture.Plugin
                 };
         }
 
-        private void CameraRecallPositionButtonPressed( object sender, EventArgs args )
+        private void CameraRestorePositionButtonPressed( object sender, EventArgs args )
         {
             GameObject cameraObj = GameMain.Instance.MainCamera.gameObject;
             GameMain.Instance.MainCamera.SetTargetPos(this.savedCameraInfo.position, true);
@@ -341,9 +344,9 @@ namespace CM3D2.SceneCapture.Plugin
             this.cameraPositionXField.Value = cameraPos.x.ToString();
             this.cameraPositionYField.Value = cameraPos.y.ToString();
             this.cameraPositionZField.Value = cameraPos.z.ToString();
-            this.cameraOrbitXSlider.Value = cameraObj.transform.eulerAngles.x;
-            this.cameraOrbitYSlider.Value = cameraObj.transform.eulerAngles.y;
-            this.cameraOrbitZSlider.Value = cameraObj.transform.eulerAngles.z;
+            this.cameraRotationXSlider.Value = cameraObj.transform.eulerAngles.x;
+            this.cameraRotationYSlider.Value = cameraObj.transform.eulerAngles.y;
+            this.cameraRotationZSlider.Value = cameraObj.transform.eulerAngles.z;
             this.cameraFovSlider.Value = camera.fieldOfView;
             this.cameraDistanceSlider.Value = GameMain.Instance.MainCamera.GetDistance();
             this.updatingCamera = false;
@@ -379,6 +382,17 @@ namespace CM3D2.SceneCapture.Plugin
         public void ShowGizmos(bool show)
         {
             this.showGizmos = show;
+        }
+
+        private void DisableAllGizmos()
+        {
+            foreach( ModelPane pane in this.modelPanes )
+            {
+                pane.WantsTogglePan = false;
+                pane.WantsToggleRotate = false;
+                pane.WantsToggleScale = false;
+            }
+            this.CheckForModelUpdates();
         }
 
         private GameObject LoadModel(String modelFileName)
@@ -1018,14 +1032,14 @@ namespace CM3D2.SceneCapture.Plugin
 
         private CustomSlider cameraFovSlider = null;
         private CustomSlider cameraDistanceSlider = null;
-        private CustomSlider cameraOrbitXSlider = null;
-        private CustomSlider cameraOrbitYSlider = null;
-        private CustomSlider cameraOrbitZSlider = null;
+        private CustomSlider cameraRotationXSlider = null;
+        private CustomSlider cameraRotationYSlider = null;
+        private CustomSlider cameraRotationZSlider = null;
         private CustomTextField cameraPositionXField = null;
         private CustomTextField cameraPositionYField = null;
         private CustomTextField cameraPositionZField = null;
         private CustomButton cameraSavePositionButton = null;
-        private CustomButton cameraRecallPositionButton = null;
+        private CustomButton cameraRestorePositionButton = null;
         private CustomButton cameraResetPositionButton = null;
         private CustomToggleButton cameraAllSettingsCheckbox = null;
 

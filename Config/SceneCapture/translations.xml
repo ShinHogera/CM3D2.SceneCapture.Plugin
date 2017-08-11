@@ -295,14 +295,14 @@
       <cameraPositionX>X</cameraPositionX>
       <cameraPositionY>Y</cameraPositionY>
       <cameraPositionZ>Z</cameraPositionZ>
-      <cameraOrbitX>Camera Orbit X</cameraOrbitX>
-      <cameraOrbitY>Camera Orbit Y</cameraOrbitY>
-      <cameraOrbitZ>Camera Orbit Z</cameraOrbitZ>
+      <cameraRotationX>Camera Rotation X</cameraRotationX>
+      <cameraRotationY>Camera Rotation Y</cameraRotationY>
+      <cameraRotationZ>Camera Rotation Z</cameraRotationZ>
       <cameraFov>Camera FOV</cameraFov>
       <cameraDistance>Camera Distance</cameraDistance>
       <cameraAllSettings>All Settings</cameraAllSettings>
       <cameraSavePosition>Save Camera Position</cameraSavePosition>
-      <cameraRecallPosition>Recall Camera Position</cameraRecallPosition>
+      <cameraRestorePosition>Restore Camera Position</cameraRestorePosition>
       <cameraResetPosition>Reset Camera Position</cameraResetPosition>
     </Camera>
 
@@ -548,7 +548,7 @@
       <radius>半径</radius>
       <sampleCount>サムプル数</sampleCount>
       <sampleCountValue>サンプル数値</sampleCountValue>
-      <downsampling>Downsample</downsampling>
+      <downsampling>ダウンサンプリング</downsampling>
       <occlusionSource>オクル―ジョンソース</occlusionSource>
       <ambientOnly>アンビエントのみ</ambientOnly>
     </Obscurance>
@@ -660,14 +660,14 @@
       <cameraPositionX>Ｘ</cameraPositionX>
       <cameraPositionY>Ｙ</cameraPositionY>
       <cameraPositionZ>Ｚ</cameraPositionZ>
-      <cameraOrbitX>カメラ回転Ｘ</cameraOrbitX>
-      <cameraOrbitY>カメラ回転Ｙ</cameraOrbitY>
-      <cameraOrbitZ>カメラ回転Ｚ</cameraOrbitZ>
+      <cameraRotationX>カメラ回転Ｘ</cameraRotationX>
+      <cameraRotationY>カメラ回転Ｙ</cameraRotationY>
+      <cameraRotationZ>カメラ回転Ｚ</cameraRotationZ>
       <cameraFov>カメラ視野</cameraFov>
       <cameraDistance>カメラ距離</cameraDistance>
       <cameraAllSettings>詳細設定</cameraAllSettings>
       <cameraSavePosition>カメラ設定保存</cameraSavePosition>
-      <cameraRecallPosition>カメラ設定復元</cameraRecallPosition>
+      <cameraRestorePosition>カメラ設定復元</cameraRestorePosition>
       <cameraResetPosition>カメラ設定リセット</cameraResetPosition>
     </Camera>
 

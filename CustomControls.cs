@@ -637,7 +637,7 @@ namespace CM3D2.SceneCapture.Plugin
                 // ドロップダウンリスト表示の場合
                 if( this._items != null && this._isShowDropDownList )
                 {
-                    float maxDropDownListHeight = Screen.height - Screen.height / 5 - this.ScreenPos.y;
+                    float maxDropDownListHeight = Screen.height - Screen.height / 4 - this.ScreenPos.y;
                     float itemHeight = comboListStyle.CalcHeight( this.comboBoxButton, 1.0f ) * ( this._items.Count );
                     float windowHeight = maxDropDownListHeight < itemHeight ? maxDropDownListHeight : itemHeight;
 

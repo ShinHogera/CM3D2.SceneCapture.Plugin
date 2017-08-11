@@ -188,8 +188,8 @@ namespace CM3D2.SceneCapture.Plugin
         public static XElement SaveMisc()
         {
             var xml = new XElement("Misc",
-                                   new XElement("Version", SceneCapture.GetPluginVersion()),
-                                   new XElement("Background", background));
+                                   new XElement("Background", background),
+                                   new XElement("Version", SceneCapture.GetPluginVersion()));
             return xml;
         }
 

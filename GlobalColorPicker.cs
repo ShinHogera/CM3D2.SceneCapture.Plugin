@@ -120,20 +120,21 @@ namespace CM3D2.SceneCapture.Plugin
 
             private float slider(float val, float min, float max, string name, ref Rect rectItem)
             {
+                rectItem.width = rect.width - gsLabel.fontSize;
                 rectItem.y += rectItem.height + fMargin;
-                GUI.Label(rectItem, name + ": " + r.ToString(), gsLabel);
+                GUI.Label(rectItem, name + ": " + val.ToString(), gsLabel);
 
                 rectItem.x = rect.width - gsLabel.fontSize * 4.5f;
                 rectItem.width = gsLabel.fontSize * 2;
                 if(GUI.Button(rectItem, "-1", gsButton))
                 {
-                    val = val == min ? r : (r - 1);
+                    val = val == min ? val : (val - 1);
                 }
 
                 rectItem.x += rectItem.width;
                 if (GUI.Button(rectItem, "+1", gsButton))
                 {
-                    val = val == max ? r : (r + 1);
+                    val = val == max ? val : (val + 1);
                 }
 
                 rectItem.x = gsLabel.fontSize * 0.5f;
