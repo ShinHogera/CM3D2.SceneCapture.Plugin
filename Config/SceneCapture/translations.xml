@@ -361,6 +361,12 @@
       <model>Model</model>
       <light>Light</light>
       <mainLight>Main Light</mainLight>
+      <loadTarget>Load Targets</loadTarget>
+      <loadEffects>Effects</loadEffects>>
+      <loadLights>Lights</loadLights>
+      <loadModels>Models</loadModels>
+      <loadCamera>Camera</loadCamera>
+      <loadMisc>Misc</loadMisc>
       <language>Language</language>
     </UI>
   </Translation>
@@ -726,6 +732,12 @@
       <model>モデル</model>
       <light>追加ライト</light>
       <mainLight>メインライト</mainLight>
+      <loadTarget>ロード対象</loadTarget>
+      <loadEffects>エフェクト</loadEffects>>
+      <loadLights>ライト</loadLights>
+      <loadModels>モデル</loadModels>
+      <loadCamera>カメラ</loadCamera>
+      <loadMisc>その他</loadMisc>
       <language>言語</language>
     </UI>
   </Translation>

@@ -98,7 +98,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         #region Fields
         private static readonly string[] TILT_MODE = new string[] { "TiltShiftMode", "IrisMode" };
-        private static readonly string[] TILT_QUALITY = new string[] { "Normal", "High", "Preview" };
+        private static readonly string[] TILT_QUALITY = new string[] { "Preview", "Normal", "High" };
 
         private CustomSlider blurAreaSlider = null;
         private CustomSlider maxBlurSizeSlider = null;

@@ -42,9 +42,40 @@ namespace CM3D2.SceneCapture.Plugin
                 this.nameTextField.Text = Translation.GetText("UI", "name");
                 this.ChildControls.Add( this.nameTextField );
 
+                this.loadTargetLabel = new CustomLabel();
+                this.loadTargetLabel.FontSize = this.FontSize;
+                this.loadTargetLabel.Text = Translation.GetText("UI", "loadTarget");
+                this.ChildControls.Add( this.loadTargetLabel );
+
+                this.loadEffectsCheckbox = new CustomToggleButton( true, "toggle" );
+                this.loadEffectsCheckbox.Text = Translation.GetText("UI", "loadEffects");
+                this.loadEffectsCheckbox.CheckedChanged += ChangeLoadTargets;
+                this.ChildControls.Add( this.loadEffectsCheckbox );
+
+                this.loadLightsCheckbox = new CustomToggleButton( true, "toggle" );
+                this.loadLightsCheckbox.Text = Translation.GetText("UI", "loadLights");
+                this.loadLightsCheckbox.CheckedChanged += ChangeLoadTargets;
+                this.ChildControls.Add( this.loadLightsCheckbox );
+
+                this.loadModelsCheckbox = new CustomToggleButton( true, "toggle" );
+                this.loadModelsCheckbox.Text = Translation.GetText("UI", "loadModels");
+                this.loadModelsCheckbox.CheckedChanged += ChangeLoadTargets;
+                this.ChildControls.Add( this.loadModelsCheckbox );
+
+                this.loadCameraCheckbox = new CustomToggleButton( true, "toggle" );
+                this.loadCameraCheckbox.Text = Translation.GetText("UI", "loadCamera");
+                this.loadCameraCheckbox.CheckedChanged += ChangeLoadTargets;
+                this.ChildControls.Add( this.loadCameraCheckbox );
+
+                this.loadMiscCheckbox = new CustomToggleButton( true, "toggle" );
+                this.loadMiscCheckbox.Text = Translation.GetText("UI", "loadMisc");
+                this.loadMiscCheckbox.CheckedChanged += ChangeLoadTargets;
+                this.ChildControls.Add( this.loadMiscCheckbox );
+
                 this.wasPresetLoaded = false;
 
                 this.ReloadSaves();
+                this.ChangeLoadTargets( this, new EventArgs() );
             }
             catch( Exception e )
             {
@@ -63,6 +94,15 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 Debug.LogError( e.ToString() );
             }
+        }
+
+        private void ChangeLoadTargets( object sender, EventArgs args )
+        {
+            Instances.loadEffects = this.loadEffectsCheckbox.Value;
+            Instances.loadLights = this.loadLightsCheckbox.Value;
+            Instances.loadModels = this.loadModelsCheckbox.Value;
+            Instances.loadCamera = this.loadCameraCheckbox.Value;
+            Instances.loadMisc = this.loadMiscCheckbox.Value;
         }
 
         private void CheckForSaveChanges()
@@ -104,8 +144,15 @@ namespace CM3D2.SceneCapture.Plugin
 
             GUIUtil.AddGUICheckbox( this, this.nameTextField, this.languageBox );
             GUIUtil.AddGUICheckbox( this, this.saveButton, this.nameTextField );
+            GUIUtil.AddGUICheckbox( this, this.loadTargetLabel, this.saveButton );
 
-            ControlBase prev = this.saveButton;
+            GUIUtil.AddGUIButtonAfter( this, this.loadEffectsCheckbox, this.loadTargetLabel, 5 );
+            GUIUtil.AddGUIButton( this, this.loadLightsCheckbox, this.loadEffectsCheckbox, 5 );
+            GUIUtil.AddGUIButton( this, this.loadModelsCheckbox, this.loadLightsCheckbox, 5 );
+            GUIUtil.AddGUIButton( this, this.loadCameraCheckbox, this.loadModelsCheckbox, 5 );
+            GUIUtil.AddGUIButton( this, this.loadMiscCheckbox, this.loadCameraCheckbox, 5 );
+
+            ControlBase prev = this.loadLightsCheckbox;
             foreach( SavePane pane in this.savePanes )
             {
                 GUIUtil.AddGUICheckbox( this, pane, prev );
@@ -226,6 +273,12 @@ namespace CM3D2.SceneCapture.Plugin
         private CustomButton saveButton = null;
         private CustomTextField nameTextField = null;
         private CustomComboBox languageBox = null;
+        private CustomLabel loadTargetLabel = null;
+        private CustomToggleButton loadEffectsCheckbox = null;
+        private CustomToggleButton loadLightsCheckbox = null;
+        private CustomToggleButton loadModelsCheckbox = null;
+        private CustomToggleButton loadCameraCheckbox = null;
+        private CustomToggleButton loadMiscCheckbox = null;
 
         private List<SavePane> savePanes = null;
         #endregion

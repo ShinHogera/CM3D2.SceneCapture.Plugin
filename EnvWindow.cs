@@ -327,12 +327,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         private void CameraResetPositionButtonPressed( object sender, EventArgs args )
         {
-            // Taken from photo mode defaults
-            GameMain.Instance.MainCamera.SetTargetPos(new Vector3(-0.05539433f, 0.95894f, 0.1269088f), true);
-            GameMain.Instance.MainCamera.SetDistance(3f, true);
-            GameMain.Instance.MainCamera.SetAroundAngle(new Vector2(-180f,11.5528f), true);
-            GameMain.Instance.MainCamera.SetTargetOffset(new Vector3(0.0f, 0.0f, 0.0f), true);
-            GameMain.Instance.MainCamera.gameObject.GetComponent<Camera>().fieldOfView = 35f;
+            Instances.ResetCamera();
         }
 
         private void UpdateCameraValues()
