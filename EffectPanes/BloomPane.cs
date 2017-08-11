@@ -40,7 +40,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.tweakModeBox.SelectedIndex = (int)BloomDef.bloomEffect.tweakMode;
             this.ChildControls.Add( this.tweakModeBox );
 
-            this.qualityCheckbox = new CustomToggleButton( false, "toggle" );
+            this.qualityCheckbox = new CustomToggleButton( BloomDef.bloomEffect.quality == Bloom.BloomQuality.High, "toggle" );
             this.qualityCheckbox.Text = Translation.GetText("Bloom", "quality");
             this.ChildControls.Add( this.qualityCheckbox );
 

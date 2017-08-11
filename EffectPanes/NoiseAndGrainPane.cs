@@ -20,11 +20,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
-            this.dx11GrainCheckbox = new CustomToggleButton( false, "toggle" );
+            this.dx11GrainCheckbox = new CustomToggleButton( NoiseAndGrainDef.noiseAndGrainEffect.dx11Grain, "toggle" );
             this.dx11GrainCheckbox.Text = Translation.GetText("NoiseAndGrain", "dx11Grain");
             this.ChildControls.Add( this.dx11GrainCheckbox );
 
-            this.monochromeCheckbox = new CustomToggleButton( false, "toggle" );
+            this.monochromeCheckbox = new CustomToggleButton( NoiseAndGrainDef.noiseAndGrainEffect.monochrome, "toggle" );
             this.monochromeCheckbox.Text = Translation.GetText("NoiseAndGrain", "monochrome");
             this.ChildControls.Add( this.monochromeCheckbox );
 

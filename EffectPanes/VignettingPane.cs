@@ -30,7 +30,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.blurSpreadSlider.Text = Translation.GetText("Vignetting", "blurSpread");
             this.ChildControls.Add( this.blurSpreadSlider );
 
-            this.modeCheckbox = new CustomToggleButton( false, "toggle" );
+            this.modeCheckbox = new CustomToggleButton( VignettingDef.vignettingEffect.mode == Vignetting.AberrationMode.Advanced, "toggle" );
             this.modeCheckbox.Text = Translation.GetText("Vignetting", "mode");
             this.ChildControls.Add( this.modeCheckbox );
 

@@ -58,13 +58,13 @@ namespace CM3D2.SceneCapture.Plugin
                 this.cameraOrbitZSlider.ValueChanged += this.ChangeCameraRotation;
                 this.ChildControls.Add( this.cameraOrbitZSlider );
 
-                this.cameraFovSlider = new CustomSlider( 0, 0f, 100f, 2 );
+                this.cameraFovSlider = new CustomSlider( 0, 0f, 180f, 2 );
                 this.cameraFovSlider.FontSize = this.FontSize;
                 this.cameraFovSlider.Text = Translation.GetText("Camera", "cameraFov");
                 this.cameraFovSlider.ValueChanged += this.ChangeCameraFov;
                 this.ChildControls.Add( this.cameraFovSlider );
 
-                this.cameraDistanceSlider = new CustomSlider( 0, 0f, 25f, 2 );
+                this.cameraDistanceSlider = new CustomSlider( 0.1f, 0f, 25f, 2 );
                 this.cameraDistanceSlider.FontSize = this.FontSize;
                 this.cameraDistanceSlider.Text = Translation.GetText("Camera", "cameraDistance");
                 this.cameraDistanceSlider.ValueChanged += this.ChangeCameraDistance;
@@ -167,7 +167,7 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 this.cameraPositionXField.Left = this.Left + ControlBase.FixedMargin;
                 this.cameraPositionXField.Top = this.Top + ControlBase.FixedMargin;
-                this.cameraPositionXField.Width = (this.Width / 3) - ControlBase.FixedMargin / 4;
+                this.cameraPositionXField.Width = (this.Width / 3) - ControlBase.FixedMargin * 4;
                 this.cameraPositionXField.Height = this.FixedFontSize + ControlBase.FixedMargin;
                 this.cameraPositionXField.OnGUI();
                 this.cameraPositionXField.Visible = true;
@@ -177,27 +177,37 @@ namespace CM3D2.SceneCapture.Plugin
 
                 this.cameraOrbitXSlider.Left = this.Left + ControlBase.FixedMargin;
                 this.cameraOrbitXSlider.Top = this.cameraPositionZField.Top + this.cameraPositionZField.Height + ControlBase.FixedMargin;
-                this.cameraOrbitXSlider.Width = this.Width - ControlBase.FixedMargin * 4;
+                this.cameraOrbitXSlider.Width = this.Width - ControlBase.FixedMargin * 7;
                 this.cameraOrbitXSlider.Height = this.ControlHeight * 2;
                 this.cameraOrbitXSlider.OnGUI();
                 this.cameraOrbitXSlider.Visible = true;
 
-                GUIUtil.AddGUISlider(this, this.cameraOrbitYSlider, this.cameraOrbitXSlider);
-                GUIUtil.AddGUISlider(this, this.cameraOrbitZSlider, this.cameraOrbitYSlider);
-                GUIUtil.AddGUISlider(this, this.cameraDistanceSlider, this.cameraOrbitZSlider);
-                GUIUtil.AddGUISlider(this, this.cameraFovSlider, this.cameraDistanceSlider);
+                GUIUtil.AddGUISliderNoRender(this, this.cameraOrbitYSlider, this.cameraOrbitXSlider);
+                this.cameraOrbitYSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraOrbitYSlider.OnGUI();
+                GUIUtil.AddGUISliderNoRender(this, this.cameraOrbitZSlider, this.cameraOrbitYSlider);
+                this.cameraOrbitZSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraOrbitZSlider.OnGUI();
+                GUIUtil.AddGUISliderNoRender(this, this.cameraDistanceSlider, this.cameraOrbitZSlider);
+                this.cameraDistanceSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraDistanceSlider.OnGUI();
+                GUIUtil.AddGUISliderNoRender(this, this.cameraFovSlider, this.cameraDistanceSlider);
+                this.cameraFovSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraFovSlider.OnGUI();
                 GUIUtil.AddGUIButtonAfter(this, this.cameraSavePositionButton, this.cameraFovSlider, 3);
             }
             else
             {
                 this.cameraFovSlider.Left = this.Left + ControlBase.FixedMargin;
                 this.cameraFovSlider.Top = this.Top + ControlBase.FixedMargin;
-                this.cameraFovSlider.Width = this.Width - ControlBase.FixedMargin / 4;
+                this.cameraFovSlider.Width = this.Width - ControlBase.FixedMargin * 7;
                 this.cameraFovSlider.Height = this.ControlHeight * 2;
                 this.cameraFovSlider.OnGUI();
                 this.cameraFovSlider.Visible = true;
 
-                GUIUtil.AddGUISlider(this, this.cameraOrbitZSlider, this.cameraFovSlider);
+                GUIUtil.AddGUISliderNoRender(this, this.cameraOrbitZSlider, this.cameraFovSlider);
+                this.cameraOrbitZSlider.Width = this.Width - ControlBase.FixedMargin * 7;
+                this.cameraOrbitZSlider.OnGUI();
                 GUIUtil.AddGUIButtonAfter(this, this.cameraSavePositionButton, this.cameraOrbitZSlider, 3);
 
                 this.cameraPositionXField.Visible = false;
@@ -319,6 +329,7 @@ namespace CM3D2.SceneCapture.Plugin
             GameMain.Instance.MainCamera.SetDistance(3f, true);
             GameMain.Instance.MainCamera.SetAroundAngle(new Vector2(-180f,11.5528f), true);
             GameMain.Instance.MainCamera.SetTargetOffset(new Vector3(0.0f, 0.0f, 0.0f), true);
+            GameMain.Instance.MainCamera.gameObject.GetComponent<Camera>().fieldOfView = 35f;
         }
 
         private void UpdateCameraValues()

@@ -151,6 +151,19 @@ namespace CM3D2.SceneCapture.Plugin
             elem.Visible = true;
         }
 
+        public static void AddGUISliderNoRender(ControlBase parent, ControlBase elem, ControlBase reference)
+        {
+            Rect area = new Rect(parent.Left + ControlBase.FixedMargin,
+                                 reference.Top + reference.Height + ControlBase.FixedMargin,
+                                 parent.Width - ControlBase.FixedMargin * 4,
+                                 ControlHeight(parent) * 2);
+            elem.Left = area.x;
+            elem.Top = area.y;
+            elem.Width = area.width;
+            elem.Height = area.height;
+            elem.Visible = true;
+        }
+
         public static void AddResetButton(ControlBase parent, ControlBase elem) {
                 elem.Left = parent.Left + parent.Width - elem.Width - ControlBase.FixedMargin;
                 elem.Top = parent.Top + ControlBase.FixedMargin;

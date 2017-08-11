@@ -33,7 +33,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.kernelSizeBox.SelectedIndex = (int)BokehDef.bokehEffect.kernelSize;
             this.ChildControls.Add( this.kernelSizeBox );
 
-            this.useCameraFovCheckbox = new CustomToggleButton( true, "toggle" );
+            this.useCameraFovCheckbox = new CustomToggleButton( BokehDef.bokehEffect.useCameraFov, "toggle" );
             this.useCameraFovCheckbox.Text = Translation.GetText("Bokeh", "useCameraFov");
             this.ChildControls.Add( this.useCameraFovCheckbox );
 
@@ -41,7 +41,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.focalLengthSlider.Text = Translation.GetText("Bokeh", "focalLength");
             this.ChildControls.Add( this.focalLengthSlider  );
 
-            this.visualizeCheckbox = new CustomToggleButton( false, "toggle" );
+            this.visualizeCheckbox = new CustomToggleButton( BokehDef.bokehEffect.visualize, "toggle" );
             this.visualizeCheckbox.Text = Translation.GetText("Bokeh", "visualize");
             this.ChildControls.Add( this.visualizeCheckbox );
 
@@ -185,8 +185,7 @@ namespace CM3D2.SceneCapture.Plugin
         {
             get
             {
-                // TODO: adjust slider step
-                return this.focalLengthSlider.Value / 10.0f;
+                return this.focalLengthSlider.Value;
             }
         }
 

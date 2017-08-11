@@ -66,6 +66,7 @@ namespace CM3D2.SceneCapture.Plugin
 
             bokehEffect.focusDistance = bokehPane.FocusDistanceValue;
             bokehEffect.fNumber = bokehPane.FNumberValue;
+            Debug.Log("bokeh " +bokehEffect.useCameraFov + " " +  bokehPane.UseCameraFovValue );
             bokehEffect.useCameraFov = bokehPane.UseCameraFovValue;
             bokehEffect.focalLength = bokehPane.FocalLengthValue;
             bokehEffect.kernelSize = bokehPane.KernelSizeValue;

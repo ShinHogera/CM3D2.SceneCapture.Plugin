@@ -37,7 +37,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.sampleCountValueSlider.Text = Translation.GetText("Obscurance", "sampleCountValue");
             this.ChildControls.Add( this.sampleCountValueSlider );
 
-            this.downsamplingCheckbox = new CustomToggleButton( false, "toggle" );
+            this.downsamplingCheckbox = new CustomToggleButton( ObscuranceDef.obscuranceEffect.downsampling, "toggle" );
             this.downsamplingCheckbox.Text = Translation.GetText("Obscurance", "downsampling");
             this.ChildControls.Add( this.downsamplingCheckbox );
 
@@ -46,7 +46,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.occlusionSourceBox.SelectedIndex = (int)ObscuranceDef.obscuranceEffect.occlusionSource;
             this.ChildControls.Add( this.occlusionSourceBox );
 
-            this.ambientOnlyCheckbox = new CustomToggleButton( false, "toggle" );
+            this.ambientOnlyCheckbox = new CustomToggleButton( ObscuranceDef.obscuranceEffect.ambientOnly, "toggle" );
             this.ambientOnlyCheckbox.Text = Translation.GetText("Obscurance", "ambientOnly");
             this.ChildControls.Add( this.ambientOnlyCheckbox );
         }

@@ -1291,7 +1291,7 @@ namespace CM3D2.SceneCapture.Plugin
                 if( this.Text != string.Empty )
                 {
                     Rect labelRect = new Rect( this.Left, this.Top, this.Width, this.Height - this.FontSize - ControlBase.FixedMargin );
-                    sliderRect = new Rect( this.Left, this.Top + this.Height - this.FontSize - ControlBase.FixedMargin, 5 * (this. Width / 6), this.FontSize + ControlBase.FixedMargin );
+                    sliderRect = new Rect( this.Left, this.Top + this.Height - this.FontSize - ControlBase.FixedMargin, this.Width - this.FontSize * 6, this.FontSize + ControlBase.FixedMargin );
 
                     GUI.Label(labelRect, this.Text, labelStyle);
                 }
@@ -1317,9 +1317,9 @@ namespace CM3D2.SceneCapture.Plugin
 
                 GUIStyle fieldStyle = new GUIStyle("textarea");
                 fieldStyle.alignment = TextAnchor.MiddleLeft;
-                fieldStyle.fontSize = this.FixedFontSize + 2;
+                fieldStyle.fontSize = this.FixedFontSize + 1;
 
-                Rect fieldRect = new Rect( sliderRect.x + sliderRect.width + ControlBase.FixedMargin, sliderRect.y, this.Width / 6, sliderRect.height);
+                Rect fieldRect = new Rect( sliderRect.x + sliderRect.width + ControlBase.FixedMargin, sliderRect.y, this.FontSize * 8, sliderRect.height);
                 string sTmp = Util.DrawTextFieldF(fieldRect, this.fieldValue, fieldStyle);
                 if (sTmp != this.fieldValue)
                 {

@@ -39,7 +39,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.scaleSlider.Text = Translation.GetText("Feedback",  "scale");
             this.ChildControls.Add( this.scaleSlider );
 
-            this.jaggiesCheckbox = new CustomToggleButton( false, "toggle" );
+            this.jaggiesCheckbox = new CustomToggleButton( FeedbackDef.feedbackEffect.jaggies, "toggle" );
             this.jaggiesCheckbox.Text = Translation.GetText("Feedback",  "jaggies");
             this.ChildControls.Add( this.jaggiesCheckbox );
         }

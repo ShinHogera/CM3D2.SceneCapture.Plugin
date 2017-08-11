@@ -29,7 +29,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.screenBlendModeBox.SelectedIndex = (int)SunShaftsDef.sunShaftsEffect.screenBlendMode;
             this.ChildControls.Add( this.screenBlendModeBox );
 
-            this.useDepthTextureCheckbox = new CustomToggleButton( false, "toggle" );
+            this.useDepthTextureCheckbox = new CustomToggleButton( SunShaftsDef.sunShaftsEffect.useDepthTexture, "toggle" );
             this.useDepthTextureCheckbox.Text = Translation.GetText("SunShafts", "useDepthTexture");
             this.ChildControls.Add( this.useDepthTextureCheckbox );
 

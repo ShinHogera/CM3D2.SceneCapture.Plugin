@@ -25,11 +25,11 @@ namespace CM3D2.SceneCapture.Plugin
             this.modeBox.SelectedIndex = (int)AntialiasingDef.antialiasingEffect.mode;
             this.ChildControls.Add( this.modeBox );
 
-            this.dlaaSharpCheckbox = new CustomToggleButton( false, "toggle" );
+            this.dlaaSharpCheckbox = new CustomToggleButton( AntialiasingDef.antialiasingEffect.dlaaSharp, "toggle" );
             this.dlaaSharpCheckbox.Text = Translation.GetText("Antialiasing", "dlaaSharp");
             this.ChildControls.Add( this.dlaaSharpCheckbox );
 
-            this.showGeneratedNormalsCheckbox = new CustomToggleButton( false, "toggle" );
+            this.showGeneratedNormalsCheckbox = new CustomToggleButton( AntialiasingDef.antialiasingEffect.showGeneratedNormals, "toggle" );
             this.showGeneratedNormalsCheckbox.Text = Translation.GetText("Antialiasing", "showGeneratedNormals");
             this.ChildControls.Add( this.showGeneratedNormalsCheckbox );
 
