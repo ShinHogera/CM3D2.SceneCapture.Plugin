@@ -62,7 +62,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.bloomThreshholdColorPicker.Text = Translation.GetText("Bloom", "bloomThreshholdColor");
             this.bloomThreshholdColorPicker.IsRGBA = false;
 
-            this.ChildControls.Add( this.bloomThreshholdColorPicker  );
+            this.ChildControls.Add( this.bloomThreshholdColorPicker );
 
             this.lensflareModeBox = new CustomComboBox( BLOOM_LENSFLARESTYLE );
             this.lensflareModeBox.Text = Translation.GetText("Bloom", "lensflareMode");

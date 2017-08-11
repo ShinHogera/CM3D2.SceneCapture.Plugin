@@ -173,6 +173,18 @@ namespace CM3D2.SceneCapture.Plugin
             return xml;
         }
 
+        public static XElement SaveCamera()
+        {
+            GameObject cameraObj = GameMain.Instance.MainCamera.gameObject;
+            var xml = new XElement("Camera",
+                                   new XElement("Position", Util.ConvertVector3ToString(GameMain.Instance.MainCamera.GetTargetPos())),
+                                   new XElement("Rotation", Util.ConvertVector3ToString(cameraObj.transform.eulerAngles)),
+                                   new XElement("Distance", GameMain.Instance.MainCamera.GetDistance().ToString()),
+                                   new XElement("FieldOfView", cameraObj.GetComponent<Camera>().fieldOfView.ToString()));
+
+            return xml;
+        }
+
         public static XElement SaveMisc()
         {
             var xml = new XElement("Misc",
@@ -187,6 +199,7 @@ namespace CM3D2.SceneCapture.Plugin
                                               SaveEffects(),
                                               SaveLights(),
                                               SaveModels(),
+                                              SaveCamera(),
                                               SaveMisc()));
         }
 
@@ -354,6 +367,36 @@ namespace CM3D2.SceneCapture.Plugin
             }
             return null;
         }
+        private static void LoadCamera(XDocument xml)
+        {
+            try
+            {
+                XElement cameraElem = xml.Element("Preset").Element("Camera");
+
+                if(cameraElem == null)
+                    return;
+
+                GameObject cameraObj = GameMain.Instance.MainCamera.gameObject;
+                float fOut;
+                Vector3 v3Out;
+
+                v3Out = Util.ConvertStringToVector3(cameraElem.Element("Position").Value.ToString());
+                GameMain.Instance.MainCamera.SetTargetPos(v3Out, true);
+
+                v3Out = Util.ConvertStringToVector3(cameraElem.Element("Rotation").Value.ToString());
+                cameraObj.transform.eulerAngles = v3Out;
+
+                float.TryParse(cameraElem.Element("Distance").Value.ToString(), out fOut);
+                GameMain.Instance.MainCamera.SetDistance(fOut, true);
+
+                float.TryParse(cameraElem.Element("FieldOfView").Value.ToString(), out fOut);
+                cameraObj.GetComponent<Camera>().fieldOfView = fOut;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError( e );
+            }
+        }
 
         private static void LoadMisc(XDocument xml)
         {
@@ -381,6 +424,7 @@ namespace CM3D2.SceneCapture.Plugin
             Instances.LoadEffects(xml);
             Instances.LoadLights(xml);
             Instances.LoadModels(xml);
+            Instances.LoadCamera(xml);
             Instances.LoadMisc(xml);
         }
     }

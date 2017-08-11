@@ -1356,6 +1356,7 @@ namespace CM3D2.SceneCapture.Plugin
                 if( this._min <= value && value <= this._max )
                 {
                     this._value = value;
+                    this.fieldValue = value.ToString();
 
                     if( this.Enabled )
                     {

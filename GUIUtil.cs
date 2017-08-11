@@ -121,6 +121,20 @@ namespace CM3D2.SceneCapture.Plugin
             elem.Visible = true;
         }
 
+        public static void AddGUISlider(ControlBase parent, ControlBase elem, ControlBase reference)
+        {
+            Rect area = new Rect(parent.Left + ControlBase.FixedMargin,
+                                 reference.Top + reference.Height + ControlBase.FixedMargin,
+                                 parent.Width - ControlBase.FixedMargin * 4,
+                                 ControlHeight(parent) * 2);
+            elem.Left = area.x;
+            elem.Top = area.y;
+            elem.Width = area.width;
+            elem.Height = area.height;
+            elem.OnGUI();
+            elem.Visible = true;
+        }
+
         public static void AddGUISlider(ControlBase parent, ControlBase elem, ControlBase reference, string label)
         {
             Rect area = new Rect(parent.Left + ControlBase.FixedMargin,

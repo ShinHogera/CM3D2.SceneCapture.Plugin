@@ -291,6 +291,21 @@
       <shadowNormalBias>Shadow Normal Bias</shadowNormalBias>
     </Light>
 
+    <Camera>
+      <cameraPositionX>X</cameraPositionX>
+      <cameraPositionY>Y</cameraPositionY>
+      <cameraPositionZ>Z</cameraPositionZ>
+      <cameraOrbitX>Camera Orbit X</cameraOrbitX>
+      <cameraOrbitY>Camera Orbit Y</cameraOrbitY>
+      <cameraOrbitZ>Camera Orbit Z</cameraOrbitZ>
+      <cameraFov>Camera FOV</cameraFov>
+      <cameraDistance>Camera Distance</cameraDistance>
+      <cameraAllSettings>All Settings</cameraAllSettings>
+      <cameraSavePosition>Save Camera Position</cameraSavePosition>
+      <cameraRecallPosition>Recall Camera Position</cameraRecallPosition>
+      <cameraResetPosition>Reset Camera Position</cameraResetPosition>
+    </Camera>
+
     <Equip>
       <face>Face</face>
       <teeth>Teeth</teeth>
@@ -640,6 +655,21 @@
       <shadowBias>影バイアス</shadowBias>
       <shadowNormalBias>影法線バイアス</shadowNormalBias>
     </Light>
+
+    <Camera>
+      <cameraPositionX>Ｘ</cameraPositionX>
+      <cameraPositionY>Ｙ</cameraPositionY>
+      <cameraPositionZ>Ｚ</cameraPositionZ>
+      <cameraOrbitX>カメラ回転Ｘ</cameraOrbitX>
+      <cameraOrbitY>カメラ回転Ｙ</cameraOrbitY>
+      <cameraOrbitZ>カメラ回転Ｚ</cameraOrbitZ>
+      <cameraFov>カメラ視野</cameraFov>
+      <cameraDistance>カメラ距離</cameraDistance>
+      <cameraAllSettings>詳細設定</cameraAllSettings>
+      <cameraSavePosition>カメラ設定保存</cameraSavePosition>
+      <cameraRecallPosition>カメラ設定復元</cameraRecallPosition>
+      <cameraResetPosition>カメラ設定リセット</cameraResetPosition>
+    </Camera>
 
     <Equip>
       <face>顔</face>
