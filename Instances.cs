@@ -82,6 +82,7 @@ namespace CM3D2.SceneCapture.Plugin
             new HalftoneDef();
             new IsolineDef();
             new KuwaharaDef();
+            new LookupFilterDef();
             new PixelateDef();
             new RGBSplitDef();
             new ShadowsMidtonesHighlightsDef();
@@ -209,6 +210,7 @@ namespace CM3D2.SceneCapture.Plugin
                                    SerializeStatic.SaveDef(typeof(HalftoneDef), typeof(Halftone)),
                                    SerializeStatic.SaveDef(typeof(IsolineDef), typeof(Isoline)),
                                    SerializeStatic.SaveDef(typeof(KuwaharaDef), typeof(Kuwahara)),
+                                   SerializeStatic.SaveDef(typeof(LookupFilterDef), typeof(LookupFilter)),
                                    SerializeStatic.SaveDef(typeof(PixelateDef), typeof(Pixelate)),
                                    SerializeStatic.SaveDef(typeof(RGBSplitDef), typeof(RGBSplit)),
                                    SerializeStatic.SaveDef(typeof(ShadowsMidtonesHighlightsDef), typeof(ShadowsMidtonesHighlights)),
@@ -342,6 +344,7 @@ namespace CM3D2.SceneCapture.Plugin
                 SerializeStatic.LoadDef(effects, typeof(HalftoneDef), typeof(Halftone));
                 SerializeStatic.LoadDef(effects, typeof(IsolineDef), typeof(Isoline));
                 SerializeStatic.LoadDef(effects, typeof(KuwaharaDef), typeof(Kuwahara));
+                SerializeStatic.LoadDef(effects, typeof(LookupFilterDef), typeof(LookupFilter));
                 SerializeStatic.LoadDef(effects, typeof(PixelateDef), typeof(Pixelate));
                 SerializeStatic.LoadDef(effects, typeof(RGBSplitDef), typeof(RGBSplit));
                 SerializeStatic.LoadDef(effects, typeof(ShadowsMidtonesHighlightsDef), typeof(ShadowsMidtonesHighlights));

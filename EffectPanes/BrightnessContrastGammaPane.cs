@@ -28,15 +28,15 @@ namespace CM3D2.SceneCapture.Plugin
             this.contrastSlider.Text = Translation.GetText("BrightnessContrastGamma", "contrast");
             this.ChildControls.Add( this.contrastSlider );
 
-            this.contrastCoeffXSlider = new CustomSlider( BrightnessContrastGammaDef.brightnessContrastGammaEffect.contrastCoeff.x, 0f, 2.5f, 4);
+            this.contrastCoeffXSlider = new CustomSlider( BrightnessContrastGammaDef.brightnessContrastGammaEffect.contrastCoeff.x, 0f, 2f, 4);
             this.contrastCoeffXSlider.Text = Translation.GetText("BrightnessContrastGamma", "contrastCoeffX");
             this.ChildControls.Add( this.contrastCoeffXSlider );
 
-            this.contrastCoeffYSlider = new CustomSlider( BrightnessContrastGammaDef.brightnessContrastGammaEffect.contrastCoeff.y, 0f, 2.5f, 4);
+            this.contrastCoeffYSlider = new CustomSlider( BrightnessContrastGammaDef.brightnessContrastGammaEffect.contrastCoeff.y, 0f, 2f, 4);
             this.contrastCoeffYSlider.Text = Translation.GetText("BrightnessContrastGamma", "contrastCoeffY");
             this.ChildControls.Add( this.contrastCoeffYSlider );
 
-            this.contrastCoeffZSlider = new CustomSlider( BrightnessContrastGammaDef.brightnessContrastGammaEffect.contrastCoeff.z, 0f, 2.5f, 4);
+            this.contrastCoeffZSlider = new CustomSlider( BrightnessContrastGammaDef.brightnessContrastGammaEffect.contrastCoeff.z, 0f, 2f, 4);
             this.contrastCoeffZSlider.Text = Translation.GetText("BrightnessContrastGamma", "contrastCoeffZ");
             this.ChildControls.Add( this.contrastCoeffZSlider );
 

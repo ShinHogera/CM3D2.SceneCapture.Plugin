@@ -62,61 +62,39 @@ namespace CM3D2.SceneCapture.Plugin
             private GUIStyle gsButton { get; set; }
 
             private Vector2 scrollPosition { get; set; }
+            private bool firstSet = false;
 
-            private int index;
-            private List<KeyValuePair<string, string>> imageFiles;
+            private List<ImageInfo> imageFiles;
             private Texture2D currentTexture;
 
             public TexturePickerWindow(int iWIndowID)
             {
                 WINDOW_ID = iWIndowID;
 
-                index = 0;
-                imageFiles = new List<KeyValuePair<string, string>>();
+                imageFiles = new List<ImageInfo>();
             }
 
-            public void ChangeImage()
+            public void ChangeImage(ImageInfo info)
             {
                 if( !imageFiles.Any() )
                     return;
 
-                string fileName = imageFiles[index].Key;
-                string abbrevPath = imageFiles[index].Value;
-                Debug.Log("loadin " + fileName);
-                byte[] bytes = File.ReadAllBytes(fileName);
-                currentTexture = new Texture2D(4, 4);
-                currentTexture.LoadImage(bytes);
-                func(currentTexture, abbrevPath);
+                currentTexture = info.tex;
+                func(currentTexture, info.abbrevPath);
             }
 
-            private void SelectNext()
+            private static Texture2D ReadTexture(string fullPath)
             {
-                if( !imageFiles.Any() )
-                    return;
-
-                index += 1;
-                if( index >= imageFiles.Count )
-                    index = 0;
-
-                this.ChangeImage();
-            }
-
-            private void SelectPrev()
-            {
-                if( !imageFiles.Any() )
-                    return;
-
-                index -= 1;
-                if( index < 0 )
-                    index = imageFiles.Count - 1;
-
-                this.ChangeImage();
+                byte[] bytes = File.ReadAllBytes(fullPath);
+                Texture2D tex = new Texture2D(4, 4);
+                tex.LoadImage(bytes);
+                tex.name = fullPath;
+                return tex;
             }
 
             private void UpdateImages(List<string> imageDirectories)
             {
-                imageFiles = new List<KeyValuePair<string, string>>();
-                index = 0;
+                imageFiles = new List<ImageInfo>();
 
                 foreach(string directory in imageDirectories)
                 {
@@ -130,17 +108,20 @@ namespace CM3D2.SceneCapture.Plugin
                     }
 
                     DirectoryInfo info = new DirectoryInfo(fullPath);
-                    FileInfo[] files = info.GetFiles("*.png").OrderBy(p => p.Name).ToArray();
+                    FileInfo[] files = info.GetFiles("*.png", SearchOption.AllDirectories).OrderBy(p => p.FullName).ToArray();
                     foreach(FileInfo file in files)
                     {
                         string abbrevPath = file.FullName.Replace(ConstantValues.BaseConfigDir + @"\", "");
                         abbrevPath = abbrevPath.Replace(ConstantValues.BaseConfigDirSybaris + @"\", "");
-                        var pair = new KeyValuePair<string, string>(file.FullName, abbrevPath);
-                        imageFiles.Add(pair);
+                        ImageInfo imageInfo = new ImageInfo()
+                            {
+                                fullPath = file.FullName,
+                                abbrevPath = abbrevPath,
+                                tex = ReadTexture(file.FullName),
+                            };
+                        imageFiles.Add(imageInfo);
                     }
                 }
-
-                this.ChangeImage();
             }
 
             public void Set(Vector2 p, float fWidth, int iFontSize, List<string> imageDirectories, Action<Texture2D, string> f)
@@ -156,7 +137,7 @@ namespace CM3D2.SceneCapture.Plugin
 
                 gsButton = new GUIStyle("button");
                 gsButton.fontSize = iFontSize;
-                gsButton.alignment = TextAnchor.MiddleCenter;
+                gsButton.alignment = TextAnchor.MiddleLeft;
 
                 fMargin = iFontSize * 0.3f;
                 scrollPosition = new Vector2(0, 0);
@@ -166,6 +147,28 @@ namespace CM3D2.SceneCapture.Plugin
                 show = true;
 
                 this.UpdateImages(imageDirectories);
+
+                if( this.firstSet && this.imageFiles.Count > 0 )
+                {
+                    this.ChangeImage(this.imageFiles[0]);
+                    this.firstSet = false;
+                }
+            }
+
+            private void fileButton(ImageInfo info, ref Rect rectItem)
+            {
+                rectItem.width = gsButton.fontSize * 2f;
+                rectItem.height = rectItem.width;
+                rectItem.x = gsButton.fontSize * 0.5f;
+                GUI.DrawTexture( rectItem, info.tex );
+
+                rectItem.x += rectItem.width + fMargin;
+                rectItem.width = rect.width - rectItem.width - fMargin * 9;
+                if( GUI.Button(rectItem, info.abbrevPath, gsButton) )
+                {
+                    this.ChangeImage(info);
+                }
+                rectItem.y += rectItem.height;
             }
 
             public void GuiFunc(int winId)
@@ -178,26 +181,22 @@ namespace CM3D2.SceneCapture.Plugin
 
                 int iFontSize = gsLabel.fontSize;
 
+                Rect rectScroll = new Rect(0, fMargin * 2, this.rect.width - fMargin, windowHeight - fMargin * 4);
+                Rect rectScrollView = new Rect(0, 0, this.rect.width - 7 * fMargin, guiScrollHeight);
+
+                scrollPosition = GUI.BeginScrollView(rectScroll, scrollPosition, rectScrollView, false, true);
+
                 Rect rectItem = new Rect(iFontSize * 0.5f, iFontSize * 0.5f, iFontSize * 1.5f, iFontSize * 1.5f);
                 if( this.currentTexture != null )
                     GUI.DrawTexture( rectItem, this.currentTexture );
 
-                rectItem.width = iFontSize * 3;
-                rectItem.y += rectItem.height + fMargin;
-                if (GUI.Button(rectItem, "<", gsButton))
+                int i = 0;
+                foreach(var imageFilePair in imageFiles)
                 {
-                    this.SelectPrev();
+                    this.fileButton(imageFilePair, ref rectItem);
+                    i += 1;
                 }
-                rectItem.x += rectItem.width;
-                if (GUI.Button(rectItem, ">", gsButton))
-                {
-                    this.SelectNext();
-                }
-                rectItem.x += rectItem.width;
-                rectItem.width = iFontSize * 20;
-                GUI.Label(rectItem, "Name", gsLabel);
-
-                rectItem.y += 100;
+                GUI.EndScrollView();
 
                 float fHeight = rectItem.y + rectItem.height + fMargin;
                 if (fHeight > Screen.height * 0.7f) {
@@ -227,9 +226,9 @@ namespace CM3D2.SceneCapture.Plugin
 
                     bool enableGameGui = true;
                     bool m = Input.GetAxis("Mouse ScrollWheel") != 0;
-                    for (int i = 0; i < 3; i++)
+                    for (int j = 0; i < 3; i++)
                     {
-                        m |= Input.GetMouseButtonDown(i);
+                        m |= Input.GetMouseButtonDown(j);
                     }
                     if (m)
                     {
@@ -266,6 +265,14 @@ namespace CM3D2.SceneCapture.Plugin
                 return Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2);
             }
 
+            internal class ImageInfo
+            {
+                public ImageInfo() {}
+
+                public string fullPath;
+                public string abbrevPath;
+                public Texture2D tex;
+            }
         }
     }
 }

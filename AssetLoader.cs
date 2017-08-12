@@ -255,8 +255,6 @@ namespace CM3D2.SceneCapture.Plugin
         label_61:
 
             binaryReader.Close();
-            if(mi.isMan)
-                Debug.Log(mi.isMan + " " + mi.partCategory);
             return mi;
         }
 

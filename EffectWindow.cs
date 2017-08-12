@@ -146,6 +146,9 @@ namespace CM3D2.SceneCapture.Plugin
                 this.kuwaharaPane = new KuwaharaPane( this.FontSize );
                 this.ChildControls.Add( this.kuwaharaPane );
 
+                this.lookupFilterPane = new LookupFilterPane( this.FontSize );
+                this.ChildControls.Add( this.lookupFilterPane );
+
                 this.pixelatePane = new PixelatePane( this.FontSize );
                 this.ChildControls.Add( this.pixelatePane );
 
@@ -219,6 +222,7 @@ namespace CM3D2.SceneCapture.Plugin
                 HalftoneDef.Update(this.halftonePane);
                 IsolineDef.Update(this.isolinePane);
                 KuwaharaDef.Update(this.kuwaharaPane);
+                LookupFilterDef.Update(this.lookupFilterPane);
                 PixelateDef.Update(this.pixelatePane);
                 RGBSplitDef.Update(this.rgbSplitPane);
                 ShadowsMidtonesHighlightsDef.Update(this.shadowsMidtonesHighlightsPane);
@@ -252,7 +256,8 @@ namespace CM3D2.SceneCapture.Plugin
 
             GUIUtil.AddGUICheckbox(this, this.brightnessContrastGammaPane,  this.colorCorrectionCurvesPane);
             GUIUtil.AddGUICheckbox(this, this.shadowsMidtonesHighlightsPane,  this.brightnessContrastGammaPane);
-            GUIUtil.AddGUICheckbox(this, this.whiteBalancePane,  this.shadowsMidtonesHighlightsPane);
+            GUIUtil.AddGUICheckbox(this, this.lookupFilterPane,  this.shadowsMidtonesHighlightsPane);
+            GUIUtil.AddGUICheckbox(this, this.whiteBalancePane,  this.lookupFilterPane);
             GUIUtil.AddGUICheckbox(this, this.channelMixerPane, this.whiteBalancePane);
             GUIUtil.AddGUICheckbox(this, this.bleachBypassPane, this.channelMixerPane);
             GUIUtil.AddGUICheckbox(this, this.sepiaPane, this.bleachBypassPane);
@@ -349,6 +354,7 @@ namespace CM3D2.SceneCapture.Plugin
         private HalftonePane halftonePane = null;
         private IsolinePane isolinePane = null;
         private KuwaharaPane kuwaharaPane = null;
+        private LookupFilterPane lookupFilterPane = null;
         private PixelatePane pixelatePane = null;
         private RGBSplitPane rgbSplitPane = null;
         private ShadowsMidtonesHighlightsPane shadowsMidtonesHighlightsPane = null;

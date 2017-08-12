@@ -1917,6 +1917,13 @@ namespace CM3D2.SceneCapture.Plugin
 
                 this._value = (Texture2D)texture;
 
+                if(this._value == null)
+                {
+                    this._value = new Texture2D(1, 1);
+                    this._value.SetPixel(0, 0, new Color(255, 255, 255, 0));
+                    this._value.Apply();
+                }
+
                 this._filename = filename;
             }
             catch( Exception e )
@@ -1943,7 +1950,7 @@ namespace CM3D2.SceneCapture.Plugin
 
                 if( GUI.Button( texRect, string.Empty, labelStyle ) )
                 {
-                    GlobalTexturePicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y), this.FontSize * 15, this.FontSize, this.imageDirectories,
+                    GlobalTexturePicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y), this.FontSize * 40, this.FontSize, this.imageDirectories,
                                             (x, y) =>
                             {
                                 this._value = x;

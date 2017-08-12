@@ -2,13 +2,15 @@
 {
 	using UnityEngine;
 
-	public class LookupFilter3D : BaseEffect
+	public class LookupFilter : BaseEffect
 	{
-		public Texture2D LookupTexture;
+		public Texture2D lookupTexture;
 
-		public float Amount = 1f;
+		public float amount = 1f;
 
-		public bool ForceCompatibility = false;
+		public bool forceCompatibility = false;
+
+            public bool needsUpdate { get; set; }
 
 		protected Texture3D m_Lut3D;
 		protected string m_BaseTextureName;
@@ -74,17 +76,17 @@
 
 		protected void ConvertBaseTexture()
 		{
-			if (!ValidDimensions(LookupTexture))
+			if (!ValidDimensions(lookupTexture))
 			{
-				Debug.LogWarning("The given 2D texture " + LookupTexture.name + " cannot be used as a 3D LUT. Pick another texture or adjust dimension to e.g. 256x16.");
+				Debug.LogWarning("The given 2D texture " + lookupTexture.name + " cannot be used as a 3D LUT. Pick another texture or adjust dimension to e.g. 256x16.");
 				return;
 			}
 
-			m_BaseTextureName = LookupTexture.name;
+			m_BaseTextureName = lookupTexture.name;
 
-			int dim = LookupTexture.height;
+			int dim = lookupTexture.height;
 
-			Color[] c = LookupTexture.GetPixels();
+			Color[] c = lookupTexture.GetPixels();
 			Color[] newC = new Color[c.Length];
 
 			for (int i = 0; i < dim; i++)
@@ -107,6 +109,8 @@
 			m_Lut3D.wrapMode = TextureWrapMode.Clamp;
 			m_Lut3D.SetPixels(newC);
 			m_Lut3D.Apply();
+
+                        needsUpdate = false;
 		}
 
 		public void Apply(Texture source, RenderTexture destination)
@@ -125,7 +129,7 @@
 
 		protected override void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
-			if (LookupTexture == null || Amount <= 0f)
+			if (lookupTexture == null || amount <= 0f)
 			{
 				Graphics.Blit(source, destination);
 				return;
@@ -136,7 +140,7 @@
 
 		protected virtual void RenderLut3D(RenderTexture source, RenderTexture destination)
 		{
-			if (LookupTexture.name != m_BaseTextureName)
+			if (needsUpdate || lookupTexture.name != m_BaseTextureName)
 				ConvertBaseTexture();
 
 			if (m_Lut3D == null)
@@ -147,7 +151,7 @@
 			Material.SetVector("_Params", new Vector3(
 					(lutSize - 1f) / (1f * lutSize),
 					1f / (2f * lutSize),
-					Amount
+					amount
 				));
 
 			Graphics.Blit(source, destination, Material, CLib.IsLinearColorSpace() ? 1 : 0);

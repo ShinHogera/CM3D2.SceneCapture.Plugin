@@ -194,7 +194,7 @@ namespace CM3D2.SceneCapture.Plugin
                 GUIUtil.AddGUISliderNoRender(this, this.cameraFovSlider, this.cameraDistanceSlider);
                 this.cameraFovSlider.Width = this.Width - ControlBase.FixedMargin * 7;
                 this.cameraFovSlider.OnGUI();
-                GUIUtil.AddGUIButtonAfter(this, this.cameraSavePositionButton, this.cameraFovSlider, 3);
+                GUIUtil.AddGUICheckbox(this, this.cameraAllSettingsCheckbox, this.cameraFovSlider);
             }
             else
             {
@@ -208,7 +208,7 @@ namespace CM3D2.SceneCapture.Plugin
                 GUIUtil.AddGUISliderNoRender(this, this.cameraRotationZSlider, this.cameraFovSlider);
                 this.cameraRotationZSlider.Width = this.Width - ControlBase.FixedMargin * 7;
                 this.cameraRotationZSlider.OnGUI();
-                GUIUtil.AddGUIButtonAfter(this, this.cameraSavePositionButton, this.cameraRotationZSlider, 3);
+                GUIUtil.AddGUICheckbox(this, this.cameraAllSettingsCheckbox, this.cameraRotationZSlider);
 
                 this.cameraPositionXField.Visible = false;
                 this.cameraPositionYField.Visible = false;
@@ -219,11 +219,11 @@ namespace CM3D2.SceneCapture.Plugin
                 this.cameraDistanceSlider.Visible = false;
             }
 
+            GUIUtil.AddGUIButtonAfter(this, this.cameraSavePositionButton, this.cameraAllSettingsCheckbox, 3);
             GUIUtil.AddGUIButton(this, this.cameraRestorePositionButton, this.cameraSavePositionButton, 3);
             GUIUtil.AddGUIButton(this, this.cameraResetPositionButton, this.cameraRestorePositionButton, 3);
-            GUIUtil.AddGUICheckbox(this, this.cameraAllSettingsCheckbox, this.cameraSavePositionButton);
 
-            GUIUtil.AddGUICheckbox( this, this.backgroundBox, this.cameraAllSettingsCheckbox );
+            GUIUtil.AddGUICheckbox( this, this.backgroundBox, this.cameraSavePositionButton );
             GUIUtil.AddGUICheckbox( this, this.bgButton, this.backgroundBox );
 
             ControlBase prev = this.bgButton;

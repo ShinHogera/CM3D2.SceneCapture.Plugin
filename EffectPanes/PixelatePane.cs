@@ -28,7 +28,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.automaticRatioCheckbox.Text = Translation.GetText("Pixelate", "automaticRatio");
             this.ChildControls.Add( this.automaticRatioCheckbox );
 
-            this.ratioSlider = new CustomSlider( PixelateDef.pixelateEffect.ratio, 0f, 100f, 2 );
+            this.ratioSlider = new CustomSlider( PixelateDef.pixelateEffect.ratio, 0f, 10f, 4 );
             this.ratioSlider.Text = Translation.GetText("Pixelate", "ratio");
             this.ChildControls.Add( this.ratioSlider );
 
