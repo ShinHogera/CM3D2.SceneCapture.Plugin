@@ -13,48 +13,65 @@ namespace CM3D2.SceneCapture.Plugin
     internal class IsolineDef
     {
         public static Isoline isolineEffect;
-
-        public static Color lineColor { get; set; }
-        public static float luminanceBlending { get; set; }
-        public static float fallOffDepth { get; set; }
-        public static Color backgroundColor { get; set; }
+      
+        public static Color lineColor { get; set; }      
+        public static float luminanceBlending { get; set; }      
+        public static float fallOffDepth { get; set; }      
+        public static Color backgroundColor { get; set; }      
         public static Vector3 axis { get; set; }
 
-        static IsolineDef()
+        public IsolineDef()
         {
-            if(isolineEffect == null)
+            if( isolineEffect == null)
             {
                 isolineEffect = Util.GetComponentVar<Isoline, IsolineDef>(isolineEffect);
             }
 
-            strengthX = 0.05f;
-            strengthY = 0.05f;
+            lineColor = new Color(1, 1, 1);
+            luminanceBlending = 1f;
+            fallOffDepth = 0f;
+            backgroundColor = new Color(1, 1, 1);
+            axis = new Vector3(1, 1, 1);
         }
 
-        public static void InitMemberByInstance(Isoline iso)
+        public void InitMemberByInstance(Isoline isoline)
         {
-            strengthX = fish.strengthX;
-            strengthY = fish.strengthY;
+            lineColor = isoline.lineColor;
+            luminanceBlending = isoline.luminanceBlending;
+            fallOffDepth = isoline.fallOffDepth;
+            backgroundColor = isoline.backgroundColor;
+            axis = isoline.axis;
         }
 
         public static void Update(IsolinePane isolinePane)
         {
-            if (Instances.needEffectWindowReload == true)
+            if( Instances.needEffectWindowReload == true )
+            {
                 isolinePane.IsEnabled = isolineEffect.enabled;
+            }
             else
+            {
                 isolineEffect.enabled = isolinePane.IsEnabled;
-
-            isolineEffect.strengthX = isolinePane.StrengthXValue;
-            isolineEffect.strengthY = isolinePane.StrengthYValue;
+            }
+        
+            isolineEffect.lineColor = isolinePane.LineColorValue;
+            isolineEffect.luminanceBlending = isolinePane.LuminanceBlendingValue;
+            isolineEffect.fallOffDepth = isolinePane.FallOffDepthValue;
+            isolineEffect.backgroundColor = isolinePane.BackgroundColorValue;
+            isolineEffect.axis = isolinePane.AxisValue;
         }
 
         public static void Reset()
         {
-            if (isolineEffect == null)
+            if( isolineEffect == null )
                 return;
-
-            isolineEffect.strengthX = strengthX;
-            isolineEffect.strengthY = strengthY;
+        
+            isolineEffect.lineColor = lineColor;
+            isolineEffect.luminanceBlending = luminanceBlending;
+            isolineEffect.fallOffDepth = fallOffDepth;
+            isolineEffect.backgroundColor = backgroundColor;
+            isolineEffect.axis = axis;
         }
     }
 }
+
