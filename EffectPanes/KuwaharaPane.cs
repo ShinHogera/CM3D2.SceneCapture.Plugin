@@ -14,40 +14,40 @@ using UnityInjector.Attributes;
 
 namespace CM3D2.SceneCapture.Plugin
 {
-    internal class BleachBypassPane : BasePane
+    internal class KuwaharaPane : BasePane
     {
-        public BleachBypassPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "BleachBypass") ) {}
+        public KuwaharaPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "Kuwahara") ) {}
 
         override public void SetupPane()
         {
-            this.amountSlider = new CustomSlider( BleachBypassDef.bleachBypassEffect.amount, 0f, 1f, 4 );
-            this.amountSlider.Text = Translation.GetText("BleachBypass", "amount");
-            this.ChildControls.Add( this.amountSlider );
+            this.radiusSlider = new CustomSlider( KuwaharaDef.kuwaharaEffect.radius, 1f, 6f, 0 );
+            this.radiusSlider.Text = Translation.GetText("Kuwahara", "radius");
+            this.ChildControls.Add( this.radiusSlider );
         }
 
         override public void ShowPane()
         {
-           GUIUtil.AddGUISlider(this, this.amountSlider);
+           GUIUtil.AddGUISlider(this, this.radiusSlider);
         }
 
         override public void Reset()
         {
-            BleachBypassDef.Reset();
+            KuwaharaDef.Reset();
         }
 
         #region Properties
-        public float AmountValue
+        public int RadiusValue
         {
             get
             {
-                return this.amountSlider.Value;
+                return (int)this.radiusSlider.Value;
             }
         }
 
         #endregion
 
         #region Fields
-        private CustomSlider amountSlider = null;
+        private CustomSlider radiusSlider = null;
         #endregion
     }
 }

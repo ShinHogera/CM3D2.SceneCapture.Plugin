@@ -20,37 +20,47 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
-            this.automaticPhaseCheckbox = new CustomToggleButton ( AnalogTVDef.analogTVEffect.automaticPhase, "toggle" );
+            this.automaticPhaseCheckbox = new CustomToggleButton( AnalogTVDef.analogTVEffect.automaticPhase, "toggle" );
             this.automaticPhaseCheckbox.Text = Translation.GetText("AnalogTV", "automaticPhase");
             this.ChildControls.Add( this.automaticPhaseCheckbox );
-            this.phaseSlider = new CustomSlider ( AnalogTVDef.analogTVEffect.phase, 0f, 180f, 2 );
+
+            this.phaseSlider = new CustomSlider( AnalogTVDef.analogTVEffect.phase, 0f, 180f, 2 );
             this.phaseSlider.Text = Translation.GetText("AnalogTV", "phase");
             this.ChildControls.Add( this.phaseSlider );
-            this.convertToGrayscaleCheckbox = new CustomToggleButton ( AnalogTVDef.analogTVEffect.convertToGrayscale, "toggle" );
+
+            this.convertToGrayscaleCheckbox = new CustomToggleButton( AnalogTVDef.analogTVEffect.convertToGrayscale, "toggle" );
             this.convertToGrayscaleCheckbox.Text = Translation.GetText("AnalogTV", "convertToGrayscale");
             this.ChildControls.Add( this.convertToGrayscaleCheckbox );
-            this.noiseIntensitySlider = new CustomSlider ( AnalogTVDef.analogTVEffect.noiseIntensity, 0f, 1f, 4 );
+
+            this.noiseIntensitySlider = new CustomSlider( AnalogTVDef.analogTVEffect.noiseIntensity, 0f, 1f, 4 );
             this.noiseIntensitySlider.Text = Translation.GetText("AnalogTV", "noiseIntensity");
             this.ChildControls.Add( this.noiseIntensitySlider );
-            this.scanlinesIntensitySlider = new CustomSlider ( AnalogTVDef.analogTVEffect.scanlinesIntensity, 0f, 2f, 4 );
+
+            this.scanlinesIntensitySlider = new CustomSlider( AnalogTVDef.analogTVEffect.scanlinesIntensity, 0f, 2f, 4 );
             this.scanlinesIntensitySlider.Text = Translation.GetText("AnalogTV", "scanlinesIntensity");
             this.ChildControls.Add( this.scanlinesIntensitySlider );
-            this.scanlinesCountSlider = new CustomSlider ( AnalogTVDef.analogTVEffect.scanlinesCount, 0f, 4096f, 0 );
+
+            this.scanlinesCountSlider = new CustomSlider( AnalogTVDef.analogTVEffect.scanlinesCount, 0f, 4096f, 0 );
             this.scanlinesCountSlider.Text = Translation.GetText("AnalogTV", "scanlinesCount");
             this.ChildControls.Add( this.scanlinesCountSlider );
-            this.scanlinesOffsetSlider = new CustomSlider ( AnalogTVDef.analogTVEffect.scanlinesOffset, 0f, 300f, 2 );
+
+            this.scanlinesOffsetSlider = new CustomSlider( AnalogTVDef.analogTVEffect.scanlinesOffset, 0f, 300f, 2 );
             this.scanlinesOffsetSlider.Text = Translation.GetText("AnalogTV", "scanlinesOffset");
             this.ChildControls.Add( this.scanlinesOffsetSlider );
-            this.verticalScanlinesCheckbox = new CustomToggleButton ( AnalogTVDef.analogTVEffect.verticalScanlines, "toggle" );
+
+            this.verticalScanlinesCheckbox = new CustomToggleButton( AnalogTVDef.analogTVEffect.verticalScanlines, "toggle" );
             this.verticalScanlinesCheckbox.Text = Translation.GetText("AnalogTV", "verticalScanlines");
             this.ChildControls.Add( this.verticalScanlinesCheckbox );
-            this.distortionSlider = new CustomSlider ( AnalogTVDef.analogTVEffect.distortion, -2f, 2f, 4 );
+
+            this.distortionSlider = new CustomSlider( AnalogTVDef.analogTVEffect.distortion, -2f, 2f, 4 );
             this.distortionSlider.Text = Translation.GetText("AnalogTV", "distortion");
             this.ChildControls.Add( this.distortionSlider );
-            this.cubicDistortionSlider = new CustomSlider ( AnalogTVDef.analogTVEffect.cubicDistortion, -2f, 2f, 4 );
+
+            this.cubicDistortionSlider = new CustomSlider( AnalogTVDef.analogTVEffect.cubicDistortion, -2f, 2f, 4 );
             this.cubicDistortionSlider.Text = Translation.GetText("AnalogTV", "cubicDistortion");
             this.ChildControls.Add( this.cubicDistortionSlider );
-            this.scaleSlider = new CustomSlider ( AnalogTVDef.analogTVEffect.scale, 0.01f, 2f, 4 );
+
+            this.scaleSlider = new CustomSlider( AnalogTVDef.analogTVEffect.scale, 0.01f, 2f, 4 );
             this.scaleSlider.Text = Translation.GetText("AnalogTV", "scale");
             this.ChildControls.Add( this.scaleSlider );
         }

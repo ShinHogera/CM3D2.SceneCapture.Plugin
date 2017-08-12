@@ -14,25 +14,30 @@ using UnityInjector.Attributes;
 
 namespace CM3D2.SceneCapture.Plugin
 {
-    internal class BleachBypassPane : BasePane
+    internal class RGBSplitPane : BasePane
     {
-        public BleachBypassPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "BleachBypass") ) {}
+        public RGBSplitPane( int fontSize ) : base( fontSize, Translation.GetText("Panes", "RGBSplit") ) {}
 
         override public void SetupPane()
         {
-            this.amountSlider = new CustomSlider( BleachBypassDef.bleachBypassEffect.amount, 0f, 1f, 4 );
-            this.amountSlider.Text = Translation.GetText("BleachBypass", "amount");
+            this.amountSlider = new CustomSlider( RGBSplitDef.rGBSplitEffect.amount, 0f, 5f, 4 );
+            this.amountSlider.Text = Translation.GetText("RGBSplit", "amount");
             this.ChildControls.Add( this.amountSlider );
+
+            this.angleSlider = new CustomSlider( RGBSplitDef.rGBSplitEffect.angle, 0f, 180f, 2 );
+            this.angleSlider.Text = Translation.GetText("RGBSplit", "angle");
+            this.ChildControls.Add( this.angleSlider );
         }
 
         override public void ShowPane()
         {
            GUIUtil.AddGUISlider(this, this.amountSlider);
+           GUIUtil.AddGUISlider(this, this.angleSlider);
         }
 
         override public void Reset()
         {
-            BleachBypassDef.Reset();
+            RGBSplitDef.Reset();
         }
 
         #region Properties
@@ -44,10 +49,19 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
+        public float AngleValue
+        {
+            get
+            {
+                return this.angleSlider.Value;
+            }
+        }
+
         #endregion
 
         #region Fields
         private CustomSlider amountSlider = null;
+        private CustomSlider angleSlider = null;
         #endregion
     }
 }

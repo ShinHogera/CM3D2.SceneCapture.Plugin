@@ -14,7 +14,7 @@ _VECSLIDER(green, z, 0f, 100f, 4)
 _VECSLIDER(blue, x, 0f, 100f, 4)
 _VECSLIDER(blue, y, 0f, 100f, 4)
 _VECSLIDER(blue, z, 0f, 100f, 4)
-_VECSLIDER(contrast, x, 0f, 100f, 4)
-_VECSLIDER(contrast, y, 0f, 100f, 4)
-_VECSLIDER(contrast, z, 0f, 100f, 4)dnl
+_VECSLIDER(constant, x, 0f, 100f, 4)
+_VECSLIDER(constant, y, 0f, 100f, 4)
+_VECSLIDER(constant, z, 0f, 100f, 4)dnl
 )dnl

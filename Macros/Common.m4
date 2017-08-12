@@ -160,7 +160,7 @@ define(`_PROPS',dnl
 _PROPS`_VAL(`$1', `$5', `$6')')')
 
 define(`_COMBOBOX',dnl
-`_REDEF(`$1', `ComboBox', `Box', `Checkbox', `$3', `($3) Enum.Parse( typeof( $3 ), this.$1ComboBox.SelectedItem)')dnl
+`_REDEF(`$1', `ComboBox', `ComboBox', `Checkbox', `$3', `($3) Enum.Parse( typeof( $3 ), this.$1ComboBox.SelectedItem)')dnl
 _CHILD(`$1ComboBox',dnl
             `this.$1ComboBox = new CustomComboBox ( $2 );
             this.$1ComboBox.Text = _TRANSL(`$1');
@@ -169,29 +169,38 @@ _CHILD(`$1ComboBox',dnl
 define(`_CHECKBOX',dnl
 `_REDEF(`$1', `ToggleButton', `Checkbox', `Checkbox', `bool', `this.$1Checkbox.Value')dnl
 _CHILD(`$1Checkbox',dnl
-`            this.$1Checkbox = new CustomToggleButton ( _EFFECT(`$1'), "toggle" );
+`            this.$1Checkbox = new CustomToggleButton( _EFFECT(`$1'), "toggle" );
             this.$1Checkbox.Text = _TRANSL(`$1');')')dnl
 
 define(`_SLIDER',dnl
 `_REDEF($1, `Slider', `Slider', `Slider', `$2', `ifelse($2, float,,($2))this.$1Slider.Value')dnl
 _CHILD(`$1Slider',dnl
-            `this.$1Slider = new CustomSlider ( _EFFECT(`$1'), $3, $4, $5 );
+            `this.$1Slider = new CustomSlider( _EFFECT(`$1'), $3, $4, $5 );
             this.$1Slider.Text = _TRANSL(`$1');')')dnl
 
 define(`_VECSLIDER',dnl
 `_REDEF(`$1'upcase($2), `Slider', `Slider', `Slider', `float', `this.$1'upcase($2)`Slider.Value')dnl
 _CHILD(`$1'upcase($2)`Slider',dnl
-            `this.$1'upcase($2)`Slider = new CustomSlider ( _EFFECT(`$1.$2'), $3, $4, $5);
+            `this.$1'upcase($2)`Slider = new CustomSlider( _EFFECT(`$1.$2'), $3, $4, $5);
             this.$1'upcase($2)`Slider.Text = _TRANSL(`$1'upcase($2));')')dnl
 
 define(`_COLORPICKER',dnl
 `_REDEF(`$1', `ColorPicker', `Picker', `Checkbox', `Color', `this.$1Picker.Value')dnl
 _CHILD(`$1Picker',dnl
-`            this.$1Picker = new CustomColorPicker ( _EFFECT(`$1') );
+`            this.$1Picker = new CustomColorPicker( _EFFECT(`$1') );
             this.$1Picker.Text = _TRANSL(`$1');')')dnl
 
 define(`_VEC',
 `define(`_PROPS',dnl
 _PROPS`_VAL(`$1', `Vector3', `new Vector3(this.$1XSlider.Value, this.$1YSlider.Value, this.$1ZSlider.Value)')')')
+
+define(`_VEC2',
+`define(`_PROPS',dnl
+_PROPS`_VAL(`$1', `Vector2', `new Vector2(this.$1XSlider.Value, this.$1YSlider.Value)')')')
+
+define(`_ENUM',
+`define(`_DEFS',dnl
+_DEFS`        private static readonly string[] $1 = new string[] { $2 };
+')')
 
 divert(0)dnl

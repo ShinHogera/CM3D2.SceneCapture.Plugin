@@ -25,9 +25,9 @@
 			}
 
 			Material.SetVector("_Params", new Vector4(
-					Amplitude,
-					Waves,
-					ColorGlitch,
+					amplitude,
+					waves,
+					colorGlitch,
 					fp
 				));
 

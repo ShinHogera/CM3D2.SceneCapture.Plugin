@@ -18,8 +18,8 @@ namespace CM3D2.SceneCapture.Plugin
 
 			Material.SetVector("_Params", new Vector3(
 					amount * 0.001f,
-					Mathf.Sin(Angle),
-					Mathf.Cos(Angle)
+					Mathf.Sin(angle),
+					Mathf.Cos(angle)
 				));
 
 			Graphics.Blit(source, destination, Material);

@@ -9,7 +9,7 @@
 
 		protected override void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{
-			radius = Mathf.Clamp(Radius, 1, 6);
+			radius = Mathf.Clamp(radius, 1, 6);
 			Material.SetVector("_PSize", new Vector2(1f / (float)source.width, 1f / (float)source.height));
 			Graphics.Blit(source, destination, Material, radius - 1);
 		}

@@ -1,5 +1,6 @@
 include(`Common.m4')dnl
 define(`_NAME', `Pixelate')dnl
+_ENUM(PIXELATE_SIZEMODES, `"ResolutionIndependent" ````,'''' "PixelPerfect"')dnl
 _PANE(Pixelate,
 _SLIDER(scale, float, 1f, 1024f, 2)
 _CHECKBOX(automaticRatio)

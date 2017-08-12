@@ -1,6 +1,7 @@
 include(`Common.m4')dnl
-define(`_NAME', `WhiteBalance')dnl
-_PANE(WhiteBalance,
+define(`_NAME', `Wiggle')dnl
+_ENUM(`WIGGLE_ALGORITHMS', `"Simple" ``````,'''''' "Complex"')dnl
+_PANE(Wiggle,
 _COMBOBOX(mode, WIGGLE_ALGORITHMS, Wiggle.Algorithm)
 _SLIDER(timer, float, 0f, 100f, 2)
 _SLIDER(speed, float, 0f, 100f, 2)
