@@ -1,10 +1,11 @@
 divert(-1)dnl
 
 define(`upcase', `translit(`$*', `a-z', `A-Z')')
-
 define(`downcase', `translit(`$*', `A-Z', `a-z')')
 define(`_capitalize', `regexp(`$1', `^\(\w\)\(\w*\)', `upcase(`\1')`'`\2'')')
 define(`capitalize', `patsubst(`$1', `\w+', `_$0(`\&')')')
+define(`_decapitalize', `regexp(`$1', `^\(\w\)\(\w*\)', `downcase(`\1')`'`\2'')')
+define(`decapitalize', `patsubst(`$1', `\w+', `_$0(`\&')')')
 define(`_NAME', `Undefined')
 define(`_DEFS', `')
 define(`_SHOWS', `')
@@ -32,6 +33,7 @@ namespace CM3D2.SceneCapture.Plugin
     {
         public static _NAME _EFFECTVAR;
 $2
+
         public _NAME`'Def()
         {
             if( _EFFECTVAR == null)
@@ -41,55 +43,53 @@ $2
 _DEFAULTS
         }
 
-        public void InitMemberByInstance(_NAME downcase(_NAME))
+        public void InitMemberByInstance(_NAME decapitalize(_NAME))
         {
 _INITS        }
 
-        public static void Update(_NAME`'Pane downcase(_NAME)Pane)
+        public static void Update(_NAME`'Pane decapitalize(_NAME)Pane)
         {
             if( Instances.needEffectWindowReload == true )
             {
-                downcase(_NAME)Pane.IsEnabled = _EFFECTVAR.enabled;
+                decapitalize(_NAME)Pane.IsEnabled = _EFFECTVAR.enabled;
             }
             else
             {
-                _EFFECTVAR.enabled = downcase(_NAME)Pane.IsEnabled;
+                _EFFECTVAR.enabled = decapitalize(_NAME)Pane.IsEnabled;
             }
-        _UPDATES
+_UPDATES
         }
 
         public static void Reset()
         {
             if( _EFFECTVAR == null )
                 return;
-        _RESETS
+_RESETS
         }
     }
 }
 '
 )
 
-define(`_EFFECTVAR', `downcase(_NAME)Effect')
+define(`_EFFECTVAR', `decapitalize(_NAME)Effect')
 define(`_DEFREDEF',dnl
-  `define(`_DEFAULTS',dnl
+`define(`_DEFAULTS',dnl
 _DEFAULTS
             `$1 = $3;')dnl
-  define(`_INITS',dnl
-_INITS`            $1 = downcase(_NAME).$1';
+define(`_INITS',dnl
+_INITS`            $1 = decapitalize(_NAME).$1';
 )dnl
-  define(`_UPDATES',dnl
+define(`_UPDATES',dnl
 _UPDATES
-            downcase(_NAME)`Effect.$1' = downcase(_NAME)`Pane.'capitalize($1)`Value;')
-  define(`_RESETS',dnl
+            decapitalize(_NAME)`Effect.$1' = decapitalize(_NAME)`Pane.'capitalize($1)`Value;')
+define(`_RESETS',dnl
 _RESETS
             _EFFECTVAR`.$1 = $1;')')
 
-define(`_VECPROP', `_DEFREDEF(`$1', `$2')dnl
-      public static $2 $1 { get; set; }')
-
-define(`_PROP', `_DEFREDEF(`$1', `$2', `$3')dnl
-      public static $2 $1 { get; set; }')dnl
-
+define(`_PROP',dnl
+`_DEFREDEF(`$1', `$2', `$3')dnl
+        public static $2 $1 { get; set; }')
+dnl
 define(`_PANE', `define(`_NAME', `$1Pane')dnl
 using System;
 using System.Collections.Generic;
@@ -136,7 +136,8 @@ define(`_CHILD', `$2
             this.ChildControls.Add( this.$1 );')dnl
 dnl
 dnl
-define(`_VAL', `        public $2 capitalize(`$1')Value {
+define(`_VAL', `        public $2 capitalize(`$1')Value
+        {
             get
             {
                 return $3;
@@ -146,7 +147,7 @@ define(`_VAL', `        public $2 capitalize(`$1')Value {
 ')dnl
 dnl
 define(`_TRANSL', `Translation.GetText("_NAME", "$1")')
-define(`_EFFECT', `_NAME`'Def.downcase(_NAME)Effect.$1')
+define(`_EFFECT', `_NAME`'Def.decapitalize(_NAME)Effect.$1')
 dnl
 define(`_REDEF',dnl
 `define(`_DEFS',dnl

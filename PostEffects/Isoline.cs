@@ -199,7 +199,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.offset += delta;
         }
 
-        void OnRenderImage(RenderTexture source, RenderTexture destination)
+        protected override void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
             // if (Material == null) {
             //     Material = new Material(_shader);
