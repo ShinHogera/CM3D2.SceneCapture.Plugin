@@ -19,7 +19,6 @@ namespace CM3D2.SceneCapture.Plugin
         public static float fallOffDepth { get; set; }
         public static Color backgroundColor { get; set; }
         public static Vector3 axis { get; set; }
-        public static Color backgroundColor { get; set; }
 
         static IsolineDef()
         {

@@ -23,7 +23,7 @@
 //
 using UnityEngine;
 
-namespace Kino
+namespace CM3D2.SceneCapture.Plugin
 {
     public class Isoline : BaseEffect
     {
@@ -31,7 +31,7 @@ namespace Kino
 
         // Line color
         // [SerializeField, ColorUsage(true, true, 0, 8, 0.125f, 3)]
-        Color _lineColor = Color.white;
+        public Color _lineColor = Color.white;
 
         public Color lineColor {
             get { return _lineColor; }
@@ -40,7 +40,7 @@ namespace Kino
 
         // Luminance blending ratio
         // [SerializeField, Range(0, 1)]
-        float _luminanceBlending = 1;
+        public float _luminanceBlending = 1;
 
         public float luminanceBlending {
             get { return _luminanceBlending; }
@@ -49,7 +49,7 @@ namespace Kino
 
         // Depth fall-off
         // [SerializeField]
-        float _fallOffDepth = 40;
+        public float _fallOffDepth = 40;
 
         public float fallOffDepth {
             get { return _fallOffDepth; }
@@ -58,7 +58,7 @@ namespace Kino
 
         // Background color
         // [SerializeField]
-        Color _backgroundColor = Color.black;
+        public Color _backgroundColor = Color.black;
 
         public Color backgroundColor {
             get { return _backgroundColor; }
@@ -67,7 +67,7 @@ namespace Kino
 
         // Slicing axis
         // [SerializeField]
-        Vector3 _axis = Vector3.one * 0.577f;
+        public Vector3 _axis = Vector3.one * 0.577f;
 
         public Vector3 axis {
             get { return _axis; }
@@ -76,7 +76,7 @@ namespace Kino
 
         // Contour interval
         // [SerializeField]
-        float _interval = 0.25f;
+        public float _interval = 0.25f;
 
         public float interval {
             get { return _interval; }
@@ -85,7 +85,7 @@ namespace Kino
 
         // Offset
         // [SerializeField]
-        Vector3 _offset;
+        public Vector3 _offset;
 
         public Vector3 offset {
             get { return _offset; }
@@ -94,7 +94,7 @@ namespace Kino
 
         // Distortion frequency
         // [SerializeField]
-        float _distortionFrequency = 1;
+        public float _distortionFrequency = 1;
 
         public float distortionFrequency {
             get { return _distortionFrequency; }
@@ -103,7 +103,7 @@ namespace Kino
 
         // Distortion amount
         // [SerializeField]
-        float _distortionAmount = 0;
+        public float _distortionAmount = 0;
 
         public float distortionAmount {
             get { return _distortionAmount; }
@@ -116,7 +116,7 @@ namespace Kino
         }
 
         // [SerializeField]
-        ModulationMode _modulationMode = ModulationMode.None;
+        public ModulationMode _modulationMode = ModulationMode.None;
 
         public ModulationMode modulationMode {
             get { return _modulationMode; }
@@ -125,7 +125,7 @@ namespace Kino
 
         // Modulation axis
         // [SerializeField]
-        Vector3 _modulationAxis = Vector3.forward;
+        public Vector3 _modulationAxis = Vector3.forward;
 
         public Vector3 modulationAxis {
             get { return _modulationAxis; }
@@ -134,7 +134,7 @@ namespace Kino
 
         // Modulation frequency
         // [SerializeField]
-        float _modulationFrequency = 0.2f;
+        public float _modulationFrequency = 0.2f;
 
         public float modulationFrequency {
             get { return _modulationFrequency; }
@@ -143,7 +143,7 @@ namespace Kino
 
         // Modulation speed
         // [SerializeField]
-        float _modulationSpeed = 1;
+        public float _modulationSpeed = 1;
 
         public float modulationSpeed {
             get { return _modulationSpeed; }
@@ -152,7 +152,7 @@ namespace Kino
 
         // Modulation exponent
         // [SerializeField, Range(1, 50)]
-        float _modulationExponent = 24;
+        public float _modulationExponent = 24;
 
         public float modulationExponent {
             get { return _modulationExponent; }
@@ -162,14 +162,14 @@ namespace Kino
         #endregion
 
         #region IsolineScroller Properties
-        Vector3 _direction = Vector3.one * 0.577f;
+        public Vector3 _direction = Vector3.one * 0.577f;
 
         public Vector3 direction {
             get { return _direction; }
             set { _direction = value; }
         }
 
-        float _speed = 0.2f;
+        public float _speed = 0.2f;
 
         public float speed {
             get { return _speed; }
@@ -180,10 +180,6 @@ namespace Kino
 
         #region Private Properties
 
-        [SerializeField]
-        Shader _shader;
-
-        Material _material;
         float _modulationTime;
 
         #endregion
@@ -205,52 +201,52 @@ namespace Kino
 
         void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
-            if (_material == null) {
-                _material = new Material(_shader);
-                _material.hideFlags = HideFlags.DontSave;
-            }
+            // if (Material == null) {
+            //     Material = new Material(_shader);
+            //     Material.hideFlags = HideFlags.DontSave;
+            // }
 
             var matrix = GetComponent<Camera>().cameraToWorldMatrix;
-            _material.SetMatrix("_InverseView", matrix);
+            Material.SetMatrix("_InverseView", matrix);
 
-            _material.SetColor("_Color", _lineColor);
-            _material.SetFloat("_FallOffDepth", _fallOffDepth);
-            _material.SetFloat("_Blend", _luminanceBlending);
-            _material.SetColor("_BgColor", _backgroundColor);
+            Material.SetColor("_Color", _lineColor);
+            Material.SetFloat("_FallOffDepth", _fallOffDepth);
+            Material.SetFloat("_Blend", _luminanceBlending);
+            Material.SetColor("_BgColor", _backgroundColor);
 
-            _material.SetVector("_Axis", _axis.normalized);
-            _material.SetFloat("_Density", 1.0f / _interval);
-            _material.SetVector("_Offset", _offset);
+            Material.SetVector("_Axis", _axis.normalized);
+            Material.SetFloat("_Density", 1.0f / _interval);
+            Material.SetVector("_Offset", _offset);
 
-            _material.SetFloat("_DistFreq", _distortionFrequency);
-            _material.SetFloat("_DistAmp", _distortionAmount);
+            Material.SetFloat("_DistFreq", _distortionFrequency);
+            Material.SetFloat("_DistAmp", _distortionAmount);
 
             if (_distortionAmount > 0)
-                _material.EnableKeyword("DISTORTION");
+                Material.EnableKeyword("DISTORTION");
             else
-                _material.DisableKeyword("DISTORTION");
+                Material.DisableKeyword("DISTORTION");
 
-            _material.DisableKeyword("MODULATION_FRAC");
-            _material.DisableKeyword("MODULATION_SIN");
-            _material.DisableKeyword("MODULATION_NOISE");
+            Material.DisableKeyword("MODULATION_FRAC");
+            Material.DisableKeyword("MODULATION_SIN");
+            Material.DisableKeyword("MODULATION_NOISE");
 
             if (_modulationMode == ModulationMode.Frac)
-                _material.EnableKeyword("MODULATION_FRAC");
+                Material.EnableKeyword("MODULATION_FRAC");
             else if (_modulationMode == ModulationMode.Sin)
-                _material.EnableKeyword("MODULATION_SIN");
+                Material.EnableKeyword("MODULATION_SIN");
             else if (_modulationMode == ModulationMode.Noise)
-                _material.EnableKeyword("MODULATION_NOISE");
+                Material.EnableKeyword("MODULATION_NOISE");
 
             var modFreq = _modulationFrequency;
             if (_modulationMode == ModulationMode.Sin)
                 modFreq *= Mathf.PI * 2;
 
-            _material.SetVector("_ModAxis", _modulationAxis.normalized);
-            _material.SetFloat("_ModFreq", modFreq);
-            _material.SetFloat("_ModTime", _modulationTime);
-            _material.SetFloat("_ModExp", _modulationExponent);
+            Material.SetVector("_ModAxis", _modulationAxis.normalized);
+            Material.SetFloat("_ModFreq", modFreq);
+            Material.SetFloat("_ModTime", _modulationTime);
+            Material.SetFloat("_ModExp", _modulationExponent);
 
-            Graphics.Blit(source, destination, _material);
+            Graphics.Blit(source, destination, Material);
         }
 
         #endregion
