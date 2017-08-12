@@ -24,7 +24,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.amplitudeSlider.Text = Translation.GetText("WaveDistortion", "amplitude");
             this.ChildControls.Add( this.amplitudeSlider );
 
-            this.wavesSlider = new CustomSlider( WaveDistortionDef.waveDistortionEffect.waves, 0f, 100f, 2 );
+            this.wavesSlider = new CustomSlider( WaveDistortionDef.waveDistortionEffect.waves, 0f, 10f, 4 );
             this.wavesSlider.Text = Translation.GetText("WaveDistortion", "waves");
             this.ChildControls.Add( this.wavesSlider );
 
@@ -32,7 +32,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.colorGlitchSlider.Text = Translation.GetText("WaveDistortion", "colorGlitch");
             this.ChildControls.Add( this.colorGlitchSlider );
 
-            this.phaseSlider = new CustomSlider( WaveDistortionDef.waveDistortionEffect.phase, 0f, 180f, 2 );
+            this.phaseSlider = new CustomSlider( WaveDistortionDef.waveDistortionEffect.phase, 0f, 2f * (float)Math.PI, 4 );
             this.phaseSlider.Text = Translation.GetText("WaveDistortion", "phase");
             this.ChildControls.Add( this.phaseSlider );
         }

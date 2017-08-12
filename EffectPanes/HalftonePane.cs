@@ -24,11 +24,11 @@ namespace CM3D2.SceneCapture.Plugin
             this.scaleSlider.Text = Translation.GetText("Halftone", "scale");
             this.ChildControls.Add( this.scaleSlider );
 
-            this.dotSizeSlider = new CustomSlider( HalftoneDef.halftoneEffect.dotSize, 0f, 100f, 2 );
+            this.dotSizeSlider = new CustomSlider( HalftoneDef.halftoneEffect.dotSize, 0f, 2f * (float)Math.PI, 4 );
             this.dotSizeSlider.Text = Translation.GetText("Halftone", "dotSize");
             this.ChildControls.Add( this.dotSizeSlider );
 
-            this.angleSlider = new CustomSlider( HalftoneDef.halftoneEffect.angle, 0f, 180f, 2 );
+            this.angleSlider = new CustomSlider( HalftoneDef.halftoneEffect.angle, 0f, 2f * (float)Math.PI, 2 );
             this.angleSlider.Text = Translation.GetText("Halftone", "angle");
             this.ChildControls.Add( this.angleSlider );
 

@@ -348,6 +348,7 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
+                new Instances();
                 int fontSize = 11;
                 float windowWidth = Screen.width / 4 - ControlBase.FixedMargin * 2;
 

@@ -20,11 +20,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
-            this.amountSlider = new CustomSlider( RGBSplitDef.rGBSplitEffect.amount, 0f, 5f, 4 );
+            this.amountSlider = new CustomSlider( RGBSplitDef.rGBSplitEffect.amount, 0f, 500f, 2 );
             this.amountSlider.Text = Translation.GetText("RGBSplit", "amount");
             this.ChildControls.Add( this.amountSlider );
 
-            this.angleSlider = new CustomSlider( RGBSplitDef.rGBSplitEffect.angle, 0f, 180f, 2 );
+            this.angleSlider = new CustomSlider( RGBSplitDef.rGBSplitEffect.angle, 0f, 2f * (float)Math.PI, 4 );
             this.angleSlider.Text = Translation.GetText("RGBSplit", "angle");
             this.ChildControls.Add( this.angleSlider );
         }

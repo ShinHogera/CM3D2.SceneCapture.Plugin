@@ -20,11 +20,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
-            this.stripAngleSlider = new CustomSlider( ComicBookDef.comicBookEffect.stripAngle, 0f, 180f, 2 );
+            this.stripAngleSlider = new CustomSlider( ComicBookDef.comicBookEffect.stripAngle, 0f, 2f * (float)Math.PI, 4 );
             this.stripAngleSlider.Text = Translation.GetText("ComicBook", "stripAngle");
             this.ChildControls.Add( this.stripAngleSlider );
 
-            this.stripDensitySlider = new CustomSlider( ComicBookDef.comicBookEffect.stripDensity, 0f, 100f, 2 );
+            this.stripDensitySlider = new CustomSlider( ComicBookDef.comicBookEffect.stripDensity, 0f, 500f, 2 );
             this.stripDensitySlider.Text = Translation.GetText("ComicBook", "stripDensity");
             this.ChildControls.Add( this.stripDensitySlider );
 
@@ -32,28 +32,32 @@ namespace CM3D2.SceneCapture.Plugin
             this.stripThicknessSlider.Text = Translation.GetText("ComicBook", "stripThickness");
             this.ChildControls.Add( this.stripThicknessSlider );
 
-            this.stripLimitsXSlider = new CustomSlider( ComicBookDef.comicBookEffect.stripLimits.x, 0f, 10f, 4);
+            this.stripLimitsXSlider = new CustomSlider( ComicBookDef.comicBookEffect.stripLimits.x, 0f, 1f, 4);
             this.stripLimitsXSlider.Text = Translation.GetText("ComicBook", "stripLimitsX");
             this.ChildControls.Add( this.stripLimitsXSlider );
 
-            this.stripLimitsYSlider = new CustomSlider( ComicBookDef.comicBookEffect.stripLimits.y, 0f, 10f, 4);
+            this.stripLimitsYSlider = new CustomSlider( ComicBookDef.comicBookEffect.stripLimits.y, 0f, 1f, 4);
             this.stripLimitsYSlider.Text = Translation.GetText("ComicBook", "stripLimitsY");
             this.ChildControls.Add( this.stripLimitsYSlider );
 
             this.stripInnerColorPicker = new CustomColorPicker( ComicBookDef.comicBookEffect.stripInnerColor );
             this.stripInnerColorPicker.Text = Translation.GetText("ComicBook", "stripInnerColor");
+            this.stripInnerColorPicker.IsRGBA = false;
             this.ChildControls.Add( this.stripInnerColorPicker );
 
             this.stripOuterColorPicker = new CustomColorPicker( ComicBookDef.comicBookEffect.stripOuterColor );
             this.stripOuterColorPicker.Text = Translation.GetText("ComicBook", "stripOuterColor");
+            this.stripOuterColorPicker.IsRGBA = false;
             this.ChildControls.Add( this.stripOuterColorPicker );
 
             this.fillColorPicker = new CustomColorPicker( ComicBookDef.comicBookEffect.fillColor );
             this.fillColorPicker.Text = Translation.GetText("ComicBook", "fillColor");
+            this.fillColorPicker.IsRGBA = false;
             this.ChildControls.Add( this.fillColorPicker );
 
             this.backgroundColorPicker = new CustomColorPicker( ComicBookDef.comicBookEffect.backgroundColor );
             this.backgroundColorPicker.Text = Translation.GetText("ComicBook", "backgroundColor");
+            this.backgroundColorPicker.IsRGBA = false;
             this.ChildControls.Add( this.backgroundColorPicker );
 
             this.edgeDetectionCheckbox = new CustomToggleButton( ComicBookDef.comicBookEffect.edgeDetection, "toggle" );

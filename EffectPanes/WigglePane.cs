@@ -33,11 +33,11 @@ namespace CM3D2.SceneCapture.Plugin
             this.speedSlider.Text = Translation.GetText("Wiggle", "speed");
             this.ChildControls.Add( this.speedSlider );
 
-            this.frequencySlider = new CustomSlider( WiggleDef.wiggleEffect.frequency, 0f, 360f, 2 );
+            this.frequencySlider = new CustomSlider( WiggleDef.wiggleEffect.frequency, 0f, 300f, 2 );
             this.frequencySlider.Text = Translation.GetText("Wiggle", "frequency");
             this.ChildControls.Add( this.frequencySlider );
 
-            this.amplitudeSlider = new CustomSlider( WiggleDef.wiggleEffect.amplitude, 0f, 360f, 2 );
+            this.amplitudeSlider = new CustomSlider( WiggleDef.wiggleEffect.amplitude, 0f, 2f * (float)Math.PI, 4 );
             this.amplitudeSlider.Text = Translation.GetText("Wiggle", "amplitude");
             this.ChildControls.Add( this.amplitudeSlider );
 
@@ -75,6 +75,10 @@ namespace CM3D2.SceneCapture.Plugin
             get
             {
                 return this.timerSlider.Value;
+            }
+            set
+            {
+                this.timerSlider.Value = value;
             }
         }
 

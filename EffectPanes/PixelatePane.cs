@@ -42,7 +42,12 @@ namespace CM3D2.SceneCapture.Plugin
         {
            GUIUtil.AddGUISlider(this, this.scaleSlider);
            GUIUtil.AddGUICheckbox(this, this.automaticRatioCheckbox);
-           GUIUtil.AddGUISlider(this, this.ratioSlider);
+
+           if( this.automaticRatioCheckbox.Value == false )
+           {
+               GUIUtil.AddGUISlider(this, this.ratioSlider);
+           }
+
            GUIUtil.AddGUICheckbox(this, this.modeComboBox);
         }
 

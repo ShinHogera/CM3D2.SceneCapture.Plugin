@@ -20,11 +20,11 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
-            this.displaceXSlider = new CustomSlider( DoubleVisionDef.doubleVisionEffect.displace.x, 0f, 1f, 4);
+            this.displaceXSlider = new CustomSlider( DoubleVisionDef.doubleVisionEffect.displace.x, -10f, 10f, 4);
             this.displaceXSlider.Text = Translation.GetText("DoubleVision", "displaceX");
             this.ChildControls.Add( this.displaceXSlider );
 
-            this.displaceYSlider = new CustomSlider( DoubleVisionDef.doubleVisionEffect.displace.y, 0f, 1f, 4);
+            this.displaceYSlider = new CustomSlider( DoubleVisionDef.doubleVisionEffect.displace.y, -10f, 10f, 4);
             this.displaceYSlider.Text = Translation.GetText("DoubleVision", "displaceY");
             this.ChildControls.Add( this.displaceYSlider );
 

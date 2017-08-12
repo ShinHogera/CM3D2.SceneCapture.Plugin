@@ -22,6 +22,7 @@ namespace CM3D2.SceneCapture.Plugin
         {
             this.whitePicker = new CustomColorPicker( WhiteBalanceDef.whiteBalanceEffect.white );
             this.whitePicker.Text = Translation.GetText("WhiteBalance", "white");
+            this.whitePicker.IsRGBA = false;
             this.ChildControls.Add( this.whitePicker );
 
             this.modeComboBox = new CustomComboBox ( WHITEBALANCE_BALANCEMODES );
