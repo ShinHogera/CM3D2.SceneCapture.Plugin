@@ -48,12 +48,15 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void ShowPane()
         {
-           GUIUtil.AddGUICheckbox(this, this.modeComboBox);
-           GUIUtil.AddGUISlider(this, this.timerSlider);
+            GUIUtil.AddGUICheckbox(this, this.modeComboBox);
+            GUIUtil.AddGUICheckbox(this, this.automaticTimerCheckbox);
+            if( this.automaticTimerCheckbox.Value == false )
+            {
+                GUIUtil.AddGUISlider(this, this.timerSlider);
+            }
            GUIUtil.AddGUISlider(this, this.speedSlider);
            GUIUtil.AddGUISlider(this, this.frequencySlider);
            GUIUtil.AddGUISlider(this, this.amplitudeSlider);
-           GUIUtil.AddGUICheckbox(this, this.automaticTimerCheckbox);
         }
 
         override public void Reset()

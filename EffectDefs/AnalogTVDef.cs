@@ -73,7 +73,12 @@ namespace CM3D2.SceneCapture.Plugin
             }
 
             analogTVEffect.automaticPhase = analogTVPane.AutomaticPhaseValue;
-            analogTVEffect.phase = analogTVPane.PhaseValue;
+
+            if( analogTVPane.AutomaticPhaseValue == false)
+                analogTVEffect.phase = analogTVPane.PhaseValue;
+            else
+                analogTVPane.PhaseValue = analogTVEffect.phase;
+
             analogTVEffect.convertToGrayscale = analogTVPane.ConvertToGrayscaleValue;
             analogTVEffect.noiseIntensity = analogTVPane.NoiseIntensityValue;
             analogTVEffect.scanlinesIntensity = analogTVPane.ScanlinesIntensityValue;

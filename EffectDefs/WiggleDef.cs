@@ -58,8 +58,9 @@ namespace CM3D2.SceneCapture.Plugin
             }
 
             wiggleEffect.mode = wigglePane.ModeValue;
+            wiggleEffect.automaticTimer = wigglePane.AutomaticTimerValue;
 
-            if( wigglePane.SpeedValue == 0 )
+            if( wigglePane.AutomaticTimerValue == false )
                 wiggleEffect.timer = wigglePane.TimerValue;
             else
                 wigglePane.TimerValue = wiggleEffect.timer;
@@ -67,7 +68,6 @@ namespace CM3D2.SceneCapture.Plugin
             wiggleEffect.speed = wigglePane.SpeedValue;
             wiggleEffect.frequency = wigglePane.FrequencyValue;
             wiggleEffect.amplitude = wigglePane.AmplitudeValue;
-            wiggleEffect.automaticTimer = wigglePane.AutomaticTimerValue;
         }
 
         public static void Reset()

@@ -182,8 +182,13 @@ namespace CM3D2.SceneCapture.Plugin
         #endregion
 
         #region Fields
-        public static readonly string ConfigDir = Directory.GetCurrentDirectory() + @"\UnityInjector\Config\SceneCapture";
-        public static readonly string ConfigDirSybaris = Directory.GetCurrentDirectory() + @"\Sybaris\Plugins\UnityInjector\Config\SceneCapture";
+        public static readonly string BaseConfigDir = Directory.GetCurrentDirectory() + @"\UnityInjector\Config";
+        public static readonly string BaseConfigDirSybaris = Directory.GetCurrentDirectory() + @"\Sybaris\Plugins\UnityInjector\Config";
+        public static readonly string ConfigDir = BaseConfigDir + @"\SceneCapture";
+        public static readonly string ConfigDirSybaris = BaseConfigDirSybaris + @"\SceneCapture";
+
+        public static readonly List<string> ImageDirsLUT = new List<string> { @"SceneCapture\LUTs" };
+        public static readonly List<string> ImageDirsAll = new List<string> { @"SceneCapture\Images",  "PngPlacement" };
 
         /// <summary>ライト個数上限</summary>
         public const int MaxLightCount = 10;

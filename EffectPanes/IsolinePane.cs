@@ -128,9 +128,19 @@ namespace CM3D2.SceneCapture.Plugin
            GUIUtil.AddGUISlider(this, this._axisYSlider);
            GUIUtil.AddGUISlider(this, this._axisZSlider);
            GUIUtil.AddGUISlider(this, this._intervalSlider);
-           GUIUtil.AddGUISlider(this, this._offsetXSlider);
-           GUIUtil.AddGUISlider(this, this._offsetYSlider);
-           GUIUtil.AddGUISlider(this, this._offsetZSlider);
+
+           GUIUtil.AddGUISlider(this, this._directionXSlider);
+           GUIUtil.AddGUISlider(this, this._directionYSlider);
+           GUIUtil.AddGUISlider(this, this._directionZSlider);
+           GUIUtil.AddGUISlider(this, this._speedSlider);
+
+           if( this._speedSlider.Value == 0 )
+           {
+               GUIUtil.AddGUISlider(this, this._offsetXSlider);
+               GUIUtil.AddGUISlider(this, this._offsetYSlider);
+               GUIUtil.AddGUISlider(this, this._offsetZSlider);
+           }
+
            GUIUtil.AddGUISlider(this, this._distortionFrequencySlider);
            GUIUtil.AddGUISlider(this, this._distortionAmountSlider);
            GUIUtil.AddGUICheckbox(this, this._modulationModeComboBox);
@@ -140,10 +150,6 @@ namespace CM3D2.SceneCapture.Plugin
            GUIUtil.AddGUISlider(this, this._modulationFrequencySlider);
            GUIUtil.AddGUISlider(this, this._modulationSpeedSlider);
            GUIUtil.AddGUISlider(this, this._modulationExponentSlider);
-           GUIUtil.AddGUISlider(this, this._directionXSlider);
-           GUIUtil.AddGUISlider(this, this._directionYSlider);
-           GUIUtil.AddGUISlider(this, this._directionZSlider);
-           GUIUtil.AddGUISlider(this, this._speedSlider);
         }
 
         override public void Reset()

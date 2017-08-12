@@ -28,12 +28,17 @@ namespace CM3D2.SceneCapture.Plugin
             this.modeComboBox.Text = Translation.GetText("Blend", "mode");
             this.modeComboBox.SelectedIndex = (int)BlendDef.blendEffect.mode;
             this.ChildControls.Add( this.modeComboBox );
+
+            this.texturePicker = new CustomImagePicker( BlendDef.blendEffect.texture, BlendDef.textureFile, ConstantValues.ImageDirsAll );
+            this.texturePicker.Text = Translation.GetText("Blend", "texture");
+            this.ChildControls.Add( this.texturePicker );
         }
 
         override public void ShowPane()
         {
-           GUIUtil.AddGUISlider(this, this.amountSlider);
-           GUIUtil.AddGUICheckbox(this, this.modeComboBox);
+            GUIUtil.AddGUISlider(this, this.amountSlider);
+            GUIUtil.AddGUICheckbox(this, this.modeComboBox);
+            GUIUtil.AddGUICheckbox(this, this.texturePicker);
         }
 
         override public void Reset()
@@ -42,6 +47,19 @@ namespace CM3D2.SceneCapture.Plugin
         }
 
         #region Properties
+        public Texture2D TextureValue
+        {
+            get
+            {
+                return this.texturePicker.Value;
+            }
+        }
+        public string TextureFileValue {
+            get
+            {
+                return this.texturePicker.Filename;
+            }
+        }
         public float AmountValue
         {
             get
@@ -57,13 +75,34 @@ namespace CM3D2.SceneCapture.Plugin
                 return (Blend.BlendingMode) Enum.Parse( typeof( Blend.BlendingMode ), this.modeComboBox.SelectedItem);
             }
         }
-
         #endregion
 
         #region Fields
-        private static readonly string[] BLEND_MODES = new string[] { "Darken" , "Multiply" , "ColorBurn" , "LinearBurn" , "DarkerColor" , "Lighten" , "Screen" , "ColorDodge" , "LinearDodge" , "LighterColor" , "Overlay" , "SoftLight" , "HardLight" , "VividLight" , "LinearLight" , "PinLight" , "HardMix" , "Difference" , "Exclusion" , "Subtract" , "Divide"  };
+        private static readonly string[] BLEND_MODES = new string[] { "Darken" ,
+                                                                      "Multiply" ,
+                                                                      "ColorBurn" ,
+                                                                      "LinearBurn" ,
+                                                                      "DarkerColor" ,
+                                                                      "Lighten" ,
+                                                                      "Screen" ,
+                                                                      "ColorDodge" ,
+                                                                      "LinearDodge" ,
+                                                                      "LighterColor" ,
+                                                                      "Overlay" ,
+                                                                      "SoftLight" ,
+                                                                      "HardLight" ,
+                                                                      "VividLight" ,
+                                                                      "LinearLight" ,
+                                                                      "PinLight" ,
+                                                                      "HardMix" ,
+                                                                      "Difference" ,
+                                                                      "Exclusion" ,
+                                                                      "Subtract" ,
+                                                                      "Divide"  };
+
         private CustomSlider amountSlider = null;
         private CustomComboBox modeComboBox = null;
+        private CustomImagePicker texturePicker = null;
         #endregion
     }
 }

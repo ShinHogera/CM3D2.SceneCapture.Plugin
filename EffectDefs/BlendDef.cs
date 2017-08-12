@@ -16,6 +16,8 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static float amount { get; set; }
         public static Blend.BlendingMode mode { get; set; }
+        public static Texture texture { get; set; }
+        public static string textureFile { get; set; }
 
         public BlendDef()
         {
@@ -26,12 +28,20 @@ namespace CM3D2.SceneCapture.Plugin
 
             amount = 1f;
             mode = Blend.BlendingMode.Darken;
+            texture = (Texture) new Texture2D(4, 4);
+
+            Texture2D tex = new Texture2D(1, 1);
+            tex.SetPixel(0, 0, Color.white);
+            tex.Apply();
+            texture = (Texture)tex;
+            textureFile = "";
         }
 
         public void InitMemberByInstance(Blend blend)
         {
             amount = blend.amount;
             mode = blend.mode;
+            texture = blend.texture;
         }
 
         public static void Update(BlendPane blendPane)
@@ -47,6 +57,9 @@ namespace CM3D2.SceneCapture.Plugin
 
             blendEffect.amount = blendPane.AmountValue;
             blendEffect.mode = blendPane.ModeValue;
+            blendEffect.texture = blendPane.TextureValue;
+
+            textureFile = blendPane.TextureFileValue;
         }
 
         public static void Reset()
@@ -56,6 +69,7 @@ namespace CM3D2.SceneCapture.Plugin
 
             blendEffect.amount = amount;
             blendEffect.mode = mode;
+            blendEffect.texture = texture;
         }
     }
 }

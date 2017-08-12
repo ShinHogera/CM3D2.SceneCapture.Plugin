@@ -317,6 +317,7 @@ namespace CM3D2.SceneCapture.Plugin
                         GlobalColorPicker.Update();
                         GlobalCurveWindow.Update();
                         GlobalItemPicker.Update();
+                        GlobalTexturePicker.Update();
 
                         // Update
                         SunShaftsDef.Update();

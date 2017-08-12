@@ -113,6 +113,12 @@ namespace CM3D2.SceneCapture.Plugin
                 this.obscurancePane = new ObscurancePane( this.FontSize );
                 this.ChildControls.Add( this.obscurancePane );
 
+                this.analogTVPane = new AnalogTVPane( this.FontSize );
+                this.ChildControls.Add( this.analogTVPane );
+
+                this.bleachBypassPane = new BleachBypassPane( this.FontSize );
+                this.ChildControls.Add( this.bleachBypassPane );
+
                 this.blendPane = new BlendPane( this.FontSize );
                 this.ChildControls.Add( this.blendPane );
 
@@ -202,6 +208,8 @@ namespace CM3D2.SceneCapture.Plugin
                 BokehDef.Update(this.bokehPane);
                 // FeedbackDef.Update(this.feedbackPane);
                 ObscuranceDef.Update(this.obscurancePane);
+                AnalogTVDef.Update(this.analogTVPane);
+                BleachBypassDef.Update(this.bleachBypassPane);
                 BlendDef.Update(this.blendPane);
                 BrightnessContrastGammaDef.Update(this.brightnessContrastGammaPane);
                 ChannelMixerDef.Update(this.channelMixerPane);
@@ -246,7 +254,8 @@ namespace CM3D2.SceneCapture.Plugin
             GUIUtil.AddGUICheckbox(this, this.shadowsMidtonesHighlightsPane,  this.brightnessContrastGammaPane);
             GUIUtil.AddGUICheckbox(this, this.whiteBalancePane,  this.shadowsMidtonesHighlightsPane);
             GUIUtil.AddGUICheckbox(this, this.channelMixerPane, this.whiteBalancePane);
-            GUIUtil.AddGUICheckbox(this, this.sepiaPane, this.channelMixerPane);
+            GUIUtil.AddGUICheckbox(this, this.bleachBypassPane, this.channelMixerPane);
+            GUIUtil.AddGUICheckbox(this, this.sepiaPane, this.bleachBypassPane);
             GUIUtil.AddGUICheckbox(this, this.grayscalePane, this.sepiaPane);
             GUIUtil.AddGUICheckbox(this, this.contrastPane, this.grayscalePane);
             GUIUtil.AddGUICheckbox(this, this.edgeDetectPane, this.contrastPane);
@@ -275,7 +284,8 @@ namespace CM3D2.SceneCapture.Plugin
             GUIUtil.AddGUICheckbox(this, this.bokehPane, this.digitalGlitchPane);
             // GUIUtil.AddGUICheckbox(this, this.feedbackPane, this.bokehPane);
             GUIUtil.AddGUICheckbox(this, this.obscurancePane, this.bokehPane);
-            GUIUtil.AddGUICheckbox(this, this.blendPane, this.obscurancePane);
+            GUIUtil.AddGUICheckbox(this, this.analogTVPane, this.obscurancePane);
+            GUIUtil.AddGUICheckbox(this, this.blendPane, this.analogTVPane);
             GUIUtil.AddGUICheckbox(this, this.comicBookPane, this.blendPane);
             GUIUtil.AddGUICheckbox(this, this.contrastVignettePane, this.comicBookPane);
             GUIUtil.AddGUICheckbox(this, this.doubleVisionPane, this.contrastVignettePane);
@@ -328,6 +338,8 @@ namespace CM3D2.SceneCapture.Plugin
         private BokehPane bokehPane = null;
         // private FeedbackPane feedbackPane = null;
         private ObscurancePane obscurancePane = null;
+        private AnalogTVPane analogTVPane = null;
+        private BleachBypassPane bleachBypassPane = null;
         private BlendPane blendPane = null;
         private BrightnessContrastGammaPane brightnessContrastGammaPane = null;
         private ChannelMixerPane channelMixerPane = null;

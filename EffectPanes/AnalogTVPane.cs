@@ -44,7 +44,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.scanlinesCountSlider.Text = Translation.GetText("AnalogTV", "scanlinesCount");
             this.ChildControls.Add( this.scanlinesCountSlider );
 
-            this.scanlinesOffsetSlider = new CustomSlider( AnalogTVDef.analogTVEffect.scanlinesOffset, 0f, 300f, 2 );
+            this.scanlinesOffsetSlider = new CustomSlider( AnalogTVDef.analogTVEffect.scanlinesOffset, 0f, 10f, 2 );
             this.scanlinesOffsetSlider.Text = Translation.GetText("AnalogTV", "scanlinesOffset");
             this.ChildControls.Add( this.scanlinesOffsetSlider );
 
@@ -67,17 +67,20 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void ShowPane()
         {
-           GUIUtil.AddGUICheckbox(this, this.automaticPhaseCheckbox);
-           GUIUtil.AddGUISlider(this, this.phaseSlider);
-           GUIUtil.AddGUICheckbox(this, this.convertToGrayscaleCheckbox);
-           GUIUtil.AddGUISlider(this, this.noiseIntensitySlider);
-           GUIUtil.AddGUISlider(this, this.scanlinesIntensitySlider);
-           GUIUtil.AddGUISlider(this, this.scanlinesCountSlider);
-           GUIUtil.AddGUISlider(this, this.scanlinesOffsetSlider);
-           GUIUtil.AddGUICheckbox(this, this.verticalScanlinesCheckbox);
-           GUIUtil.AddGUISlider(this, this.distortionSlider);
-           GUIUtil.AddGUISlider(this, this.cubicDistortionSlider);
-           GUIUtil.AddGUISlider(this, this.scaleSlider);
+            GUIUtil.AddGUICheckbox(this, this.automaticPhaseCheckbox);
+            if( this.automaticPhaseCheckbox.Value == false )
+            {
+                GUIUtil.AddGUISlider(this, this.phaseSlider);
+            }
+            GUIUtil.AddGUICheckbox(this, this.convertToGrayscaleCheckbox);
+            GUIUtil.AddGUISlider(this, this.noiseIntensitySlider);
+            GUIUtil.AddGUISlider(this, this.scanlinesIntensitySlider);
+            GUIUtil.AddGUISlider(this, this.scanlinesCountSlider);
+            GUIUtil.AddGUISlider(this, this.scanlinesOffsetSlider);
+            GUIUtil.AddGUICheckbox(this, this.verticalScanlinesCheckbox);
+            GUIUtil.AddGUISlider(this, this.distortionSlider);
+            GUIUtil.AddGUISlider(this, this.cubicDistortionSlider);
+            GUIUtil.AddGUISlider(this, this.scaleSlider);
         }
 
         override public void Reset()
@@ -99,6 +102,10 @@ namespace CM3D2.SceneCapture.Plugin
             get
             {
                 return this.phaseSlider.Value;
+            }
+            set
+            {
+                this.phaseSlider.Value = value;
             }
         }
 

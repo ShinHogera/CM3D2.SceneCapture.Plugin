@@ -1906,4 +1906,84 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
     }
+
+    internal class CustomImagePicker : ControlBase
+    {
+        public CustomImagePicker( Texture texture, string filename, List<string> imageDirectories )
+        {
+            try
+            {
+                this.imageDirectories = imageDirectories;
+
+                this._value = (Texture2D)texture;
+
+                this._filename = filename;
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
+        override public void OnGUI()
+        {
+            try
+            {
+                Rect texRect = new Rect( this.Left, this.Top, this.Height, this.Height );
+                Rect labelRect = new Rect( this.Left + this.Height, this.Top, this.Width - this.Height, this.Height );
+
+                // スタイル
+                GUIStyle labelStyle = new GUIStyle( "label" );
+                labelStyle.alignment = TextAnchor.MiddleLeft;
+                labelStyle.normal.textColor = this.TextColor;
+                labelStyle.fontSize = this.FixedFontSize;
+
+                GUI.DrawTexture( texRect, this._value );
+                GUI.Label( labelRect, this.Text, labelStyle );
+
+                if( GUI.Button( texRect, string.Empty, labelStyle ) )
+                {
+                    GlobalTexturePicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y), this.FontSize * 15, this.FontSize, this.imageDirectories,
+                                            (x, y) =>
+                            {
+                                this._value = x;
+                                this._filename = y;
+                                this.TextureChanged(this, new EventArgs());
+                            });
+                }
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
+        private Texture2D _value;
+        virtual public Texture2D Value
+        {
+            get
+            {
+                return this._value;
+            }
+
+            set
+
+            {
+                this._value = value;
+            }
+        }
+
+        private string _filename;
+        virtual public string Filename
+        {
+            get
+            {
+                return this._filename;
+            }
+        }
+
+        private List<string> imageDirectories;
+
+        public EventHandler TextureChanged = delegate { };
+    }
 }

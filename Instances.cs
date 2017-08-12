@@ -71,6 +71,8 @@ namespace CM3D2.SceneCapture.Plugin
             new DigitalGlitchDef();
             new BokehDef();
             new ObscuranceDef();
+            new AnalogTVDef();
+            new BleachBypassDef();
             new BlendDef();
             new BrightnessContrastGammaDef();
             new ChannelMixerDef();
@@ -196,6 +198,8 @@ namespace CM3D2.SceneCapture.Plugin
                                    SerializeStatic.SaveDef(typeof(BokehDef), typeof(Bokeh)),
                                    // SerializeStatic.SaveDef(typeof(FeedbackDef), typeof(Feedback)),
                                    SerializeStatic.SaveDef(typeof(ObscuranceDef), typeof(Obscurance)),
+                                   SerializeStatic.SaveDef(typeof(AnalogTVDef), typeof(AnalogTV)),
+                                   SerializeStatic.SaveDef(typeof(BleachBypassDef), typeof(BleachBypass)),
                                    SerializeStatic.SaveDef(typeof(BlendDef), typeof(Blend)),
                                    SerializeStatic.SaveDef(typeof(BrightnessContrastGammaDef), typeof(BrightnessContrastGamma)),
                                    SerializeStatic.SaveDef(typeof(ChannelMixerDef), typeof(ChannelMixer)),
@@ -327,6 +331,8 @@ namespace CM3D2.SceneCapture.Plugin
                 SerializeStatic.LoadDef(effects, typeof(BokehDef), typeof(Bokeh));
                 // SerializeStatic.LoadDef(effects, typeof(FeedbackDef), typeof(Feedback));
                 SerializeStatic.LoadDef(effects, typeof(ObscuranceDef), typeof(Obscurance));
+                SerializeStatic.LoadDef(effects, typeof(AnalogTVDef), typeof(AnalogTV));
+                SerializeStatic.LoadDef(effects, typeof(BleachBypassDef), typeof(BleachBypass));
                 SerializeStatic.LoadDef(effects, typeof(BlendDef), typeof(Blend));
                 SerializeStatic.LoadDef(effects, typeof(BrightnessContrastGammaDef), typeof(BrightnessContrastGamma));
                 SerializeStatic.LoadDef(effects, typeof(ChannelMixerDef), typeof(ChannelMixer));
