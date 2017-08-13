@@ -346,7 +346,7 @@
     <UI>
       <transformFromMaid>Focal Transform</transformFromMaid>
       <reloadMaids>Reload</reloadMaids>
-      <dragSource>Drag Source</dragSource>
+      <dragSource>Drag</dragSource>
       <effectSetting>Effects</effectSetting>
       <envSetting>Environment</envSetting>
       <dataSetting>Save / Load</dataSetting>
@@ -717,7 +717,7 @@
     <UI>
       <transformFromMaid>フォーカス変換</transformFromMaid>
       <reloadMaids>リロード</reloadMaids>
-      <dragSource>ドラッグソース</dragSource>
+      <dragSource>ドラッグ</dragSource>
       <effectSetting>エフェクト設定</effectSetting>
       <envSetting>環境設定</envSetting>
       <dataSetting>データ設定</dataSetting>

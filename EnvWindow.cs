@@ -169,6 +169,7 @@ namespace CM3D2.SceneCapture.Plugin
                 this.cameraPositionXField.Top = this.Top + ControlBase.FixedMargin;
                 this.cameraPositionXField.Width = (this.Width / 3) - ControlBase.FixedMargin * 4;
                 this.cameraPositionXField.Height = this.FixedFontSize + ControlBase.FixedMargin;
+                this.cameraPositionXField.FontSize = this.FontSize;
                 this.cameraPositionXField.OnGUI();
                 this.cameraPositionXField.Visible = true;
 
@@ -202,6 +203,7 @@ namespace CM3D2.SceneCapture.Plugin
                 this.cameraFovSlider.Top = this.Top + ControlBase.FixedMargin;
                 this.cameraFovSlider.Width = this.Width - ControlBase.FixedMargin * 7;
                 this.cameraFovSlider.Height = this.ControlHeight * 2;
+                this.cameraFovSlider.FontSize = this.FontSize;
                 this.cameraFovSlider.OnGUI();
                 this.cameraFovSlider.Visible = true;
 

@@ -25,6 +25,7 @@ namespace CM3D2.SceneCapture.Plugin
             elem.Top = parent.Top + ControlBase.FixedMargin;
             elem.Width = (parent.Width / rowButtonCount) - ControlBase.FixedMargin / 4;
             elem.Height = ControlHeight(parent);
+            elem.FontSize = parent.FontSize;
             elem.OnGUI();
             elem.Visible = true;
         }
@@ -35,6 +36,7 @@ namespace CM3D2.SceneCapture.Plugin
             elem.Top = reference.Top;
             elem.Width = (parent.Width / rowButtonCount) - ControlBase.FixedMargin / 4;
             elem.Height = ControlHeight(parent);
+            elem.FontSize = parent.FontSize;
             elem.OnGUI();
             elem.Visible = true;
         }
@@ -45,6 +47,7 @@ namespace CM3D2.SceneCapture.Plugin
             elem.Top = reference.Top;
             elem.Width = (parent.Width / rowButtonCount) - ControlBase.FixedMargin / 4;
             elem.Height = ControlHeight(parent);
+            elem.FontSize = parent.FontSize;
             elem.Visible = true;
         }
 
@@ -54,6 +57,7 @@ namespace CM3D2.SceneCapture.Plugin
             elem.Top = reference.Top + reference.Height + ControlBase.FixedMargin;
             elem.Width = (parent.Width / rowButtonCount) - ControlBase.FixedMargin / 4;
             elem.Height = ControlHeight(parent);
+            elem.FontSize = parent.FontSize;
             elem.OnGUI();
             elem.Visible = true;
         }
@@ -76,6 +80,7 @@ namespace CM3D2.SceneCapture.Plugin
             elem.Top = reference.Top + reference.Height + ControlBase.FixedMargin;
             elem.Width = parent.Width - ControlBase.FixedMargin * 4;
             elem.Height = ControlHeight(parent);
+            elem.FontSize = parent.FontSize;
             elem.OnGUI();
             elem.Visible = true;
         }

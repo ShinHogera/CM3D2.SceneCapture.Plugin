@@ -51,7 +51,7 @@ namespace CM3D2.SceneCapture.Plugin
 
             this.nameLabel.Left = this.Left + ControlBase.FixedMargin;
             this.nameLabel.Top = this.Top + ControlBase.FixedMargin;
-            this.nameLabel.Width = this.Width / 4 - ControlBase.FixedMargin / 4;
+            this.nameLabel.Width = this.Width / 2 - ControlBase.FixedMargin / 4;
             this.nameLabel.Height = this.ControlHeight;
             this.nameLabel.OnGUI();
 

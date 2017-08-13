@@ -348,7 +348,12 @@ namespace CM3D2.SceneCapture.Plugin
         {
             try
             {
-                int fontSize = 11;
+                int fontSize;
+                if(Screen.width < 1366)
+                    fontSize = 10;
+                else
+                    fontSize = 11;
+
                 float windowWidth = Screen.width / 4 - ControlBase.FixedMargin * 2;
 
                 // モード選択画面

@@ -140,6 +140,7 @@ namespace CM3D2.SceneCapture.Plugin
             this.languageBox.Top = this.Top + ControlBase.FixedMargin;
             this.languageBox.Width = this.Width - ControlBase.FixedMargin * 2;
             this.languageBox.Height = this.ControlHeight;
+            this.languageBox.FontSize = this.FontSize;
             this.languageBox.OnGUI();
 
             GUIUtil.AddGUICheckbox( this, this.nameTextField, this.languageBox );

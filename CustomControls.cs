@@ -605,6 +605,7 @@ namespace CM3D2.SceneCapture.Plugin
                 this.comboButtonStyle.fontSize = this.FixedFontSize;
                 this.comboBoxStyle.fontSize = this.FixedFontSize;
                 this.comboListStyle.fontSize = this.FixedFontSize;
+                this.labelStyle.fontSize = this.FixedFontSize;
 
                 // 現在選択中の項目をボタンに表示
                 this.comboBoxButton = null;
@@ -1773,6 +1774,7 @@ namespace CM3D2.SceneCapture.Plugin
 
                 GUIStyle textFieldStyle = new GUIStyle("textarea");
                 textFieldStyle.alignment = TextAnchor.UpperLeft;
+                textFieldStyle.fontSize = this.FixedFontSize;
 
                 GUI.Label( labelRect, this.Text, labelStyle );
                 string temp = GUI.TextField(rectItem, this.Value, textFieldStyle);
