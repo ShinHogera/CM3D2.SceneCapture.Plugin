@@ -47,27 +47,27 @@ namespace CM3D2.SceneCapture.Plugin
                 this.loadTargetLabel.Text = Translation.GetText("UI", "loadTarget");
                 this.ChildControls.Add( this.loadTargetLabel );
 
-                this.loadEffectsCheckbox = new CustomToggleButton( true, "toggle" );
+                this.loadEffectsCheckbox = new CustomToggleButton( true );
                 this.loadEffectsCheckbox.Text = Translation.GetText("UI", "loadEffects");
                 this.loadEffectsCheckbox.CheckedChanged += ChangeLoadTargets;
                 this.ChildControls.Add( this.loadEffectsCheckbox );
 
-                this.loadLightsCheckbox = new CustomToggleButton( true, "toggle" );
+                this.loadLightsCheckbox = new CustomToggleButton( true );
                 this.loadLightsCheckbox.Text = Translation.GetText("UI", "loadLights");
                 this.loadLightsCheckbox.CheckedChanged += ChangeLoadTargets;
                 this.ChildControls.Add( this.loadLightsCheckbox );
 
-                this.loadModelsCheckbox = new CustomToggleButton( true, "toggle" );
+                this.loadModelsCheckbox = new CustomToggleButton( true );
                 this.loadModelsCheckbox.Text = Translation.GetText("UI", "loadModels");
                 this.loadModelsCheckbox.CheckedChanged += ChangeLoadTargets;
                 this.ChildControls.Add( this.loadModelsCheckbox );
 
-                this.loadCameraCheckbox = new CustomToggleButton( true, "toggle" );
+                this.loadCameraCheckbox = new CustomToggleButton( true );
                 this.loadCameraCheckbox.Text = Translation.GetText("UI", "loadCamera");
                 this.loadCameraCheckbox.CheckedChanged += ChangeLoadTargets;
                 this.ChildControls.Add( this.loadCameraCheckbox );
 
-                this.loadMiscCheckbox = new CustomToggleButton( true, "toggle" );
+                this.loadMiscCheckbox = new CustomToggleButton( true );
                 this.loadMiscCheckbox.Text = Translation.GetText("UI", "loadMisc");
                 this.loadMiscCheckbox.CheckedChanged += ChangeLoadTargets;
                 this.ChildControls.Add( this.loadMiscCheckbox );

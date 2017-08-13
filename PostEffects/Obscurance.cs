@@ -363,6 +363,7 @@ namespace CM3D2.SceneCapture.Plugin
             if (ambientOnly) UpdateMaterialProperties();
         }
 
+        [ImageEffectOpaque]
         protected override void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
             if (ambientOnly)
