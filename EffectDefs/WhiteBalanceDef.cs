@@ -24,8 +24,6 @@ namespace CM3D2.SceneCapture.Plugin
                 whiteBalanceEffect = Util.GetComponentVar<WhiteBalance, WhiteBalanceDef>(whiteBalanceEffect);
             }
 
-            Debug.Log(whiteBalanceEffect == null);
-
             white = new Color(0.5f, 0.5f, 0.5f);
             mode = WhiteBalance.BalanceMode.Complex;
         }

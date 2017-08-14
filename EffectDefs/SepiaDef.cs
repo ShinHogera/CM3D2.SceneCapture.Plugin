@@ -10,7 +10,6 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 sepiaEffect = Util.GetComponentVar<SepiaToneEffect, SepiaToneEffect>(sepiaEffect);
             }
-            Debug.Log(sepiaEffect == null);
         }
 
         public static void Update(SepiaPane sepiaPane)

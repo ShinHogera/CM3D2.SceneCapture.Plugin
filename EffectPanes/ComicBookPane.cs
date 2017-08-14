@@ -89,7 +89,10 @@ namespace CM3D2.SceneCapture.Plugin
            GUIUtil.AddGUICheckbox(this, this.fillColorPicker);
            GUIUtil.AddGUICheckbox(this, this.backgroundColorPicker);
            GUIUtil.AddGUICheckbox(this, this.edgeDetectionCheckbox);
-           GUIUtil.AddGUISlider(this, this.edgeThresholdSlider);
+           if( this.edgeDetectionCheckbox.Value == true )
+           {
+               GUIUtil.AddGUISlider(this, this.edgeThresholdSlider);
+           }
            GUIUtil.AddGUICheckbox(this, this.edgeColorPicker);
            GUIUtil.AddGUISlider(this, this.amountSlider);
         }

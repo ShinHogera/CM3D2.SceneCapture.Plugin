@@ -36,9 +36,9 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void ShowPane()
         {
-            GUIUtil.AddGUISlider(this, this.amountSlider);
-            GUIUtil.AddGUICheckbox(this, this.modeComboBox);
             GUIUtil.AddGUICheckbox(this, this.texturePicker);
+            GUIUtil.AddGUICheckbox(this, this.modeComboBox);
+            GUIUtil.AddGUISlider(this, this.amountSlider);
         }
 
         override public void Reset()

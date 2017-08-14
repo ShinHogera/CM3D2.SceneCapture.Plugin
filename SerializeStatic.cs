@@ -113,8 +113,6 @@ namespace CM3D2.SceneCapture.Plugin
                             }
                             else if(typeof(Texture) == fieldType || typeof(Texture2D) == fieldType)
                             {
-                                Debug.Log("ATTEMPT");
-                                Debug.Log(effectDefType);
                                 try
                                 {
                                     PropertyInfo textureFilenameProperty = effectDefType.GetProperty(field.Name + "File");

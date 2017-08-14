@@ -79,7 +79,6 @@ namespace CM3D2.SceneCapture.Plugin
             new ComicBookDef();
             new ContrastVignetteDef();
             new Convolution3x3Def();
-            new DitheringDef();
             new DoubleVisionDef();
             new HalftoneDef();
             new IsolineDef();
@@ -208,7 +207,6 @@ namespace CM3D2.SceneCapture.Plugin
                                    SerializeStatic.SaveDef(typeof(ComicBookDef), typeof(ComicBook)),
                                    SerializeStatic.SaveDef(typeof(ContrastVignetteDef), typeof(ContrastVignette)),
                                    SerializeStatic.SaveDef(typeof(Convolution3x3Def), typeof(Convolution3x3)),
-                                   SerializeStatic.SaveDef(typeof(DitheringDef), typeof(Dithering)),
                                    SerializeStatic.SaveDef(typeof(DoubleVisionDef), typeof(DoubleVision)),
                                    SerializeStatic.SaveDef(typeof(HalftoneDef), typeof(Halftone)),
                                    SerializeStatic.SaveDef(typeof(IsolineDef), typeof(Isoline)),
@@ -248,13 +246,8 @@ namespace CM3D2.SceneCapture.Plugin
         public static XElement SaveModels()
         {
             var xml = new XElement("Models");
-            Debug.Log(models == null);
             foreach(ModelInfo model in models)
             {
-                Debug.Log(model.position);
-                Debug.Log(model.rotation);
-                Debug.Log(model.localScale);
-                Debug.Log(model.modelName);
                 var elem = new XElement("Model",
                                         new XElement("Position", Util.ConvertVector3ToString(model.position)),
                                         new XElement("Rotation", Util.ConvertQuaternionToString(model.rotation)),
@@ -342,7 +335,6 @@ namespace CM3D2.SceneCapture.Plugin
                 SerializeStatic.LoadDef(effects, typeof(ComicBookDef), typeof(ComicBook));
                 SerializeStatic.LoadDef(effects, typeof(ContrastVignetteDef), typeof(ContrastVignette));
                 SerializeStatic.LoadDef(effects, typeof(Convolution3x3Def), typeof(Convolution3x3));
-                SerializeStatic.LoadDef(effects, typeof(DitheringDef), typeof(Dithering));
                 SerializeStatic.LoadDef(effects, typeof(DoubleVisionDef), typeof(DoubleVision));
                 SerializeStatic.LoadDef(effects, typeof(HalftoneDef), typeof(Halftone));
                 SerializeStatic.LoadDef(effects, typeof(IsolineDef), typeof(Isoline));

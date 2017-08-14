@@ -226,16 +226,15 @@ namespace CM3D2.SceneCapture.Plugin
 
             GUIUtil.AddGUICheckbox(this, this.lightColorPicker );
 
-            // if( this.lightTypeComboBox.SelectedItem == "Directional" )
-            // {
-                GUIUtil.AddGUICheckbox(this, this.shadowsBox );
-            // }
-
-            if( this.shadowsBox.SelectedItem != "None" )
+            if( this.lightTypeComboBox.SelectedItem == "Directional" )
             {
-                GUIUtil.AddGUISlider(this, this.shadowStrengthSlider );
-                GUIUtil.AddGUISlider(this, this.shadowBiasSlider );
-                GUIUtil.AddGUISlider(this, this.shadowNormalBiasSlider );
+                GUIUtil.AddGUICheckbox(this, this.shadowsBox );
+                if( this.shadowsBox.SelectedItem != "None" )
+                {
+                    GUIUtil.AddGUISlider(this, this.shadowStrengthSlider );
+                    GUIUtil.AddGUISlider(this, this.shadowBiasSlider );
+                    GUIUtil.AddGUISlider(this, this.shadowNormalBiasSlider );
+                }
             }
 
             foreach(ControlBase control in this.ChildControls)
@@ -248,7 +247,7 @@ namespace CM3D2.SceneCapture.Plugin
         }
 
         public void UpdateFromLight()
-        {
+        t
             // prevent rotation slider callback from firing
             if(!this.updating) {
                 this.updating = true;

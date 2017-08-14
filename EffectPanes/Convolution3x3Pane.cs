@@ -20,6 +20,10 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void SetupPane()
         {
+            this.convolutionMatrixLabel = new CustomLabel();
+            this.convolutionMatrixLabel.Text = Translation.GetText("Convolution3x3", "convolutionMatrix");
+            this.ChildControls.Add( this.convolutionMatrixLabel );
+
             this.divisorSlider = new CustomSlider( Convolution3x3Def.convolution3x3Effect.divisor, 0.0f, 10f, 4 );
             this.divisorSlider.Text = Translation.GetText("Convolution3x3", "divisor");
             this.ChildControls.Add( this.divisorSlider );
@@ -67,15 +71,22 @@ namespace CM3D2.SceneCapture.Plugin
 
         override public void ShowPane()
         {
-            GUIUtil.AddGUIButtonAfter(this, this.kernelTopXField, this, 3);
+            this.convolutionMatrixLabel.Left = this.Left + ControlBase.FixedMargin;
+            this.convolutionMatrixLabel.Top = this.Top + this.ControlHeight + ControlBase.FixedMargin;
+            this.convolutionMatrixLabel.Width = (this.Width / 3) - ControlBase.FixedMargin / 4;
+            this.convolutionMatrixLabel.Height = this.ControlHeight;
+            this.convolutionMatrixLabel.OnGUI();
+            this.convolutionMatrixLabel.Visible = true;
+
+            GUIUtil.AddGUIButtonAfter(this, this.kernelTopXField, this.convolutionMatrixLabel, 3);
             GUIUtil.AddGUIButton(this, this.kernelTopYField, this.kernelTopXField, 3);
-            GUIUtil.AddGUIButton(this, this.kernelTopZField, this.kernelTopZField, 3);
+            GUIUtil.AddGUIButton(this, this.kernelTopZField, this.kernelTopYField, 3);
             GUIUtil.AddGUIButtonAfter(this, this.kernelMiddleXField, this.kernelTopXField, 3);
             GUIUtil.AddGUIButton(this, this.kernelMiddleYField, this.kernelMiddleXField, 3);
-            GUIUtil.AddGUIButton(this, this.kernelMiddleZField, this.kernelMiddleZField, 3);
+            GUIUtil.AddGUIButton(this, this.kernelMiddleZField, this.kernelMiddleYField, 3);
             GUIUtil.AddGUIButtonAfter(this, this.kernelBottomXField, this.kernelMiddleXField, 3);
             GUIUtil.AddGUIButton(this, this.kernelBottomYField, this.kernelBottomXField, 3);
-            GUIUtil.AddGUIButton(this, this.kernelBottomZField, this.kernelBottomZField, 3);
+            GUIUtil.AddGUIButton(this, this.kernelBottomZField, this.kernelBottomYField, 3);
             GUIUtil.AddGUISlider(this, this.divisorSlider);
             GUIUtil.AddGUISlider(this, this.amountSlider);
         }
@@ -97,7 +108,7 @@ namespace CM3D2.SceneCapture.Plugin
                 if(float.TryParse(this.kernelTopYField.Value, out fOut))
                     vec.y = fOut;
                 if(float.TryParse(this.kernelTopZField.Value, out fOut))
-                    vec.y = fOut;
+                    vec.z = fOut;
                 return vec;
             }
         }
@@ -112,7 +123,7 @@ namespace CM3D2.SceneCapture.Plugin
                 if(float.TryParse(this.kernelMiddleYField.Value, out fOut))
                     vec.y = fOut;
                 if(float.TryParse(this.kernelMiddleZField.Value, out fOut))
-                    vec.y = fOut;
+                    vec.z = fOut;
                 return vec;
             }
         }
@@ -127,7 +138,7 @@ namespace CM3D2.SceneCapture.Plugin
                 if(float.TryParse(this.kernelBottomYField.Value, out fOut))
                     vec.y = fOut;
                 if(float.TryParse(this.kernelBottomZField.Value, out fOut))
-                    vec.y = fOut;
+                    vec.z = fOut;
                 return vec;
             }
         }
@@ -150,6 +161,7 @@ namespace CM3D2.SceneCapture.Plugin
         #endregion
 
         #region Fields
+        private CustomLabel convolutionMatrixLabel = null;
         private CustomTextField kernelTopXField = null;
         private CustomTextField kernelTopYField = null;
         private CustomTextField kernelTopZField = null;

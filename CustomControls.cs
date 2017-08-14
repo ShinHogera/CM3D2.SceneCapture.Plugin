@@ -1774,9 +1774,18 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
-        override public void OnGUI() {
-                Rect labelRect = new Rect( this.Left, this.Top, this.Width / 5, this.Height );
-                Rect rectItem = new Rect( labelRect.x + this.Width / 5, this.Top, (this.Width / 5) * 4, this.Height );
+        override public void OnGUI()
+        {
+            Rect labelRect, rectItem;
+            labelRect = new Rect( this.Left, this.Top, this.Width / 5, this.Height );
+            if(this.Text != string.Empty)
+            {
+                rectItem = new Rect( labelRect.x + this.Width / 5, this.Top, (this.Width / 5) * 4, this.Height );
+            }
+            else
+            {
+                rectItem = new Rect( this.Left, this.Top, this.Width, this.Height );
+            }
 
                 // スタイル
                 GUIStyle labelStyle = new GUIStyle( "label" );
@@ -1787,7 +1796,11 @@ namespace CM3D2.SceneCapture.Plugin
                 GUIStyle textFieldStyle = new GUIStyle("textarea");
                 textFieldStyle.alignment = TextAnchor.UpperLeft;
 
-                GUI.Label( labelRect, this.Text, labelStyle );
+                if(this.Text != string.Empty)
+                {
+                    GUI.Label( labelRect, this.Text, labelStyle );
+                }
+
                 string temp = GUI.TextField(rectItem, this.Value, textFieldStyle);
 
                 if (temp != this.Value) {

@@ -131,6 +131,9 @@ namespace CM3D2.SceneCapture.Plugin
                 this.contrastVignettePane = new ContrastVignettePane( this.FontSize );
                 this.ChildControls.Add( this.contrastVignettePane );
 
+                this.convolution3x3Pane = new Convolution3x3Pane( this.FontSize );
+                this.ChildControls.Add( this.convolution3x3Pane );
+
                 this.doubleVisionPane = new DoubleVisionPane( this.FontSize );
                 this.ChildControls.Add( this.doubleVisionPane );
 
@@ -163,12 +166,6 @@ namespace CM3D2.SceneCapture.Plugin
 
                 this.wigglePane = new WigglePane( this.FontSize );
                 this.ChildControls.Add( this.wigglePane );
-
-                this.ditheringPane = new DitheringPane( this.FontSize );
-                this.ChildControls.Add( this.ditheringPane );
-
-                this.convolution3x3Pane = new Convolution3x3Pane( this.FontSize );
-                this.ChildControls.Add( this.convolution3x3Pane );
             }
             catch( Exception e )
             {
@@ -221,7 +218,6 @@ namespace CM3D2.SceneCapture.Plugin
                 ComicBookDef.Update(this.comicBookPane);
                 ContrastVignetteDef.Update(this.contrastVignettePane);
                 Convolution3x3Def.Update(this.convolution3x3Pane);
-                DitheringDef.Update(this.ditheringPane);
                 DoubleVisionDef.Update(this.doubleVisionPane);
                 HalftoneDef.Update(this.halftonePane);
                 IsolineDef.Update(this.isolinePane);
@@ -297,8 +293,7 @@ namespace CM3D2.SceneCapture.Plugin
             GUIUtil.AddGUICheckbox(this, this.comicBookPane, this.blendPane);
             GUIUtil.AddGUICheckbox(this, this.contrastVignettePane, this.comicBookPane);
             GUIUtil.AddGUICheckbox(this, this.convolution3x3Pane, this.contrastVignettePane);
-            GUIUtil.AddGUICheckbox(this, this.ditheringPane, this.convolution3x3Pane);
-            GUIUtil.AddGUICheckbox(this, this.doubleVisionPane, this.ditheringPane);
+            GUIUtil.AddGUICheckbox(this, this.doubleVisionPane, this.convolution3x3Pane);
             GUIUtil.AddGUICheckbox(this, this.halftonePane, this.doubleVisionPane);
             GUIUtil.AddGUICheckbox(this, this.isolinePane, this.halftonePane);
             GUIUtil.AddGUICheckbox(this, this.kuwaharaPane, this.isolinePane);
@@ -355,7 +350,6 @@ namespace CM3D2.SceneCapture.Plugin
         private ComicBookPane comicBookPane = null;
         private ContrastVignettePane contrastVignettePane = null;
         private Convolution3x3Pane convolution3x3Pane = null;
-        private DitheringPane ditheringPane = null;
         private DoubleVisionPane doubleVisionPane = null;
         private HalftonePane halftonePane = null;
         private IsolinePane isolinePane = null;
