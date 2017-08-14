@@ -76,14 +76,6 @@ namespace CM3D2.SceneCapture.Plugin
             v = GameMain.Instance.MainCamera.gameObject.GetComponent<T>();
             if (v == null)
             {
-                if(typeof(T) == typeof(Raymarcher) || typeof(T) == typeof(RimLight) || typeof(T) == typeof(ScreenSpaceReflections) || typeof(T) == typeof(TemporalSSAO) || typeof(T) == typeof(ZFog))
-                {
-                    GBufferUtils gbu = GameMain.Instance.MainCamera.gameObject.GetComponent<GBufferUtils>();
-
-                    if(gbu == null)
-                        GameMain.Instance.MainCamera.gameObject.AddComponent<GBufferUtils>();
-                }
-
                 v = GameMain.Instance.MainCamera.gameObject.AddComponent<T>();
 
                 string[] sShaders = Util.GetFieldNamesSpecifyType<T, Shader>();

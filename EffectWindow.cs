@@ -107,9 +107,6 @@ namespace CM3D2.SceneCapture.Plugin
                 this.bokehPane = new BokehPane( this.FontSize );
                 this.ChildControls.Add( this.bokehPane );
 
-                this.feedbackPane = new FeedbackPane( this.FontSize );
-                this.ChildControls.Add( this.feedbackPane );
-
                 this.obscurancePane = new ObscurancePane( this.FontSize );
                 this.ChildControls.Add( this.obscurancePane );
 
@@ -166,21 +163,6 @@ namespace CM3D2.SceneCapture.Plugin
 
                 this.wigglePane = new WigglePane( this.FontSize );
                 this.ChildControls.Add( this.wigglePane );
-
-                this.zFogPane = new ZFogPane( this.FontSize );
-                this.ChildControls.Add( this.zFogPane );
-
-                this.temporalSSAOPane = new TemporalSSAOPane( this.FontSize );
-                this.ChildControls.Add( this.temporalSSAOPane );
-
-                this.screenSpaceReflectionsPane = new ScreenSpaceReflectionsPane( this.FontSize );
-                this.ChildControls.Add( this.screenSpaceReflectionsPane );
-
-                this.raymarcherPane = new RaymarcherPane( this.FontSize );
-                this.ChildControls.Add( this.raymarcherPane );
-
-                this.rimLightPane = new RimLightPane( this.FontSize );
-                this.ChildControls.Add( this.rimLightPane );
 
                 this.ditheringPane = new DitheringPane( this.FontSize );
                 this.ChildControls.Add( this.ditheringPane );
@@ -239,6 +221,8 @@ namespace CM3D2.SceneCapture.Plugin
                 ChannelMixerDef.Update(this.channelMixerPane);
                 ComicBookDef.Update(this.comicBookPane);
                 ContrastVignetteDef.Update(this.contrastVignettePane);
+                Convolution3x3Def.Update(this.convolution3x3Pane);
+                DitheringDef.Update(this.ditheringPane);
                 DoubleVisionDef.Update(this.doubleVisionPane);
                 HalftoneDef.Update(this.halftonePane);
                 IsolineDef.Update(this.isolinePane);
@@ -250,13 +234,6 @@ namespace CM3D2.SceneCapture.Plugin
                 WaveDistortionDef.Update(this.waveDistortionPane);
                 WhiteBalanceDef.Update(this.whiteBalancePane);
                 WiggleDef.Update(this.wigglePane);
-                Convolution3x3Def.Update(this.convolution3x3Pane);
-                DitheringDef.Update(this.ditheringPane);
-                RimLightDef.Update(this.rimLightPane);
-                RaymarcherDef.Update(this.raymarcherPane);
-                ScreenSpaceReflectionsDef.Update(this.screenSpaceReflectionsPane);
-                TemporalSSAODef.Update(this.temporalSSAOPane);
-                ZFogDef.Update(this.zFogPane);
 
                 if( Instances.needEffectWindowReload )
                 {
@@ -327,15 +304,9 @@ namespace CM3D2.SceneCapture.Plugin
             GUIUtil.AddGUICheckbox(this, this.isolinePane, this.halftonePane);
             GUIUtil.AddGUICheckbox(this, this.kuwaharaPane, this.isolinePane);
             GUIUtil.AddGUICheckbox(this, this.pixelatePane, this.kuwaharaPane);
-            GUIUtil.AddGUICheckbox(this, this.raymarcherPane, this.pixelatePane);
-            GUIUtil.AddGUICheckbox(this, this.rgbSplitPane, this.raymarcherPane);
-            GUIUtil.AddGUICheckbox(this, this.rimLightPane, this.rgbSplitPane);
-            GUIUtil.AddGUICheckbox(this, this.screenSpaceReflectionsPane, this.rimLightPane);
-            GUIUtil.AddGUICheckbox(this, this.temporalSSAOPane, this.screenSpaceReflectionsPane);
-            GUIUtil.AddGUICheckbox(this, this.waveDistortionPane, this.temporalSSAOPane);
+            GUIUtil.AddGUICheckbox(this, this.rgbSplitPane, this.pixelatePane);
+            GUIUtil.AddGUICheckbox(this, this.waveDistortionPane, this.rgbSplitPane);
             GUIUtil.AddGUICheckbox(this, this.wigglePane, this.waveDistortionPane);
-            GUIUtil.AddGUICheckbox(this, this.zFogPane, this.wigglePane);
-            GUIUtil.AddGUICheckbox(this, this.feedbackPane, this.zFogPane);
 
             // ウィンドウ高さ調整
             this.Height = GUIUtil.GetHeightForParent(this);
@@ -394,15 +365,10 @@ namespace CM3D2.SceneCapture.Plugin
         private LookupFilterPane lookupFilterPane = null;
         private PixelatePane pixelatePane = null;
         private RGBSplitPane rgbSplitPane = null;
-        private RaymarcherPane raymarcherPane = null;
-        private RimLightPane rimLightPane = null;
-        private ScreenSpaceReflectionsPane screenSpaceReflectionsPane = null;
         private ShadowsMidtonesHighlightsPane shadowsMidtonesHighlightsPane = null;
-        private TemporalSSAOPane temporalSSAOPane = null;
         private WaveDistortionPane waveDistortionPane = null;
         private WigglePane wigglePane = null;
         private WhiteBalancePane whiteBalancePane = null;
-        private ZFogPane zFogPane = null;
         #endregion
 
         #endregion
