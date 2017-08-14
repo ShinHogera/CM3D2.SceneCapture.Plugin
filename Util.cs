@@ -27,6 +27,11 @@ namespace CM3D2.SceneCapture.Plugin
             extraShaders = LoadAssetBundle("extra_shaders");
         }
 
+        public static Shader GetExtraShader(string name)
+        {
+            return extraShaders.LoadAsset(name) as Shader;
+        }
+
         internal static int GetPix(int i)
         {
             float f = 1f + (Screen.width / 1280f - 1f) * 0.6f;
@@ -71,6 +76,14 @@ namespace CM3D2.SceneCapture.Plugin
             v = GameMain.Instance.MainCamera.gameObject.GetComponent<T>();
             if (v == null)
             {
+                if(typeof(T) == typeof(Raymarcher) || typeof(T) == typeof(RimLight) || typeof(T) == typeof(ScreenSpaceReflections) || typeof(T) == typeof(TemporalSSAO) || typeof(T) == typeof(ZFog))
+                {
+                    GBufferUtils gbu = GameMain.Instance.MainCamera.gameObject.GetComponent<GBufferUtils>();
+
+                    if(gbu == null)
+                        GameMain.Instance.MainCamera.gameObject.AddComponent<GBufferUtils>();
+                }
+
                 v = GameMain.Instance.MainCamera.gameObject.AddComponent<T>();
 
                 string[] sShaders = Util.GetFieldNamesSpecifyType<T, Shader>();

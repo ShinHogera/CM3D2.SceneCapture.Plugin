@@ -187,7 +187,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         // Reference to the quad mesh in the built-in assets
         // (used in MRT blitting)
-        [SerializeField] Mesh _quadMesh;
+        Mesh _quadMesh = null;
 
         #endregion
 

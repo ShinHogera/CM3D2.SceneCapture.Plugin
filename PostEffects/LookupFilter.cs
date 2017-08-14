@@ -113,19 +113,19 @@
                         needsUpdate = false;
 		}
 
-		public void Apply(Texture source, RenderTexture destination)
-		{
-			if (source is RenderTexture)
-			{
-				OnRenderImage(source as RenderTexture, destination);
-				return;
-			}
+		// public void Apply(Texture source, RenderTexture destination)
+		// {
+		// 	if (source is RenderTexture)
+		// 	{
+		// 		OnRenderImage(source as RenderTexture, destination);
+		// 		return;
+		// 	}
 
-			RenderTexture rt = RenderTexture.GetTemporary(source.width, source.height);
-			Graphics.Blit(source, rt);
-			OnRenderImage(rt, destination);
-			RenderTexture.ReleaseTemporary(rt);
-		}
+		// 	RenderTexture rt = RenderTexture.GetTemporary(source.width, source.height);
+		// 	Graphics.Blit(source, rt);
+		// 	OnRenderImage(rt, destination);
+		// 	RenderTexture.ReleaseTemporary(rt);
+		// }
 
 		protected override void OnRenderImage(RenderTexture source, RenderTexture destination)
 		{

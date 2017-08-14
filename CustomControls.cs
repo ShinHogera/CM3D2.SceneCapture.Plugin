@@ -1761,6 +1761,19 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
+        public CustomTextField( string text )
+        {
+            try
+            {
+                this.BackgroundColor = Color.clear;
+                this._value = text;
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
         override public void OnGUI() {
                 Rect labelRect = new Rect( this.Left, this.Top, this.Width / 5, this.Height );
                 Rect rectItem = new Rect( labelRect.x + this.Width / 5, this.Top, (this.Width / 5) * 4, this.Height );
