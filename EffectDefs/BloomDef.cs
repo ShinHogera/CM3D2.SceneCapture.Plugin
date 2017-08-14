@@ -320,7 +320,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void BackUp()
         {
-            Debug.Log("Backup");
             if (bloomEffect == null)
                 return;
 

@@ -71,6 +71,25 @@ namespace CM3D2.SceneCapture.Plugin
             new DigitalGlitchDef();
             new BokehDef();
             new ObscuranceDef();
+            new AnalogTVDef();
+            new BleachBypassDef();
+            new BlendDef();
+            new BrightnessContrastGammaDef();
+            new ChannelMixerDef();
+            new ComicBookDef();
+            new ContrastVignetteDef();
+            new Convolution3x3Def();
+            new DoubleVisionDef();
+            new HalftoneDef();
+            new IsolineDef();
+            new KuwaharaDef();
+            new LookupFilterDef();
+            new PixelateDef();
+            new RGBSplitDef();
+            new ShadowsMidtonesHighlightsDef();
+            new WaveDistortionDef();
+            new WhiteBalanceDef();
+            new WiggleDef();
         }
 
         public static void SetLights(List<LightInfo> lights)
@@ -179,9 +198,26 @@ namespace CM3D2.SceneCapture.Plugin
                                    SerializeStatic.SaveDef(typeof(AnalogGlitchDef), typeof(AnalogGlitch)),
                                    SerializeStatic.SaveDef(typeof(DigitalGlitchDef), typeof(DigitalGlitch)),
                                    SerializeStatic.SaveDef(typeof(BokehDef), typeof(Bokeh)),
-                                   // SerializeStatic.SaveDef(typeof(FeedbackDef), typeof(Feedback)),
-                                   SerializeStatic.SaveDef(typeof(ObscuranceDef), typeof(Obscurance))
-                                   );
+                                   SerializeStatic.SaveDef(typeof(ObscuranceDef), typeof(Obscurance)),
+                                   SerializeStatic.SaveDef(typeof(AnalogTVDef), typeof(AnalogTV)),
+                                   SerializeStatic.SaveDef(typeof(BleachBypassDef), typeof(BleachBypass)),
+                                   SerializeStatic.SaveDef(typeof(BlendDef), typeof(Blend)),
+                                   SerializeStatic.SaveDef(typeof(BrightnessContrastGammaDef), typeof(BrightnessContrastGamma)),
+                                   SerializeStatic.SaveDef(typeof(ChannelMixerDef), typeof(ChannelMixer)),
+                                   SerializeStatic.SaveDef(typeof(ComicBookDef), typeof(ComicBook)),
+                                   SerializeStatic.SaveDef(typeof(ContrastVignetteDef), typeof(ContrastVignette)),
+                                   SerializeStatic.SaveDef(typeof(Convolution3x3Def), typeof(Convolution3x3)),
+                                   SerializeStatic.SaveDef(typeof(DoubleVisionDef), typeof(DoubleVision)),
+                                   SerializeStatic.SaveDef(typeof(HalftoneDef), typeof(Halftone)),
+                                   SerializeStatic.SaveDef(typeof(IsolineDef), typeof(Isoline)),
+                                   SerializeStatic.SaveDef(typeof(KuwaharaDef), typeof(Kuwahara)),
+                                   SerializeStatic.SaveDef(typeof(LookupFilterDef), typeof(LookupFilter)),
+                                   SerializeStatic.SaveDef(typeof(PixelateDef), typeof(Pixelate)),
+                                   SerializeStatic.SaveDef(typeof(RGBSplitDef), typeof(RGBSplit)),
+                                   SerializeStatic.SaveDef(typeof(ShadowsMidtonesHighlightsDef), typeof(ShadowsMidtonesHighlights)),
+                                   SerializeStatic.SaveDef(typeof(WaveDistortionDef), typeof(WaveDistortion)),
+                                   SerializeStatic.SaveDef(typeof(WhiteBalanceDef), typeof(WhiteBalance)),
+                                   SerializeStatic.SaveDef(typeof(WiggleDef), typeof(Wiggle)));
 
             xml.Elements().Where(e => e.Name == "null").Remove();
 
@@ -210,13 +246,8 @@ namespace CM3D2.SceneCapture.Plugin
         public static XElement SaveModels()
         {
             var xml = new XElement("Models");
-            Debug.Log(models == null);
             foreach(ModelInfo model in models)
             {
-                Debug.Log(model.position);
-                Debug.Log(model.rotation);
-                Debug.Log(model.localScale);
-                Debug.Log(model.modelName);
                 var elem = new XElement("Model",
                                         new XElement("Position", Util.ConvertVector3ToString(model.position)),
                                         new XElement("Rotation", Util.ConvertQuaternionToString(model.rotation)),
@@ -295,8 +326,26 @@ namespace CM3D2.SceneCapture.Plugin
                 SerializeStatic.LoadDef(effects, typeof(AnalogGlitchDef), typeof(AnalogGlitch));
                 SerializeStatic.LoadDef(effects, typeof(DigitalGlitchDef), typeof(DigitalGlitch));
                 SerializeStatic.LoadDef(effects, typeof(BokehDef), typeof(Bokeh));
-                // SerializeStatic.LoadDef(effects, typeof(FeedbackDef), typeof(Feedback));
                 SerializeStatic.LoadDef(effects, typeof(ObscuranceDef), typeof(Obscurance));
+                SerializeStatic.LoadDef(effects, typeof(AnalogTVDef), typeof(AnalogTV));
+                SerializeStatic.LoadDef(effects, typeof(BleachBypassDef), typeof(BleachBypass));
+                SerializeStatic.LoadDef(effects, typeof(BlendDef), typeof(Blend));
+                SerializeStatic.LoadDef(effects, typeof(BrightnessContrastGammaDef), typeof(BrightnessContrastGamma));
+                SerializeStatic.LoadDef(effects, typeof(ChannelMixerDef), typeof(ChannelMixer));
+                SerializeStatic.LoadDef(effects, typeof(ComicBookDef), typeof(ComicBook));
+                SerializeStatic.LoadDef(effects, typeof(ContrastVignetteDef), typeof(ContrastVignette));
+                SerializeStatic.LoadDef(effects, typeof(Convolution3x3Def), typeof(Convolution3x3));
+                SerializeStatic.LoadDef(effects, typeof(DoubleVisionDef), typeof(DoubleVision));
+                SerializeStatic.LoadDef(effects, typeof(HalftoneDef), typeof(Halftone));
+                SerializeStatic.LoadDef(effects, typeof(IsolineDef), typeof(Isoline));
+                SerializeStatic.LoadDef(effects, typeof(KuwaharaDef), typeof(Kuwahara));
+                SerializeStatic.LoadDef(effects, typeof(LookupFilterDef), typeof(LookupFilter));
+                SerializeStatic.LoadDef(effects, typeof(PixelateDef), typeof(Pixelate));
+                SerializeStatic.LoadDef(effects, typeof(RGBSplitDef), typeof(RGBSplit));
+                SerializeStatic.LoadDef(effects, typeof(ShadowsMidtonesHighlightsDef), typeof(ShadowsMidtonesHighlights));
+                SerializeStatic.LoadDef(effects, typeof(WaveDistortionDef), typeof(WaveDistortion));
+                SerializeStatic.LoadDef(effects, typeof(WhiteBalanceDef), typeof(WhiteBalance));
+                SerializeStatic.LoadDef(effects, typeof(WiggleDef), typeof(Wiggle));
             }
             catch (Exception e)
             {

@@ -172,7 +172,5 @@ namespace CM3D2.SceneCapture.Plugin
         private Vector2 guiScroll;
         private bool isGuiScroll;
         public Rect rectGui;
-
-        private CustomButton resetButton = null;
     }
 }

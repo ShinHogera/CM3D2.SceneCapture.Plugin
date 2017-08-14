@@ -51,7 +51,7 @@ namespace CM3D2.SceneCapture.Plugin
     ///					モーション一時停止後、選択対象メイドを切り替えるとモーションの一時停止が解除される不具合
     /// </remarks>
     ///=========================================================================
-    [PluginFilter( "CM3D2x64" ), PluginFilter( "CM3D2x86" ), PluginFilter( "CM3D2VRx64" ), PluginName( "CM3D2.SceneCapture.Plugin" ), PluginVersion( "0.2.3.0" )]
+    [PluginFilter( "CM3D2x64" ), PluginFilter( "CM3D2x86" ), PluginFilter( "CM3D2VRx64" ), PluginName( "CM3D2.SceneCapture.Plugin" ), PluginVersion( "0.3.0.0" )]
     public class SceneCapture : PluginBase
     {
         #region Methods
@@ -317,6 +317,7 @@ namespace CM3D2.SceneCapture.Plugin
                         GlobalColorPicker.Update();
                         GlobalCurveWindow.Update();
                         GlobalItemPicker.Update();
+                        GlobalTexturePicker.Update();
 
                         // Update
                         SunShaftsDef.Update();
@@ -355,6 +356,8 @@ namespace CM3D2.SceneCapture.Plugin
                     fontSize = 11;
 
                 float windowWidth = Screen.width / 4 - ControlBase.FixedMargin * 2;
+
+                new Instances();
 
                 // モード選択画面
                 this.modeSelectView = new ModeSelectWindow( fontSize );

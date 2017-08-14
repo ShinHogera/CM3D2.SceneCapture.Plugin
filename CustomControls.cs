@@ -1762,9 +1762,31 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
-        override public void OnGUI() {
-                Rect labelRect = new Rect( this.Left, this.Top, this.Width / 5, this.Height );
-                Rect rectItem = new Rect( labelRect.x + this.Width / 5, this.Top, (this.Width / 5) * 4, this.Height );
+        public CustomTextField( string text )
+        {
+            try
+            {
+                this.BackgroundColor = Color.clear;
+                this._value = text;
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
+        override public void OnGUI()
+        {
+            Rect labelRect, rectItem;
+            labelRect = new Rect( this.Left, this.Top, this.Width / 5, this.Height );
+            if(this.Text != string.Empty)
+            {
+                rectItem = new Rect( labelRect.x + this.Width / 5, this.Top, (this.Width / 5) * 4, this.Height );
+            }
+            else
+            {
+                rectItem = new Rect( this.Left, this.Top, this.Width, this.Height );
+            }
 
                 // スタイル
                 GUIStyle labelStyle = new GUIStyle( "label" );
@@ -1776,7 +1798,11 @@ namespace CM3D2.SceneCapture.Plugin
                 textFieldStyle.alignment = TextAnchor.UpperLeft;
                 textFieldStyle.fontSize = this.FixedFontSize;
 
-                GUI.Label( labelRect, this.Text, labelStyle );
+                if(this.Text != string.Empty)
+                {
+                    GUI.Label( labelRect, this.Text, labelStyle );
+                }
+
                 string temp = GUI.TextField(rectItem, this.Value, textFieldStyle);
 
                 if (temp != this.Value) {
@@ -1907,5 +1933,92 @@ namespace CM3D2.SceneCapture.Plugin
                 this._texture = value;
             }
         }
+    }
+
+    internal class CustomImagePicker : ControlBase
+    {
+        public CustomImagePicker( Texture texture, string filename, List<string> imageDirectories )
+        {
+            try
+            {
+                this.imageDirectories = imageDirectories;
+
+                this._value = (Texture2D)texture;
+
+                if(this._value == null)
+                {
+                    this._value = new Texture2D(1, 1);
+                    this._value.SetPixel(0, 0, new Color(255, 255, 255, 0));
+                    this._value.Apply();
+                }
+
+                this._filename = filename;
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
+        override public void OnGUI()
+        {
+            try
+            {
+                Rect texRect = new Rect( this.Left, this.Top, this.Height, this.Height );
+                Rect labelRect = new Rect( this.Left + this.Height, this.Top, this.Width - this.Height, this.Height );
+
+                // スタイル
+                GUIStyle labelStyle = new GUIStyle( "label" );
+                labelStyle.alignment = TextAnchor.MiddleLeft;
+                labelStyle.normal.textColor = this.TextColor;
+                labelStyle.fontSize = this.FixedFontSize;
+
+                GUI.DrawTexture( texRect, this._value );
+                GUI.Label( labelRect, this.Text, labelStyle );
+
+                if( GUI.Button( texRect, string.Empty, labelStyle ) )
+                {
+                    GlobalTexturePicker.Set(new Vector2(this.Left + this.ScreenPos.x, this.Top + this.ScreenPos.y), this.FontSize * 40, this.FontSize, this.imageDirectories,
+                                            (x, y) =>
+                            {
+                                this._value = x;
+                                this._filename = y;
+                                this.TextureChanged(this, new EventArgs());
+                            });
+                }
+            }
+            catch( Exception e )
+            {
+                Debug.LogError( e.ToString() );
+            }
+        }
+
+        private Texture2D _value;
+        virtual public Texture2D Value
+        {
+            get
+            {
+                return this._value;
+            }
+
+            set
+
+            {
+                this._value = value;
+            }
+        }
+
+        private string _filename;
+        virtual public string Filename
+        {
+            get
+            {
+                return this._filename;
+            }
+        }
+
+        private List<string> imageDirectories;
+
+        public EventHandler TextureChanged = delegate { };
     }
 }

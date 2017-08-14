@@ -107,11 +107,65 @@ namespace CM3D2.SceneCapture.Plugin
                 this.bokehPane = new BokehPane( this.FontSize );
                 this.ChildControls.Add( this.bokehPane );
 
-                // this.feedbackPane = new FeedbackPane( this.FontSize );
-                // this.ChildControls.Add( this.feedbackPane );
-
                 this.obscurancePane = new ObscurancePane( this.FontSize );
                 this.ChildControls.Add( this.obscurancePane );
+
+                this.analogTVPane = new AnalogTVPane( this.FontSize );
+                this.ChildControls.Add( this.analogTVPane );
+
+                this.bleachBypassPane = new BleachBypassPane( this.FontSize );
+                this.ChildControls.Add( this.bleachBypassPane );
+
+                this.blendPane = new BlendPane( this.FontSize );
+                this.ChildControls.Add( this.blendPane );
+
+                this.brightnessContrastGammaPane = new BrightnessContrastGammaPane( this.FontSize );
+                this.ChildControls.Add( this.brightnessContrastGammaPane );
+
+                this.channelMixerPane = new ChannelMixerPane( this.FontSize );
+                this.ChildControls.Add( this.channelMixerPane );
+
+                this.comicBookPane = new ComicBookPane( this.FontSize );
+                this.ChildControls.Add( this.comicBookPane );
+
+                this.contrastVignettePane = new ContrastVignettePane( this.FontSize );
+                this.ChildControls.Add( this.contrastVignettePane );
+
+                this.convolution3x3Pane = new Convolution3x3Pane( this.FontSize );
+                this.ChildControls.Add( this.convolution3x3Pane );
+
+                this.doubleVisionPane = new DoubleVisionPane( this.FontSize );
+                this.ChildControls.Add( this.doubleVisionPane );
+
+                this.halftonePane = new HalftonePane( this.FontSize );
+                this.ChildControls.Add( this.halftonePane );
+
+                this.isolinePane = new IsolinePane( this.FontSize );
+                this.ChildControls.Add( this.isolinePane );
+
+                this.kuwaharaPane = new KuwaharaPane( this.FontSize );
+                this.ChildControls.Add( this.kuwaharaPane );
+
+                this.lookupFilterPane = new LookupFilterPane( this.FontSize );
+                this.ChildControls.Add( this.lookupFilterPane );
+
+                this.pixelatePane = new PixelatePane( this.FontSize );
+                this.ChildControls.Add( this.pixelatePane );
+
+                this.rgbSplitPane = new RGBSplitPane( this.FontSize );
+                this.ChildControls.Add( this.rgbSplitPane );
+
+                this.shadowsMidtonesHighlightsPane = new ShadowsMidtonesHighlightsPane( this.FontSize );
+                this.ChildControls.Add( this.shadowsMidtonesHighlightsPane );
+
+                this.waveDistortionPane = new WaveDistortionPane( this.FontSize );
+                this.ChildControls.Add( this.waveDistortionPane );
+
+                this.whiteBalancePane = new WhiteBalancePane( this.FontSize );
+                this.ChildControls.Add( this.whiteBalancePane );
+
+                this.wigglePane = new WigglePane( this.FontSize );
+                this.ChildControls.Add( this.wigglePane );
             }
             catch( Exception e )
             {
@@ -155,8 +209,26 @@ namespace CM3D2.SceneCapture.Plugin
                 AnalogGlitchDef.Update(this.analogGlitchPane);
                 DigitalGlitchDef.Update(this.digitalGlitchPane);
                 BokehDef.Update(this.bokehPane);
-                // FeedbackDef.Update(this.feedbackPane);
                 ObscuranceDef.Update(this.obscurancePane);
+                AnalogTVDef.Update(this.analogTVPane);
+                BleachBypassDef.Update(this.bleachBypassPane);
+                BlendDef.Update(this.blendPane);
+                BrightnessContrastGammaDef.Update(this.brightnessContrastGammaPane);
+                ChannelMixerDef.Update(this.channelMixerPane);
+                ComicBookDef.Update(this.comicBookPane);
+                ContrastVignetteDef.Update(this.contrastVignettePane);
+                Convolution3x3Def.Update(this.convolution3x3Pane);
+                DoubleVisionDef.Update(this.doubleVisionPane);
+                HalftoneDef.Update(this.halftonePane);
+                IsolineDef.Update(this.isolinePane);
+                KuwaharaDef.Update(this.kuwaharaPane);
+                LookupFilterDef.Update(this.lookupFilterPane);
+                PixelateDef.Update(this.pixelatePane);
+                RGBSplitDef.Update(this.rgbSplitPane);
+                ShadowsMidtonesHighlightsDef.Update(this.shadowsMidtonesHighlightsPane);
+                WaveDistortionDef.Update(this.waveDistortionPane);
+                WhiteBalanceDef.Update(this.whiteBalancePane);
+                WiggleDef.Update(this.wigglePane);
 
                 if( Instances.needEffectWindowReload )
                 {
@@ -182,7 +254,13 @@ namespace CM3D2.SceneCapture.Plugin
             this.colorCorrectionCurvesPane.Height = this.ControlHeight;
             this.colorCorrectionCurvesPane.OnGUI();
 
-            GUIUtil.AddGUICheckbox(this, this.sepiaPane, this.colorCorrectionCurvesPane);
+            GUIUtil.AddGUICheckbox(this, this.brightnessContrastGammaPane,  this.colorCorrectionCurvesPane);
+            GUIUtil.AddGUICheckbox(this, this.shadowsMidtonesHighlightsPane,  this.brightnessContrastGammaPane);
+            GUIUtil.AddGUICheckbox(this, this.lookupFilterPane,  this.shadowsMidtonesHighlightsPane);
+            GUIUtil.AddGUICheckbox(this, this.whiteBalancePane,  this.lookupFilterPane);
+            GUIUtil.AddGUICheckbox(this, this.channelMixerPane, this.whiteBalancePane);
+            GUIUtil.AddGUICheckbox(this, this.bleachBypassPane, this.channelMixerPane);
+            GUIUtil.AddGUICheckbox(this, this.sepiaPane, this.bleachBypassPane);
             GUIUtil.AddGUICheckbox(this, this.grayscalePane, this.sepiaPane);
             GUIUtil.AddGUICheckbox(this, this.contrastPane, this.grayscalePane);
             GUIUtil.AddGUICheckbox(this, this.edgeDetectPane, this.contrastPane);
@@ -209,8 +287,20 @@ namespace CM3D2.SceneCapture.Plugin
             GUIUtil.AddGUICheckbox(this, this.analogGlitchPane, this.letterboxPane);
             GUIUtil.AddGUICheckbox(this, this.digitalGlitchPane, this.analogGlitchPane);
             GUIUtil.AddGUICheckbox(this, this.bokehPane, this.digitalGlitchPane);
-            // GUIUtil.AddGUICheckbox(this, this.feedbackPane, this.bokehPane);
             GUIUtil.AddGUICheckbox(this, this.obscurancePane, this.bokehPane);
+            GUIUtil.AddGUICheckbox(this, this.analogTVPane, this.obscurancePane);
+            GUIUtil.AddGUICheckbox(this, this.blendPane, this.analogTVPane);
+            GUIUtil.AddGUICheckbox(this, this.comicBookPane, this.blendPane);
+            GUIUtil.AddGUICheckbox(this, this.contrastVignettePane, this.comicBookPane);
+            GUIUtil.AddGUICheckbox(this, this.convolution3x3Pane, this.contrastVignettePane);
+            GUIUtil.AddGUICheckbox(this, this.doubleVisionPane, this.convolution3x3Pane);
+            GUIUtil.AddGUICheckbox(this, this.halftonePane, this.doubleVisionPane);
+            GUIUtil.AddGUICheckbox(this, this.isolinePane, this.halftonePane);
+            GUIUtil.AddGUICheckbox(this, this.kuwaharaPane, this.isolinePane);
+            GUIUtil.AddGUICheckbox(this, this.pixelatePane, this.kuwaharaPane);
+            GUIUtil.AddGUICheckbox(this, this.rgbSplitPane, this.pixelatePane);
+            GUIUtil.AddGUICheckbox(this, this.waveDistortionPane, this.rgbSplitPane);
+            GUIUtil.AddGUICheckbox(this, this.wigglePane, this.waveDistortionPane);
 
             // ウィンドウ高さ調整
             this.Height = GUIUtil.GetHeightForParent(this);
@@ -251,8 +341,26 @@ namespace CM3D2.SceneCapture.Plugin
         private AnalogGlitchPane analogGlitchPane = null;
         private DigitalGlitchPane digitalGlitchPane = null;
         private BokehPane bokehPane = null;
-        // private FeedbackPane feedbackPane = null;
         private ObscurancePane obscurancePane = null;
+        private AnalogTVPane analogTVPane = null;
+        private BleachBypassPane bleachBypassPane = null;
+        private BlendPane blendPane = null;
+        private BrightnessContrastGammaPane brightnessContrastGammaPane = null;
+        private ChannelMixerPane channelMixerPane = null;
+        private ComicBookPane comicBookPane = null;
+        private ContrastVignettePane contrastVignettePane = null;
+        private Convolution3x3Pane convolution3x3Pane = null;
+        private DoubleVisionPane doubleVisionPane = null;
+        private HalftonePane halftonePane = null;
+        private IsolinePane isolinePane = null;
+        private KuwaharaPane kuwaharaPane = null;
+        private LookupFilterPane lookupFilterPane = null;
+        private PixelatePane pixelatePane = null;
+        private RGBSplitPane rgbSplitPane = null;
+        private ShadowsMidtonesHighlightsPane shadowsMidtonesHighlightsPane = null;
+        private WaveDistortionPane waveDistortionPane = null;
+        private WigglePane wigglePane = null;
+        private WhiteBalancePane whiteBalancePane = null;
         #endregion
 
         #endregion

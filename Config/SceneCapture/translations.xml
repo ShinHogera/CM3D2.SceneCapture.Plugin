@@ -229,6 +229,163 @@
       <axialAberration>Axial Aberration</axialAberration>
       <blurDistance>Blur Distance</blurDistance>
     </Vignetting>
+    <AnalogTV>
+      <automaticPhase>Automatic Phase</automaticPhase>
+      <phase>Phase</phase>
+      <convertToGrayscale>Convert To Grayscale</convertToGrayscale>
+      <noiseIntensity>Noise Intensity</noiseIntensity>
+      <scanlinesIntensity>Scanlines Intensity</scanlinesIntensity>
+      <scanlinesCount>Scanlines Count</scanlinesCount>
+      <scanlinesOffset>Scanlines Offset</scanlinesOffset>
+      <verticalScanlines>Vertical Scanlines</verticalScanlines>
+      <distortion>Distortion</distortion>
+      <cubicDistortion>Cubic Distortion</cubicDistortion>
+      <scale>Scale</scale>
+    </AnalogTV>
+    <BleachBypass>
+      <amount>Amount</amount>
+    </BleachBypass>
+    <Blend>
+      <amount>Amount</amount>
+      <mode>Mode</mode>
+      <texture>Texture</texture>
+    </Blend>
+    <BrightnessContrastGamma>
+      <brightness>Brightness</brightness>
+      <contrast>Contrast</contrast>
+      <contrastCoeffX>Contrast Red</contrastCoeffX>
+      <contrastCoeffY>Contrast Green</contrastCoeffY>
+      <contrastCoeffZ>Contrast Blue</contrastCoeffZ>
+      <gamma>Gamma</gamma>
+    </BrightnessContrastGamma>
+    <ChannelMixer>
+      <redX>Red -> Red</redX>
+      <redY>Red -> Green</redY>
+      <redZ>Red -> Blue</redZ>
+      <greenX>Green -> Red</greenX>
+      <greenY>Green -> Green</greenY>
+      <greenZ>Green -> Blue</greenZ>
+      <blueX>Blue -> Red</blueX>
+      <blueY>Blue -> Green</blueY>
+      <blueZ>Blue -> Blue</blueZ>
+      <constantX>Red Constant</constantX>
+      <constantY>Green Constant</constantY>
+      <constantZ>Blue Constant</constantZ>
+    </ChannelMixer>
+    <ComicBook>
+      <stripAngle>Strip Angle</stripAngle>
+      <stripDensity>Strip Density</stripDensity>
+      <stripThickness>Strip Thickness</stripThickness>
+      <stripLimitsX>Strip Limits (Lower)</stripLimitsX>
+      <stripLimitsY>Strip Limits (Upper)</stripLimitsY>
+      <stripInnerColor>Strip Inner Color</stripInnerColor>
+      <stripOuterColor>Strip Outer Color</stripOuterColor>
+      <fillColor>Fill Color</fillColor>
+      <backgroundColor>Background Color</backgroundColor>
+      <edgeDetection>Edge Detection</edgeDetection>
+      <edgeThreshold>Edge Threshold</edgeThreshold>
+      <edgeColor>Edge Color</edgeColor>
+      <amount>Amount</amount>
+    </ComicBook>
+    <ContrastVignette>
+      <centerX>Center X</centerX>
+      <centerY>Center Y</centerY>
+      <sharpness>Sharpness</sharpness>
+      <darkness>Darkness</darkness>
+      <contrast>Contrast</contrast>
+      <contrastCoeffX>Contrast Red</contrastCoeffX>
+      <contrastCoeffY>Contrast Green</contrastCoeffY>
+      <contrastCoeffZ>Contrast Blue</contrastCoeffZ>
+      <edgeBlending>Edge Blending</edgeBlending>
+    </ContrastVignette>
+    <Convolution3x3>
+      <convolutionMatrix>Convolution Matrix</convolutionMatrix>
+      <divisor>Divisor</divisor>
+      <amount>Amount</amount>
+    </Convolution3x3>
+    <DoubleVision>
+      <displaceX>Displace X</displaceX>
+      <displaceY>Displace Y</displaceY>
+      <amount>Amount</amount>
+    </DoubleVision>
+    <Halftone>
+      <scale>Scale</scale>
+      <dotSize>Dot Size</dotSize>
+      <angle>Angle</angle>
+      <smoothness>Smoothness</smoothness>
+      <centerX>Center X</centerX>
+      <centerY>Center Y</centerY>
+      <desaturate>Desaturate</desaturate>
+    </Halftone>
+    <Isoline>
+      <_lineColor>Line Color</_lineColor>
+      <_luminanceBlending>Luminance Blending</_luminanceBlending>
+      <_fallOffDepth>Fall-Off </_fallOffDepth>
+      <_backgroundColor>Background Color</_backgroundColor>
+      <_axisX>Axis X</_axisX>
+      <_axisY>Axis Y</_axisY>
+      <_axisZ>Axis Z</_axisZ>
+      <_interval>Interval</_interval>
+      <_offsetX>Offset X</_offsetX>
+      <_offsetY>Offset Y</_offsetY>
+      <_offsetZ>Offset Z</_offsetZ>
+      <_distortionFrequency>Distortion Frequency</_distortionFrequency>
+      <_distortionAmount>Distortion Amount</_distortionAmount>
+      <_modulationMode>Modulation Mode</_modulationMode>
+      <_modulationAxisX>Modulation Axis X</_modulationAxisX>
+      <_modulationAxisY>Modulation Axis Y</_modulationAxisY>
+      <_modulationAxisZ>Modulation Axis Z</_modulationAxisZ>
+      <_modulationFrequency>Modulation Frequency</_modulationFrequency>
+      <_modulationSpeed>Modulation Speed</_modulationSpeed>
+      <_modulationExponent>Modulation Exponent</_modulationExponent>
+      <_directionX>Scroll Direction X</_directionX>
+      <_directionY>Scroll Direction Y</_directionY>
+      <_directionZ>Scroll Direction Z</_directionZ>
+      <_speed>Scroll Speed</_speed>
+    </Isoline>
+    <Kuwahara>
+      <radius>Radius</radius>
+    </Kuwahara>
+    <LookupFilter>
+      <amount>Amount</amount>
+      <forceCompatibility>Force Compatibility</forceCompatibility>
+      <lookupTexture>Lookup Texture</lookupTexture>
+    </LookupFilter>
+    <Pixelate>
+      <scale>Scale</scale>
+      <automaticRatio>Automatic Ratio</automaticRatio>
+      <ratio>Ratio</ratio>
+      <mode>Mode</mode>
+    </Pixelate>
+    <RGBSplit>
+      <amount>Amount</amount>
+      <angle>Angle</angle>
+    </RGBSplit>
+    <ShadowsMidtonesHighlights>
+      <mode>Mode</mode>
+      <shadows>Shadows</shadows>
+      <midtones>Midtones</midtones>
+      <highlights>Highlights</highlights>
+      <amount>Amount</amount>
+    </ShadowsMidtonesHighlights>
+    <WaveDistortion>
+      <amplitude>Amplitude</amplitude>
+      <waves>Waves</waves>
+      <colorGlitch>Color Glitch</colorGlitch>
+      <phase>Phase</phase>
+    </WaveDistortion>
+    <WhiteBalance>
+      <white>White</white>
+      <mode>Mode</mode>
+    </WhiteBalance>
+    <Wiggle>
+      <mode>Mode</mode>
+      <timer>Timer</timer>
+      <speed>Speed</speed>
+      <frequency>Frequency</frequency>
+      <amplitude>Amplitude</amplitude>
+      <automaticTimer>Automatic Timer</automaticTimer>
+    </Wiggle>
 
     <Panes>
       <AnalogGlitch>Analog Glitch</AnalogGlitch>
@@ -239,6 +396,7 @@
       <ChannelSwap>Channel Swap</ChannelSwap>
       <ColorCorrectionCurves>Color Curves</ColorCorrectionCurves>
       <Contrast>Contrast</Contrast>
+      <Convolution3x3>Convolution 3x3</Convolution3x3>
       <Crease>Crease</Crease>
       <DepthOfField>Depth Of Field</DepthOfField>
       <DigitalGlitch>Digital Glitch</DigitalGlitch>
@@ -260,6 +418,24 @@
       <Technicolor>Technicolor</Technicolor>
       <TiltShiftHdr>Tilt Shift HDR</TiltShiftHdr>
       <Vignetting>Vignetting</Vignetting>
+      <AnalogTV>Analog TV</AnalogTV>
+      <BleachBypass>Bleach Bypass</BleachBypass>
+      <Blend>Blend</Blend>
+      <BrightnessContrastGamma>Brightness/Contrast/Gamma</BrightnessContrastGamma>
+      <ChannelMixer>Channel Mixer</ChannelMixer>
+      <ComicBook>Comic Book</ComicBook>
+      <ContrastVignette>Contrast Vignette</ContrastVignette>
+      <DoubleVision>Double Vision</DoubleVision>
+      <Halftone>Halftone</Halftone>
+      <Isoline>Isoline</Isoline>
+      <Kuwahara>Kuwahara</Kuwahara>
+      <LookupFilter>LookupFilter</LookupFilter>
+      <Pixelate>Pixelate</Pixelate>
+      <RGBSplit>RGB Split</RGBSplit>
+      <ShadowsMidtonesHighlights>Shadows/Midtones/Highlights</ShadowsMidtonesHighlights>
+      <WaveDistortion>Wave Distortion</WaveDistortion>
+      <WhiteBalance>White Balance</WhiteBalance>
+      <Wiggle>Wiggle</Wiggle>
     </Panes>
 
     <Model>
@@ -593,13 +769,170 @@
     <Vignetting>
       <intensity>強度</intensity>
       <blur>ブラー</blur>
-      <blurSpread>ブラー拡散</blurSpread>/
+      <blurSpread>ブラー拡散</blurSpread>
       <mode>詳細設定</mode>
       <chromaticAberration>色収差</chromaticAberration>
       <luminanceDependency>輝度依存性</luminanceDependency>
       <axialAberration>軸上収差</axialAberration>
       <blurDistance>ぶらー距離</blurDistance>
     </Vignetting>
+    <AnalogTV>
+      <automaticPhase>自動位相</automaticPhase>
+      <phase>位相</phase>
+      <convertToGrayscale>グレースケール変化</convertToGrayscale>
+      <noiseIntensity>ノイズ強度</noiseIntensity>
+      <scanlinesIntensity>スキャンライン強度</scanlinesIntensity>
+      <scanlinesCount>スキャンライン数</scanlinesCount>
+      <scanlinesOffset>スキャンラインオフセット</scanlinesOffset>
+      <verticalScanlines>垂直スキャンライン</verticalScanlines>
+      <distortion>歪み</distortion>
+      <cubicDistortion>キュービック歪み</cubicDistortion>
+      <scale>スケール</scale>
+    </AnalogTV>
+    <BleachBypass>
+      <amount>量</amount>
+    </BleachBypass>
+    <Blend>
+      <amount>量</amount>
+      <mode>モード</mode>
+      <texture>テクスチャ</texture>
+    </Blend>
+    <BrightnessContrastGamma>
+      <brightness>明るさ</brightness>
+      <contrast>コントラスト</contrast>
+      <contrastCoeffX>コントラスト赤</contrastCoeffX>
+      <contrastCoeffY>コントラスト緑</contrastCoeffY>
+      <contrastCoeffZ>コントラスト青</contrastCoeffZ>
+      <gamma>ガンマ</gamma>
+    </BrightnessContrastGamma>
+    <ChannelMixer>
+      <redX>赤 -> 赤</redX>
+      <redY>赤 -> 緑</redY>
+      <redZ>赤 -> 青</redZ>
+      <greenX>緑 -> 赤</greenX>
+      <greenY>緑 -> 緑</greenY>
+      <greenZ>緑 -> 青</greenZ>
+      <blueX>青 -> 赤</blueX>
+      <blueY>青 -> 緑</blueY>
+      <blueZ>青 -> 青</blueZ>
+      <constantX>赤常数</constantX>
+      <constantY>緑常数</constantY>
+      <constantZ>青常数</constantZ>
+    </ChannelMixer>
+    <ComicBook>
+      <stripAngle>線角度</stripAngle>
+      <stripDensity>線濃度</stripDensity>
+      <stripThickness>線厚さ</stripThickness>
+      <stripLimitsX>線限度（下段）</stripLimitsX>
+      <stripLimitsY>線限度（上段）</stripLimitsY>
+      <stripInnerColor>線の色（内）</stripInnerColor>
+      <stripOuterColor>線の色（外）</stripOuterColor>
+      <fillColor>塗り潰し色</fillColor>
+      <backgroundColor>背景色</backgroundColor>
+      <edgeDetection>輪郭検出</edgeDetection>
+      <edgeThreshold>輪郭敷居</edgeThreshold>
+      <edgeColor>輪郭色</edgeColor>
+      <amount>量</amount>
+    </ComicBook>
+    <ContrastVignette>
+      <centerX>中心Ｘ</centerX>
+      <centerY>中心Ｙ</centerY>
+      <sharpness>シャープネス</sharpness>
+      <darkness>暗がり</darkness>
+      <contrast>コントラスト</contrast>
+      <contrastCoeffX>コントラスト赤</contrastCoeffX>
+      <contrastCoeffY>コントラスト緑</contrastCoeffY>
+      <contrastCoeffZ>コントラスト青</contrastCoeffZ>
+      <edgeBlending>エッジ混合</edgeBlending>
+    </ContrastVignette>
+    <Convolution3x3>
+      <convolutionMatrix>コンボリューション行列</convolutionMatrix>
+      <divisor>約数</divisor>
+      <amount>量</amount>
+    </Convolution3x3>
+    <DoubleVision>
+      <displaceX>変位Ｘ</displaceX>
+      <displaceY>変位Ｙ</displaceY>
+      <amount>量</amount>
+    </DoubleVision>
+    <Halftone>
+      <scale>スケール</scale>
+      <dotSize>ドットサイズ</dotSize>
+      <angle>角度</angle>
+      <smoothness>滑らかさ</smoothness>
+      <centerX>中心Ｘ</centerX>
+      <centerY>中心Ｙ</centerY>
+      <desaturate>彩度を減じる</desaturate>
+    </Halftone>
+    <Isoline>
+      <_lineColor>線の色</_lineColor>
+      <_luminanceBlending>輝度混合</_luminanceBlending>
+      <_fallOffDepth>取り外し深度</_fallOffDepth>
+      <_backgroundColor>背景色</_backgroundColor>
+      <_axisX>軸Ｘ</_axisX>
+      <_axisY>軸Ｙ</_axisY>
+      <_axisZ>軸Ｚ</_axisZ>
+      <_interval>期間</_interval>
+      <_offsetX>オフセットＸ</_offsetX>
+      <_offsetY>オフセットＹ</_offsetY>
+      <_offsetZ>オフセットＺ</_offsetZ>
+      <_distortionFrequency>歪み度数</_distortionFrequency>
+      <_distortionAmount>歪み量</_distortionAmount>
+      <_modulationMode>転調モード</_modulationMode>
+      <_modulationAxisX>転調軸Ｘ</_modulationAxisX>
+      <_modulationAxisY>転調軸Ｙ</_modulationAxisY>
+      <_modulationAxisZ>転調軸Ｚ</_modulationAxisZ>
+      <_modulationFrequency>転調周波数</_modulationFrequency>
+      <_modulationSpeed>転調速度</_modulationSpeed>
+      <_modulationExponent>転調指数</_modulationExponent>
+      <_directionX>スクロール方向Ｘ</_directionX>
+      <_directionY>スクロール方向Ｙ</_directionY>
+      <_directionZ>スクロール方向Ｚ</_directionZ>
+      <_speed>スクロールスピード</_speed>
+    </Isoline>
+    <Kuwahara>
+      <radius>半径</radius>
+    </Kuwahara>
+    <LookupFilter>
+      <amount>量</amount>
+      <forceCompatibility>強引互換性</forceCompatibility>
+      <lookupTexture>色対応表テクスチャ</lookupTexture>
+    </LookupFilter>
+    <Pixelate>
+      <scale>スケール</scale>
+      <automaticRatio>自動比率</automaticRatio>
+      <ratio>比率</ratio>
+      <mode>モード</mode>
+    </Pixelate>
+    <RGBSplit>
+      <amount>量</amount>
+      <angle>角度</angle>
+    </RGBSplit>
+    <ShadowsMidtonesHighlights>
+      <mode>モード</mode>
+      <shadows>シャドウ</shadows>
+      <midtones>ミッドトーン</midtones>
+      <highlights>ハイライト</highlights>
+      <amount>量</amount>
+    </ShadowsMidtonesHighlights>
+    <WaveDistortion>
+      <amplitude>振幅</amplitude>
+      <waves>波</waves>
+      <colorGlitch>色ずれ</colorGlitch>
+      <phase>位相</phase>
+    </WaveDistortion>
+    <WhiteBalance>
+      <white>白色</white>
+      <mode>モード</mode>
+    </WhiteBalance>
+    <Wiggle>
+      <mode>モード</mode>
+      <timer>経過時間</timer>
+      <speed>速度</speed>
+      <frequency>周波数</frequency>
+      <amplitude>振幅</amplitude>
+      <automaticTimer>自動振動</automaticTimer>
+    </Wiggle>
 
     <Panes>
       <AnalogGlitch>アナロググリッチ</AnalogGlitch>
@@ -610,6 +943,7 @@
       <ChannelSwap>チャンネルスワップ</ChannelSwap>
       <ColorCorrectionCurves>カラーカーブ</ColorCorrectionCurves>
       <Contrast>コントラスト</Contrast>
+      <Convolution3x3>コンボリューション３ｘ３</Convolution3x3>
       <Crease>輪郭強調</Crease>
       <DepthOfField>深度ブラー</DepthOfField>
       <DigitalGlitch>デジタルグリッチ</DigitalGlitch>
@@ -631,6 +965,24 @@
       <Technicolor>テクニカラー</Technicolor>
       <TiltShiftHdr>ティルトシフト</TiltShiftHdr>
       <Vignetting>光学ブラー</Vignetting>
+      <AnalogTV>アナログテレビ</AnalogTV>
+      <BleachBypass>ブリーチバイパス</BleachBypass>
+      <Blend>ブレンド</Blend>
+      <BrightnessContrastGamma>明るさ/コントラスト/ガンマ</BrightnessContrastGamma>
+      <ChannelMixer>チャンネルミキサー</ChannelMixer>
+      <ComicBook>コミックブック</ComicBook>
+      <ContrastVignette>コントラスト光学ブラー</ContrastVignette>
+      <DoubleVision>複視</DoubleVision>
+      <Halftone>網点</Halftone>
+      <Isoline>等値線</Isoline>
+      <Kuwahara>クワハラ</Kuwahara>
+      <LookupFilter>色対応表フィルター</LookupFilter>
+      <Pixelate>ピクセル化</Pixelate>
+      <RGBSplit>ＲＧＢスプリット</RGBSplit>
+      <ShadowsMidtonesHighlights>シャドウ/ミッドトーン/ハイライト</ShadowsMidtonesHighlights>
+      <WaveDistortion>波歪み</WaveDistortion>
+      <WhiteBalance>ホワイトバランス</WhiteBalance>
+      <Wiggle>ウィグル</Wiggle>
     </Panes>
 
     <Model>

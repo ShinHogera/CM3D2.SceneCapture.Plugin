@@ -15,7 +15,7 @@ namespace CM3D2.SceneCapture.Plugin
 {
     public class SerializeStatic
     {
-        private static readonly Type[] ALLOWED_TYPES = { typeof(Vector3), typeof(Color), typeof(Color32), typeof(AnimationCurve), typeof(Transform) };
+        private static readonly Type[] ALLOWED_TYPES = { typeof(Vector3), typeof(Color), typeof(Color32), typeof(AnimationCurve), typeof(Transform), typeof(Texture), typeof(Texture2D) };
 
         private static bool TypeAllowed(Type t)
         {
@@ -110,6 +110,20 @@ namespace CM3D2.SceneCapture.Plugin
                             if (typeof(Bloom) == enabled_effect && field.Name == "bloomIntensity")
                             {
                                 val = GameMain.Instance.CMSystem.BloomValue.ToString();
+                            }
+                            else if(typeof(Texture) == fieldType || typeof(Texture2D) == fieldType)
+                            {
+                                try
+                                {
+                                    PropertyInfo textureFilenameProperty = effectDefType.GetProperty(field.Name + "File");
+                                    val = (string)textureFilenameProperty.GetValue(null, null);
+                                }
+                                catch(Exception e)
+                                {
+                                    Debug.LogError("Could not find prop " + field.Name + "File on " + effectDefType);
+                                    Debug.LogError( e );
+                                    val = "";
+                                }
                             }
                             else
                             {
@@ -218,6 +232,35 @@ namespace CM3D2.SceneCapture.Plugin
                                 {
                                     if (int.TryParse(propElem.Value, out iTmp))
                                         GameMain.Instance.CMSystem.BloomValue = iTmp;
+                                }
+                                else if(fieldType == typeof(Texture) || fieldType == typeof(Texture2D))
+                                {
+                                    string fullPath = ConstantValues.BaseConfigDir + @"\" + propElem.Value;
+                                    if( !File.Exists(fullPath) )
+                                    {
+                                        fullPath = ConstantValues.BaseConfigDirSybaris + @"\" + propElem.Value;
+                                    }
+
+                                    if( File.Exists(fullPath) )
+                                    {
+                                        byte[] bytes = File.ReadAllBytes(fullPath);
+                                        Texture2D texture = new Texture2D(4, 4);
+                                        texture.LoadImage(bytes);
+                                        // Make sure LUT texture is marked as updated
+                                        if(effectDefType == typeof(LookupFilterDef))
+                                        {
+                                            PropertyInfo prop = enabled_effect.GetProperty("needsUpdate");
+                                            prop.SetValue(effect, true, null);
+                                        }
+
+                                        if(fieldType == typeof(Texture2D))
+                                            field.SetValue(effect, texture);
+                                        else
+                                            field.SetValue(effect, (Texture)texture);
+
+                                        PropertyInfo textureFilenameProperty = effectDefType.GetProperty(field.Name + "File");
+                                        textureFilenameProperty.SetValue(null, fullPath, null);
+                                    }
                                 }
                                 else if (fieldType == typeof(int) || fieldType.IsEnum)
                                 {

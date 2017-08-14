@@ -27,6 +27,11 @@ namespace CM3D2.SceneCapture.Plugin
             extraShaders = LoadAssetBundle("extra_shaders");
         }
 
+        public static Shader GetExtraShader(string name)
+        {
+            return extraShaders.LoadAsset(name) as Shader;
+        }
+
         internal static int GetPix(int i)
         {
             float f = 1f + (Screen.width / 1280f - 1f) * 0.6f;

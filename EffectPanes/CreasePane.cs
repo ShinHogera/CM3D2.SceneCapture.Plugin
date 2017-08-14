@@ -24,7 +24,7 @@ namespace CM3D2.SceneCapture.Plugin
                 this.intensitySlider.Text = Translation.GetText("Crease", "intensity");
                 this.ChildControls.Add( this.intensitySlider );
 
-                this.softnessSlider = new CustomSlider( CreaseDef.creaseEffect.softness, 0f, 10f, 2 );
+                this.softnessSlider = new CustomSlider( CreaseDef.creaseEffect.softness, 0f, 10f, 0 );
                 this.softnessSlider.Text = Translation.GetText("Crease", "softness");
                 this.ChildControls.Add( this.softnessSlider );
 

@@ -59,7 +59,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         #region Private members
 
-        Mesh _mesh;
+        Mesh _mesh = null;
 
         RenderTexture _delayBuffer;
         CommandBuffer _command;

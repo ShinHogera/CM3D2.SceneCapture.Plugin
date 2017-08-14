@@ -65,7 +65,7 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static void InitExtra(NoiseAndGrain nag)
         {
-            nag.noiseTexture = new Texture2D(64, 64);
+            nag.noiseTexture = new Texture2D(8, 8);
             nag.noiseTexture.LoadImage(ConstantValues.byteNoiseAndGrainPng);
             nag.noiseTexture.Apply();
         }
