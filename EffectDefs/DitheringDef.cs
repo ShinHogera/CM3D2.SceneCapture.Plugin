@@ -46,14 +46,6 @@ namespace CM3D2.SceneCapture.Plugin
             amount = dithering.amount;
         }
 
-        public static void InitExtra(Dithering dithering)
-        {
-            Texture2D ditherTex = new Texture2D(64, 64);
-            ditherTex.LoadImage(ConstantValues.ditheringPng);
-            ditherTex.Apply();
-            dithering.m_DitherPattern = ditherTex;
-        }
-
         public static void Update(DitheringPane ditheringPane)
         {
             if( Instances.needEffectWindowReload == true )

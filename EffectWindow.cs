@@ -212,7 +212,6 @@ namespace CM3D2.SceneCapture.Plugin
                 AnalogGlitchDef.Update(this.analogGlitchPane);
                 DigitalGlitchDef.Update(this.digitalGlitchPane);
                 BokehDef.Update(this.bokehPane);
-                FeedbackDef.Update(this.feedbackPane);
                 ObscuranceDef.Update(this.obscurancePane);
                 AnalogTVDef.Update(this.analogTVPane);
                 BleachBypassDef.Update(this.bleachBypassPane);
@@ -347,7 +346,6 @@ namespace CM3D2.SceneCapture.Plugin
         private AnalogGlitchPane analogGlitchPane = null;
         private DigitalGlitchPane digitalGlitchPane = null;
         private BokehPane bokehPane = null;
-        private FeedbackPane feedbackPane = null;
         private ObscurancePane obscurancePane = null;
         private AnalogTVPane analogTVPane = null;
         private BleachBypassPane bleachBypassPane = null;

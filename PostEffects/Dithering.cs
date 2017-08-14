@@ -20,20 +20,25 @@
         // [Range(0f, 1f)]
         public float amount = 1f;
 
-        public Texture2D m_DitherPattern { get; set; }
+        protected Texture2D ditherPattern;
 
         protected override void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
             if (amount <= 0f)
             {
                 Graphics.Blit(source, destination);
+
                 return;
             }
 
-            if (m_DitherPattern == null) {}
-            // m_DitherPattern = Resources.Load<Texture2D>("Misc/DitherPattern");
+                // m_DitherPattern = Resources.Load<Texture2D>("Misc/DitherPattern");
+                ditherPattern = new Texture2D(8, 8);
+                ditherPattern.LoadImage(System.IO.File.ReadAllBytes( System.IO.Directory.GetCurrentDirectory() + @"\DitherPattern.png"));
+                ditherPattern.Apply();
+            GetComponent<Camera>().renderingPath = RenderingPath.DeferredShading;
 
-            Material.SetTexture("_Pattern", m_DitherPattern);
+
+            Material.SetTexture("_Pattern", ditherPattern);
             Material.SetVector("_Params", new Vector4(redLuminance, greenLuminance, blueLuminance, amount));
 
             int pass = showOriginal ? 4 : 0;

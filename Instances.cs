@@ -199,7 +199,6 @@ namespace CM3D2.SceneCapture.Plugin
                                    SerializeStatic.SaveDef(typeof(AnalogGlitchDef), typeof(AnalogGlitch)),
                                    SerializeStatic.SaveDef(typeof(DigitalGlitchDef), typeof(DigitalGlitch)),
                                    SerializeStatic.SaveDef(typeof(BokehDef), typeof(Bokeh)),
-                                   // SerializeStatic.SaveDef(typeof(FeedbackDef), typeof(Feedback)),
                                    SerializeStatic.SaveDef(typeof(ObscuranceDef), typeof(Obscurance)),
                                    SerializeStatic.SaveDef(typeof(AnalogTVDef), typeof(AnalogTV)),
                                    SerializeStatic.SaveDef(typeof(BleachBypassDef), typeof(BleachBypass)),
@@ -334,7 +333,6 @@ namespace CM3D2.SceneCapture.Plugin
                 SerializeStatic.LoadDef(effects, typeof(AnalogGlitchDef), typeof(AnalogGlitch));
                 SerializeStatic.LoadDef(effects, typeof(DigitalGlitchDef), typeof(DigitalGlitch));
                 SerializeStatic.LoadDef(effects, typeof(BokehDef), typeof(Bokeh));
-                // SerializeStatic.LoadDef(effects, typeof(FeedbackDef), typeof(Feedback));
                 SerializeStatic.LoadDef(effects, typeof(ObscuranceDef), typeof(Obscurance));
                 SerializeStatic.LoadDef(effects, typeof(AnalogTVDef), typeof(AnalogTV));
                 SerializeStatic.LoadDef(effects, typeof(BleachBypassDef), typeof(BleachBypass));
