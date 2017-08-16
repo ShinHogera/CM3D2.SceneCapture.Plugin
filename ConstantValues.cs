@@ -316,7 +316,14 @@ namespace CM3D2.SceneCapture.Plugin
       // { "肌", MPN.skin },
       // { "乳首", MPN.chikubi },
       // { "タトゥー", MPN.acctatoo },
-      { "pubicHair", MPN.underhair }
+      { "pubicHair", MPN.underhair },
+
+      // Maid items
+      { "itemHand", MPN.handitem },
+      { "itemUpper", MPN.kousoku_upper },
+      { "itemLower", MPN.kousoku_lower },
+      { "itemVaginal", MPN.accvag },
+      { "itemAnal", MPN.accanl }
   };
 
         /// <summary>表情</summary>

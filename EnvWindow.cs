@@ -394,43 +394,51 @@ namespace CM3D2.SceneCapture.Plugin
 
         private GameObject LoadModel(MenuInfo menuInfo)
         {
-            GameObject model = AssetLoader.LoadMesh(menuInfo.modelName);
-            model.name = MODEL_TAG;
-            Debug.Log("Load model " + menuInfo.modelName);
-
-            this.AddGizmo( model );
-
-            // model.AddComponent<Cloth>().enabled = true;
-            // model.GetComponent<Cloth>().useGravity = true;
-            // this.Collidify(model);
-
-            model.transform.localScale = new Vector3(1,1,1);
-            model.transform.position = new Vector3(0, 0, 0);
-
-            foreach(SkinnedMeshRenderer renderer in model.transform.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+            if(menuInfo.modelType == ModelType.Background)
             {
-                if(renderer != null)
-                {
-                    Material[] materialArray = new Material[renderer.materials.Length];
-                    for(int i = 0; i < materialArray.Length; i++)
-                    {
-                        materialArray[i] = new Material(renderer.materials[i]);
-                    }
+                GameObject obj = AssetLoader.LoadBackgroundObject(menuInfo.modelName);
+                this.AddGizmo( obj );
 
-                    foreach(MaterialChangeInfo mat in menuInfo.materialChanges)
-                    {
-                        materialArray[mat.materialNo] = AssetLoader.LoadMaterial(mat.filename);
-                    }
-
-                    foreach(TextureChangeInfo tex in menuInfo.textureChanges)
-                    {
-                        materialArray[tex.materialNo].SetTexture(tex.propName, AssetLoader.LoadTexture(tex.filename));
-                    }
-
-                    renderer.materials = materialArray;
-                }
+                obj.transform.localScale = new Vector3(1,1,1);
+                obj.transform.position = new Vector3(0, 0, 0);
+                return obj;
             }
-            return model;
+            else
+            {
+                GameObject model = AssetLoader.LoadMesh(menuInfo.modelName);
+                model.name = MODEL_TAG;
+                Debug.Log("Load model " + menuInfo.modelName);
+
+                this.AddGizmo( model );
+
+                model.transform.localScale = new Vector3(1,1,1);
+                model.transform.position = new Vector3(0, 0, 0);
+
+                foreach(SkinnedMeshRenderer renderer in model.transform.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+                {
+                    if(renderer != null)
+                    {
+                        Material[] materialArray = new Material[renderer.materials.Length];
+                        for(int i = 0; i < materialArray.Length; i++)
+                        {
+                            materialArray[i] = new Material(renderer.materials[i]);
+                        }
+
+                        foreach(MaterialChangeInfo mat in menuInfo.materialChanges)
+                        {
+                            materialArray[mat.materialNo] = AssetLoader.LoadMaterial(mat.filename);
+                        }
+
+                        foreach(TextureChangeInfo tex in menuInfo.textureChanges)
+                        {
+                            materialArray[tex.materialNo].SetTexture(tex.propName, AssetLoader.LoadTexture(tex.filename));
+                        }
+
+                        renderer.materials = materialArray;
+                    }
+                }
+                return model;
+            }
         }
 
         private void AddModel( MenuInfo menuInfo )
@@ -484,7 +492,11 @@ namespace CM3D2.SceneCapture.Plugin
                     GameObject model;
                     ModelInfo modelInfo = modelInfos[i];
 
-                    MenuInfo menu = AssetLoader.LoadMenu(modelInfo.menuFileName);
+                    MenuInfo menu;
+                    if(modelInfo.modelType == ModelType.MaidEquip)
+                        menu = AssetLoader.LoadMenu(modelInfo.menuFileName);
+                    else
+                        menu = MenuInfo.MakeBGMenu(modelInfo.modelName);
                     AddModel(menu);
 
                     string paneName = this.modelPanes[i].Name;
@@ -503,10 +515,9 @@ namespace CM3D2.SceneCapture.Plugin
                     ModelPane pane = this.modelPanes[i];
 
                     ModelInstanceInfo info = this.addedModelInstance[ this.modelPanes[i].Name ];
-                    this.UpdateModelInstance(info);
                     GameObject model = info.model;
                     GizmoRenderTarget gizmo = model.GetComponent<GizmoRenderTarget>();
-                    if( gizmo != null && pane.GizmoScaleAllAxesValue == true )
+                    if( pane.GizmoScaleAllAxesValue == true )
                     {
                         if(gizmo.transform.localScale.y == gizmo.transform.localScale.z)
                         {
@@ -542,13 +553,15 @@ namespace CM3D2.SceneCapture.Plugin
                         pane.wasChanged = false;
 
                         UpdateModelPane(ref pane);
-
                     }
 
                     if (!this.showGizmos || (!gizmo.eAxis && !gizmo.eRotate && !gizmo.eScal))
                         gizmo.Visible = false;
                     else
                         gizmo.Visible = true;
+
+                    if(gizmo.Visible)
+                        changed = true;
                 }
 
                 if( changed )
@@ -605,46 +618,17 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
-        private void UpdateModelInstance( ModelInstanceInfo info )
-        {
-            // Shader shader = Shader.Find("CM3D2/Toony_Lighted_Hair");
-            // if (shader != null) {
-
-            //     foreach( SkinnedMeshRenderer r in info.model.GetComponentsInChildren<SkinnedMeshRenderer>() )
-            //     {
-            //         if(info.baseTexture == null )
-            //         {
-            //             info.baseTexture = r.material.mainTexture;
-            //         }
-
-            //         Debug.Log("Get!");
-            //         Debug.Log(r.material.shader.name);
-            //         info.SetPartsColor(MaidParts.PARTS_COLOR.HAIR, new MaidParts.PartsColor()
-            //                            {
-            //                                 m_nMainHue = 6,
-            //                                     m_nMainChroma = 117,
-            //                                     m_nMainBrightness = 179,
-            //                                     m_nMainContrast = 94
-            //                            });
-            //         r.material.SetTexture("_MultiColTex", info.GetPartsColorTableTex (MaidParts.PARTS_COLOR.HAIR));
-
-            //         RenderTexture active = RenderTexture.active;
-            //         Material systemMaterial = GameUty.GetSystemMaterial(GameUty.SystemMaterial.InfinityColor);
-            //         systemMaterial.SetTexture("_MultiColTex", (Texture) info.GetPartsColorTableTex(MaidParts.PARTS_COLOR.HAIR));
-            //         Graphics.Blit(info.baseTexture, active, systemMaterial);
-            //         RenderTexture.active = active;
-            //         // var rq = r.material.renderQueue;
-            //         // r.material.shader = shader;
-            //         // r.material.renderQueue = rq;
-            //         // r.material.SetColor("_Color", new Color32(1,0,1,1));
-            //     }
-            // }
-        }
-
         private void CopyModel( ModelPane pane )
         {
-            GameObject toCopy = this.addedModelInstance[ pane.Name ].model;
-            MenuInfo menu = AssetLoader.LoadMenu(this.addedModelInstance[ pane.Name ].menuFileName);
+            ModelInstanceInfo instance = this.addedModelInstance[ pane.Name ];
+            GameObject toCopy = instance.model;
+
+            MenuInfo menu = null;
+            if(instance.modelType == ModelType.MaidEquip)
+                menu = AssetLoader.LoadMenu(instance.menuFileName);
+            else if(instance.modelType == ModelType.Background)
+                menu = MenuInfo.MakeBGMenu(instance.modelName);
+
             GameObject model = this.LoadModel(menu);
             model.transform.position = toCopy.transform.position;
             model.transform.rotation = toCopy.transform.rotation;
@@ -732,17 +716,6 @@ namespace CM3D2.SceneCapture.Plugin
             }
         }
 
-        private void Collidify( GameObject o )
-        {
-            foreach (Transform child in o.transform) {
-                GameObject obj = child.gameObject;
-                foreach(SkinnedMeshRenderer R in obj.GetComponents<SkinnedMeshRenderer>())
-                {
-                    CompoundCollider BC = R.gameObject.AddComponent<CompoundCollider>();
-                }
-            }
-        }
-
         private void BGButtonPressed( object sender, EventArgs args )
         {
             if(!GlobalItemPicker.MenusAreSet())
@@ -775,54 +748,6 @@ namespace CM3D2.SceneCapture.Plugin
                                  this.FontSize * 36,
                                  this.FontSize + 3,
                                  this.AddModel);
-
-            // if (GameMain.Instance.CharacterMgr.GetMaidCount() > 0)
-            // {
-            //     foreach(TBodySkin skin in GameMain.Instance.CharacterMgr.GetMaid(0).body0.goSlot){
-            //         Debug.Log(skin.m_strModelFileName);
-            //         AFileBase file = GameUty.FileOpen(skin.m_strModelFileName);
-            //         if(file.IsValid()) {
-            //             Debug.Log(file.GetSize());
-            //         }
-            //     }
-            // }
-            // foreach(var a in )
-            // {
-            //     var open = GameUty.FileOpen(a);
-            //     Debug.Log(a + " " + open.GetSize());
-            // }
-
-            // foreach (Transform child in GameMain.Instance.BgMgr.current_bg_object.transform) {
-            //     GameObject o = child.gameObject;
-            //     Debug.Log(o);
-            //     MeshFilter mes = o.GetComponent<MeshFilter>();
-            //     if(mes != null) {
-            //         Debug.Log("GET");
-            //         o.AddComponent<MeshCollider>().sharedMesh = mes.sharedMesh;
-            //     }
-            // }
-
-
-            // foreach (var t in GameUty.BgFiles)
-            // {
-            //     Debug.Log("r " + t);
-            // }
-            // string[] allFiles = GameUty.FileSystem.GetList("", AFileSystemBase.ListType.AllFile);
-            // string[] bgFiles = allFiles.Where(f => f.EndsWith("bg")).ToArray();
-            // string[] anmFiles = allFiles.Where(f => f.EndsWith(".model")).ToArray();
-            // foreach(string file in anmFiles) Console.WriteLine("{0}", file);
-            // foreach(string file in bgFiles) Console.WriteLine("{0}", file);
-
-            // // report(GameMain.Instance.BgMgr.current_bg_object);
-            // GameMain.Instance.BgMgr.DeleteBg();
-            // // byte[] bytes = File.ReadAllBytes(ConstantValues.ConfigDir + @"\model.model");
-            // bg = LoadMesh();
-            // report(bg);
-            // // connect texture to material of GameObject this script is attached to
-            // UnityEngine.Object.DontDestroyOnLoad(bg);
-
-            // bg.transform.localScale = new Vector3(1,1,1);
-            // bg.transform.position = new Vector3(0, 1.5f, -1f);
         }
 
         private void AddLight()
@@ -1016,18 +941,6 @@ namespace CM3D2.SceneCapture.Plugin
                 // 追加光源オブジェクトクリア
                 this.addedLightInstance.Clear();
                 this.SetLightInstances();
-
-                // デフォルト値設定
-                // this.lightTypeComboBox.SelectedItem = DefaultLightInfo.Type.ToString();
-                // this.lightEnableButton.Value = true;
-                // this.lightIntensitySlider.Value = DefaultLightInfo.LightIntensity;
-                // this.lightRangeSlider.Value = DefaultLightInfo.LightRange;
-                // this.spotLightAngleSlider.Value = DefaultLightInfo.LightAngle;
-                // this.rSlider.Value = DefaultLightInfo.LightColor.r * 255;
-                // this.gSlider.Value = DefaultLightInfo.LightColor.g * 255;
-                // this.bSlider.Value = DefaultLightInfo.LightColor.b * 255;
-                // this.SelectedLight.transform.rotation = DefaultLightInfo.LightRotation;
-                // this.SelectedLight.transform.position = DefaultLightInfo.LightPosition;
             }
             catch( Exception e )
             {
@@ -1106,17 +1019,28 @@ namespace CM3D2.SceneCapture.Plugin
 
         public Texture baseTexture;
         public RenderTexture modifiedTexture;
+        public ModelType modelType;
 
         public ModelInstanceInfo( GameObject model, MenuInfo menu )
         {
-            this.model = model;
-            this.modelName = menu.modelName;
-            this.modelIconName = menu.iconTextureName;
-            this.menuFileName = menu.menuFileName;
-            this.baseTexture = (Texture)null;
-            this.modifiedTexture = (RenderTexture)null;
-            for (int index = 0; index < 7; ++index) {
-                this.partsColorTextures[index] = new Texture2D(256, 1, TextureFormat.RGBA32, false);
+            this.modelType = menu.modelType;
+
+            if(menu.modelType == ModelType.MaidEquip)
+            {
+                this.model = model;
+                this.modelName = menu.modelName;
+                this.modelIconName = menu.iconTextureName;
+                this.menuFileName = menu.menuFileName;
+                this.baseTexture = (Texture)null;
+                this.modifiedTexture = (RenderTexture)null;
+                for (int index = 0; index < 7; ++index) {
+                    this.partsColorTextures[index] = new Texture2D(256, 1, TextureFormat.RGBA32, false);
+                }
+            }
+            else
+            {
+                this.model = model;
+                this.modelName = menu.modelName;
             }
         }
 
@@ -1191,21 +1115,23 @@ namespace CM3D2.SceneCapture.Plugin
         public Vector3 eulerAngles;
     }
 
+    public enum ModelType
+    {
+        MaidEquip,
+        Background
+    }
+
     public class ModelInfo
     {
         public ModelInfo() {}
 
-        public ModelInfo( ModelInstanceInfo info ) : this(info.model, info.modelName, info.modelIconName, info.menuFileName){
+        public ModelInfo( ModelInstanceInfo info ) {
+            this.modelName = info.modelName;
+            this.modelIconName = info.modelIconName;
+            this.menuFileName = info.menuFileName;
+            this.modelType = info.modelType;
 
-        }
-
-        public ModelInfo( GameObject obj, string modelName, string modelIconName, string menuFileName )
-        {
-            this.modelName = modelName;
-            this.modelIconName = modelIconName;
-            this.menuFileName = menuFileName;
-
-            GizmoRenderTarget gizmo = obj.GetComponent<GizmoRenderTarget>();
+            GizmoRenderTarget gizmo = info.model.GetComponent<GizmoRenderTarget>();
 
             if(gizmo == null) {
                 Debug.Log("null gizmo: " + modelName);
@@ -1240,6 +1166,8 @@ namespace CM3D2.SceneCapture.Plugin
             this.UpdateModel( model );
             return model;
         }
+
+        public ModelType modelType;
 
         public string menuFileName;
 

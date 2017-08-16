@@ -134,6 +134,9 @@ namespace CM3D2.SceneCapture.Plugin
                                 if( menu.modelName == null )
                                     continue;
                                 string modelName = String.Copy(menu.modelName);
+
+                                button.Text = modelName;
+
                                 string modelIconName;
                                 if(menu.iconTextureName != null)
                                     modelIconName = String.Copy(menu.iconTextureName);
@@ -154,6 +157,29 @@ namespace CM3D2.SceneCapture.Plugin
                     {
                         // Debug.LogError( e );
                     }
+                }
+            }
+
+            public void UpdateMenusBackground()
+            {
+                buttons.Clear();
+
+                if(PhotoBGObjectData.data == null)
+                    PhotoBGObjectData.Create();
+
+                foreach(PhotoBGObjectData data in PhotoBGObjectData.data)
+                {
+                    Texture2D iconTexture = new Texture2D(1, 1);
+                    iconTexture.SetPixel(0, 0, new Color32(1, 1, 1, 1));
+                    iconTexture.Apply();
+                    CustomTextureButton button = new CustomTextureButton( iconTexture );
+                    string modelName = String.Copy(data.name);
+
+                    button.Text = modelName;
+
+                    MenuInfo menuCopy = MenuInfo.MakeBGMenu(data);
+                    button.Click += (o, e) => func(menuCopy);
+                    buttons.Add(button);
                 }
             }
 
@@ -185,6 +211,14 @@ namespace CM3D2.SceneCapture.Plugin
                 if(GUI.Button(rectItem, Translation.GetText("Equip", value), gsButton))
                 {
                     UpdateMenus(ConstantValues.PropParts[value]);
+                }
+            }
+
+            private void backgroundObjectButton(Rect rectItem)
+            {
+                if(GUI.Button(rectItem, Translation.GetText("Equip", "background"), gsButton))
+                {
+                    UpdateMenusBackground();
                 }
             }
 
@@ -221,6 +255,8 @@ namespace CM3D2.SceneCapture.Plugin
                         rectItem.x += buttonWidth;
                     }
                 }
+
+                this.backgroundObjectButton(rectItem);
 
                 rectItem = new Rect(iFontSize * 0.5f, rectItem.y + buttonHeight + fMargin * 2, buttonWidth, buttonWidth);
                 // GUI.DrawTexture(rectItem, texture);

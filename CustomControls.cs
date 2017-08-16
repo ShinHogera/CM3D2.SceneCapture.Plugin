@@ -1879,7 +1879,10 @@ namespace CM3D2.SceneCapture.Plugin
                     }
                 }
 
-                GUI.DrawTexture( buttonRect, this._texture );
+                if(this._texture != null)
+                    GUI.DrawTexture( buttonRect, this._texture );
+                else
+                    GUI.Label( buttonRect, this.Text );
         }
 
         private Texture2D _texture = null;

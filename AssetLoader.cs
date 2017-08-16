@@ -14,12 +14,31 @@ namespace CM3D2.SceneCapture.Plugin
     public class MenuInfo
     {
         public MenuInfo() {
+            this.modelType = ModelType.MaidEquip;
             this.textureChanges = new List<TextureChangeInfo>();
             this.materialChanges = new List<MaterialChangeInfo>();
         }
 
+        public static MenuInfo MakeBGMenu( string prefabName )
+        {
+            MenuInfo menu = new MenuInfo();
+            menu.modelType = ModelType.Background;
+            menu.modelName = prefabName;
+            return menu;
+        }
+
+        public static MenuInfo MakeBGMenu( PhotoBGObjectData dat )
+        {
+            MenuInfo menu = new MenuInfo();
+            menu.modelType = ModelType.Background;
+            menu.modelName = dat.create_prefab_name;
+            menu.menuName = dat.name;
+            return menu;
+        }
+
         public MenuInfo( MenuInfo other ) : this()
         {
+            this.modelType = other.modelType;
             this.menuFileName = other.menuFileName;
             this.menuName = other.menuName;
             this.menuNameInColorSet = other.menuNameInColorSet;
@@ -37,6 +56,7 @@ namespace CM3D2.SceneCapture.Plugin
                 this.materialChanges.Add(mat);
         }
 
+        public ModelType modelType { get; set; }
         public string menuFileName { get; set; }
         public string menuName { get; set; }
         public string menuNameInColorSet { get; set; }
@@ -193,15 +213,15 @@ namespace CM3D2.SceneCapture.Plugin
                 partsColor = MaidParts.PARTS_COLOR.NONE;
                 if (stringList.Length == 6)
                 {
-                  string str5 = stringList[5];
-                  try
-                  {
-                    partsColor = (MaidParts.PARTS_COLOR) Enum.Parse(typeof (MaidParts.PARTS_COLOR), str5.ToUpper());
-                  }
-                  catch
-                  {
-                    NDebug.Assert("無限色IDがありません。" + str5);
-                  }
+                    string str5 = stringList[5];
+                    try
+                    {
+                        partsColor = (MaidParts.PARTS_COLOR) Enum.Parse(typeof (MaidParts.PARTS_COLOR), str5.ToUpper());
+                    }
+                    catch
+                    {
+                        NDebug.Assert("無限色IDがありません。" + str5);
+                    }
                 }
                 mi.textureChanges.Add(new TextureChangeInfo(slotname2, matno, prop_name, filename1, partsColor));
                 // partsColor = MaidParts.PARTS_COLOR.NONE;
@@ -534,7 +554,6 @@ namespace CM3D2.SceneCapture.Plugin
 
         public static Material LoadMaterial(string materialName)
         {
-
             AFileBase file = GameUty.FileOpen(materialName);
 
             if( !file.IsValid() || file.GetSize() == 0 )
@@ -690,6 +709,17 @@ namespace CM3D2.SceneCapture.Plugin
             // this.BlendDatas.Add(blendData);
             // this.BlendValues = new float[this.MorphCount + 1];
             // this.BlendValuesCHK = new float[this.MorphCount + 1];
+        }
+
+        public static GameObject LoadBackgroundObject(string filename)
+        {
+            GameObject prefab = (GameObject)Resources.Load("Prefab/" + filename);
+            if(prefab == null)
+            {
+                throw new FileNotFoundException(filename);
+            }
+            GameObject instance = UnityEngine.Object.Instantiate(prefab) as GameObject;
+            return instance;
         }
     }
 }
