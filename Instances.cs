@@ -252,6 +252,7 @@ namespace CM3D2.SceneCapture.Plugin
                                         new XElement("Position", Util.ConvertVector3ToString(model.position)),
                                         new XElement("Rotation", Util.ConvertQuaternionToString(model.rotation)),
                                         new XElement("LocalScale", Util.ConvertVector3ToString(model.localScale)),
+                                        new XElement("MenuFileName", model.menuFileName),
                                         new XElement("ModelName", model.modelName),
                                         new XElement("ModelIconName", model.modelIconName));
                 xml.Add(elem);
@@ -460,6 +461,7 @@ namespace CM3D2.SceneCapture.Plugin
                 v3Out = Util.ConvertStringToVector3(singleModel.Element("LocalScale").Value.ToString());
                 model.localScale = v3Out;
 
+                model.menuFileName = singleModel.Element("MenuFileName").Value.ToString();
                 model.modelName = singleModel.Element("ModelName").Value.ToString();
                 model.modelIconName = singleModel.Element("ModelIconName").Value.ToString();
 

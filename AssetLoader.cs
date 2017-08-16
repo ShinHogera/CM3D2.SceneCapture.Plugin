@@ -13,8 +13,31 @@ namespace CM3D2.SceneCapture.Plugin
 {
     public class MenuInfo
     {
-        public MenuInfo() { }
+        public MenuInfo() {
+            this.textureChanges = new List<TextureChangeInfo>();
+            this.materialChanges = new List<MaterialChangeInfo>();
+        }
 
+        public MenuInfo( MenuInfo other ) : this()
+        {
+            this.menuFileName = other.menuFileName;
+            this.menuName = other.menuName;
+            this.menuNameInColorSet = other.menuNameInColorSet;
+            this.menuInfo = other.menuInfo;
+            this.modelName = other.modelName;
+            this.delOnly = other.delOnly;
+            this.isMan = other.isMan;
+            this.priority = other.priority;
+            this.iconTextureName = other.iconTextureName;
+            this.partCategory = other.partCategory;
+            this.colorSetCategory = other.colorSetCategory;
+            foreach(TextureChangeInfo tex in other.textureChanges)
+                this.textureChanges.Add(tex);
+            foreach(MaterialChangeInfo mat in other.materialChanges)
+                this.materialChanges.Add(mat);
+        }
+
+        public string menuFileName { get; set; }
         public string menuName { get; set; }
         public string menuNameInColorSet { get; set; }
         public string menuInfo { get; set; }
@@ -26,6 +49,40 @@ namespace CM3D2.SceneCapture.Plugin
         public MPN partCategory { get; set; }
         public MPN colorSetCategory { get; set; }
         public MaidParts.PARTS_COLOR partsColor { get; set; }
+        public List<TextureChangeInfo> textureChanges;
+        public List<MaterialChangeInfo> materialChanges;
+    }
+
+    public class TextureChangeInfo
+    {
+        public TextureChangeInfo(string slotName, int materialNo, string propName, string filename, MaidParts.PARTS_COLOR partsColor)
+        {
+            this.slotName = slotName;
+            this.materialNo = materialNo;
+            this.propName = propName;
+            this.filename = filename;
+            this.partsColor = partsColor;
+        }
+
+        public string slotName { get; set; }
+        public int materialNo { get; set; }
+        public string propName { get; set; }
+        public string filename { get; set; }
+        public MaidParts.PARTS_COLOR partsColor { get; set; }
+    }
+
+    public class MaterialChangeInfo
+    {
+        public MaterialChangeInfo(string slotName, int materialNo, string filename)
+        {
+            this.slotName = slotName;
+            this.materialNo = materialNo;
+            this.filename = filename;
+        }
+
+        public string slotName { get; set; }
+        public int materialNo { get; set; }
+        public string filename { get; set; }
     }
 
     public static class AssetLoader
@@ -128,7 +185,35 @@ namespace CM3D2.SceneCapture.Plugin
                     mi.menuNameInColorSet = stringList[2].ToLower();
             }
             else if (stringCom == "tex" || stringCom == "テクスチャ変更")
+            {
+                string slotname2 = stringList[1];
+                int matno = int.Parse(stringList[2]);
+                string prop_name = stringList[3];
+                string filename1 = stringList[4];
                 partsColor = MaidParts.PARTS_COLOR.NONE;
+                if (stringList.Length == 6)
+                {
+                  string str5 = stringList[5];
+                  try
+                  {
+                    partsColor = (MaidParts.PARTS_COLOR) Enum.Parse(typeof (MaidParts.PARTS_COLOR), str5.ToUpper());
+                  }
+                  catch
+                  {
+                    NDebug.Assert("無限色IDがありません。" + str5);
+                  }
+                }
+                mi.textureChanges.Add(new TextureChangeInfo(slotname2, matno, prop_name, filename1, partsColor));
+                // partsColor = MaidParts.PARTS_COLOR.NONE;
+                // body0.ChangeTex(slotname2, matno, prop_name, filename1, (Dictionary<string, byte[]>) null, partsColor);
+            }
+            else if (stringCom == "マテリアル変更")
+            {
+                string strSlotName = stringList[1];
+                int nMatNo = int.Parse(stringList[2]);
+                string strFileName = stringList[3];
+                mi.materialChanges.Add(new MaterialChangeInfo(strSlotName, nMatNo, strFileName));
+            }
             else
                 return true;
 
@@ -155,6 +240,7 @@ namespace CM3D2.SceneCapture.Plugin
             }
 
             MenuInfo mi = new MenuInfo();
+            mi.menuFileName = menuFileName;
 
             BinaryReader binaryReader = new BinaryReader(new MemoryStream(file.ReadAll()), System.Text.Encoding.UTF8);
 
@@ -271,7 +357,7 @@ namespace CM3D2.SceneCapture.Plugin
                 }
             }
 
-            using (BinaryReader r = new BinaryReader(new MemoryStream(file.ReadAll())) )
+            using (BinaryReader r = new BinaryReader(new MemoryStream(file.ReadAll())))
             {
                 int layer = 0;
                 // TBodySkin.OriVert oriVert = bodyskin.m_OriVert;
@@ -444,6 +530,33 @@ namespace CM3D2.SceneCapture.Plugin
                 r.Close();
                 return gameObject1;
             }
+        }
+
+        public static Material LoadMaterial(string materialName)
+        {
+
+            AFileBase file = GameUty.FileOpen(materialName);
+
+            if( !file.IsValid() || file.GetSize() == 0 )
+            {
+                string name = materialName.Replace(@"material\", "");
+                file = GameUty.FileOpen(name);
+                if( file.GetSize() == 0 || !file.IsValid() )
+                {
+                    Debug.LogError("File not valid " + materialName);
+                    return null;
+                }
+            }
+
+            BinaryReader r = new BinaryReader((Stream) new MemoryStream(file.ReadAll()), System.Text.Encoding.UTF8);
+            string str = r.ReadString();
+            if (str != "CM3D2_MATERIAL")
+                NDebug.Assert("ProcScriptBin 例外 : ヘッダーファイルが不正です。" + str);
+            r.ReadInt32();
+            r.ReadString();
+            Material material = AssetLoader.ReadMaterial(r, null);
+            r.Close();
+            return material;
         }
 
         public static Material ReadMaterial(BinaryReader r, Material existmat)

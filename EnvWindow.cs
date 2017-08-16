@@ -392,11 +392,11 @@ namespace CM3D2.SceneCapture.Plugin
             this.CheckForModelUpdates();
         }
 
-        private GameObject LoadModel(String modelFileName)
+        private GameObject LoadModel(MenuInfo menuInfo)
         {
-            GameObject model = AssetLoader.LoadMesh(modelFileName);
+            GameObject model = AssetLoader.LoadMesh(menuInfo.modelName);
             model.name = MODEL_TAG;
-            Debug.Log("Load model " + modelFileName);
+            Debug.Log("Load model " + menuInfo.modelName);
 
             this.AddGizmo( model );
 
@@ -407,12 +407,35 @@ namespace CM3D2.SceneCapture.Plugin
             model.transform.localScale = new Vector3(1,1,1);
             model.transform.position = new Vector3(0, 0, 0);
 
+            foreach(SkinnedMeshRenderer renderer in model.transform.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+            {
+                if(renderer != null)
+                {
+                    Material[] materialArray = new Material[renderer.materials.Length];
+                    for(int i = 0; i < materialArray.Length; i++)
+                    {
+                        materialArray[i] = new Material(renderer.materials[i]);
+                    }
+
+                    foreach(MaterialChangeInfo mat in menuInfo.materialChanges)
+                    {
+                        materialArray[mat.materialNo] = AssetLoader.LoadMaterial(mat.filename);
+                    }
+
+                    foreach(TextureChangeInfo tex in menuInfo.textureChanges)
+                    {
+                        materialArray[tex.materialNo].SetTexture(tex.propName, AssetLoader.LoadTexture(tex.filename));
+                    }
+
+                    renderer.materials = materialArray;
+                }
+            }
             return model;
         }
 
-        private void AddModel( String modelFileName, String modelIconName )
+        private void AddModel( MenuInfo menuInfo )
         {
-            GameObject model = this.LoadModel(modelFileName);
+            GameObject model = this.LoadModel(menuInfo);
 
             // Spawn in front of camera
             GizmoRenderTarget gizmo = model.GetComponent<GizmoRenderTarget>();
@@ -421,10 +444,10 @@ namespace CM3D2.SceneCapture.Plugin
                 gizmo.transform.position = GameMain.Instance.MainCamera.camera.transform.forward * 2 + GameMain.Instance.MainCamera.camera.transform.position;
             }
 
-            this.AddModelPane(model, modelFileName, modelIconName);
+            this.AddModelPane(model, menuInfo);
         }
 
-        private void AddModelPane( GameObject model, string modelFileName, string modelIconName )
+        private void AddModelPane( GameObject model, MenuInfo menu )
         {
             string modelString = Translation.GetText("UI", "model");
             string modelName = modelString + " " + (this.modelsAdded + 1);
@@ -433,10 +456,10 @@ namespace CM3D2.SceneCapture.Plugin
                 modelName = modelString + " " + (this.modelsAdded + 1);
             }
 
-            var modelInstanceInfo = new ModelInstanceInfo(model, modelFileName, modelIconName);
+            var modelInstanceInfo = new ModelInstanceInfo(model, menu);
             this.addedModelInstance.Add(modelName, modelInstanceInfo);
 
-            ModelPane pane = new ModelPane(this.FontSize, modelName, modelIconName);
+            ModelPane pane = new ModelPane(this.FontSize, menu, modelName);
             this.modelPanes.Add( pane );
             this.ChildControls.Add( pane );
             this.SetModelInstances();
@@ -460,7 +483,10 @@ namespace CM3D2.SceneCapture.Plugin
                 {
                     GameObject model;
                     ModelInfo modelInfo = modelInfos[i];
-                    AddModel(modelInfo.modelName, modelInfo.modelIconName);
+
+                    MenuInfo menu = AssetLoader.LoadMenu(modelInfo.menuFileName);
+                    AddModel(menu);
+
                     string paneName = this.modelPanes[i].Name;
 
                     model = this.addedModelInstance[paneName].model;
@@ -618,14 +644,13 @@ namespace CM3D2.SceneCapture.Plugin
         private void CopyModel( ModelPane pane )
         {
             GameObject toCopy = this.addedModelInstance[ pane.Name ].model;
-            string modelName = this.addedModelInstance[ pane.Name ].modelName;
-            string modelIconName = this.addedModelInstance[ pane.Name ].modelIconName;
-            GameObject model = this.LoadModel(modelName);
+            MenuInfo menu = AssetLoader.LoadMenu(this.addedModelInstance[ pane.Name ].menuFileName);
+            GameObject model = this.LoadModel(menu);
             model.transform.position = toCopy.transform.position;
             model.transform.rotation = toCopy.transform.rotation;
             model.transform.localScale = toCopy.transform.localScale;
 
-            this.AddModelPane( model, modelName, modelIconName );
+            this.AddModelPane( model, menu );
             this.SetModelInstances();
         }
 
@@ -634,9 +659,7 @@ namespace CM3D2.SceneCapture.Plugin
             List<ModelInfo> models = new List<ModelInfo>();
             foreach(ModelPane pane in this.modelPanes)
             {
-                models.Add(new ModelInfo(this.addedModelInstance[ pane.Name ].model,
-                                         this.addedModelInstance[ pane.Name ].modelName,
-                                         this.addedModelInstance[ pane.Name ].modelIconName));
+                models.Add(new ModelInfo(this.addedModelInstance[ pane.Name ]));
             }
             Instances.SetModels(models);
         }
@@ -1077,17 +1100,19 @@ namespace CM3D2.SceneCapture.Plugin
         public GameObject model;
         public string modelName;
         public string modelIconName;
+        public string menuFileName;
         private MaidParts.PartsColor[] partsColors = new MaidParts.PartsColor[7];
         private Texture2D[] partsColorTextures = new Texture2D[7];
 
         public Texture baseTexture;
         public RenderTexture modifiedTexture;
 
-        public ModelInstanceInfo( GameObject model, string modelName, string modelIconName )
+        public ModelInstanceInfo( GameObject model, MenuInfo menu )
         {
             this.model = model;
-            this.modelName = modelName;
-            this.modelIconName = modelIconName;
+            this.modelName = menu.modelName;
+            this.modelIconName = menu.iconTextureName;
+            this.menuFileName = menu.menuFileName;
             this.baseTexture = (Texture)null;
             this.modifiedTexture = (RenderTexture)null;
             for (int index = 0; index < 7; ++index) {
@@ -1168,12 +1193,17 @@ namespace CM3D2.SceneCapture.Plugin
 
     public class ModelInfo
     {
-        public ModelInfo() { }
+        public ModelInfo() {}
 
-        public ModelInfo( GameObject obj, string modelName, string modelIconName )
+        public ModelInfo( ModelInstanceInfo info ) : this(info.model, info.modelName, info.modelIconName, info.menuFileName){
+
+        }
+
+        public ModelInfo( GameObject obj, string modelName, string modelIconName, string menuFileName )
         {
             this.modelName = modelName;
             this.modelIconName = modelIconName;
+            this.menuFileName = menuFileName;
 
             GizmoRenderTarget gizmo = obj.GetComponent<GizmoRenderTarget>();
 
@@ -1210,6 +1240,8 @@ namespace CM3D2.SceneCapture.Plugin
             this.UpdateModel( model );
             return model;
         }
+
+        public string menuFileName;
 
         public string modelName;
 

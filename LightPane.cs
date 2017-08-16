@@ -194,7 +194,8 @@ namespace CM3D2.SceneCapture.Plugin
 
             GUIUtil.AddGUICheckbox(this, this.lightTypeComboBox );
 
-            int buttonCount = this.Text != Translation.GetText("UI", "mainLight") ? 5 : 3;
+            bool isMainLight = this.Text == Translation.GetText("UI", "mainLight");
+            int buttonCount = isMainLight ? 3 : 5;
 
             GUIUtil.AddGUIButtonAfter(this, this.lightResetButton, this.lightTypeComboBox, buttonCount );
             this.lightResetButton.Height = this.ControlHeight;
@@ -202,7 +203,7 @@ namespace CM3D2.SceneCapture.Plugin
             GUIUtil.AddGUIButton(this, this.lightResetPosButton, this.lightResetButton, buttonCount );
             GUIUtil.AddGUIButton(this, this.lightDragToggle, this.lightResetPosButton, buttonCount );
 
-            if( this.Text != Translation.GetText("UI", "mainLight") )
+            if( !isMainLight )
             {
                 GUIUtil.AddGUIButton(this, this.lightEnableToggle, this.lightDragToggle, buttonCount );
                 GUIUtil.AddGUIButton(this, this.lightDeleteButton, this.lightEnableToggle, buttonCount );

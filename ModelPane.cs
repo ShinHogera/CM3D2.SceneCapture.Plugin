@@ -16,11 +16,11 @@ namespace CM3D2.SceneCapture.Plugin
 {
     internal class ModelPane : ControlBase
     {
-        public ModelPane( int fontSize, string name, string iconName )
+        public ModelPane( int fontSize, MenuInfo menu, string name )
         {
             this.FontSize = fontSize;
             this.name = name;
-            this.iconName = iconName;
+            this.iconName = menu.iconTextureName;
 
             this.Awake();
         }
