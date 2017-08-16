@@ -517,12 +517,12 @@
       <tail>Tail</tail>
       <genitals>Genitals</genitals>
       <pubicHair>Pubic Hair</pubicHair>
-      <itemHand>Hand Item</itemHand>
-      <itemUpper>Body Item U</itemUpper>
-      <itemLower>Body Item L</itemLower>
-      <itemVaginal>Vaginal Item</itemVaginal>
-      <itemAnal>Anal Item</itemAnal>
-      <background>BG Item</background>
+      <itemHand>Hand</itemHand>
+      <itemUpper>Body U</itemUpper>
+      <itemLower>Body L</itemLower>
+      <itemVaginal>Vaginal</itemVaginal>
+      <itemAnal>Anal</itemAnal>
+      <background>Maid Item</background>
     </Equip>
 
     <UI>
@@ -1070,12 +1070,12 @@
       <tail>しっぽ</tail>
       <genitals>前穴</genitals>
       <pubicHair>アンダーヘア</pubicHair>
-      <itemHand>アイテム手</itemHand>
-      <itemUpper>アイテム上半身</itemUpper>
-      <itemLower>アイテム下半身</itemLower>
-      <itemVaginal>アイテム前穴</itemVaginal>
-      <itemAnal>アイテム後穴</itemAnal>
-      <background>背景アイテム</background>
+      <itemHand>手</itemHand>
+      <itemUpper>上半身</itemUpper>
+      <itemLower>下半身</itemLower>
+      <itemVaginal>前穴</itemVaginal>
+      <itemAnal>後穴</itemAnal>
+      <background>メイド</background>
     </Equip>
 
     <UI>
