@@ -160,7 +160,7 @@ namespace CM3D2.SceneCapture.Plugin
                 }
             }
 
-            public void UpdateMenusBackground()
+            public void UpdateMenusBGObject()
             {
                 buttons.Clear();
 
@@ -177,7 +177,27 @@ namespace CM3D2.SceneCapture.Plugin
 
                     button.Text = modelName;
 
-                    MenuInfo menuCopy = MenuInfo.MakeBGMenu(data);
+                    MenuInfo menuCopy = MenuInfo.MakeBGObjectMenu(data);
+                    button.Click += (o, e) => func(menuCopy);
+                    buttons.Add(button);
+                }
+            }
+
+            public void UpdateMenusBackground()
+            {
+                buttons.Clear();
+
+                foreach(var bg in ConstantValues.Background.Skip(2))
+                {
+                    Texture2D iconTexture = new Texture2D(1, 1);
+                    iconTexture.SetPixel(0, 0, new Color32(1, 1, 1, 1));
+                    iconTexture.Apply();
+                    CustomTextureButton button = new CustomTextureButton( iconTexture );
+                    string modelName = String.Copy(bg.Key);
+
+                    button.Text = modelName;
+
+                    MenuInfo menuCopy = MenuInfo.MakeBackgroundMenu(bg.Value);
                     button.Click += (o, e) => func(menuCopy);
                     buttons.Add(button);
                 }
@@ -215,6 +235,14 @@ namespace CM3D2.SceneCapture.Plugin
             }
 
             private void backgroundObjectButton(Rect rectItem)
+            {
+                if(GUI.Button(rectItem, Translation.GetText("Equip", "backgroundObject"), gsButton))
+                {
+                    UpdateMenusBGObject();
+                }
+            }
+
+            private void backgroundButton(Rect rectItem)
             {
                 if(GUI.Button(rectItem, Translation.GetText("Equip", "background"), gsButton))
                 {
@@ -257,6 +285,10 @@ namespace CM3D2.SceneCapture.Plugin
                 }
 
                 this.backgroundObjectButton(rectItem);
+
+                rectItem.x = iFontSize * 0.5f;
+                rectItem.y += buttonHeight;
+                this.backgroundButton(rectItem);
 
                 rectItem = new Rect(iFontSize * 0.5f, rectItem.y + buttonHeight + fMargin * 2, buttonWidth, buttonWidth);
                 // GUI.DrawTexture(rectItem, texture);

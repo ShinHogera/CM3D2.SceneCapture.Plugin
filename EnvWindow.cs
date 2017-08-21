@@ -89,6 +89,10 @@ namespace CM3D2.SceneCapture.Plugin
                 this.cameraAllSettingsCheckbox.Text = Translation.GetText("Camera", "cameraAllSettings");
                 this.ChildControls.Add( this.cameraAllSettingsCheckbox );
 
+                this.updateCheckbox = new CustomToggleButton( true, "toggle" );
+                this.updateCheckbox.Text = "Update";//Translation.GetText("Camera", "update");
+                this.ChildControls.Add( this.updateCheckbox );
+
                 this.bgButton = new CustomButton();
                 this.bgButton.Text = Translation.GetText("UI", "addModel");
                 this.bgButton.Click += BGButtonPressed;
@@ -226,7 +230,8 @@ namespace CM3D2.SceneCapture.Plugin
             GUIUtil.AddGUIButton(this, this.cameraResetPositionButton, this.cameraRestorePositionButton, 3);
 
             GUIUtil.AddGUICheckbox( this, this.backgroundBox, this.cameraSavePositionButton );
-            GUIUtil.AddGUICheckbox( this, this.bgButton, this.backgroundBox );
+            GUIUtil.AddGUICheckbox( this, this.updateCheckbox, this.backgroundBox );
+            GUIUtil.AddGUICheckbox( this, this.bgButton, this.updateCheckbox );
 
             ControlBase prev = this.bgButton;
             foreach( ModelPane pane in this.modelPanes )
@@ -394,9 +399,23 @@ namespace CM3D2.SceneCapture.Plugin
 
         private GameObject LoadModel(MenuInfo menuInfo)
         {
-            if(menuInfo.modelType == ModelType.Background)
+            if(menuInfo.modelType == ModelType.BGObject)
             {
                 GameObject obj = AssetLoader.LoadBackgroundObject(menuInfo.modelName);
+                this.AddGizmo( obj );
+
+                obj.transform.localScale = new Vector3(1,1,1);
+                obj.transform.position = new Vector3(0, 0, 0);
+                return obj;
+            }
+            else if(menuInfo.modelType == ModelType.Background)
+            {
+                UnityEngine.Object prefab = GameMain.Instance.BgMgr.CreateAssetBundle(menuInfo.modelName);
+                if(prefab == null)
+                {
+                    prefab = Resources.Load("BG/" + menuInfo.modelName);
+                }
+                GameObject obj = UnityEngine.Object.Instantiate(prefab) as GameObject;
                 this.AddGizmo( obj );
 
                 obj.transform.localScale = new Vector3(1,1,1);
@@ -407,7 +426,6 @@ namespace CM3D2.SceneCapture.Plugin
             {
                 GameObject model = AssetLoader.LoadMesh(menuInfo.modelName);
                 model.name = MODEL_TAG;
-                Debug.Log("Load model " + menuInfo.modelName);
 
                 this.AddGizmo( model );
 
@@ -492,11 +510,14 @@ namespace CM3D2.SceneCapture.Plugin
                     GameObject model;
                     ModelInfo modelInfo = modelInfos[i];
 
-                    MenuInfo menu;
+                    MenuInfo menu = null;
                     if(modelInfo.modelType == ModelType.MaidEquip)
                         menu = AssetLoader.LoadMenu(modelInfo.menuFileName);
-                    else
-                        menu = MenuInfo.MakeBGMenu(modelInfo.modelName);
+                    else if(modelInfo.modelType == ModelType.BGObject)
+                        menu = MenuInfo.MakeBGObjectMenu(modelInfo.modelName);
+                    else if(modelInfo.modelType == ModelType.Background)
+                        menu = MenuInfo.MakeBackgroundMenu(modelInfo.modelName);
+
                     AddModel(menu);
 
                     string paneName = this.modelPanes[i].Name;
@@ -626,8 +647,10 @@ namespace CM3D2.SceneCapture.Plugin
             MenuInfo menu = null;
             if(instance.modelType == ModelType.MaidEquip)
                 menu = AssetLoader.LoadMenu(instance.menuFileName);
+            else if(instance.modelType == ModelType.BGObject)
+                menu = MenuInfo.MakeBGObjectMenu(instance.modelName);
             else if(instance.modelType == ModelType.Background)
-                menu = MenuInfo.MakeBGMenu(instance.modelName);
+                menu = MenuInfo.MakeBackgroundMenu(instance.modelName);
 
             GameObject model = this.LoadModel(menu);
             model.transform.position = toCopy.transform.position;
@@ -975,6 +998,7 @@ namespace CM3D2.SceneCapture.Plugin
         private CustomButton cameraRestorePositionButton = null;
         private CustomButton cameraResetPositionButton = null;
         private CustomToggleButton cameraAllSettingsCheckbox = null;
+        private CustomToggleButton updateCheckbox = null;
 
         private List<LightPane> lightPanes = null;
         private List<ModelPane> modelPanes = null;
@@ -988,6 +1012,14 @@ namespace CM3D2.SceneCapture.Plugin
         private Dictionary<String, GameObject> addedLightInstance = null;
 
         private Dictionary<string, ModelInstanceInfo> addedModelInstance = null;
+
+        public bool ShouldUpdate
+        {
+            get
+            {
+                return this.updateCheckbox.Value;
+            }
+        }
         #endregion
     }
 
@@ -1118,6 +1150,7 @@ namespace CM3D2.SceneCapture.Plugin
     public enum ModelType
     {
         MaidEquip,
+        BGObject,
         Background
     }
 

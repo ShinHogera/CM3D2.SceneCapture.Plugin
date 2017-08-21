@@ -522,7 +522,8 @@
       <itemLower>Body L</itemLower>
       <itemVaginal>Vaginal</itemVaginal>
       <itemAnal>Anal</itemAnal>
-      <background>Maid Item</background>
+      <backgroundObject>Maid Item</backgroundObject>
+      <background>Background</background>
     </Equip>
 
     <UI>
@@ -1075,7 +1076,8 @@
       <itemLower>下半身</itemLower>
       <itemVaginal>前穴</itemVaginal>
       <itemAnal>後穴</itemAnal>
-      <background>メイド</background>
+      <backgroundObject>メイド</backgroundObject>
+      <background>背景</background>
     </Equip>
 
     <UI>

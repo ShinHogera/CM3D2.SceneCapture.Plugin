@@ -19,20 +19,28 @@ namespace CM3D2.SceneCapture.Plugin
             this.materialChanges = new List<MaterialChangeInfo>();
         }
 
-        public static MenuInfo MakeBGMenu( string prefabName )
+        public static MenuInfo MakeBGObjectMenu( string prefabName )
         {
             MenuInfo menu = new MenuInfo();
-            menu.modelType = ModelType.Background;
+            menu.modelType = ModelType.BGObject;
             menu.modelName = prefabName;
             return menu;
         }
 
-        public static MenuInfo MakeBGMenu( PhotoBGObjectData dat )
+        public static MenuInfo MakeBGObjectMenu( PhotoBGObjectData dat )
+        {
+            MenuInfo menu = new MenuInfo();
+            menu.modelType = ModelType.BGObject;
+            menu.modelName = dat.create_prefab_name;
+            menu.menuName = dat.name;
+            return menu;
+        }
+
+        public static MenuInfo MakeBackgroundMenu( string prefabName )
         {
             MenuInfo menu = new MenuInfo();
             menu.modelType = ModelType.Background;
-            menu.modelName = dat.create_prefab_name;
-            menu.menuName = dat.name;
+            menu.modelName = prefabName;
             return menu;
         }
 

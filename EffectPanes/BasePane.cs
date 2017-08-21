@@ -18,7 +18,6 @@ namespace CM3D2.SceneCapture.Plugin
     {
         public abstract void SetupPane();
         public abstract void ShowPane();
-        public abstract void Reset();
 
         public BasePane( int fontSize, string title )
         {

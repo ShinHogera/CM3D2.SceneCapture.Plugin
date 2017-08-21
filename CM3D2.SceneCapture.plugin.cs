@@ -148,7 +148,8 @@ namespace CM3D2.SceneCapture.Plugin
 
                 // 機能有効の場合
                 // if( this.Enable )
-                if(true)
+
+                if(this.envView != null)
                 {
                     // F10押下
                     if( Input.GetKeyDown( configEffectKey ) )
@@ -210,27 +211,30 @@ namespace CM3D2.SceneCapture.Plugin
                         this.modeSelectView.IsEnableDataSettingButton = true;
                     }
 
-                    if ( this.dataView.wasPresetLoaded )
+                    if(this.envView.ShouldUpdate)
                     {
-                        Debug.Log(" === Scene Reload === ");
-                        this.envView.Update();
-                        this.effectView.Update();
-                        this.dataView.Update();
-                        this.dataView.wasPresetLoaded = false;
-                    }
-                    // 環境画面有効の場合
-                    else if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Environment )
-                    {
-                        this.envView.Update();
-                    }
-                    // それ以外の場合
-                    else if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Effect)
-                    {
-                        this.effectView.Update();
-                    }
-                    else if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Data)
-                    {
-                        this.dataView.Update();
+                        if ( this.dataView.wasPresetLoaded )
+                        {
+                            Debug.Log(" === Scene Reload === ");
+                            this.envView.Update();
+                            this.effectView.Update();
+                            this.dataView.Update();
+                            this.dataView.wasPresetLoaded = false;
+                        }
+                        // 環境画面有効の場合
+                        else if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Environment )
+                        {
+                            this.envView.Update();
+                        }
+                        // それ以外の場合
+                        else if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Effect)
+                        {
+                            this.effectView.Update();
+                        }
+                        else if( this.modeSelectView.SelectedMode == ConstantValues.EditMode.Data)
+                        {
+                            this.dataView.Update();
+                        }
                     }
                 }
             }

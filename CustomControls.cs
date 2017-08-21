@@ -160,6 +160,8 @@ namespace CM3D2.SceneCapture.Plugin
 
         /// <summary>GUI処理</summary>
         virtual public void OnGUI() { }
+
+        virtual public void Reset() { }
         #endregion
 
         #region Properties
